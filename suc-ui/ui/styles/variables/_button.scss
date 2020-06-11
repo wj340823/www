@@ -1,0 +1,76 @@
+$btn-color-primary:    $theme-primary !default;//首选色(一般用于查询,确认)
+$btn-color-warn:       $theme-warning !default;//告警色
+$btn-color-success:    $theme-success !default;//成功色
+$btn-color-danger:     $theme-danger !default;//敏感色(一般用于删除)
+$btn-color-important:  $theme-primary !default;
+$btn-color-info:       $theme-other-purple !default;//信息色(一般用于详情、编辑)
+$btn-color-default:    #d2d2d2 !default; //默认色(一般用于返回，取消)
+
+$btn-border-radius:         4px;
+$btn-disabled-color:        $theme-text-place;
+$btn-disabled-border-color: $theme-border-color !default;
+$btn-disabled-bg:           #f8f8f8 !default;
+
+$btn-font-size-base:        $font-size-base !default;
+$btn-font-size-large:       14px !default;
+$btn-font-size-small:       12px !default;
+
+//边框圆角大小
+$btn-border-radius-base:         4px !default;
+$btn-border-radius-large:        4px !default;
+$btn-border-radius-small:        3px !default;
+
+//内边距
+$btn-padding-vertical-base:        4px !default;
+$btn-padding-vertical-large:       6px !default;
+$btn-padding-vertical-small:       1.6px !default;
+$btn-padding-horizontal-base:      15px !default;
+$btn-padding-horizontal-large:     15px !default;
+$btn-padding-horizontal-small:     7px !default;
+
+
+$btn-link-color:   $theme-primary !default;
+$btn-disabled-link-color: rgba($theme-primary-light,30%);
+
+$btn-default-color: #000 !default;
+$btn-default-bg: #fff !default;
+$btn-default-border: $btn-color-default !default;
+
+$btn-primary-color:#fff !default;
+$btn-primary-bg:$btn-color-primary !default;
+$btn-primary-border:$btn-color-primary !default;
+$btn-primary-active:$theme-primary-light !default;
+$btn-ghost-primary:$btn-color-primary !default;
+$btn-ghost-primary-bg:#e1eafe;
+$btn-dashed-primary:$btn-color-primary !default;
+$btn-dashed-primary-bg:#e1eafe;
+$btn-disabled-primary-color:rgba($theme-primary,30%);
+
+$btn-primary2-color:$btn-color-primary !default;
+$btn-primary2-border:#e6eefe !default;
+$btn-primary2-bg:#e6eefe;
+$btn-primary2-active:#e1eafe;
+$btn-disabled-primary2-color:rgba($theme-primary,30%);
+
+$btn-success-color:#fff !default;
+$btn-success-bg:$btn-color-success !default;
+$btn-success-border:$btn-color-success !default;
+
+$btn-info-color:#fff !default;
+$btn-info-bg:$btn-color-info !default;
+$btn-info-border:$btn-color-info !default;
+
+$btn-warning-color:#fff !default;
+$btn-warning-bg:$btn-color-warn !default;
+$btn-warning-border:$btn-color-warn !default;
+
+$btn-danger-color:$btn-color-danger !default;
+$btn-danger-bg:#f8f8f8;
+$btn-danger-border:$btn-disabled-border-color !default;
+$btn-danger-active-bg:#f2f2f3 !default;
+$btn-danger-active-border:$btn-disabled-border-color !default;
+$btn-disabled-danger-color:$btn-color-danger !default;
+$btn-disabled-danger-bg:rgba(242, 242, 242, 0.4);
+
+
+

@@ -1,0 +1,69 @@
+.suc-modal {
+  .ivu-modal-content {
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+
+    .ivu-modal-close {
+      // iview 原始modal的padding为16px 关闭按钮的right原始为8px
+      right: $modal-padding - 16px + 8px;
+       .ivu-icon-ios-close{
+         color: $modal-close-color;
+       }
+    }
+  }
+
+  .ivu-modal-header {
+    height: 48px;
+    border-bottom-color: $theme-border-color;
+    padding-left: $modal-padding;
+    padding-right: $modal-padding;
+    background-color: $modal-header-bgcolor;
+
+    .ivu-modal-header-inner {
+      //text-align: center;
+      font-size: 15px;
+      color: $modal-header-color;
+    }
+  }
+
+  .suc-modal-footer {
+    height: 64px;
+    line-height: 64px;
+
+    .suc-model-message {
+      float: left;
+      font-size: 14px;
+      color: $theme-text-primary;
+      opacity: 0.5;
+    }
+  }
+
+  .ivu-modal-footer {
+    //padding: 0 16px 0 32px;
+    padding: 0 $modal-padding;
+  }
+
+  .ivu-modal-body {
+    padding: 0;
+
+    .suc-modal-left {
+      height: 100%;
+      width: 100%;
+      border-right: solid 1px $theme-border-color;
+    }
+
+    .suc-modal-content {
+      padding: $modal-padding;
+    }
+
+    .ivu-row {
+      .ivu-col {
+        height: 100%;
+      }
+    }
+  }
+
+  .suc-model-buttons .suc-button {
+    margin-left: 12px;
+  }
+}

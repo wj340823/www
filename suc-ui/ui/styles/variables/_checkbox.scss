@@ -1,0 +1,36 @@
+$checkbox-color:              $formctrl-color!default;
+$checkbox-font-size:          $formctrl-font-size!default;
+$checkbox-width:              #{$checkbox-size-base}px!default;
+$checkbox-height:             #{$checkbox-size-base}px!default;
+$checkbox-border-color:       $theme-gray-dark!default;
+$checkbox-border-radius:      $formctrl-boder-radius!default;
+$checkbox-background-color:   $formctrl-background-color!default;
+
+$checkbox-inner-height:       #{$checkbox-size-base - 6}px!default;
+$checkbox-inner-width:        #{$checkbox-size-base - 6}px!default;
+$checkbox-inner-left:         1px!default;
+$checkbox-inner-top:          1px!default;
+$checkbox-inner-background:   $theme-success!default;
+$checkbox-inner-color:        #fff;           //复选框对号的颜色
+
+$checkbox-active-border-color:        $theme-gray-dark!default;
+$checkbox-active-background-color:    $theme-success!default;
+$checkbox-active-border-color:        $theme-success!default;
+
+$checkbox-disabled-background:        $theme-disabled!default;
+$checkbox-disabled-inner-background:  $theme-gray-dark!default;
+$checkbox-disabled-color:             $formctrl-disabled-color!default;
+$checkbox-disabled-border-color:      $theme-gray-dark!default;
+
+
+//尺寸
+$checkbox-large-font-size:    $font-size-large!default;
+$checkbox-small-font-size:    $font-size-small!default;
+$checkbox-large-width:        #{$checkbox-size-large}px!default;
+$checkbox-large-height:       #{$checkbox-size-large}px!default;
+$checkbox-small-width:        #{$checkbox-size-small}px!default;
+$checkbox-small-height:       #{$checkbox-size-small}px!default;
+$checkbox-large-inner-height: #{$checkbox-size-large - 6}px!default;
+$checkbox-large-inner-width:  #{$checkbox-size-large - 6}px!default;
+$checkbox-small-inner-height: #{$checkbox-size-small - 6}px!default;
+$checkbox-small-inner-width:  #{$checkbox-size-small - 6}px!default;

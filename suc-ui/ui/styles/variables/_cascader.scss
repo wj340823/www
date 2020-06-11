@@ -1,0 +1,9 @@
+$dropdown-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1) !default;
+$cascader-font-size: $font-size-base;
+$cascader-menu-border-color: $theme-border-color !default;  //下拉框边框颜色
+$cascader-menu-item-color: $theme-text-primary !default;  //下拉框选项文字颜色
+$cascader-menu-item-icon-color: $theme-gray-dark !default;  //下拉框选项图标（箭头）颜色
+$cascader-menu-item-disabled-color: rgba($theme-text-primary, .3) !default;  //下拉框选项禁用时文字颜色
+$cascader-menu-item-disabled-icon-color: rgba($theme-text-primary, .3) !default;  //下拉框选项禁用时图标（箭头）颜色
+$cascader-menu-item-active: $theme-disabled !default;  //下拉框选项选中背景色
+$cascader-menu-item-hover: rgba($theme-primary, .3) !default;  //下拉框选项悬浮颜色

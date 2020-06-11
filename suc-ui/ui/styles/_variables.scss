@@ -1,0 +1,12 @@
+//基础变量
+@import "./variablesPure";
+
+//组件内变量
+@import './variables/index';
+
+:export {
+  primary: $theme-text-primary
+}
+
+
+

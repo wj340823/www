@@ -1,0 +1,33 @@
+$radio-color:              $formctrl-color!default;
+$radio-font-size:          $formctrl-font-size!default;
+$radio-width:              #{$radio-size-base}px!default;
+$radio-height:             #{$radio-size-base}px!default;
+$radio-border-color:       $theme-gray-dark!default;
+$radio-border-radius:      $formctrl-boder-radius!default;
+$radio-background-color:   $formctrl-background-color!default;
+
+$radio-inner-height:       #{$radio-size-base - 4}px!default;
+$radio-inner-width:        #{$radio-size-base - 4}px!default;
+$radio-inner-left:         1px!default;
+$radio-inner-top:          1px!default;
+$radio-inner-background:   $theme-success!default;
+
+$radio-active-border-color:$theme-gray-dark!default;
+
+
+$radio-disabled-background:        $theme-disabled!default;
+$radio-disabled-inner-background:  $theme-gray-dark!default;
+$radio-disabled-color:             $formctrl-disabled-color!default;
+
+
+//尺寸
+$radio-large-font-size:    $font-size-large!default;
+$radio-small-font-size:    $font-size-small!default;
+$radio-large-width:        #{$radio-size-large}px!default;
+$radio-large-height:       #{$radio-size-large}px!default;
+$radio-small-width:       #{$radio-size-small}px!default;
+$radio-small-height:       #{$radio-size-small}px!default;
+$radio-large-inner-height: #{$radio-size-large - 4}px!default;
+$radio-large-inner-width:  #{$radio-size-large - 4}px!default;
+$radio-small-inner-height: #{$radio-size-small - 4}px!default;
+$radio-small-inner-width:  #{$radio-size-small - 4}px!default;

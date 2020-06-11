@@ -1,0 +1,54 @@
+#{$selector-prefix}tree {
+    background: $theme-background;
+    color: $theme-text-primary;
+
+    .el-tree-node__expand-icon:not(.is-leaf) {
+        color: $tree-checkbox-border-color;
+    }
+
+    .el-tree-node__content {
+        &:hover {
+            background: $tree-content-hover-bg;
+        }
+    }
+
+    .el-tree-node:focus > .el-tree-node__content {
+        background: $tree-content-focus-bg;
+    }
+
+    &.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+        background: $tree-content-highlight-bg
+    }
+
+    .el-checkbox__inner {
+        border-color: $tree-checkbox-border-color;
+        border-radius: $tree-checkbox-border-radius;
+        background-color: $tree-checkbox-background-color;
+
+        &:hover {
+            border-color: $tree-checkbox-active-border-color;
+        }
+
+        &::after {
+            border-color: $tree-checkbox-active-color;
+        }
+    }
+
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+        background-color: $tree-checkbox-active-color;
+    }
+
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+        border-color: $tree-checkbox-active-border-color;
+    }
+
+    .el-tree-node__label {
+        font-size: $tree-font-size;
+    }
+
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+        border-color: $tree-checkbox-active-border-color;
+        background-color: $tree-checkbox-active-background-color;
+    }
+}

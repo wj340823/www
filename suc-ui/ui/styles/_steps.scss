@@ -1,0 +1,78 @@
+#{$selector-prefix}steps{
+    &.steps-pending{
+        >.ivu-steps>.ivu-steps-item:nth-last-child(2){
+            .ivu-steps-tail>i{
+                background: transparent;
+                border-bottom:1px dashed $steps-item-tail-color;
+            }
+        }
+    }
+    &.steps-center{
+        .ivu-steps-horizontal{
+            .ivu-steps-title,
+            .ivu-steps-content
+            {
+                display: block;
+                transform: translateX(-50%);
+                margin-left:12px;
+                text-align: center;
+                padding:0;
+            }
+        }
+        
+    }
+    &.steps-simple{
+        .ivu-steps-head-inner{
+            width:8px;
+            height:8px;
+            border-color:$steps-item-head-border-color;
+            background-color:$steps-item-head-border-color;
+            >span{
+                display:none;
+            }
+        }
+        .ivu-steps-horizontal .ivu-steps-tail{
+            top:3px;
+        }
+        .ivu-steps-status-finish,
+        .ivu-steps-status-process{
+            .ivu-steps-head-inner{
+                border-color:$steps-item-active-bg;
+                background-color:$steps-item-active-bg;
+            }
+        }
+    }
+    >.ivu-steps{
+        .ivu-steps-tail>i{
+            background-color: $steps-item-tail-color;
+        }
+        .ivu-steps-content{
+            font-size:14px;
+            color:$steps-item-content-color;
+        }
+        .ivu-steps-title{
+            font-size:16px;
+            color:$steps-item-title-color;
+            font-weight: normal;
+        }
+        .ivu-steps-head-inner{
+            color:$steps-item-title-color;
+            border-color:$steps-item-head-border-color;
+        }
+        .ivu-steps-status-finish,
+        .ivu-steps-status-process{
+            .ivu-steps-title{
+                color:$steps-item-finish-title-color;
+            }
+            .ivu-steps-head-inner{
+                border-color:$steps-item-active-border-color;
+            }
+        }
+        .ivu-steps-status-finish .ivu-steps-head-inner>.ivu-steps-icon{
+            color:$steps-item-active-color;
+        }
+        .ivu-steps-status-process .ivu-steps-head-inner{
+            background-color:$steps-item-active-bg;
+        }
+    }
+}

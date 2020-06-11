@@ -1,0 +1,23 @@
+#{$selector-prefix}anchor{
+    .ivu-anchor-link-title {
+        color: $theme-text-primary;
+        font-size: 14px;
+    }
+    .ivu-anchor-link-active>.ivu-anchor-link-title {
+        color: $theme-primary;
+    }
+    .ivu-anchor-ink:before {
+        width: 1px;
+        background: $theme-border-color;
+    }
+    .ivu-anchor-ink-ball {
+        width: 12px;
+        height: 12px;
+        border: solid 1px $theme-primary;
+        transform: translate(-50%,0px);
+    }
+    .ivu-anchor-wrapper {
+        padding-left: 6px;
+        margin-left: -6px;
+    }
+}

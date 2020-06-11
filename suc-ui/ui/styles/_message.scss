@@ -1,0 +1,65 @@
+.ivu-message-notice-content {
+    padding: 12px 16px;
+    color: $theme-text-primary;
+    text-align: left;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    .ivu-message-info .ivu-icon, .ivu-message-loading .ivu-icon {
+        color: $theme-info;
+    }
+    .ivu-message-success .ivu-icon {
+        color: $theme-success;
+    }
+    .ivu-message-warning .ivu-icon {
+        color: $theme-warning;
+    }
+    .ivu-message-error .ivu-icon {
+        color: $theme-danger;
+    }
+    .ivu-icon{
+        font-family: "iconfont" !important;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .ivu-icon-ios-information-circle {
+        font-size: 17px;
+        &:before {
+            content: '\e64c';
+        }
+    }
+    .ivu-icon-ios-checkmark-circle:before {
+        content: '\e6b0';
+    }
+    .ivu-icon-ios-alert:before {
+        content: '\e6b5';
+    }
+    .ivu-icon-ios-close-circle:before {
+        content: '\e6b2';
+    }
+    .ivu-icon-ios-loading:before {
+        content: '\e6ad';
+    }
+    .ivu-icon-ios-close:before {
+        content: '\ead5';
+    }
+    .ivu-message-notice-close{
+        right: 16px;
+        i.ivu-icon {
+            font-size: 16px;
+            color: $theme-gray-dark;
+            top: 2px;
+            margin: 0;
+        }
+    }
+
+    .ivu-message-notice-content-text+.ivu-message-notice-content-text{
+        display: block;
+        padding-left: 24px;
+    }
+
+    .suc-message-desc {
+        font-size: 12px;
+        opacity: .5;
+    }
+}

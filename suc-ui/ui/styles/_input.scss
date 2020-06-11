@@ -1,0 +1,86 @@
+#{$selector-prefix}input{
+    display: inline-block;
+    position: relative;
+    .ivu-input-wrapper{
+        display: block;
+        &.ivu-input-group {
+            display: table;
+        }
+    }
+    .ivu-input{
+        color:$input-color;
+        padding:$input-padding-vertical $input-padding-horizontal;
+        font-size:$input-font-size;
+        border-radius:$input-border-radius;
+        border-color:$input-border-color;
+        background:$input-background-color;
+        &:hover,
+        &:focus
+        {
+            border-color:$input-active-border-color;
+        }
+        &:focus{
+            box-shadow: 0px 0px 2px 0px $input-boxshadow-color;
+        }
+        &[disabled]{
+            background-color: $disabled-color !important;
+            color: $input-disabled !important;
+            border-color: $input-border-color;
+        }
+        &::-webkit-input-placeholder{
+            color:$formctrl-placeholder-color
+        }
+    }
+    &.error{
+        .ivu-input{
+            border-color:$input-error-border-color;
+            box-shadow: none;
+        }
+    }
+    &.required{
+        label::before{
+            content: "*";
+            display: inline-block;
+            position: relative;
+            top:-2px;
+            margin-right: 4px;
+            line-height: 1;
+            font-family: SimSun;
+            font-size: 12px;
+            color: $theme-danger;
+        }
+    }
+}
+#{$selector-prefix}input-label{
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: $input-label-font-size;
+    color: $input-label-color;
+    line-height: 1;
+    padding: 10px 12px 10px 0;
+    box-sizing: border-box;
+    &.disabled{
+        color:$input-disabled;
+    }
+    &.top{
+        float: none;
+        display: inline-block;
+        padding: 0 0 10px;
+    }
+}
+
+#{$selector-prefix}formctrl-error-tip{
+    font-size: $input-font-size;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    line-height: 1;
+    padding-top: 6px;
+    color: $formctrl-error-color;
+    .ivu-icon{
+        font-size:16px;
+        margin-right: 4px;
+        vertical-align: top;
+    }
+}

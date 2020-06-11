@@ -1,0 +1,107 @@
+#{$selector-prefix}button.ivu-btn {
+    @include button-size($btn-padding-vertical-base,$btn-padding-horizontal-base,$btn-font-size-base,$btn-border-radius-base);
+    
+    &.ivu-btn-default {
+        @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    }
+
+    &.ivu-btn-text {
+        color: $btn-link-color;
+        @include button-disabled($btn-disabled-link-color, transparent, transparent);
+    }
+
+    &.ivu-btn-primary {
+        @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+
+        &:hover,
+        &:active {
+            @include button-variant($btn-primary-color, $btn-primary-active, $btn-primary-active);
+        }
+
+        @include button-disabled($btn-disabled-color);
+    }
+
+    &.ivu-btn-primary2 {
+        @include button-variant($btn-primary2-color, $btn-primary2-bg, $btn-primary2-border);
+
+        &:hover,
+        &:active {
+            @include button-variant($btn-primary2-color, $btn-primary2-active, $btn-primary2-active);
+        }
+
+        @include button-disabled($btn-disabled-primary2-color, $btn-disabled-bg, transparent);
+    }
+
+    &.ivu-btn-error {
+        @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+
+        &:hover,
+        &:active {
+            @include button-variant($btn-danger-color, $btn-danger-active-bg, $btn-danger-active-border);
+        }
+
+        @include button-disabled($btn-disabled-danger-color);
+    }
+
+    &.ivu-btn-success {
+        @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+    }
+
+    &.ivu-btn-info {
+        @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+    }
+
+    &.ivu-btn-warning {
+        @include button-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
+    }
+
+    &.ivu-btn-danger {
+        @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+    }
+
+    &.ivu-btn-ghost {
+        background: 0 0;
+
+        &.ivu-btn-primary {
+            color: $btn-ghost-primary;
+
+            &:hover,
+            &:active {
+                @include button-variant($btn-ghost-primary, $btn-ghost-primary-bg, $btn-primary-border);
+            }
+
+            @include button-disabled($btn-disabled-primary-color);
+        }
+    }
+
+    &.ivu-btn-dashed {
+        background: 0 0;
+        border-style: dashed !important;
+
+        &.ivu-btn-primary {
+            color: $btn-dashed-primary;
+
+            &:hover,
+            &:active {
+                @include button-variant($btn-dashed-primary, $btn-dashed-primary-bg, $btn-primary-border);
+            }
+
+            @include button-disabled($btn-disabled-primary-color);
+        }
+    }
+
+    &.ivu-btn-small{
+        @include button-size($btn-padding-vertical-small,$btn-padding-horizontal-small,$btn-font-size-small,$btn-border-radius-small);
+    }
+
+    &.ivu-btn-large{
+        @include button-size($btn-padding-vertical-large,$btn-padding-horizontal-large,$btn-font-size-large,$btn-border-radius-large);
+    }
+}
+
+
+
+
+
+
+

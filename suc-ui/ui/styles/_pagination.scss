@@ -1,0 +1,50 @@
+.ivu-page {
+    .ivu-page-item {
+        border: 1px solid $theme-border-color;
+        &:hover {
+            border-color: $theme-primary;
+            a {
+                color: $theme-primary;
+            }
+        }
+
+        a {
+            color: $theme-text-primary;
+        }
+    }
+
+    .ivu-page-item-active {
+        border-color: $theme-primary;
+    }
+
+    .ivu-page-item-active a,
+    .ivu-page-item-active:hover a {
+        color: $theme-primary;
+    }
+
+    .ivu-page-next, .ivu-page-prev {
+        border-color: $theme-border-color;
+        &:hover a{
+            color: $theme-primary;
+        }
+        a{
+            color: $theme-gray-dark;
+        }
+    }
+
+    .ivu-page-disabled a {
+        color: $theme-disabled;
+    }
+
+    .ivu-page-item-jump-next a, .ivu-page-item-jump-prev a {
+        color: $theme-primary;
+    }
+
+    //跳至第几页
+    .ivu-page-options-elevator {
+        input {
+            border-color: $theme-border-color;
+            color: $formctrl-color;
+        }
+    }
+}

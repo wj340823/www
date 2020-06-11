@@ -1,0 +1,137 @@
+#{$selector-prefix}transfer {
+    display: inline-block;
+    .ivu-transfer-list {
+        width: 200px;
+        height: 250px;
+        border-radius: 4px;
+        background-color: $transfer-bg;
+        border: solid 1px $theme-border-color;
+        font-size: 14px;
+        .ivu-transfer-list-header{
+            padding: 7px 8px;
+            color: $theme-text-primary;
+            background-color: $transfer-bg;
+            border-radius: 4px 4px 0 0;
+            border: 0 transparent;
+            border-bottom: solid 1px $theme-border-color;
+        }
+        .ivu-transfer-list-body {
+            border-radius: 0 0 4px 4px;
+            border: 0 transparent;
+            .ivu-transfer-list-content{
+                @include scrollbar-diy;
+            }
+            .ivu-transfer-list-content-item{
+                padding: 6px 8px;
+                color: $theme-text-primary;
+                font-size: 14px!important;
+                &:hover {
+                    background: rgba($theme-primary, .3);
+                }
+            }
+            .ivu-transfer-list-content-item-disabled {
+                color: rgba($theme-text-primary, .3);
+                &:hover {
+                    background: none;
+                }
+            }
+        }
+        .ivu-checkbox-wrapper {
+            font-size: 14px;
+        }
+        .ivu-checkbox-inner{
+            width: 16px;
+            height: 16px;
+            border-color: $theme-gray-dark;
+            border-radius: 4px;
+            &:after {
+                top: 2px;
+                left: 5px;
+            }
+        }
+        .ivu-checkbox-focus {
+            box-shadow: none;
+        }
+        .ivu-checkbox-checked .ivu-checkbox-inner {
+            background: $theme-success;
+            border-color: $theme-success;
+        }
+        .ivu-checkbox-disabled .ivu-checkbox-inner {
+            background: $transfer-disabled;
+        }
+        .ivu-transfer-list-body-with-search{
+            padding-top: 44px;
+            .ivu-transfer-list-content{
+                padding-top: 0;
+                padding-bottom: 4px;
+            }
+        }
+        .ivu-transfer-list-body-search-wrapper{
+            padding: 8px 7px 0;
+        }
+        .ivu-input{
+            height: 32px;
+            color:$input-color;
+            padding:$input-padding-vertical $input-padding-horizontal;
+            font-size:$input-font-size;
+            border-radius:$input-border-radius;
+            border-color:$input-border-color;
+            background:$input-background-color;
+            &:hover,
+            &:focus
+            {
+                border-color:$input-active-border-color;
+            }
+            &:focus{
+                box-shadow: 0px 0px 2px 0px $input-boxshadow-color;
+            }
+            &[disabled]{
+                background-color: $disabled-color !important;
+                color: $formctrl-disabled-color !important;
+            }
+            &::-webkit-input-placeholder{
+                color:$formctrl-placeholder-color
+            }
+        }
+        .ivu-input-icon {
+            height: 32px;
+            line-height: 32px;
+        }
+    }
+    .ivu-btn-primary {
+        padding: 3px 7px 4px;
+        border-radius: 4px;
+        border: solid 1px $theme-primary;
+        background: $theme-primary;
+        &:focus {
+            box-shadow: none;
+        }
+        &:first-child{
+            margin-bottom: 8px;
+        }
+        i{
+            font-size: 16px;
+        }
+    }
+    .ivu-btn-primary[disabled]{
+        color: $theme-gray-dark;
+        border: solid 1px $theme-border-color;
+        background: $transfer-disabled;
+    }
+}
+#{$selector-prefix}transfer-disabled {
+    .ivu-transfer-list {
+        .ivu-checkbox-inner {
+            background: $transfer-disabled;
+        }
+        .ivu-checkbox-checked .ivu-checkbox-inner {
+            border-color: $theme-gray-dark;
+        }
+    }
+    .ivu-transfer-list-content {
+        background-color: $transfer-item-disabled;
+        .ivu-transfer-list-content-item>span{
+            color: rgba($theme-text-primary, .3);
+        }
+    }
+}

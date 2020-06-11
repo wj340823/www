@@ -1,0 +1,104 @@
+$font-sans: Roboto, "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Microsoft YaHei";
+
+$font-family-base:"Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+$selector-prefix:".suc-";
+
+////////////////色彩/////////////////
+//主色
+$theme-background:             #ffffff !default;  //默认背景色
+$theme-primary:                #5584ff !default;  //主色调
+$theme-primary-light:          #4078f1 !default;
+$theme-primary-dark:           #4078f1 !default;
+$theme-primary-gra-st:         #4f83f5 !default; //渐变色-start
+$theme-primary-gra-ed:         #6897f8 !default; //渐变色-end
+
+//辅助色
+$theme-success:                #1fbe07 !default; //成功
+$theme-info:                   #4eabff !default; //品牌色,适用于通用按钮,链接
+$theme-warning:                #ffaa00 !default; //告警
+$theme-danger:                 #ff545a !default; //错误提示
+$theme-disabled:               rgba(236, 238, 239, 0.7) !default;   //disabled 颜色
+
+//中性色(文本、边框、分割线)
+$theme-text-primary:           #182b51 !default;   //主色
+$theme-text-help:              rgba($theme-text-primary,50%) !default;   //辅助色
+$theme-text-place:             rgba($theme-text-primary,30%) !default;   //占位符文字
+$theme-text-link:              #5085f8 !default;
+$theme-border-color:           #dde4eb !default;  //分割线、边框
+$theme-gray-light:             #cccccc !default;
+$theme-gray-dark:              #a6a6a7 !default;
+$theme-gray-bg:                #f8f8f9 !default;  //用于表头、卡片底色
+$menu-light-active-submenu-item-bg: rgba(85, 132, 255, 0.3) !default;   //下拉框选项悬浮和选中背景色
+
+//彩色组(用于需要用颜色区分类且与功能辅助不冲突时)
+$theme-other-green:            #42cb19 !default;
+$theme-other-blue:             #1079ff !default;
+$theme-other-purple:           #8462ff !default;
+$theme-other-red:              #ff6e83 !default;
+$theme-other-orange:           #ff9f10 !default;
+
+
+//屏幕分辨率(new)
+$screen-xs:                    1080px !default;
+$screen-sm:                    1366px !default;
+$screen-md:                    1600px !default;
+$screen-lg:                    1920px !default;
+
+$screen-xs-min:                $screen-xs !default;
+$screen-sm-min:                $screen-sm !default;
+$screen-md-min:                $screen-md !default;
+$screen-lg-min:                $screen-lg !default;
+
+$screen-xs-max:                ($screen-sm-min - 1) !default;
+$screen-sm-max:                ($screen-md-min - 1) !default;
+$screen-md-max:                ($screen-lg-min - 1) !default;
+
+
+//字体大小
+$font-size-base:               14px !default;
+$font-size-small:              12px !default;
+$font-size-large:              16px !default;
+
+
+//边框圆角
+$boder-radius-base:            3px !default;
+$boder-radius-small:           2px !default;
+$boder-radius-large:           4px !default;
+
+//单选框尺寸
+$radio-size-base:              16 !default;
+$radio-size-large:             18 !default;
+$radio-size-small:             14 !default;
+
+//多选框尺寸
+$checkbox-size-base:           16 !default;
+$checkbox-size-large:          18 !default;
+$checkbox-size-small:          14 !default;
+
+//表单控件
+$formctrl-color:               $theme-text-primary !default;
+$formctrl-error-color:         $theme-danger !default;
+$formctrl-font-size:           $font-size-base !default;
+$formctrl-border-color:        $theme-border-color !default;
+$formctrl-boder-radius:        $boder-radius-base !default;
+$formctrl-background-color:    $theme-background !default;
+$formctrl-boxshadow-color:     $theme-primary-gra-st !default;
+$formctrl-padding-vertical:    6px !default;
+$formctrl-padding-horizontal:  12px !default;
+$formctrl-disabled-color:      $theme-text-place !default;
+$formctrl-placeholder-color:   $theme-text-place !default;
+// 部分组件disable是的背景色
+$disabled-color:               $theme-disabled !default;
+//Modal
+$modal-padding:                20px!default;
+
+//scrollbar
+$scrollbar-color:              #ccc!default;              //滚动条滑块按钮的颜色
+$scrollbar-bg:                 $theme-background!default; //滚动条的轨道的颜色
+$scrollbar-width:              8px!default;               //滚动条滑块按钮的宽度
+$scrollbar-height:             8px!default;               //滚动条滑块按钮的高度
+$scrollbar-border-radius:      2px!default;
+
+
+

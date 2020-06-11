@@ -1,0 +1,22 @@
+// 表格样式预设 
+@mixin tb-th {
+	font-weight: inherit;
+	height: $th-height;
+	background-color: $th-bg;
+	color: $th-color;
+	padding:$th-padding-vertical $table-padding-horizontal;
+	vertical-align: middle;
+	text-align: left;
+	border:none;
+	border-bottom: 1px solid $table-border-color;
+}
+@mixin tb-td {
+    height: $td-height;
+    background:$td-bg;
+	color: $td-color;
+	padding:$td-padding-vertical $table-padding-horizontal;
+	text-align: left;
+	vertical-align: middle;
+	border:none;
+	border-bottom: 1px solid $table-border-color;
+}

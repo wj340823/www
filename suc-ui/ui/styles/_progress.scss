@@ -1,0 +1,74 @@
+#{$selector-prefix}progress {
+
+    .el-progress-bar__outer {
+        background-color: $theme-disabled;
+    }
+
+    .el-progress-bar__inner {
+        background-color: $theme-info;
+    }
+
+    .el-progress__text {
+        margin-left: 16px;
+        color: $theme-text-primary;
+    }
+
+    &.el-progress--circle .el-progress__text, &.el-progress--dashboard .el-progress__text {
+        margin: 0;
+    }
+
+    .el-progress.is-success {
+        .el-progress-bar__inner {
+            background-color: $theme-success;
+        }
+
+        .el-progress__text {
+            color: $theme-success;
+        }
+    }
+
+    .el-progress.is-warning {
+        .el-progress-bar__inner {
+            background-color: $theme-warning;
+        }
+
+        .el-progress__text {
+            color: $theme-warning;
+        }
+    }
+
+    .el-progress.is-exception {
+        .el-progress-bar__inner {
+            background-color: $theme-danger;
+        }
+
+        .el-progress__text {
+            color: $theme-danger;
+        }
+    }
+
+    [class^=el-icon-] {
+        font-family: "iconfont" !important;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .el-icon-circle-check:before {
+        content: '\e6b0';
+    }
+    .el-icon-check:before {
+        content: '\e605';
+    }
+
+    .el-icon-warning:before {
+        content: '\e6b5';
+    }
+
+    .el-icon-circle-close:before {
+        content: '\e6b2';
+    }
+    .el-icon-close:before {
+        content: '\ead5';
+    }
+}

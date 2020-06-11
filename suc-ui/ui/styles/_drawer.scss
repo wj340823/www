@@ -1,0 +1,10 @@
+#{$selector-prefix}drawer{
+    &.hide-header{
+        .ivu-drawer-header{
+            display: none;
+        }
+        .ivu-drawer-body{
+            height: 100%;
+        }
+    }
+}

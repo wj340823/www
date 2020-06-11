@@ -1,0 +1,12 @@
+$tree-font-size:                        $font-size-base!default;     //字体大小
+$tree-checkbox-border-color:            $theme-gray-dark!default;    //复选框边框颜色
+$tree-checkbox-border-radius:           2px!default;                 //复选框边框圆角
+$tree-checkbox-background-color:        $theme-background!default;   //复选框边框背景色
+
+$tree-checkbox-active-border-color:     $theme-primary;              //复选框选中边框颜色
+$tree-checkbox-active-background-color: $theme-primary;              //复选框选中背景色
+$tree-checkbox-active-color:            #fff;                        //复选框选中对号颜色
+
+$tree-content-hover-bg:                 #f5f7fa;                     //树节点悬浮背景色
+$tree-content-focus-bg:                 #f5f7fa;                     //树节点聚焦背景色
+$tree-content-highlight-bg:             rgba($theme-primary, .3);    //树节点高亮背景色

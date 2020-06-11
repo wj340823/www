@@ -1,0 +1,131 @@
+@import "~@suc/ui/styles/variables";
+
+$head-bg: #1a2851;
+html,
+body {
+    height: 100%;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Microsoft YaHei";
+}
+
+.main_view {
+    height: 100%;
+    width: 100%;
+}
+
+.header_bar {
+    height: 50px;
+    background: $head-bg;
+
+    > .logo-title {
+        font-size: 18px;
+        color: $theme-background;
+        padding: 12px 20px;
+        display: inline-block;
+    }
+
+    .suc-select {
+        display: inline-block;
+        width: 210px;
+        margin-left: 80px;
+        .ivu-select .ivu-select-selection {
+            border: 0 transparent;
+            background: transparent;
+        }
+        .ivu-select-visible .ivu-select-selection {
+            box-shadow: none;
+        }
+        .ivu-select-input {
+            color: $theme-background;
+        }
+    }
+
+    > .suc-menu {
+        float: right;
+
+        ul {
+            line-height: 50px;
+            background: $head-bg;
+            height: 100%;
+        }
+    }
+}
+
+.app_main {
+    background-color: white;
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+
+
+.ivu-menu-item {
+    &.ivu-menu-item-active,
+    &.ivu-menu-item-selected {
+        opacity: 0.7;
+    }
+}
+
+/*
+*  message、notice api说明
+ */
+.msg-api {
+    p {
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    ul {
+        padding-left: 40px;
+        list-style-type: disc;
+
+        li {
+            margin-bottom: 5px;
+            font-size: 14px;
+
+            code {
+                display: inline-block;
+                background: $theme-gray-bg;
+                font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+                margin: 0 3px;
+                padding: 1px 5px;
+                border-radius: 3px;
+                color: $theme-text-primary;
+                border: 1px solid $theme-border-color;
+            }
+        }
+    }
+
+    pre.bg code {
+        background: $theme-gray-bg;
+    }
+
+    .hljs {
+        display: block;
+        overflow-x: auto;
+        color: $theme-text-primary;
+        padding: 0 15px;
+        -webkit-text-size-adjust: none;
+    }
+}
+
+.interface {
+    padding-top: 15px;
+
+    .hljs {
+        background: $theme-gray-bg;
+        padding: 15px;
+        border-radius: 5px;
+    }
+}
+
+.wordNotice {
+    padding: 2px 5px;
+    margin: 0 3px;
+    background: $theme-gray-bg;
+    border: 1px solid $theme-border-color;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.message-types > .suc-button {
+    margin-right: 10px;
+}

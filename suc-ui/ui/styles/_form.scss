@@ -1,0 +1,28 @@
+.ivu-form .ivu-form-item-label {
+    color: $theme-text-primary;
+}
+.ivu-form-item.disabled {
+    label.ivu-form-item-label {
+        color: $theme-text-primary;
+        opacity: 0.3;
+    }
+}
+
+.ivu-form-item-error {
+    .suc-input {
+        .ivu-input {
+            border-color: $theme-danger;
+        }
+    }
+}
+
+.error-top {
+    .ivu-form-item-error-tip {
+        top: 0;
+        right: 0;
+        left: auto;
+        transform: translate3d(0, -100%, 0);
+        padding-bottom: 10px;
+        padding-top: 0;
+    }
+}

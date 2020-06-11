@@ -1,0 +1,67 @@
+#{$selector-prefix}alert{
+    .ivu-alert {
+        color: $theme-text-primary;
+        font-size: 14px;
+        padding: 11px 48px 11px 16px;
+        &.ivu-alert-with-icon:not(.ivu-alert-with-desc){
+            padding: 11px 48px 11px 38px;
+        }
+        &.ivu-alert-with-desc {
+            padding: 16px;
+            &.ivu-alert-with-icon{
+                padding: 16px 16px 16px 69px;
+            }
+            .ivu-alert-icon{
+                top: 50%;
+            }
+            .ivu-alert-message, .ivu-alert-desc{
+                color: $theme-text-primary;
+            }
+            .ivu-alert-desc{
+                opacity: 0.5;
+            }
+        }
+        &.ivu-alert-info {
+            border-color: $theme-info;
+            background: rgba($theme-info, .1);
+            .ivu-alert-icon {
+                color: $theme-info;
+            }
+        }
+        &.ivu-alert-success {
+            border-color: $theme-success;
+            background: rgba($theme-success, .1);
+            .ivu-alert-icon {
+                color: $theme-success;
+            }
+        }
+        &.ivu-alert-warning {
+            border-color: $theme-warning;
+            background: rgba($theme-warning, .1);
+            .ivu-alert-icon {
+                color: $theme-warning;
+            }
+        }
+        &.ivu-alert-error {
+            border-color: $theme-danger;
+            background: rgba($theme-danger, .1);
+            .ivu-alert-icon {
+                color: $theme-danger;
+            }
+        }
+        .ivu-alert-icon {
+            top: 10px;
+            .iconfont {
+                font-size: 1em;
+                &.icontip- {
+                    font-size: 1.1em;
+                }
+            }
+        }
+        .ivu-alert-close {
+            top: 11px;
+            right: 11px;
+            color: $theme-gray-dark;
+        }
+    }
+}

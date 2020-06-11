@@ -1,0 +1,11 @@
+.ivu-modal-confirm {
+    .ivu-modal-confirm-footer {
+        button {
+            &:nth-child(1) {
+                border-radius: 4px;
+                border: solid 1px #5584ff;
+                color: #5584ff
+            }
+        }
+    }
+}

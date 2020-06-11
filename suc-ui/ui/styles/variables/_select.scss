@@ -1,0 +1,15 @@
+$select-color:              $formctrl-color!default;
+$select-font-size:          $formctrl-font-size!default;
+$select-border-color:        $formctrl-border-color!default;
+$select-border-radius:       $formctrl-boder-radius!default;
+$select-background-color:   $formctrl-background-color!default;
+$select-boxshadow-color:    $formctrl-boxshadow-color!default;
+$select-padding-vertical:   $formctrl-padding-vertical!default;
+$select-padding-horizontal: $formctrl-padding-horizontal!default;
+$select-error-border-color: $formctrl-error-color!default;
+
+$select-active-border-color: $theme-primary!default;
+
+$select-disabled:           $formctrl-disabled-color!default;    //禁用状态文字颜色
+$dropdown-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1) !default;  //下拉框阴影
+$select-menu-item-hover: rgba($theme-primary, .3) !default;        //下拉框选项悬浮颜色

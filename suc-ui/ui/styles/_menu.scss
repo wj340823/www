@@ -1,0 +1,67 @@
+#{$selector-prefix}menu {
+    .ivu-menu-light {
+        background: $menu-light-bg;
+    }
+
+    .ivu-menu {
+        color: $menu-light-color;
+        font-size: $menu-font-size;
+    }
+
+    .ivu-menu-vertical {
+        font-size: 14px;
+    }
+
+    .ivu-menu-light.ivu-menu-horizontal {
+        .ivu-menu-item,
+        .ivu-menu-submenu {
+            color: $menu-light-color;
+            border-bottom: $menu-bottom-border-size solid transparent;
+
+            &:hover {
+                color: $menu-light-active-border-color;
+                border-color: $menu-light-active-border-color;
+            }
+        }
+
+        .ivu-menu-item-active,
+        .ivu-menu-submenu.ivu-menu-item-active {
+            color: $menu-light-active-border-color;
+            border-color: $menu-light-active-border-color;
+        }
+
+        .ivu-menu-submenu {
+            .ivu-select-dropdown {
+                .ivu-menu-item {
+                    color: $menu-light-color;
+                    border: none;
+
+                    &:hover,
+                    &.ivu-menu-item-active {
+                        background-color: $menu-light-active-submenu-item-bg;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .ivu-menu-light.ivu-menu-vertical {
+        .ivu-menu-item-active{
+            color:$menu-light-color;
+            .ivu-menu-submenu-title{
+                color:$menu-light-active-color
+            }
+            &:not(.ivu-menu-submenu){
+                background:$menu-light-active-submenu-item-bg;
+                &:after{
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .ivu-menu-vertical.ivu-menu-light:after {
+        display: none;
+    }
+}

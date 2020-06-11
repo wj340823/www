@@ -1,0 +1,1 @@
+export const ELEMENT_CLASS_PREFIX = "suc-";

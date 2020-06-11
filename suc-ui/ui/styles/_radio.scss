@@ -1,0 +1,76 @@
+#{$selector-prefix}radio{
+    display: inline-block;
+    position: relative;
+    .ivu-radio-wrapper{
+        display: block;
+        font-size:$radio-font-size;
+        color:$radio-color;
+        &.ivu-radio-small{
+            font-size:$radio-small-font-size;
+            .ivu-radio-inner{
+                width:$radio-small-width;
+                height:$radio-small-height;
+                &::after{
+                    width:$radio-small-inner-width;
+                    height:$radio-small-inner-height;
+                }
+            }
+        }
+        &.ivu-radio-large{
+            font-size:$radio-large-font-size;
+            .ivu-radio-inner{
+                width:$radio-large-width;
+                height:$radio-large-height;
+                &::after{
+                    width:$radio-large-inner-width;
+                    height:$radio-large-inner-height;
+                }
+            }
+        }
+        &.ivu-radio-wrapper-disabled{
+            color:$radio-disabled-color !important;
+        }
+    }
+    .ivu-radio{
+        margin-right:10px;
+        &:hover{
+            .ivu-radio-inner{
+                border-color:$radio-active-border-color;
+            }
+        }
+        &.ivu-radio-disabled{
+            .ivu-radio-inner{
+                background-color: $radio-disabled-background !important;
+                color: $formctrl-disabled-color !important;
+                &::after{
+                    background:$radio-disabled-inner-background !important;
+                }
+            }
+        }
+    }
+    .ivu-radio-inner{
+        font-size:$radio-font-size;
+        width:$radio-width;
+        height:$radio-height;
+        border-color:$radio-border-color;
+        background:$radio-background-color;
+        &::after{
+            width:$radio-inner-width;
+            height:$radio-inner-height;
+            left:$radio-inner-left;
+            top:$radio-inner-top;
+            background:$radio-inner-background;
+        }
+    }
+}
+
+
+#{$selector-prefix}radio-group{
+    &.ivu-radio-group-vertical{
+        #{$selector-prefix}radio{
+            display: block;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+}

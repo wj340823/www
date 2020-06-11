@@ -1,0 +1,41 @@
+.suc-font-title{
+    font-size:$font-size-large;
+    font-weight: bold;
+    color:$theme-text-primary;
+}
+
+.suc-font-subtitle{
+    font-size:$font-size-base;
+    font-weight: bold;
+    color:$theme-text-primary;
+}
+
+.suc-font-text{
+    font-size:$font-size-base;
+    font-weight: normal;
+    color:$theme-text-primary;
+}
+
+.suc-font-help{
+    font-size:$font-size-base;
+    font-weight: normal;
+    color:$theme-text-help;
+}
+
+.suc-font-place{
+    font-size:$font-size-base;
+    font-weight: normal;
+    color:$theme-text-place;
+}
+
+.suc-font-link{
+    font-size:$font-size-base;
+    font-weight: normal;
+    color:$theme-text-link;
+}
+
+.suc-font-error{
+    font-size:$font-size-base;
+    font-weight: normal;
+    color:$theme-danger;
+}

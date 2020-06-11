@@ -1,0 +1,36 @@
+@mixin scrollbar-diy {
+    /*三角箭头的颜色*/
+    scrollbar-arrow-color: $scrollbar-color;
+    /*滚动条滑块按钮的颜色*/
+    scrollbar-face-color: $scrollbar-color;
+    /*滚动条整体颜色*/
+    scrollbar-highlight-color: $scrollbar-bg;
+    /*滚动条阴影*/
+    scrollbar-shadow-color: $scrollbar-bg;
+    /*滚动条轨道颜色*/
+    scrollbar-track-color: $scrollbar-bg;
+
+    /*滚动条整体部分,必须要设置*/
+    &::-webkit-scrollbar {
+        width: $scrollbar-width;
+        height: $scrollbar-height;
+        background-color: $scrollbar-bg;
+    }
+
+    /*滚动条的轨道*/
+    &::-webkit-scrollbar-track {
+        background-color: $scrollbar-bg;
+    }
+
+    /*滚动条的滑块按钮*/
+    &::-webkit-scrollbar-thumb {
+        border-radius: $scrollbar-border-radius;
+        background-color: $scrollbar-color;
+    }
+
+    /*滚动条的上下两端的按钮*/
+    &::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+}

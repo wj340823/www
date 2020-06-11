@@ -1,0 +1,22 @@
+#{$selector-prefix}breadcrumb{
+    .ivu-breadcrumb{
+        font-size:$breadcrumb-font-size;
+        >span{
+            color:$breadcrumb-item-color;
+            a{
+                color:$breadcrumb-item-color;
+                &:hover{
+                    color:$breadcrumb-item-hover-color;
+                }
+            }
+            &:last-child{
+                color:$breadcrumb-item-active-color;
+                font-weight: normal;
+                a{
+                    color:$breadcrumb-item-active-color;
+                }
+            }
+
+        }
+    }
+}

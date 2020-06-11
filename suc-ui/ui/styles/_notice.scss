@@ -1,0 +1,81 @@
+.ivu-notice {
+    width: 335px;
+}
+.ivu-notice-notice {
+    padding: 16px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    &.ivu-notice-with-desc .ivu-notice-title{
+        margin-bottom: 5px;
+    }
+    .ivu-notice-title, .ivu-notice-desc{
+        color: $theme-text-primary;
+        font-size: 14px;
+        font-weight: normal;
+    }
+    .ivu-notice-desc{
+        opacity: .5;
+    }
+
+    .ivu-notice-icon-info {
+        color: $theme-info;
+    }
+    .ivu-notice-icon-success {
+        color: $theme-success;
+    }
+    .ivu-notice-icon-warning {
+        color: $theme-warning;
+    }
+    .ivu-notice-icon-error {
+        color: $theme-danger;
+    }
+
+    .ivu-icon{
+        font-family: "iconfont" !important;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .ivu-icon-ios-information-circle {
+        font-size: 17px;
+        &:before {
+            content: '\e64c';
+        }
+    }
+    .ivu-icon-ios-information-circle-outline:before {
+        content: '\e6b1';
+    }
+
+    .ivu-icon-ios-checkmark-circle:before {
+        content: '\e6b0';
+    }
+    .ivu-icon-ios-checkmark-circle-outline:before {
+        content: '\e6b7';
+    }
+
+    .ivu-icon-ios-alert:before {
+        content: '\e6b5';
+    }
+    .ivu-icon-ios-alert-outline:before {
+        content: '\e6b3';
+    }
+
+    .ivu-icon-ios-close-circle:before {
+        content: '\e6b2';
+    }
+    .ivu-icon-ios-close-circle-outline:before {
+        content: '\e6b6';
+    }
+    .ivu-icon-ios-close:before {
+        content: '\ead5';
+    }
+    .ivu-notice-notice-close {
+        top: 16px;
+        right: 16px;
+        i.ivu-icon {
+            font-size: 16px;
+            color: $theme-gray-dark;
+            top: 0;
+        }
+    }
+}
