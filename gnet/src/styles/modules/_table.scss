@@ -1,0 +1,45 @@
+@import "variables";
+@import "mixins";
+.el-table {
+    color: $table-color;
+    .el-table__header-wrapper {
+        thead {
+            color: $thead-color;
+        }
+        th {
+            font-weight: normal;
+            background-color: $thead-bg;
+        }
+    }
+    .el-table__body-wrapper {
+        td {
+            border-bottom: solid 1px $theme-border-color;
+        }
+    }
+
+    &.el-table--striped {
+        td,
+        th {
+            border: none;
+            height: 40px;
+        }
+        .el-table__body tr.el-table__row--striped td {
+            background: $tripe-td-bg;
+        }
+        .el-table__body tr.hover-row td {
+            background: $tr-hover-bg;
+        }
+    }
+
+    &.el-table--enable-row-hover .el-table__body {
+        tr:hover>td {
+            background: $tr-hover-bg;
+        }
+    }
+    thead {
+        th, tr {
+            background-color: $thead-bg;
+        }
+    }
+
+}

@@ -1,0 +1,17 @@
+@import "variables";
+@import "mixins";
+
+.el-tag {
+  color: $tag-color-primary;
+  border-color: $tag-border-color;
+  background-color: $tag-bg;
+  .el-tag__close {
+    color: $tag-close-color;
+    background-color: $tag-close-bg;
+
+  }
+ .el-tag__close:hover {
+   color: #ffffff;
+   background-color: $tag-close-active;
+}
+}

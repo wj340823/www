@@ -1,0 +1,96 @@
+@import "variables";
+@import "mixins";
+
+#{$selector-prefix}select {
+    display: inline-block;
+    .ivu-select {
+        &.ivu-select-disabled {
+            .ivu-select-selection {
+                background-color: $disabled-color;
+                color: $select-disabled;
+
+                &:hover,
+                &:focus {
+                    border-color: $select-border-color;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .ivu-select-selection {
+            color: $select-color;
+            border-radius: $select-border-radius;
+            border-color: $select-border-color;
+            background: $select-background-color;
+
+            &:hover,
+            &:focus {
+                border-color: $select-active-border-color;
+            }
+
+            &:focus {
+                box-shadow: 0 0 2px 0 $select-boxshadow-color;
+            }
+
+            .ivu-select-placeholder, .ivu-select-selected-value {
+                font-size: $select-font-size;
+                padding-left: $select-padding-horizontal;
+            }
+        }
+
+        .ivu-select-item {
+            font-size: $select-font-size!important;
+            color: $select-color;
+            &:hover {
+                background: $select-menu-item-hover;
+            }
+        }
+        .ivu-select-item-selected, .ivu-select-item-selected:hover {
+            color: $theme-text-link;
+        }
+
+        .ivu-select-dropdown {
+            padding: 0;
+            border-radius: 0 0 4px 4px;
+            background-color: $theme-background;
+            box-shadow: $dropdown-box-shadow;
+        }
+
+        //.ivu-select-dropdown-list {
+        //    margin-block-start: 0;
+        //    margin-block-end: 0;
+        //}
+    }
+}
+
+//深色调下拉框
+.suc-select.suc-dark-select {
+    width: 100%;
+    .ivu-select .ivu-select-selection {
+        height: 35px;
+        color: $theme-background;
+        background-color: $formctrl-dark-background-color;
+        border-radius: 4px;
+        border: solid 1px $formctrl-dark-border-color;
+        &:hover,
+        &:focus
+        {
+            border-color:$formctrl-dark-active-border-color;
+        }
+        .ivu-select-placeholder, .ivu-select-selected-value{
+            height: 33px;
+            line-height: 33px;
+        }
+    }
+    .ivu-select-dropdown {
+        background-color: $formctrl-dark-background-color;
+        border: solid 1px $formctrl-dark-border-color;
+        z-index: 1002;
+        .ivu-select-item-focus {
+            background: $select-menu-item-hover;
+        }
+    }
+    .ivu-select-item {
+        color: $theme-background;
+    }
+}

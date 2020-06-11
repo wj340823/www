@@ -1,0 +1,7 @@
+@mixin timeline-item-head-variant($color, $background, $borderColor) {
+	.ivu-timeline-item-head{
+        color:$color;
+        border-color:$borderColor;
+        background:$background;
+    }
+}

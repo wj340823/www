@@ -1,0 +1,162 @@
+@import "./modules/ui";
+
+html,
+body {
+    font-family: Roboto, "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Microsoft YaHei";
+    width: 100%;
+    height: auto;
+    color: $theme-text-primary;
+}
+
+.main_view {
+    height: 100%;
+    width: 100%;
+    background-color: #f7f7f7;
+    //overflow-y: auto;
+}
+
+.header_bar {
+    height: 50px;
+    background: #247ad6;
+
+    >ul {
+        float: right;
+        line-height: 50px;
+        background: #247ad6;
+        height: 100%;
+    }
+}
+
+.app_main {
+    background-color: #f7f7f7;
+    height:calc(100vh - 70px);
+    overflow-y: auto;
+}
+.search-btn {
+    width: 80px;
+    height: 30px;
+}
+.new-btn {
+    width: 140px;
+    height: 45px;
+}
+//链接、操作
+.common-link {
+    color: $theme-text-link;
+}
+
+//错误、删除
+.common-error {
+    color: $theme-danger;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.nowrap {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.required {
+    color: $theme-danger;
+}
+.no-data {
+    font-size: 16px;
+    text-align: center;
+}
+
+.select-triangle {
+    position: relative;
+    outline: 1px solid $theme-other-blue;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-top: 15px solid $theme-other-blue;
+        border-left: 15px solid $theme-other-blue;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid transparent;
+    }
+    &:after {
+        content: '\2713';
+        position: absolute;
+        top: -2px;
+        left: 2px;
+        font-size: 18px;
+    }
+}
+
+//单选框
+.empty-radio {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: $radio-empty-bg;
+    opacity: 0.5;
+}
+.selected-radio {
+    position: relative;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid $theme-other-blue;
+    &:before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $theme-other-blue;
+    }
+}
+
+//复选框
+.empty-square {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-color: $checkbox-empty-bg;
+    border: solid 1px $checkbox-empty-border-color;
+}
+.selected-square {
+    position: relative;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-color: $theme-other-blue;
+    &:before {
+        content: '\2713';
+        position: absolute;
+        left: 0;
+        top: -2px;
+        font-size: 12px;
+        color: $theme-text-white;
+    }
+}
+
+.el-color-dropdown {
+    .el-color-dropdown__btns .el-button--text {
+        display: none;
+    }
+
+    .el-input__inner {
+        padding: 0 10px;
+    }
+}
+
+.ivu-modal-confirm-head-title {
+    width: 321px;
+}
+
+.el-loading-mask {
+    z-index: 99;
+}

@@ -1,0 +1,27 @@
+.suc-slider {
+    .el-slider__runway {
+        height: 2px;
+        background-color: $slider-bg;
+        border-radius: 0;
+
+        .el-slider__bar {
+            height: 2px;
+            background-color: $theme-background;
+        }
+
+        .el-slider__button-wrapper {
+            top: -17px;
+        }
+
+        .el-slider__button {
+            width: 10px;
+            height: 10px;
+            background-color: $theme-background;
+            box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+            border: 0 transparent;
+        }
+        .el-slider__button-wrapper {
+            z-index: 99;
+        }
+    }
+}

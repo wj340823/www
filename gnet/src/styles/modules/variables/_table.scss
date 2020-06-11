@@ -1,0 +1,7 @@
+@import "../variablesPure";
+
+$table-color: $theme-text-primary !default;   //表格字体颜色
+$thead-bg: $theme-gray-bg !default;           //表头背景色
+$thead-color: $theme-text-primary !default;   //表头字体颜色
+$tripe-td-bg: #f7f7f7 !default;         //条纹颜色
+$tr-hover-bg: #e2e7f9 !default; //行悬浮背景色

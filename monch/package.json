@@ -1,0 +1,51 @@
+{
+  "_from": "@suc/monch@2.1.4",
+  "_id": "@suc/monch@2.1.4",
+  "_inBundle": false,
+  "_integrity": "sha1-G+LJEmuLX9WycXZKO39EHgFEyyE=",
+  "_location": "/@suc/monch",
+  "_phantomChildren": {
+    "elm-pep": "1.0.6",
+    "ieee754": "1.1.13",
+    "pixelworks": "1.1.0",
+    "resolve-protobuf-schema": "2.1.0"
+  },
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@suc/monch@2.1.4",
+    "name": "@suc/monch",
+    "escapedName": "@suc%2fmonch",
+    "scope": "@suc",
+    "rawSpec": "2.1.4",
+    "saveSpec": null,
+    "fetchSpec": "2.1.4"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "http://192.168.80.51:7001/@suc/monch/download/@suc/monch-2.1.4.tgz",
+  "_shasum": "1be2c9126b8b5fd5b271764a3b7f441e0144cb21",
+  "_spec": "@suc/monch@2.1.4",
+  "_where": "E:\\sucsoft\\syq\\web-app",
+  "author": {
+    "name": "xiarx"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "echarts": "^4.6.0",
+    "file-saver": "^2.0.2",
+    "ol": "^6.0.0",
+    "proj4": "^2.6.0",
+    "projzh": "^1.0.0"
+  },
+  "deprecated": false,
+  "description": "基于 vue 对 ol6 进行组件封装",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "@suc/monch",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.1.4"
+}

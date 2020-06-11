@@ -1,0 +1,86 @@
+@import "variables";
+@import "mixins";
+
+.ivu-page {
+    .ivu-page-item {
+        border: 1px solid $theme-border-color;
+        background: $theme-background;
+
+        &:hover {
+            border-color: $theme-primary;
+
+            a {
+                color: $theme-primary;
+            }
+        }
+
+        a {
+            color: $theme-text-primary;
+        }
+    }
+
+    .ivu-page-item-active {
+        border-color: $theme-primary;
+        background: $theme-background;
+    }
+
+    .ivu-page-item-active a,
+    .ivu-page-item-active:hover a {
+        color: $theme-primary;
+    }
+
+    .ivu-page-next, .ivu-page-prev {
+        border-color: $theme-border-color;
+        background: $theme-background;
+
+        &.ivu-page-custom-text, .ivu-page-custom-text:hover {
+            border: 0 transparent;
+        }
+
+        &:hover {
+            border-color: $theme-primary;
+
+            a {
+                color: $theme-primary;
+            }
+        }
+
+        a {
+            color: $theme-gray-dark;
+        }
+    }
+
+    .ivu-page-disabled a {
+        color: $page-disabled-color;
+    }
+
+    .ivu-page-disabled:hover {
+        border-color: $theme-border-color;
+        a {
+            color: $page-disabled-color;
+        }
+    }
+
+.ivu-page-item-jump-next, .ivu-page-item-jump-prev {
+    &:after {
+        color: $jump-ellipsis;
+    }
+
+    a {
+        color: $theme-primary;
+    }
+}
+
+//跳至第几页
+.ivu-page-options-elevator {
+    input {
+        border-color: $theme-border-color;
+        color: $formctrl-color;
+    }
+}
+
+.ivu-page-total {
+    color: $theme-text-primary;
+}
+
+}

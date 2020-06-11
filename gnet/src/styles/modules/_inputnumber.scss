@@ -1,0 +1,49 @@
+.suc-input-number.ivu-input-number{
+    display: inline-block;
+    width: 100%;
+    font-size:$input-font-size;
+    border-radius:$input-border-radius;
+    border-color:$input-border-color;
+    background:$input-background-color;
+    &:hover,
+    &:focus
+    {
+        border-color:$input-active-border-color;
+    }
+    &:focus{
+        box-shadow: 0px 0px 2px 0px $input-boxshadow-color;
+    }
+    &[disabled]{
+        background-color: $disabled-color !important;
+        color: $input-disabled !important;
+        border-color: $input-border-color;
+    }
+    &::-webkit-input-placeholder{
+        color:$formctrl-placeholder-color
+    }
+
+    .ivu-input-number-input-wrap {
+        height: 100%;
+    }
+    .ivu-input-number-input {
+        color:$input-color;
+    }
+}
+.suc-input-number.suc-dark-input-number {
+    height: 35px;
+    border: solid 1px $formctrl-dark-border-color;
+    border-radius: 4px;
+    background-color: $formctrl-dark-background-color;
+    .ivu-input-number-input{
+        height: 33px;
+        line-height: 33px;
+        color: $theme-background;
+        background-color: $formctrl-dark-background-color;
+        &:hover,
+        &:focus
+        {
+            border-color:$formctrl-dark-active-border-color;
+            box-shadow: none;
+        }
+    }
+}

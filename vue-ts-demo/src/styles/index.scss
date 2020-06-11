@@ -1,0 +1,30 @@
+html,
+body {
+    height: 100%;
+    font-family: Roboto, "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Microsoft YaHei";
+}
+
+.main_view {
+    height: 100%;
+    width: 100%;
+}
+
+.header_bar {
+    height: 50px;
+    background: #247ad6;
+
+    .suc-menu {
+        height: 100%;
+        > ul {
+            float: right;
+            line-height: 50px;
+            background: #247ad6;
+            height: 100%;
+        }
+    }
+}
+
+.app_main {
+    background-color: white;
+    height: calc(100% - 50px);
+}
