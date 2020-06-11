@@ -1,6 +1,0 @@
-package com.sucsoft.gzhbyjwz.bean.constant;
-
-public class ExamType {
-    public static final int Pass = 1;//通过
-    public static final int Reject = 2;//驳回
-}

@@ -1,7 +1,0 @@
-<div class="inOutLay">
-    <i class="posDot"></i>
-    <i class="posLine"></i>
-    <div>
-        出境<br />{{outOverlay.message}}
-    </div>
-</div>

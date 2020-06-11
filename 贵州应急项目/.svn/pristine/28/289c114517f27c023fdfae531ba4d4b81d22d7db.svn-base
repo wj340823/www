@@ -1,7 +1,0 @@
-package com.sucsoft.gzhbyjwz.bean.param;
-
-import com.cgs.authox.starter.domain.DefaultUser;
-
-public class UserInfo extends DefaultUser {
-
-}
