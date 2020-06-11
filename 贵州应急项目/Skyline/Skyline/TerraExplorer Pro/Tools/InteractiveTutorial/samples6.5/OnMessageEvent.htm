@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>onTerraExplorerMessage event</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            SGWorld.AttachEvent("onTerraExplorerMessage", onTerraExplorerMessage);
+
+            var label = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-71.00425, 42.36081, 100), 
+                                                      "Click here to get the name of the airport",SGWorld.Creator.CreateLabelStyle());
+
+            var msg = SGWorld.Creator.CreateMessage(0, "Logan International",0);
+            label.Message.MessageID = msg.ID;
+
+            SGWorld.Navigate.JumpTo(label);                                                                        
+        }
+                
+        function onTerraExplorerMessage(messageId, senderNodeId)
+        {
+            var message = SGWorld.Creator.GetObject(messageId);
+            var senderNode = SGWorld.Creator.GetObject(senderNodeId);
+            senderNode.Text = message.Text;
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040kOzOO9OcdrzlH3gMKgDhbUiBWw9neD6iyq87dLZufG3TLWuGyX5AO1cFPIGY1DgetDE6OBgq4oIwH87KH2pFMyJJ-->

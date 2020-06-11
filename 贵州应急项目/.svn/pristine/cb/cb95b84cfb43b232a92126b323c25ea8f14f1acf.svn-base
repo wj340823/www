@@ -1,0 +1,550 @@
+---
+  grammer: HQL
+  queries:
+    #企业主要风险物资查询
+    - name: getRiskMaterial
+      resultType: RiskMaterial
+      fetches: []
+      statement:
+        "
+        from
+          RiskMaterial
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急物资查询
+    - name: getEmergencySubstance
+      resultType: EmergencySubstance
+      fetches: []
+      statement:
+        "
+        from
+          EmergencySubstance
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        #if($keywords)
+          and name like :keywords
+        #end
+        "
+    #企业应急车辆查询
+    - name: getEmergencyVehicle
+      resultType: EmergencyVehicle
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyVehicle
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急消防设备查询
+    - name: getEmergencyFireDevice
+      resultType: EmergencyFireDevice
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyFireDevice
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急仪器设备查询
+    - name: getEmergencyApparatus
+      resultType: EmergencyApparatus
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyApparatus
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急污染源处理设备/存储装置查询
+    - name: getProcessEquipment
+      resultType: ProcessEquipment
+      fetches: []
+      statement:
+        "
+        from
+          ProcessEquipment
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急人员查询
+    - name: getEmergencyCrew
+      resultType: EmergencyCrew
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyCrew
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        #if($department)
+          and DEPARTMENT = :department
+        #end
+        #if($keywords)
+          and (name like :keywords or department like :keywords or theUtil like :keywords)
+        #end
+         order by department desc,theUtil desc
+        "
+    #企业应急专家查询
+    - name: getEmergencySpecialist
+      resultType: EmergencySpecialist
+      fetches: []
+      statement:
+        "
+        from
+          EmergencySpecialist
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业联动单位查询
+    - name: getForeignAidUnit
+      resultType: ForeignAidUnit
+      fetches: []
+      statement:
+        "
+        from
+          ForeignAidUnit
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急机构查询
+    - name: getEmergencyOrganization
+      resultType: getEmergencyOrganization
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyOrganization
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急小组查询
+    - name: getEmergencyGroup
+      resultType: EmergencyGroup
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyGroup
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急案列查询
+    - name: getEmergencyCase
+      resultType: EmergencyCase
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyCase
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急预案查询
+    - name: getEmergencyPlan
+      resultType: EmergencyPlan
+      fetches: []
+      statement:
+        "
+        from
+          EmergencyPlan
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #查询生产装置
+    - name: getProductionUnit
+      resultType: ProductionUnit
+      fetches: []
+      statement:
+        "
+        from
+          ProductionUnit
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #查询保护目标
+    - name: getProtectionObject
+      resultType: ProtectionObject
+      fetches: []
+      statement:
+        "
+        from
+          ProtectionObject
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #查询事故源
+    - name: getAccidentSource
+      resultType: AccidentSource
+      fetches: []
+      statement:
+        "
+        from
+          AccidentSource
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急事故参考图查询
+    - name: getReferenceDrawing
+      resultType: getReferenceDrawing
+      fetches: []
+      statement:
+        "
+        from
+          ReferenceDrawing
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    #企业应急事故参考图查询
+    - name: getEnterpriseAttachment
+      resultType: EnterpriseAttachment
+      fetches: []
+      statement:
+        "
+        from
+          EnterpriseAttachment
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        #if($type)
+          and type = :type
+        #end
+        "
+    - name: checKCompany
+      resultType: EnterpriseInformation
+      fetches: []
+      statement:
+        "
+        from
+          EnterpriseInformation
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        #if($name)
+          and companyName = :name
+        #end
+        "
+    - name: getEnterprisePreplan
+      resultType: EnterprisePreplan
+      fetches: []
+      statement:
+        "
+        from
+          EnterprisePreplan
+        where
+          a.deleted = 0
+        "
+    - name: getHjRiskSubstances
+      resultType: HjRiskSubstances
+      fetches: []
+      statement:
+        "
+        from
+          HjRiskSubstances
+        where
+          1=1
+        #if($qyId)
+          and qyId = :qyId
+        #end
+        #if($fxlx)
+          and fxlx = :fxlx
+        #end
+        "
+    - name: getHjRiskSubstances_ya
+      resultType: HjRiskSubstances_ya
+      fetches: []
+      statement:
+        "
+        from
+          HjRiskSubstances_ya
+        where
+          1=1
+        #if($yaid)
+          and yaid = :yaid
+        #end
+        #if($fxlx)
+          and fxlx = :fxlx
+        #end
+        "
+    - name: getHjRiskSubstancesForWorldExport
+      resultType: HjRiskSubstances
+      fetches: []
+      statement:
+        "
+        from
+          HjRiskSubstances
+        where
+          fxlx is not null
+        #if($companyId)
+          and qyId = :companyId
+        #end
+        "
+    - name: getRiskReceptor
+      resultType: RiskReceptor
+      fetches: []
+      statement:
+        "
+        from
+          RiskReceptor
+        where
+          1=1
+        #if($qyId)
+          and qyId = :qyId
+        #end
+        #if($bhlx)
+          and bhlx = :bhlx
+        #end
+        "
+    - name: getQyScenarioAnalysis
+      resultType: QyScenarioAnalysis
+      fetches: []
+      statement:
+        "
+        from
+          QyScenarioAnalysis
+        where
+          1=1
+        #if($qyId)
+          and qyId = :qyId
+        #end
+        "
+    - name: getRiskFactors
+      resultType: RiskFactors
+      fetches: []
+      statement:
+        "
+        from
+          RiskFactors
+        where
+          1=1
+        #if($qyId)
+          and qyId = :qyId
+        #end
+        "
+    - name: getRiskFactors_ya
+      resultType: RiskFactors_ya
+      fetches: []
+      statement:
+        "
+        from
+          RiskFactors_ya
+        where
+          1=1
+        #if($yaid)
+          and yaid = :yaid
+        #end
+        "
+    - name: getPkInfos
+      resultType: RiskFactorsPkList
+      fetches: []
+      statement:
+        "
+        from
+          RiskFactorsPkList
+        where
+          1=1
+        #if($riskfactors_id)
+          and riskfactors_id = :riskfactors_id
+        #end
+        "
+    - name: getPkInfos_ya
+      resultType: RiskFactorsPkList_ya
+      fetches: []
+      statement:
+        "
+        from
+          RiskFactorsPkList_ya
+        where
+          1=1
+        #if($yaid)
+          and yaid = :yaid
+        #end
+        "
+    - name: getProductionProcess
+      resultType: ProductionProcess
+      fetches: []
+      statement:
+        "
+        from
+          ProductionProcess
+        where
+          1=1
+        #if($qyId)
+          and qyId = :qyId
+        #end
+        #if($gylx)
+          and gylx = :gylx
+        #end
+        "
+    - name: getRiskReceptorWithCompany
+      resultType: RiskReceptorWithCompany
+      fetches: []
+      statement:
+        "
+        from
+          RiskReceptorWithCompany
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    - name: getRiskReceptorForWorldExport
+      resultType: RiskReceptor
+      fetches: []
+      statement:
+        "
+        from
+          RiskReceptor
+        where
+          receptorType is not null
+        #if($companyId)
+          and qyId = :companyId
+        #end
+        "
+    - name: getQiRiskControlMeasures
+      resultType: QiRiskControlMeasures
+      fetches: []
+      statement:
+        "
+        from
+          QiRiskControlMeasures
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    - name: getSuiRiskControlMeasures
+      resultType: SuiRiskControlMeasures
+      fetches: []
+      statement:
+        "
+        from
+          SuiRiskControlMeasures
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "
+    - name: getRiskSourceLjz
+      resultType: RiskSourceLjz
+      fetches: []
+      statement:
+        "
+        from
+          RiskSourceLjz
+        where
+          1=1
+        "
+    - name: getProductionProcessList
+      resultType: ProductionProcess
+      fetches: []
+      statement:
+        "
+        from
+          ProductionProcess
+        where
+          1=1
+        #if($companyId)
+          and qyId = :companyId
+        #end
+        "
+    - name: getQyScenarioAnalysisList
+      resultType: QyScenarioAnalysis
+      fetches: []
+      statement:
+        "
+        from
+          QyScenarioAnalysis
+        where
+          1=1
+        #if($companyId)
+          and qyId = :companyId
+        #end
+        "
+    - name: getRiskFactorsForWord
+      resultType: RiskFactors
+      fetches: []
+      statement:
+        "
+        from
+          RiskFactors
+        where
+          1=1
+        #if($companyId)
+          and qyId = :companyId
+        #end
+        "
+    - name: getEmergencySubstanceList
+      resultType: EmergencySubstance
+      fetches: []
+      statement:
+        "
+        from
+          EmergencySubstance
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        "

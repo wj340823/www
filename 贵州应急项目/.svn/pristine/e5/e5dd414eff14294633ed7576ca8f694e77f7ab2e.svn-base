@@ -1,0 +1,11 @@
+package com.sucsoft.gzhbyjwz.util;
+
+public class PageNoCount {
+    public static Integer findPageSkip(Integer pageNo,Integer pageSize){
+        Integer skip = 0;
+        if(pageNo>0&&pageSize>0){
+            skip = (pageNo-1)*pageSize;
+        }
+        return skip;
+    }
+}

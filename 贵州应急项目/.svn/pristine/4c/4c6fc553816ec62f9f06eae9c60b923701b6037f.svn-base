@@ -1,0 +1,87 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+import java.util.Date;
+
+/**
+ * @author jmy
+ */
+public class PlanAttachment {
+
+    private String planId;
+    /**
+     * EmergencyPreplan表的id
+     * 
+     */
+    private String id;
+    /**
+     * 文件类型
+     * 
+     */
+    private String type;
+    /**
+     * 文件路径
+     * 
+     */
+    private String url;
+
+    /**
+     * 文件大小
+     */
+    private String size;
+
+    /**
+     * 上传日期
+     */
+    private java.util.Date time;
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+}

@@ -1,0 +1,419 @@
+<div  ng-controller="yilanbiao">
+   <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button tab-left" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hgsjt" ui-sref-active="active">
+                宏观数据图
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxys" ui-sref-active="active">
+                环境风险要素
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxwz" ui-sref-active="active">
+                环境风险物质
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxdy" ui-sref-active="active">
+                环境风险单元
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxfkss" ui-sref-active="active">
+                环境风险防控设施
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.sczzq" ui-sref-active="active">-->
+<!--                生产装置区-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.scgy" ui-sref-active="active">
+                生产工艺
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境风险受体
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >-->
+<!--                环境污染事故源-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.tfhjsjqjfx" ui-sref-active="active" >
+                情景分析
+            </button>
+            <div class="tab-button tab-left">
+                <span>应急物资及人员联络方式</span>
+                <i class="iconfont icon-webicon215"></i>
+                <div>
+                    <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active" style="width:185px;">
+                        应急物资
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active" style="width:185px;">
+                        应急指挥通讯录
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active" style="width:185px;">
+                        应急外部联络表
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active" style="width:185px;">
+                        应急专家
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="table-content">
+        <div class="search-nav">
+            <span>类型：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.FXLX" value="1" class="regular-radio" id="radio44" />
+            <label for="radio44" class="hander"></label>
+            <span style="margin-right: 10px">水环境 </span>
+            <input type="radio" ng-model="ylb.riskmeasures.FXLX" value="2" class="regular-radio" id="radio45"/>
+            <label for="radio45" class="hander"></label>
+            <span style="margin-right: 10px">气环境</span>
+        </div>
+        <br>
+        <div ng-show="ylb.riskmeasures.FXLX == '2'">
+        <div class="clearfix" style="background-color: #222;height:35px;">
+            <div class="tb-title">气环境</div>
+        </div>
+        <div style="margin-top: 10px;">
+            <span class="check-result2" style="width: 300px;">毒性气体泄漏监控预警措施：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfdxqtxljkyjcs" value="1" class="regular-radio" id="radio15"/>
+            <label for="radio15" class="hander"></label>
+            <span style="margin-right: 10px"> 不涉及风险物质临界量表的有毒有害气体</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfdxqtxljkyjcs" value="2" class="regular-radio" id="radio16"/>
+            <label for="radio16" class="hander"></label>
+            <span style="margin-right: 10px">根据实际情况，具备有害气体厂界泄漏预警系统</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfdxqtxljkyjcs" value="3" class="regular-radio" id="radio17"/>
+            <label for="radio17" class="hander"></label>
+            <span style="margin-right: 10px">不具备厂界有毒有害气体泄漏监控预警系统</span>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result2" style="width: 300px;">是否符合环评及批复文件防护距离要求：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.fhfhjlqk" value="1" class="regular-radio" id="radio19"/>
+            <label for="radio19" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.fhfhjlqk" value="2" class="regular-radio" id="radio20"/>
+            <label for="radio20" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <br>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result2" style="width: 300px;">近3年内突发大气环境事件发生情况：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.jsntfdqhjsj" value="1" class="regular-radio" id="radio21"/>
+            <label for="radio21" class="hander"></label>
+            <span style="margin-right: 10px">发生过特别重大或重大等级突发大气环境事件</span>
+            <input type="radio" ng-model="ylb.riskmeasures.jsntfdqhjsj" value="2" class="regular-radio" id="radio22"/>
+            <label for="radio22" class="hander"></label>
+            <span style="margin-right: 10px">发生过较大等级突发大气环境事件</span>
+            <input type="radio" ng-model="ylb.riskmeasures.jsntfdqhjsj" value="3" class="regular-radio" id="radio23"/>
+            <label for="radio23" class="hander"></label>
+            <span style="margin-right: 10px">发生过一般等级突发大气环境事件</span>
+            <input type="radio" ng-model="ylb.riskmeasures.jsntfdqhjsj" value="4" class="regular-radio" id="radio24"/>
+            <label for="radio24" class="hander"></label>
+            <span style="margin-right: 10px">未发生突发大气环境事件</span>
+            <br>
+        </div>
+        <br>
+    </div>
+        <div  ng-show="ylb.riskmeasures.FXLX == '1'">
+            <div class="clearfix" style="background-color: #222;height:35px;">
+                <div class="tb-title">水环境</div>
+            </div>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">应急池容量(m³)：</span>
+            <input class="text-info-input" ng-model="ylb.riskmeasures.poolNumber" onkeyup="this.value=this.value.replace(/[^0-9.]+/,'');" />
+        </div>
+        <br>
+        <div>
+            <span class="check-result1" style="width:330px;">应急池是否空置：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfkz" value="是" class="regular-radio" id="radio1"/>
+            <label for="radio1" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfkz" value="否" class="regular-radio" id="radio2"/>
+            <label for="radio2" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1" style="width:330px;">应急池厂区事故废液或消防水是否能自流入应急池：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfzclr" value="是" class="regular-radio" id="radio3"/>
+            <label for="radio3" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfzclr" value="否" class="regular-radio" id="radio4"/>
+            <label for="radio4" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1" style="width:330px;">应急池是否有足够能力的排水管和泵全部收集：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfqbsj" value="是" class="regular-radio" id="radio5"/>
+            <label for="radio5" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfqbsj" value="否" class="regular-radio" id="radio6"/>
+            <label for="radio6" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1" style="width:330px;">应急池是否设置初期雨水收集池：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfsjys" value="是" class="regular-radio" id="radio7"/>
+            <label for="radio7" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfsjys" value="否" class="regular-radio" id="radio8"/>
+            <label for="radio8" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">排水管道是否实现雨污分流：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sffywfl" value="是" class="regular-radio" id="radio9"/>
+            <label for="radio9" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sffywfl" value="否" class="regular-radio" id="radio10"/>
+            <label for="radio10" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1" style="width: 330px;">排水管道是否设置生产废水总排放阀：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfszfszpff" value="是" class="regular-radio" id="radio11"/>
+            <label for="radio11" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfszfszpff" value="否" class="regular-radio" id="radio12"/>
+            <label for="radio12" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1" style="width: 330px;">排水管道否设置雨水总排放阀：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfszyspff" value="是" class="regular-radio" id="radio13"/>
+            <label for="radio13" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.sfszyspff" value="否" class="regular-radio" id="radio14"/>
+            <label for="radio14" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">截流措施：</span>
+            <div  style="display: inline-block;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox1" ng-checked="isSelected('1','jlcs')" ng-click="updateSelection($event,'jlcs','1')"/>
+                <label for="checkbox1" class="hander"></label>
+                <span style="margin-right: 10px" style="width: 220px;">环境风险单元设防渗漏、防腐蚀、防淋溶、防流失措施</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox2" ng-checked="isSelected('2','jlcs')" ng-click="updateSelection($event,'jlcs','2')"/>
+                <label for="checkbox2" class="hander"></label>
+                <span style="margin-right: 10px">装置围堰与罐区防火堤（围堰）外设排水切换阀，正常情况下通向雨水系统的阀门关闭，通向事故存液池、应急事故水池、清净废水排放缓冲池或污水处理系统的阀门打开</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox3" ng-checked="isSelected('3','jlcs')" ng-click="updateSelection($event,'jlcs','3')"/>
+                <label for="checkbox3" class="hander"></label>
+                <span style="margin-right: 10px">前述措施日常管理及维护良好，有专人负责阀门切换或设置自动切换设施,保证初期雨水、泄漏物和受污染的消防水排入污水系统</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">事故废水收集措施：</span>
+            <div style="display: inline-block;width: 74%;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox4" ng-checked="isSelected('1','sgfssjcs')" ng-click="updateSelection($event,'sgfssjcs','1')"/>
+                <label for="checkbox4" class="hander"></label>
+                <span style="margin-right: 10px">按相关设计规范设置应急事故水池、事故存液池或清净废水排放缓冲池等事故排水收集设施，并根据相关设计规范、下游环境风险受体敏感程度和易发生极端天气情况，设计事故排水收集设施的容量</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox5" ng-checked="isSelected('2','sgfssjcs')" ng-click="updateSelection($event,'sgfssjcs','2')"/>
+                <label for="checkbox5" class="hander"></label>
+                <span style="margin-right: 10px">确保事故排水收集设施在事故状态下能顺利收集泄漏物和消防水，日常保持足够的事故排水缓冲容量</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox6" ng-checked="isSelected('3','sgfssjcs')" ng-click="updateSelection($event,'sgfssjcs','3')"/>
+                <label for="checkbox6" class="hander"></label>
+                <span style="margin-right: 10px">通过协议单位或自建管线，能将所收集废水送至厂区内污水处理设施处理</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">是否涉及清静废水：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.qjfsxtfxfkcs" value="1" class="regular-radio" id="radio25"/>
+            <label for="radio25" class="hander"></label>
+            <span style="margin-right: 10px">不涉及清净废水</span>
+            <input type="radio" ng-model="ylb.riskmeasures.qjfsxtfxfkcs" value="2" class="regular-radio" id="radio26"/>
+            <label for="radio26" class="hander"></label>
+            <span style="margin-right: 10px">厂区内清净废水均可排入废水处理系统；或清污分流</span>
+        </div>
+        <div style="margin-top: 10px;" ng-show="ylb.riskmeasures.qjfsxtfxfkcs == '2'">
+            <span class="check-result1" style="width: 330px;">清净废水系统风险防控措施：</span>
+            <div style="display: inline-block;width: 74%;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox7" ng-checked="isSelected('1','qjfsxtcs')" ng-click="updateSelection($event,'qjfsxtcs','1')"/>
+                <label for="checkbox7" class="hander"></label>
+                <span style="margin-right: 10px">具有收集受污染的清净废水的缓冲池（或收集池），池内日常保持足够的事故排水缓冲容量；池内设有提升设施或通过自流，能将所收集物送至厂区内污水处理设施处理</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox8" ng-checked="isSelected('2','qjfsxtcs')" ng-click="updateSelection($event,'qjfsxtcs','2')"/>
+                <label for="checkbox8" class="hander"></label>
+                <span style="margin-right: 10px">具有清净废水系统的总排口监视及关闭设施，有专人负责在紧急情况下关闭清净废水总排口，防止受污染的清净废水和泄漏物进入外环境</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">雨水排水系统风险防控措施：</span>
+            <div style="display: inline-block;width: 74%;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox9" ng-checked="isSelected('1','yspsxtfxfkcs')" ng-click="updateSelection($event,'yspsxtfxfkcs','1')"/>
+                <label for="checkbox9" class="hander"></label>
+                <span style="margin-right: 10px">厂区雨水均进入废水处理系统；或雨污分流，且雨水排水系统具有收集初期雨水的收集池或雨水监控池；池出水管上设置切断阀，正常情况下阀门关闭，防止受污染的雨水外排；池内设有提升设施或通过自流，能将所收集物送至厂区污水处理设施处理</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox10" ng-checked="isSelected('2','yspsxtfxfkcs')" ng-click="updateSelection($event,'yspsxtfxfkcs','2')"/>
+                <label for="checkbox10" class="hander"></label>
+                <span style="margin-right: 10px">具有雨水系统总排口（含泄洪渠）监视及关闭设施，在紧急情况下有专人负责关闭雨水系统总排口（含与清净废水共用一套排水系统情况），防止雨水，消防水和泄漏物进入外环境</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox11" ng-checked="isSelected('3','yspsxtfxfkcs')" ng-click="updateSelection($event,'yspsxtfxfkcs','3')"/>
+                <label for="checkbox11" class="hander"></label>
+                <span style="margin-right: 10px">如果有排洪沟，排洪沟不得通过生产区和罐区，或具有防止泄漏物和受污染的消防水等流入区域排洪沟的措施</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">是否有生产废水产生或外排：</span>
+            <input type="radio" ng-model="ylb.riskmeasures.scfsckxtfxfk" value="2" class="regular-radio" id="radio27"/>
+            <label for="radio27" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskmeasures.scfsckxtfxfk" value="1" class="regular-radio" id="radio28"/>
+            <label for="radio28" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <div style="margin-top: 10px;" ng-show="ylb.riskmeasures.scfsckxtfxfk == '2'">
+            <span class="check-result1" style="width: 330px;">生产废水处理系统风险防控措施：</span>
+            <div style="display: inline-block;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox12" ng-checked="isSelected('1','scfswpcs')" ng-click="updateSelection($event,'scfswpcs','1')"/>
+                <label for="checkbox12" class="hander"></label>
+                <span style="margin-right: 10px">受污染的循环冷却水、雨水、消防水等排入生产废水系统或独立处理系统</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox13" ng-checked="isSelected('2','scfswpcs')" ng-click="updateSelection($event,'scfswpcs','2')"/>
+                <label for="checkbox13" class="hander"></label>
+                <span style="margin-right: 10px">生产废水排放前设监控池，能够将不合格废水送废水处理设施处理</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox14" ng-checked="isSelected('3','scfswpcs')" ng-click="updateSelection($event,'scfswpcs','3')"/>
+                <label for="checkbox14" class="hander"></label>
+                <span style="margin-right: 10px">如企业收污染的清净废水或者雨水进入废水处理系统处理，则废水处理系统应设置事故水缓冲设施</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="checkbox" class="regular-radio" id="checkbox15" ng-checked="isSelected('4','scfswpcs')" ng-click="updateSelection($event,'scfswpcs','4')"/>
+                <label for="checkbox15" class="hander"></label>
+                <span style="margin-right: 10px">具有生产废水总排口监视及关闭设施，有专人负责启用，确保泄漏物，受污染的消防水，不合格废水不排除厂外</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">废水排放去向：</span>
+            <div style="display: inline-block;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="1" class="regular-radio" id="radio29"/>
+                <label for="radio29" class="hander"></label>
+                <span style="margin-right: 10px">无生产废水产生或外排</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="2" class="regular-radio" id="radio30"/>
+                <label for="radio30" class="hander"></label>
+                <span style="margin-right: 10px">依法获取污水排入排水管网许可，进入城镇污水处理厂</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="3" class="regular-radio" id="radio31"/>
+                <label for="radio31" class="hander"></label>
+                <span style="margin-right: 10px">进入工业废水集中处理厂</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="4" class="regular-radio" id="radio32"/>
+                <label for="radio32" class="hander"></label>
+                <span style="margin-right: 10px">进入其他单位</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="5" class="regular-radio" id="radio33"/>
+                <label for="radio33" class="hander"></label>
+                <span style="margin-right: 10px">进入海域或进入江、河、湖、库等水环境</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="6" class="regular-radio" id="radio34"/>
+                <label for="radio34" class="hander"></label>
+                <span style="margin-right: 10px">进入城市下水道再入江、河、湖、库或再进入海域</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="7" class="regular-radio" id="radio35"/>
+                <label for="radio35" class="hander"></label>
+                <span style="margin-right: 10px">未依法取得污水排入排水管许可，进入城镇污水处理厂</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.fspfqx" value="8" class="regular-radio" id="radio36"/>
+                <label for="radio36" class="hander"></label>
+                <span style="margin-right: 10px">进入污灌农田或蒸发地</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">厂内危险废物环境管理：</span>
+            <div style="display: inline-block;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.cnwxwhjgl" value="1" class="regular-radio" id="radio37"/>
+                <label for="radio37" class="hander"></label>
+                <span style="margin-right: 10px">不涉及危险废物</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.cnwxwhjgl" value="2" class="regular-radio" id="radio38"/>
+                <label for="radio38" class="hander"></label>
+                <span style="margin-right: 10px">针对危险废物分区储存，运输，利用，处置具有完善的专业设施和风险防控措施</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.cnwxwhjgl" value="3" class="regular-radio" id="radio39"/>
+                <label for="radio39" class="hander"></label>
+                <span style="margin-right: 10px">不具备完善的危险废物储存，运输，利用，处置设施和风险防控措施</span>
+            </div>
+        </div>
+        <br>
+        <div style="margin-top: 10px;">
+            <span class="check-result1" style="width: 330px;">近3年内突发水环境事件发生情况：</span>
+            <div style="display: inline-block;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.jsntfshjsj" value="1" class="regular-radio" id="radio40"/>
+                <label for="radio40" class="hander"></label>
+                <span style="margin-right: 10px">发生过特别重大及重大等级突发水环境事件的</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.jsntfshjsj" value="2" class="regular-radio" id="radio41"/>
+                <label for="radio41" class="hander"></label>
+                <span style="margin-right: 10px">发生过较大等级突发水环境事件的</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.jsntfshjsj" value="3" class="regular-radio" id="radio42"/>
+                <label for="radio42" class="hander"></label>
+                <span style="margin-right: 10px">发生过一般等级突发水环境事件的</span>
+            </div>
+            <div style="margin-left: 335px;padding-top: 5px;">
+                <input type="radio" ng-model="ylb.riskmeasures.jsntfshjsj" value="4" class="regular-radio" id="radio43"/>
+                <label for="radio43" class="hander"></label>
+                <span style="margin-right: 10px">未发生突发水环境事件的</span>
+            </div>
+        </div>
+        <br>
+        </div>
+        <div class="operate" >
+            <button class="searchBtn" ng-click="alertTask()">保存</button>
+            <div class="clearfix"></div>
+        </div>
+    <div class="clearfix"></div>
+    </div>
+    <div id="comInfo" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .8); display: none; z-index:100;">
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="saveRiskMeasures()" ng-if="textContent=='确定保存吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定保存吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+    <div class="tasks-alert" style="z-index: 9999">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">保存成功！</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()">关闭</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Transient;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * 环保任务
+ * @author jinly
+ *
+ */
+@ApiModel(value = "排查任务", description = "排查内容")
+public class EnvironmentTask {
+
+	private String taskId;
+	@ApiModelProperty(value = "任务开始时间")
+	private Date startTime;
+	@ApiModelProperty(value = "任务期限")
+	private Date endTime;
+	@ApiModelProperty(value = "任务发布时间")
+	private Date releaseTime;
+	@ApiModelProperty(value = "任务名称")
+	private String taskName;
+	@ApiModelProperty(value = "任务描述")
+	private String taskDetails;
+	@ApiModelProperty(value = "任务文件名称 !#!")
+	private String filePath;
+
+	@Transient
+	private String endTimeString;
+	
+	@ApiModelProperty(value = "任务执行部门id")
+	@Transient
+	private List<String> listDepartMentId;
+
+	public List<String> getListDepartMentId() {
+		return listDepartMentId;
+	}
+	public void setListDepartMentId(List<String> listDepartMentId) {
+		this.listDepartMentId = listDepartMentId;
+	}
+	
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+	
+	public Date getReleaseTime() {
+		return releaseTime;
+	}
+	public void setReleaseTime(Date releaseTime) {
+		this.releaseTime = releaseTime;
+	}
+	public String getTaskName() {
+		return taskName;
+	}
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+	public String getTaskDetails() {
+		return taskDetails;
+	}
+	public void setTaskDetails(String taskDetails) {
+		this.taskDetails = taskDetails;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	public String getEndTimeString() {
+		return endTimeString;
+	}
+	public void setEndTimeString(String endTimeString) {
+		this.endTimeString = endTimeString;
+	}
+}

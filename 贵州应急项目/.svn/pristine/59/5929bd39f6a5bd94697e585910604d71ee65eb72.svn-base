@@ -1,0 +1,111 @@
+<div class="emergencyPlan" ng-controller="emerPlanCtrl">
+  <div class="tab-task">
+    <div class="tab-nav">
+      <button class="tab-button" ui-sref="countiesHead.emergencyManage" ui-sref-active="active">
+        预案管理
+      </button>
+        <button class="tab-button" ui-sref="countiesHead.emergencyAlarm" ui-sref-active="active">
+            备案预警
+        </button>
+      <button class="tab-button" ui-sref="countiesHead.emergencyStatistics" ui-sref-active="active">
+        预案统计
+      </button>
+    </div>
+  </div>
+  <div class="table-content">
+    <div class="search-nav" style="margin-top:0">
+      <span>行政区划：</span>
+      <select class="span" ng-options='itArea.id as itArea.name for itArea in itAreas' ng-model='xzqyId'>
+			</select>
+      <span>风险级别：</span>
+      <select class="span" ng-model="search.level" style="width: 150px;">
+        <option value="-1">全部</option>
+        <option value="1">一般风险源</option>
+        <option value="3">较大风险源</option>
+        <option value="2">重大风险源</option>
+      </select>
+      <span>备案状态：</span>
+      <select class="span" ng-model="search.recordStatus">
+        <option value="-1">全部</option>
+        <option value="0">未备案</option>
+        <option value="1">已备案</option>
+        <option value="2">即将到期</option>
+        <option value="3">备案超期</option>
+      </select>
+      <input ng-model="search.companyName" type="text" placeholder="企业名称" class="span" style="width: 200px">
+      <button class="searchBtn" ng-click="searchInfo()">
+        <i class="iconfont icon-sousuo"></i>&nbsp;搜索
+      </button>
+    </div>
+    <table style="margin-top: 10px">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>备案状态</th>
+          <th>行政区划</th>
+          <th>企业名称</th>
+          <th>风险级别</th>
+          <th>备案日期</th>
+          <th>编制年份</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="detail in page.list.dataList">
+          <td>{{page.pageSize*(page.currentPage-1)+$index+1}}</td>
+          <td ng-class="detail.RECORDSTATUS==3?'dangerColor':detail.RECORDSTATUS==1?'finishColor':detail.RECORDSTATUS==2?
+              'warning':''"> {{ detail.RECORDSTATUS==3?'备案超期':detail.RECORDSTATUS==2?'即将到期':detail.RECORDSTATUS==1?'已备案':
+							detail.RECORDSTATUS==0?'未备案':'未备案'}} </td>
+          <td> {{ detail.NAME }} </td>
+          <td> {{ detail.COMPANYNAME }} </td>
+          <td>
+            {{ detail.RISKGRADE=="重大"?'重大风险源': detail.RISKGRADE=="较大"?'较大风险源':detail.RISKGRADE=="一般"?'一般风险源':''}}
+            <span ng-click="editTime(detail,3)" class="hander">
+              <i class="iconfont icon-chuli"></i>（编辑）
+            </span>
+          </td>
+          <td>
+            {{ detail.RECORDTIME | date:'yyyy-MM-dd'}}
+            <span ng-click="editTime(detail,1)" class="hander">
+              <i class="iconfont icon-chuli"></i>（编辑）
+            </span>
+          </td>
+          <td>
+            {{detail.DOCUMENTYEAR | date:'yyyy'}}
+            <span ng-click="editTime(detail,2)" class="hander">
+              <i class="iconfont icon-chuli"></i>（编辑）
+            </span>
+          </td>
+          <td ui-sref-active="active" ui-sref="countiesHead.emergencyDetail({ID:detail.ID, RECORDTIME:detail.RECORDTIME, COMPANYNAME:detail.COMPANYNAME, RECORDSTATUS:detail.RECORDSTATUS, LEVEL:detail.LEVEL, UNDERSIGNED:detail.UNDERSIGNED})">
+            <span class="hander oper">详情</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="loader">
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		    <rect x="0" y="10" width="4" height="10" fill="#fc0" opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="8" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="16" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+	  	</svg>
+    </div>
+    <uib-pagination ng-change="searchInfo()" total-items="page.totalCount" items-per-page="page.pageSize" ng-model="page.currentPage" class="pagination" boundary-link-numbers="true" direction-links="false" rotate="false" max-size="3" first-text="首页"
+      last-text="末页">
+    </uib-pagination>
+    <div class="clearfix">
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,27 @@
+<div style="background-color: #222">
+    <div class="modal-header">
+        <span>市州附件列表</span>
+        <div class="popClose" ng-click="file.close()" title="关闭" style="top:13px;right:13px">
+            <i class="iconfont icon-guanbi cursor-pointer"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>市州</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="item in file.list">
+                <td>{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>
+                    <span class="hander oper">下载</span>
+                    <span class="hander oper">删除</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

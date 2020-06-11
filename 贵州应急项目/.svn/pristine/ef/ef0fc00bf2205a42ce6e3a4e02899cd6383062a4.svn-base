@@ -1,0 +1,82 @@
+package com.sucsoft.gzhbyjwz.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.cgs.dc.starter.model.GetOptions;
+import com.cgs.dc.starter.services.UnsafeCrudService;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterpriseInformation;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterprisePreplan;
+import com.sucsoft.gzhbyjwz.bean.dc12.River;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DataDealService {
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    public List getRiverList(){
+        GetOptions options = new GetOptions();
+        return basicQueryService.getCrudService().list(River.class.getName(),options);
+    }
+
+    public Map getRiskSubstance(String name) throws Exception {
+        Map<String,Object> param = new HashMap<>();
+        param.put("name",name);
+        List<Map> list = basicQueryService.queryForList("getRiskSubstance",param,Map.class,0,0);
+        if(list!= null && list.size()>0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public Map getData(String compangyId) throws Exception {
+        EnterpriseInformation companyInfo = basicQueryService.get(compangyId,EnterpriseInformation.class);
+        Map<String,Object> company =new HashedMap();
+        if(companyInfo.getCompanyName() != null){
+            company.put("COMPANYNAME",companyInfo.getCompanyName());
+        }
+        if(companyInfo.getLatitude() != null){
+            company.put("LATITUDE",companyInfo.getLatitude());
+        }
+        if(companyInfo.getLongitude() != null){
+            company.put("LONGITUDE",companyInfo.getLongitude());
+        }
+        Map<String,Object> result = new HashMap<>();
+        Map<String,Object> param = new HashMap<>();
+        param.put("COMPANYID",compangyId);
+        List<Map> list = basicQueryService.queryForList("getReverName",param,Map.class,0,0);
+        if(list != null && list.size()>0){
+            Map rever = list.get(0);
+            String reverName = rever.get("name").toString();
+            result.put("rever",reverName);
+            List<Map> zcpk = basicQueryService.queryForList("getZcqk",param,Map.class,0,0);
+            List<Map> mgd = basicQueryService.queryForList("getPoint",param,Map.class,0,0);
+            List<Map> mgds = new ArrayList<>();
+            for(Map map : mgd){
+                Map info = new HashMap();
+                info.put("fw",map.get("fw"));
+                info.put("jl",map.get("jl"));
+                info.put("rs",map.get("rs"));
+                Map data = new HashMap();
+                data.put("COMPANYNAME",map.get("COMPANYNAME"));
+                data.put("LATITUDE",map.get("LATITUDE"));
+                data.put("LONGITUDE",map.get("LONGITUDE"));
+                data.put("TYPE",map.get("TYPE"));
+                data.put("info",info);
+                mgds.add(data);
+            }
+            result.put("companyInfo",company);
+            result.put("zcqk",zcpk);
+            result.put("mgdMarkers",mgds);
+        }
+        return result;
+    }
+
+}

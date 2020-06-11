@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolNameLayers</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('helpLayers.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+        
+            <tr>
+                <td class="s8" >
+    
+            <span class="s8 i18n">Text17</span>
+            <table border="1" cellspacing="0" cellpadding="2" width="100%" class="s7" bgcolor="#eeeeee">
+                <tr>
+                    <td class="s8">
+                        <span class="i18n">Text18</span>
+                        <br />
+                        <br />
+                        <img src="li-1.gif">
+                        <a   onclick="AddLayer ('Countries');" class="i18n">Text20</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('Capitals');" class="i18n">Text21</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('Major_Cities');" class="i18n">Text22</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('Lat-Long Grid');" class="i18n">Text23</a><br />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table border="1" cellspacing="0" cellpadding="2" width="100%" class="s7" bgcolor="#eeeeee">
+                <tr>
+                    <td class="s8">
+                        <span class="i18n">Text19</span>
+                        <br />
+                        <br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('US_States');" class="i18n">Text24</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('US_Highways');" class="i18n">Text25</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('US_RailRoads');" class="i18n">Text26</a><br />
+                        <img src="li-1.gif">
+                        <a  onclick="AddLayer ('US_Airports');" class="i18n">Text27</a><br />
+                    </td>
+                </tr>
+            </table>
+            </td>
+            </tr>
+            </table>
+    <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility :hidden;display:none">    </object>
+
+</body>
+<script language="javascript" src="../ToolsCommon.js"></script>
+
+<script language="javascript">
+
+//-------
+// Init
+//-------
+function Init() {
+
+}
+//------
+// AddLayer
+//------
+function AddLayer(name) {
+    //    var layer = globe.creator.createLayer(".\\Layers\\" + name + "\\" + name + ".fly", name);
+    SGWorld.ProjectTree.LoadFlyLayer(abspath() + ".\\Layers\\" + name + "\\" + name + ".fly", 0);
+}
+
+</script>
+</html>
+<!--Sig:00000040w.u#TQtr45XOYWLN1OSuTPpcOcMLH0MkI9mKAA1G6to9mfkcl7gYjZqBqXlxq5GgLksU40DGkcpWw5PNeoXtJ7JJ-->
+
+
+<!--Sig:00000040SWeXvvY5m0wt07YjSO2h.aqkfy99QkL2YHIbKK#yMni3SvPh4Go7xneajydeSbc9DshTYIm.5AKv2Nw7R7lPJlJJ-->

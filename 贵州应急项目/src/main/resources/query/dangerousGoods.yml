@@ -1,0 +1,20 @@
+---
+  grammer: SQL
+  queries:
+    #根据条件查询物资现状
+    - name: listDangerousComponent
+      resultType: Map
+      statement:
+        "
+        select
+          c.*
+        from
+          dangerousgoods d
+        LEFT JOIN dangerousgoods_component r ON r.DANGEROUSGOODSID = d.ID
+        LEFT JOIN component c ON r.COMPONENTID = c.ID
+        where
+          1=1
+        #if($dangerousGoodsId)
+          and d.ID = :dangerousGoodsId
+        #end
+        "

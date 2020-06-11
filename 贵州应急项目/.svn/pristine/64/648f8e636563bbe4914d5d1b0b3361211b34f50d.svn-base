@@ -1,0 +1,79 @@
+package com.sucsoft.gzhbyjwz.builder;
+
+import com.sucsoft.gzhbyjwz.bean.dc12.XZQY;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.util.collect.BaseTreeGrid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * @author jmy
+ * @date 2018-5-11
+ */
+public class XzqyTreeBuilder {
+
+
+    private final BasicQueryService basicQueryService;
+
+    private final static String headNodeId = "1";
+
+    //private final List<XZQY> xzqies = new ArrayList<>();
+
+    //private BaseTreeGrid<XZQY> xzqyTree = new BaseTreeGrid();
+
+
+    public XzqyTreeBuilder(BasicQueryService basicQueryService) throws Exception {
+        this.basicQueryService = basicQueryService;
+
+    }
+
+    //初始化加载行政区域
+    @PostConstruct
+    private void initTree() throws Exception {
+        return;
+    }
+
+    public void listXzqy(BaseTreeGrid<XZQY> tree) throws Exception {
+        XZQY node = tree.getNode();
+        tree.setChildren(new ArrayList<BaseTreeGrid<XZQY>>());
+        List<BaseTreeGrid<XZQY>> children = tree.getChildren();
+
+        Map param = new HashMap();
+        param.put("parentId",node.getId());
+
+        List<XZQY> childrenList = basicQueryService.queryForList("listXzqyByParentId",param,XZQY.class,0,0);
+        if (childrenList == null || childrenList.size() == 0) {
+            tree.setLeaf(true);
+        }
+        for (XZQY xzqy :childrenList) {
+            BaseTreeGrid<XZQY> childnode = new BaseTreeGrid();
+            childnode.setId(xzqy.getId());
+            childnode.setNode(xzqy);
+            childnode.setLeaf(false);
+            children.add(childnode);
+        }
+        for (BaseTreeGrid baseTreeGrid :children) {
+            listXzqy(baseTreeGrid);
+        }
+    }
+
+    public BaseTreeGrid<XZQY> build() throws Exception {
+        BaseTreeGrid<XZQY> xzqyTree = new BaseTreeGrid();
+        XZQY headnode = basicQueryService.get(headNodeId,XZQY.class);
+        xzqyTree.setId(headnode.getId());
+        xzqyTree.setNode(headnode);
+        xzqyTree.setLeaf(false);
+        listXzqy(xzqyTree);
+        return xzqyTree;
+    }
+
+
+}

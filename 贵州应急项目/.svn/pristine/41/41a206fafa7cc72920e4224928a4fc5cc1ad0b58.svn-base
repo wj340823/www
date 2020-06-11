@@ -1,0 +1,56 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class TaskXzqyStatus {
+
+    /**
+     * null、0：未派发，1：已派发
+     * 
+     */
+    private Integer releaseStatus;
+    private Integer id;
+    /**
+     * 行政区域ID
+     * 
+     */
+    private String xzqyId;
+    /**
+     * EmergencyTask表的id
+     * 
+     */
+    private Integer taskId;
+
+    public void setReleaseStatus(Integer releaseStatus) {
+        this.releaseStatus = releaseStatus;
+    }
+
+    public Integer getReleaseStatus() {
+        return releaseStatus;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setXzqyId(String xzqyId) {
+        this.xzqyId = xzqyId;
+    }
+
+    public String getXzqyId() {
+        return xzqyId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+}

@@ -1,0 +1,86 @@
+<div ng-controller="sysCtrl" style="height: 100%">
+    <div class="mainOuter" style="width: 100%;height: 70px" >
+        <div class="header">
+            <div class="logo">
+                <img src="images/lgfxy.png" alt="">
+            </div>
+            <div class="userInfo" >
+                <span>{{userName}}</span>
+                <i class="iconfont icon-webicon215" style="font-size: 12px;"></i>
+                <div class="logout">
+                    <a href="logout">注销登录<img style="width: 10px;height: 10px" ng-src="{{'C:\Users\Administrator\Pictures\Camera Roll\TIM图片20190328094322.jpg'}}"></a>
+                    <a ng-click="showUserInfo()">用户信息</a>
+                    <a ng-click="changePwd()">修改密码</a>
+                </div>
+            </div>
+            <ul class="menu" style="margin-right: 15px">
+                <li ui-sref="index" ui-sref-active="active">
+                    <i class="iconfont icon-shouye"></i> <span>首页</span>
+                </li>
+                <li ui-sref="home" ui-sref-active="active">
+                    <i class="iconfont icon-shujuzhongxin"></i> <span>数据中心</span>
+                </li>
+                <li>
+                    <div>
+                        <i class="iconfont icon-wuzi"></i>
+                        <span>应急资源</span>
+                    </div>
+                    <div class="menuSecond">
+                        <div ui-sref="emergency.emergencyMaterial" ui-sref-active="active">应急物资</div>
+                        <div ui-sref="emergencyPlan" ui-sref-active="active">应急预案</div>
+                        <div ui-sref="emergency.emerCase" ui-sref-active="active">应急案例</div>
+                        <!--<div ui-sref="emergency.organise" ui-sref-active="active">机构人员</div>-->
+                        <div ui-sref="emergency.experts" ui-sref-active="active">专家库</div>
+                    </div>
+                </li>
+                <li ui-sref="riskPrevention.riskSource" ui-sref-active="active">
+                    <i class="iconfont icon-fengxianyuan"></i> <span>风险源</span>
+                </li>
+                <li ui-sref="province" ui-sref-active="active">
+                    <i class="iconfont icon-fengxianpaicha"></i> <span>风险排查</span>
+                </li>
+                <li>
+                    <div>
+                        <i class="iconfont icon-kongjianfenxi"></i>
+                        <span>风险评估</span>
+                    </div>
+                    <div class="menuSecond">
+                        <div ui-sref="riskPrevention.riskSpatial.resouceRelation" ui-sref-active="active">源关系</div>
+                        <div ui-sref="riskPrevention.riskSpatial.emergencyMng" ui-sref-active="active">应急管理</div>
+                        <div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.air" ui-sref-active="active">气模型工具</div>
+                        <div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.water" ui-sref-active="active">水模型工具</div>
+                    </div>
+                </li>
+                <li ng-show="userList.role=='admin'">
+                    <div ui-sref="system.user"  ui-sref-active="active">
+                        <i class="iconfont icon-set"></i>
+                        <span>系统管理</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="leftMenu">
+        <div ui-sref="system.user" ui-sref-active="active">
+            <i class="userImg"></i>
+            <span>用户管理</span>
+        </div>
+        <div ui-sref="system.group" ui-sref-active="active">
+            <i class="groupImg"></i>
+            <span>群组管理</span>
+        </div>
+        <div ui-sref="system.role" ui-sref-active="active">
+            <i class="roleImg"></i>
+            <span>角色管理</span>
+        </div>
+        <div ui-sref="system.role2" ui-sref-active="active">
+            <i class="roleImg"></i>
+            <span>角色2管理</span>
+        </div>
+        <div ui-sref="system.loginLog" ui-sref-active="active">
+            <i class="roleImg"></i>
+            <span>用户登陆日志</span>
+        </div>
+    </div>
+    <div ui-view='hint@' class="rightContent" ></div>
+</div>

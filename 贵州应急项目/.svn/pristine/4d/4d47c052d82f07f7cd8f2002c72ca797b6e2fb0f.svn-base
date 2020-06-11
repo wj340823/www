@@ -1,0 +1,120 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("环境风险源")
+public class RiskSourceUnit {
+
+    @ApiModelProperty("风险物质名称")
+    private String riskName;
+    @ApiModelProperty("是否围堰")
+    private String sfwy;
+    @ApiModelProperty("是否有应急池或污水处理设施")
+    private String sfqtcl;
+    @ApiModelProperty("风险源id")
+    private String companyId;
+    @ApiModelProperty("场所")
+    private String address;
+    @ApiModelProperty("最大贮存量")
+    private String maxNumber;
+    @ApiModelProperty("风险源单位名称")
+    private String unitName;
+    @ApiModelProperty("是否防渗")
+    private String sffs;
+    @ApiModelProperty("是否防腐")
+    private String sfff;
+    @ApiModelProperty("是否有喷淋措施和预警监测")
+    private String sfwscl;
+    private String id;
+
+    public void setRiskName(String riskName) {
+        this.riskName = riskName;
+    }
+
+    public String getRiskName() {
+        return riskName;
+    }
+
+    public void setSfwy(String sfwy) {
+        this.sfwy = sfwy;
+    }
+
+    public String getSfwy() {
+        return sfwy;
+    }
+
+    public void setSfqtcl(String sfqtcl) {
+        this.sfqtcl = sfqtcl;
+    }
+
+    public String getSfqtcl() {
+        return sfqtcl;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setMaxNumber(String maxNumber) {
+        this.maxNumber = maxNumber;
+    }
+
+    public String getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setSffs(String sffs) {
+        this.sffs = sffs;
+    }
+
+    public String getSffs() {
+        return sffs;
+    }
+
+    public void setSfff(String sfff) {
+        this.sfff = sfff;
+    }
+
+    public String getSfff() {
+        return sfff;
+    }
+
+    public void setSfwscl(String sfwscl) {
+        this.sfwscl = sfwscl;
+    }
+
+    public String getSfwscl() {
+        return sfwscl;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+}

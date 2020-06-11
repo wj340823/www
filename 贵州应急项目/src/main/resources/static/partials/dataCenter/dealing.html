@@ -1,0 +1,65 @@
+<div class="mainOuter" ng-controller="dealCtrl">
+  <ul class="homePage">
+    <li ui-sref="home.dataType1"><i class="iconfont icon-fengxianyuan"></i> 风险源状况</li>
+    <li ui-sref="home.emerStatus1"><i class="iconfont icon-yingjiwuzi"></i> 应急物资状况</li>
+    <li ui-sref="home.organise"><i class="iconfont icon-jigourenyuan"></i> 机构人员</li>
+    <li ui-sref="home.dealing" ui-sref-active="active"> <i class="iconfont icon-chuli"></i> 处置方式状况</li>
+    <!--<li  ui-sref="home.waterSource"> <i class="iconfont icon-minganci"></i> 环境敏感点状况</li>-->
+  </ul>
+  <div class="dangerMenu">
+    <div class="item-title" style="margin-top: 0;margin-bottom: 10px">危化品库检索</div>
+    <ul class="dangerGoods" cgs-slim options="{'width':'100%','height':'calc(100% - 30px)'}">
+      <li ng-repeat="item in danger.type" >
+        <div ng-click="showGoods($index)">
+          <span>{{item.HXPLX}}</span>
+          <span class="spanfr"><i class="iconfont icon-zhankai1-copy"></i></span>
+        </div>
+        <div class="clearfix"></div>
+        <ul class="dangeGoodsMenu">
+          <li ng-repeat="item in danger.goods[$index]" ng-click="showMsg(item)">{{item.ZWMC}}</li>
+          <li ng-show="danger.goods[$index].length==0" class="dangerColor">无数据</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="dangerMsg">
+    <div style="height: 40px;">
+      <input type="text" placeholder="请输入名称" ng-model="dangerZWMC" style="padding-left: 14px">
+      <button class="searchBtn" style="margin-left: 10px" ng-click="dangeGoodsSearch()">查询</button>
+    </div>
+
+    <div cgs-slim options="{'width':'100%','height':'calc(100% - 40px)'}">
+      <ul ng-show="danger.search.length!=0" style="padding:0">
+        <li style="vertical-align: middle"><span style="color: #fc0; font-size: 16px;">|</span>&nbsp;&nbsp;搜索结果：</li>
+        <li ng-repeat="item in danger.search" style="line-height: 30px;padding-left: 14px">
+            <span ng-click="showMsg(item)">{{item.ZWMC}}</span>
+        </li>
+      </ul>
+
+      <button class="tab-button" style="color: #fc0">危险品{{danger.name}}</button>
+      <div class="dangerMsgCon">
+        <div class="item-title">简介</div>
+        <div class="item-content">
+          {{danger.intro}}
+        </div>
+      </div>
+      <div class="dangerMsgCon">
+        <div class="item-title">理化特性</div>
+        <div class="item-content">
+          {{danger.spec}}
+        </div>
+        <span></span></div>
+      <div  class="dangerMsgCon">
+        <div class="item-title">危险描述</div><div class="item-content" ng-bind-html="danger.desc"></div>
+      </div>
+      <div  class="dangerMsgCon">
+        <div class="item-title">环境标准</div><div class="item-content" ng-bind-html='danger.envir'></div>
+      </div>
+      <div  class="dangerMsgCon">
+        <div class="item-title">防护措施</div><div class="item-content" ng-bind-html="danger.prote"></div>
+      </div>
+    </div>
+
+  </div>
+</div>

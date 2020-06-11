@@ -1,0 +1,72 @@
+<div  ng-controller="tbTodoCtrl">
+    <div class="clearfix">
+        <div class="tb-title"> 企业自查环境隐患台账-新增</div>
+        <div class="fr">
+            <button class="searchBtn" onclick="history.go(-1)">
+                <i class="iconfont icon-fanhui"></i>
+                返回
+            </button>
+        </div>
+    </div>
+    <div class="item-content" style="background-color: rgba(0,0,0,.7)">
+        <div>
+            <span class="check-result1">排查时间：</span>
+            <input cgs-date-picker date-fmt="yyyy-MM-dd" class="text-info-input" ng-model="ylb.hjfxys.companyName" />
+            <br><br>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">主要隐患内容：</span>
+            <textarea class="text-info" ng-model="ylb.companyIntro.simpleIntroduce" ></textarea>
+            <br><br>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">主要整改措施：</span>
+            <textarea class="text-info" ng-model="ylb.companyIntro.simpleIntroduce" ></textarea>
+            <br><br>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">整改完成时限：</span>
+            <input class="text-info-input" ng-model="ylb.td8.annualCapacity">
+            <span class="check-result1">整改负责人：</span>
+            <input class="text-info-input" ng-model="ylb.td8.annualCapacity">
+            <span class="check-result1">整改负责人联系电话：</span>
+            <input class="text-info-input" ng-model="ylb.td8.annualCapacity">
+            <br><br>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">是否完成整改：</span>
+            <input type="radio" ng-model="ylb.hjfxys.companyName" value="1" class="regular-radio" id="radio3"/>
+            <label for="radio3" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.hjfxys.companyName" value="2" class="regular-radio" id="radio4"/>
+            <label for="radio4" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <br><br>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">整改进展：</span>
+            <input class="text-info-small" ng-model="ylb.hjfxys.companyName" />
+            <br><br>
+        </div>
+        <br>
+        <div class="operate" >
+            <button class="searchBtn" ng-click="items.type=='edit'?editYlb(8):postYlb(8)">保存</button>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定提交吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定提交吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+</div>

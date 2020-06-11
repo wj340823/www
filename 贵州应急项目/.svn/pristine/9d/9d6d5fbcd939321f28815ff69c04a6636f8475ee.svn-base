@@ -1,0 +1,64 @@
+package com.sucsoft.gzhbyjwz.bean.common.river;
+
+import com.cgs.dc.starter.model.GetOptions;
+import com.sucsoft.gzhbyjwz.bean.common.reader.ResourceReader;
+import com.sucsoft.gzhbyjwz.bean.dc12.River;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+@Component
+public class RiverData {
+    /**
+     * 当前计算时的企业数量
+     */
+    private int companyNum;
+
+    /**
+     * 当前计算的结果
+     */
+    private List result;
+
+    public ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    /**
+     * river的经纬度list
+     */
+    private final  Map<String,double[][]> riverMap ;
+
+    @Autowired
+    public RiverData(RiverDataFactory factory){
+
+        this.riverMap = factory.createRiverMap();
+        System.out.println("------ init riverMap ------");
+    }
+
+    public Map<String,double[][]> getRiverMap() {
+        return riverMap;
+    }
+
+
+    public int getCompanyNum() {
+        return companyNum;
+    }
+
+    public List getResult() {
+        return result;
+    }
+
+    public void updateData(int newNum,List data){
+        lock.writeLock().lock();
+        this.companyNum = newNum;
+        this.result = data;
+        lock.writeLock().unlock();
+    }
+}

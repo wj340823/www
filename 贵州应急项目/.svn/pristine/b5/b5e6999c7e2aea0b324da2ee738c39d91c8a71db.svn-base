@@ -1,0 +1,41 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.Collection;
+
+import org.apache.commons.lang.StringUtils;
+
+/**
+ * ValidateUtil
+ */
+public final class ValidateUtil {
+	/**
+	 * 判断字符串有效性
+	 */
+	public static boolean isValid(String str){
+		if(!StringUtils.isNotBlank(str)){
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 判断集合的有效性
+	 */
+	public static boolean isValid(Collection coll){
+		if(null==coll||0==coll.size()){
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 判断数组的有效性
+	 */
+	public static boolean isValid(Object [] arr){
+		if(null==arr||0==arr.length){
+			return false;
+		}
+		return true;
+	}
+	
+}

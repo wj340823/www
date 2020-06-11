@@ -1,0 +1,53 @@
+<div ng-controller="userCtrl" style="width:100%;position:relative">
+    <!--    用户管理-->
+    <div class="content1">
+        <div class="user_toolTip">
+            <div class="user_toolTip_left">
+                <select class="form-control select_tool" ng-options="option.key as option.name for option in user.table.searchList" ng-model="user.table.searchName"></select>
+                <input type="text" class="form-control input_tool" ng-model="user.searchValue" placeholder="搜索..." />
+                <button type="button" class="btn btn-default btn-primary" ng-click="user.search()">搜索</button>
+            </div>
+            <div class="user_toolTip_right">
+                <button type="button" class="btn btn-default btn-primary" ng-click="user.addUser('新建用户')" >新建用户</button>
+                <button type="button" class="btn btn-default" ng-click="user.refresh()">刷新</button>
+            </div>
+        </div>
+        <div class="user_table">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th ng-repeat="thead in user.table.headList">{{thead}}</th>
+                        <th style="width:200px">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="content in user.table.content">
+                        <td>{{(user.pages.currentPageNo-1)*user.pages.pageSize+$index+1}}</td>
+                    	<td>{{content.account}}</td>
+                        <td>{{content.addressName}}</td>
+                        <td>{{content.addressName}}</td>
+                        <td><span class="role-parent" ng-repeat="roles in content.roles">{{roles.name}}</span></td>
+                        <td>{{content.displayName}}</td>
+                        <td>{{content.phoneMobile}}</td>
+                        <td style="width:200px" authox-unable-resource="authox | manage">
+							<a class="table_a" style="width:100%" ui-sref="system.user.select({key:content.uid})">查看</a></td>
+                        <td style="width:200px"  authox-resource="authox | manage">
+                        	<a class="table_a border_right" ui-sref="system.user.select({key:content.uid})">管理</a><a class="table_a" ng-click="user.delUser(content)">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page" style="margin-top: 3px;margin-right: 15px;">
+                <div class="page_left">共有{{user.pages.totalCount}}条，每页显示{{user.pages.pageSize}}条</div>
+                <uib-pagination ng-change="user.pageChanged(user.pages.currentPageNo)"
+                                total-items="user.pages.totalCount"
+                                ng-model="user.pages.currentPageNo"
+                                items-per-page="user.pages.pageSize"
+                                direction-links="true" rotate="false"
+                                max-size="10" class="pagination-sm"
+                                previous-text="&lsaquo;"
+                                next-text="&rsaquo;">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,205 @@
+﻿<html>
+<HEAD>
+<TITLE></TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+<object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+<script language="javascript" src="../ToolsCommon.js"></script>		
+</HEAD>
+
+<Body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border:0;overflow:auto " id="Body" >
+<table border=0 width=100% cellspacing=0 cellpadding=2 >
+<tr>
+<td id = "TopAreaTD" height=50px width=100% valign=middle style="background-color:#CAD8E2"> 
+    <table border=0 width=100% cellspacing=0 cellpadding=0 >
+    <tr>
+    <td width=12px> </td>
+    <td width=55px><img src="images/TutorialLargeIcon.gif" /></td>
+    <td id="TitleTD" align=center class="s12b i18n">ToolName</td>
+	<td valign=top align=right id="CloseHelpTd" ></td>
+    </tr>
+    </table>
+</td>
+</tr>
+<tr height=1px><td style="background-repeat:repeat-x;" background="../CommonImg/separator.gif"></td></tr>
+<tr height=60px><td style="background-color:#ffffff;padding:5px; " >
+<span class="i18n">Description</span>
+</td></tr>
+<tr>
+<td style="style=background-color:#ffffff;padding:5px;">
+<span class="i18n">SelectTEVersion</span>
+<select id="teVersion" style="vertical-align:middle">
+	<option class="i18n" value="6.0">TE6</option>
+	<option class="i18n" value="6.1">TE61</option>
+	<option class="i18n" value="6.5">TE65</option>
+</select>
+</td>
+</tr>
+</table>
+<div id='samples'>
+</div>
+
+<iframe id="runFrame" src="" style="visibility:hidden; display:none;"></iframe>
+</Body>
+
+<script type="text/javascript" language="javascript" src="../ToolsCommon.js"></script>
+<script type="text/javascript" language="javascript" src="Samples6.0/abspath.js"></script>
+
+<script language="javascript">
+
+var samples = [
+	{
+	name: 'ControlingCamera',
+	examples: [
+		{name:'ZoomIn',url:'ZoomIn.htm' },
+		{name:'ZoomOut',url:'ZoomOut.htm' },
+		{name:'ZoomToStreet',url:'ZoomToStreetLevel.htm' },
+		{name:'GetCameraPoistion',url:'GetTheCurrentPosition.htm' },
+		{name:'SetCameraPoistion',url:'SetTheCurrentPosition.htm' },
+		{name:'JumpToPOI',url:'JumpToPOI.htm' }
+	]
+	},
+	{
+	name: 'CreatingObjects',
+	examples: [
+		{name:'ThickPolyline',url:'CreatePolylineOnTerrain.htm' },
+		{name:'ThinPolyline',url:'CreatePolyline.htm' },
+		{name:'Polygons',url:'CreatePolygons.htm' },
+		{name:'FilledCircle',url:'CreateCircle.htm' },
+		{name:'BasicLabels',url:'CreateBasicLabels.htm' },
+		{name:'LabelsWithImages',url:'CreateLabelsWithImages.htm' },
+		{name:'Create3DModel',url:'CreateModel.htm' }
+	]
+	},
+	{
+	name: 'WorkingWithPopup',
+	examples: [
+		{name:'SimplePopup',url:'Popup1.htm' },
+		{name:'PopupSizeAndPosition',url:'Popup2.htm' },
+		{name:'TextPopup',url:'Popup3.htm' },
+		{name:'TimedOutPopup',url:'Popup4.htm' },
+		{name:'MaximizedPopup',url:'Popup5.htm' },
+		{name:'PopupSizeAndPosition2',url:'Popup6.htm' },
+		{name:'PopupRemoval',url:'Popup7.htm' }
+	]
+	},
+	{
+	name: 'Events',
+	examples: [
+		{name:'OnFrameEventMoveCamera',url:'OnFrameEventMoveCamera.htm' },
+		{name:'OnFrameEventMoveObject',url:'OnFrameEventMoveObject.htm' },
+		{name:'OnLButtonEvent',url:'OnLButtonEvent.htm' },
+		{name:'PreventingRightPopup',url:'PreventingRightPopup.htm' },
+		{name:'OnMessageEvent',url:'OnMessageEvent.htm' }
+	]
+	},
+	{
+	name: 'Coordinates',
+	examples: [
+		{name:'DistancesAndAngles',url:'Coordinate1.htm' },
+		{name:'PositioningAndAiming',url:'Coordinate2.htm' },
+		{name:'MovingToPosition',url:'Coordinate3.htm' },
+		{name:'MovingTOPositionAndAimingToAnother',url:'Coordinate4.htm' },
+		{name:'AllTogether',url:'Coordinate5.htm' }
+	]
+	},
+	{
+	name: 'Colors',
+	examples: [
+		{name:'ColorSample',url:'SGColor1.htm' }
+	]
+	},
+	{
+	name: 'ObjectHierarchy',
+	examples: [
+		{name:'GroupingObjects',url:'Node1.htm' },
+		{name:'ObjectData',url:'Node2.htm' },
+		{name:'TraversingObjects',url:'Node3.htm' },
+		{name:'SearchingNodes',url:'Node5.htm' },
+		{name:'RemovingNodes',url:'Node7.htm' }
+	]
+	},
+	{
+	name: 'Window3D',
+	examples: [
+		{name:'PixelToWorld',url:'window1.htm' }
+	]
+	},
+	{
+	name: 'Layers',
+	examples: [
+		{name:'ImageryLayer',url:'Layers1.htm' },
+		{name:'FlyLayer',url:'Layers2.htm' }
+	]
+	},
+	{
+	name: 'SavingLoading',
+	examples: [
+		{name:'Saving',url:'Saving.htm' },
+		{name:'Loading',url:'Loading.htm' }
+	]
+	}
+];
+
+function buildSamples()
+{
+	var html = '<table border=0 width=100% cellspacing=0 cellpadding=2 class="s8" style="border-left:solid 2px transparent">';
+	for(var i=0;i<samples.length;i++)
+	{
+		var topic = samples[i];
+		var header = '<tr height=7px><td  colspan=2></td></tr>'
+					+'<tr height=1px><td style="background-repeat:repeat-x;" background="images/separator.bmp" colspan=2></td></tr>'
+					+'<tr height=25px style="background-color:#DBE4E9" ><td class="s9b"><img src="images/topic.gif" align=absmiddle /> '+ SGLang.i18n(topic.name) +' </td><td width=40px align=center class="s8blue">' + SGLang.i18n("ViewSource") + '</td></tr>'
+					+'<tr height=10px><td style="background-repeat:repeat-x;" background="images/separator.bmp" colspan=2></td></tr>'
+		html += header;
+		for(var j=0;j<topic.examples.length;j++)
+		{
+			var example = topic.examples[j];
+			html += '<tr><td><a onclick="activateSample(\''+ example.url +'\');" style="cursor:pointer;"><u>'+SGLang.i18n(example.name)+'</u></a></td><td align=center><a onclick="viewSample(\''+ SGLang.i18n(example.name) +'\',\'' + example.url+'\');" style="cursor:pointer;"><img src="images/source.gif" border=0 align=absmiddle></a></td></tr>';
+		}
+	}
+	html += "</table>";
+	$("#samples").html(html);
+}
+function activateSample(name)
+{
+    if (SGWorld.CoordServices.SourceCoordinateSystem.IsPlanar() == false)
+	{
+		var teVersion = $.cookie("teVersion");
+        document.all["runFrame"].src = "Samples" + teVersion +"/"+name; 
+	}
+    else
+	{
+        alert (SGLang.i18n("OnlyGlobeError"));    
+	}
+}
+function viewSample(name,source)
+{
+    var popup = SGWorld.Creator.CreatePopupMessage("source",toAbspath("displaySource.html?name="+name+"&source="+source));
+    popup.Width=SGWorld.Window.Rect.Width * 0.9;
+    popup.Height=SGWorld.Window.Rect.Height * 0.7;
+    SGWorld.Window.ShowPopup(popup);
+}    
+buildSamples();
+
+$(document).ready(function()
+{
+	var teVersion = $.cookie("teVersion");
+	if(!teVersion)
+	{
+		teVersion = "6.5";
+	}
+	$("#teVersion").change(function()
+	{
+		var teVersion = $("#teVersion").val();
+		$.cookie("teVersion",teVersion, { expires: 365});
+	});
+	
+	$("#teVersion").val(teVersion).change();
+});
+</script>        
+</html>
+
+
+
+<!--Sig:00000040GUAedTxZnCvzB3T6hD5yBouXknGupne4O3THNp1tfXqVcuhvfhUf5ozumib5Y0NE5#ykr.torSclyyBluWTYGaJJ-->

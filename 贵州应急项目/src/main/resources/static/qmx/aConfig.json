@@ -1,0 +1,11 @@
+{
+	"Q":10000000,
+	"u":2,
+	"tl":660,
+	"angle":30,
+	"lg":107.5166,
+	"lt":26.5833,
+	"pollutant":"液氨",
+	"harmRange":700,
+	"halfdeadRange":380
+}

@@ -1,0 +1,25 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+/**
+ * 法律法规类型
+ * @author jinly
+ *
+ */
+public class LawsRegulationsType {
+
+	private String id;
+	private String lawsType;//法律法规类型
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getLawsType() {
+		return lawsType;
+	}
+	public void setLawsType(String lawsType) {
+		this.lawsType = lawsType;
+	}
+	
+	
+}

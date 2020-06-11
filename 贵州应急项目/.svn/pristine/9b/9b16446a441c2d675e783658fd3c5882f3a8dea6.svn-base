@@ -1,0 +1,249 @@
+package com.sucsoft.gzhbyjwz.bean.param.riskManage;
+
+import com.sucsoft.gzhbyjwz.bean.constant.PreplanConstant;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterprisePreplan;
+import com.sucsoft.gzhbyjwz.bean.param.Param;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.util.StringUtils;
+
+import java.util.*;
+
+public class PreplanParam extends EnterprisePreplan implements Param{
+
+    @ApiModelProperty(value = "行政区域ID")
+    private String xzqyId;
+
+    /**
+     * 该行政区域下的所有叶子节点。
+     */
+    private List<String> xzqyIdList;
+
+    @ApiModelProperty(value = "是否未备案")
+    private boolean notInRecord;
+
+    @ApiModelProperty(value = "开始时间")
+    private Long strDate;
+    @ApiModelProperty(value = "结束时间")
+    private Long endDate;
+
+    @ApiModelProperty(value = "企业名称")
+    private String companyName;
+
+    @ApiModelProperty(value = "状态")
+    private Integer state;
+
+    @ApiModelProperty(value = "区县行政区域ID")
+    private String qxXzqyId;
+
+    @ApiModelProperty(value = "行业级别")
+    private String hyjb;
+
+    @ApiModelProperty(value = "风险源类型")
+    private String fxyType;
+
+    @ApiModelProperty(value = "风险物质")
+    private String fxwz;
+
+    @ApiModelProperty(value = "应急物资")
+    private String yjwz;
+
+    @ApiModelProperty(value = "应急设施")
+    private String yjss;
+
+    @ApiModelProperty(value = "应急演练")
+    private String yjyl;
+
+
+    public String getQxXzqyId() {
+        return qxXzqyId;
+    }
+
+    public void setQxXzqyId(String qxXzqyId) {
+        this.qxXzqyId = qxXzqyId;
+    }
+
+    public String getHyjb() {
+        return hyjb;
+    }
+
+    public void setHyjb(String hyjb) {
+        this.hyjb = hyjb;
+    }
+
+    public String getFxyType() {
+        return fxyType;
+    }
+
+    public void setFxyType(String fxyType) {
+        this.fxyType = fxyType;
+    }
+
+    public String getFxwz() {
+        return fxwz;
+    }
+
+    public void setFxwz(String fxwz) {
+        this.fxwz = fxwz;
+    }
+
+    public String getYjwz() {
+        return yjwz;
+    }
+
+    public void setYjwz(String yjwz) {
+        this.yjwz = yjwz;
+    }
+
+    public String getYjss() {
+        return yjss;
+    }
+
+    public void setYjss(String yjss) {
+        this.yjss = yjss;
+    }
+
+    public String getYjyl() {
+        return yjyl;
+    }
+
+    public void setYjyl(String yjyl) {
+        this.yjyl = yjyl;
+    }
+
+    public List<String> getXzqyIdList() {
+        return xzqyIdList;
+    }
+
+    public void setXzqyIdList(List<String> xzqyIdList) {
+        this.xzqyIdList = xzqyIdList;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Long getStrDate() {
+        return strDate;
+    }
+
+    public void setStrDate(Long strDate) {
+        if (strDate == 0){
+            strDate = null;
+        }
+        this.strDate = strDate;
+    }
+
+    public Long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Long endDate) {
+        if (endDate == 0){
+            endDate = null;
+        }
+        this.endDate = endDate;
+    }
+
+    public boolean isNotInRecord() {
+        return notInRecord;
+    }
+
+    public void setNotInRecord(boolean notInRecord) {
+        this.notInRecord = notInRecord;
+    }
+
+    public String getXzqyId() {
+        return xzqyId;
+    }
+
+    public void setXzqyId(String xzqyId) {
+        this.xzqyId = xzqyId;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    /**
+     * 备案状态：0-未备案,1-已备案，2-即将到期，3-备案超期
+     */
+    @Override
+    public void setRecordStatus(Integer recordStatus) {
+        this.state = recordStatus;
+        if (recordStatus == 0){
+            this.notInRecord = true;
+            super.setRecordStatus(null);
+        }else if (recordStatus == -1){
+            super.setRecordStatus(null);
+        }else if (recordStatus == 2){
+            super.setRecordStatus(PreplanConstant.RecordStatus.recorded.getStatus());
+            Calendar expiredCal =  Calendar.getInstance();
+            expiredCal.setTime(new Date());
+            expiredCal.add(Calendar.YEAR,-3);
+            this.strDate = expiredCal.getTimeInMillis();
+            expiredCal.add(Calendar.MONTH,1);
+            this.endDate = expiredCal.getTimeInMillis();
+        }else if (recordStatus == 3){
+            super.setRecordStatus(PreplanConstant.RecordStatus.recorded.getStatus());
+            Calendar expiredCal =  Calendar.getInstance();
+            expiredCal.setTime(new Date());
+            expiredCal.add(Calendar.YEAR,-3);
+            this.endDate = expiredCal.getTimeInMillis();
+            this.strDate = null;
+        }else {
+            super.setRecordStatus(recordStatus);
+        }
+
+    }
+
+
+    @Override
+    public void setLevel(Integer level) {
+        if (level == -1){
+            level = null;
+        }
+        super.setLevel(level);
+    }
+
+
+    @Override
+    public Map toParam() {
+        Map<String,Object> param = new HashMap<>();
+
+        if (this.isNotInRecord()){
+            param.put("notInRecord",new byte[1]);
+        }else {
+            if (this.getLevel() != null){
+                param.put("level",this.getLevel());
+                param.put("riskGrade",PreplanConstant.levelMap.get(getLevel()));
+            }
+            param.put("recordStatus",this.getRecordStatus());
+            if (this.getStrDate() != null){
+                param.put("strDate",new Date(this.getStrDate()));
+            }
+            if (this.getEndDate() != null){
+                param.put("endDate",new Date(this.getEndDate()));
+            }
+        }
+
+        if (this.xzqyIdList != null && this.xzqyIdList.size()>0){
+            param.put("xzqyIdList",this.xzqyIdList);
+        }
+
+        param.put("recordStatus",this.getRecordStatus());
+
+        if (!StringUtils.isEmpty(this.getCompanyName())){
+            param.put("companyName","%"+this.getCompanyName()+"%");
+        }
+
+        return param;
+    }
+}

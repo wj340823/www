@@ -1,0 +1,38 @@
+<div style="background: rgba(0,0,0,.8)">
+    <div class="modal-header">
+        上传附件
+    </div>
+    <div class="modal-body">
+        <div style="line-height: 40px">
+            <span class="item-content-name">附件:</span>
+            <span class="btn btn-success fileinput-button" style="color: #000;background-color: #fff;border: 0;width: 200px;height:30px">
+                    <span style="display: inline-block;width: 200px;height: 20px;text-align: left" title="{{modal.fileName}}">{{modal.fileName}}</span>
+                    <input type="file" style="position:absolute;right: 0px;top:0px;opacity: 0;
+                    -ms-filter: 'alpha(opacity=0)';" file-ctrl file-change="modal.getFile(file)">
+                </span>
+        </div>
+        <div ng-repeat="item in modal.list" style="padding: 0 10px">
+            <div style="width: 200px">
+                <a ng-href="{{'emergencyTask/downTaskAttachment?attachmentId='+item.attendId}}" target="_blank">{{item.url||'--'}}</a>
+                <span style="float: right;cursor:pointer;" ng-click="modal.del(item)">x</span>
+            </div>
+        </div>
+
+        <uib-pagination
+                ng-change="modal.init()"
+                total-items="modal.page.total"
+                ng-model="modal.page.pageNo"
+                items-per-page="modal.page.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="searchBtn" ng-click="modal.upload()">确定</button>
+        <button class="searchBtn" ng-click="modal.cancel()">关闭</button>
+    </div>
+</div>

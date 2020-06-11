@@ -1,0 +1,2026 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+        .RegularTable {background-color:#ffffff;width:100%; border-collapse:separate;}
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+<form name="form1">
+                <table  cellspacing="0" cellpadding="2" >
+
+            <tr class="s8" colspan="2">
+                <td colspan="2" valign="top">
+                    <div id="NotConnectedSpan">
+                        <table class="width="100%" cellspacing="2" class="s8" style="text-align: left">
+                            <tr style="background-color: #EFF3F7; height: 25px">
+                                <td>
+                                    <span class="i18n">Text1</span>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #EFF3F7;">
+                                <td style="text-align: left;">
+                                    <input type="radio" name="SessionType" checked="checked" id="startLocal" value="1" style="width: 30px" onclick="MethodChanged()" /><label for="startLocal" class="i18n">Text23</label><br />
+                                    <input type="radio" name="SessionType" value="2" id="startServer" style="width: 30px" onclick="MethodChanged()" /><label for="startServer" class="i18n">Text24</label><br />
+                                    <input type="radio" name="SessionType" value="0" id="startJoin" style="width: 30px" onclick="MethodChanged()" /><label for="startJoin" class="i18n">Text5</label><br />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <table class="PropertiesSheet" border="0" cellspacing="0" cellpadding="1" bgcolor="#ffffff" class="s8" width="100%">
+                                        <tr>
+                                            <td align="top" class="s8b" style="width: 200px">
+                                                <span class="i18n">Text25</span>
+                                            </td>
+                                            <td align="left" style=" height: 25px">
+                                                <input name="ConnectTo" id="ConnectTo" type="text" class="i18n" value="Text26" size="25" onclick="this.select()" onchange="ConnectToChanged()" />
+                                            </td>
+                                        </tr>
+                                        <tr class='TableOtherLine'>
+                                            <td align="top" class="s8b">
+                                                <span class="i18n">Text27</span>
+                                            </td>
+                                            <td align="left">
+                                                <input name="SessionName" type="text" value="" size="25" onclick="this.select()">
+                                                <input type="hidden" name="Password" class="i18n" value="Text28" size="25">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="top" class="s8b i18n">Text29
+                                            </td>
+                                            <td align="left">
+                                                <input name="UserName" type="text" class="i18n" value="Text30" size="25" onclick="this.select()">
+                                            </td>
+                                        </tr>
+                                        <tr class='TableOtherLine'>
+                                            <td align="top" class="s8b">
+                                                <span class="i18n">Text13</span>
+                                            </td>
+                                            <td style="height: 25px">
+                                                <select id="SendFlyType" size="1" onchange="OnConnectMethodChanged()" style="z-index: 1; width: 130;">
+                                                    <option value="1" class="i18n">Text14</option>
+                                                    <option value="2" class="i18n">Text15</option>
+                                                    <option value="3" class="i18n">Text16</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding-left: 15px;">
+                                    <button id="ConnectSession" name="ConnectSession" class="MenuButton " onclick="ConnectStartSession();return false;">
+                                        <img src="images/CollaborationButton.png" alt="" /><br />
+                                        <span id="connectText"></span></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="ConnectedSpan" style="display: none; margin-left: 5px; margin-right: 5px;">
+                        <table cellspacing="2" class="s8" style="width: 99%">
+                            <tr style="background-color: #EFF3F7; height: 25px">
+                                <td>
+                                    <span id="connectedText" class="i18n" style="float: left; padding-top: 3px"></span>
+                                    <input type="button" class="i18n" value="Text81" name="DisconnectSession" onclick="DisconnectASession()" style="width: 95px; float: right; margin-right: 2px; vertical-align: top" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" class="s8b">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td style="width: 40px;"><span class="i18n">Text10</span></td>
+                                            <td>
+                                                <input name="Message" type="text" value="" size="30" onkeydown="if(!FlyLoaded()) return;checkChatEnter()" onclick="this.select()" style="width: 100%" /></td>
+                                            <td style="width: 40px;">
+                                                <input type="button" class="i18n" value="Text11" onclick="if (!FlyLoaded()) return; SendTextMessage()" style="width: 45px" /></td>
+                                            <td style="width: 40px; text-align: right">
+                                                <input type="button" class="i18n" value="Text12" onclick="if (!FlyLoaded()) return; DisplayChatMessage();" style="width: 45px" /></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 83px; text-align: left; vertical-align: top">
+
+                                    <!--Toolbar Span-->
+                                    <div id="ToolbarSpan">
+
+                                        <style>
+                                            .toolbar_button
+                                            {
+                                                margin-top: 2px;
+                                                margin-left: 1px;
+                                                margin-right: 1px;
+                                                padding: 2px;
+                                                cursor: pointer;
+                                                text-align: center;
+                                                vertical-align: middle;
+                                                height: 40px;
+                                                border: inset 2px transparent;
+                                                display: inline-block;
+                                            }
+
+                                            .toolbarSelected
+                                            {
+                                                border: solid 2px #B6CDDC;
+                                                background-color: #FBFCBE;
+                                            }
+
+                                            .selectedParticipant
+                                            {
+                                                background-color: Blue;
+                                            }
+
+                                            .participantRow
+                                            {
+                                                cursor: pointer;
+                                                vertical-align: top;
+                                                white-space: nowrap;
+                                            }
+
+                                            .selectedParticipant td
+                                            {
+                                                color: White;
+                                            }
+
+                                            .disabled td
+                                            {
+                                                color: Gray;
+                                            }
+                                        </style>
+                                        <table  class="PropertiesSheet"  border="1" cellpadding="0" cellspacing="0" class="s8" style="width: 100%">
+                                            <tr>
+                                                <td class="s8" valign="center" align="left" style="background-image: url(images/toolbar_background.gif)">
+
+                                                    <span class="toolbar_button i18n" onclick="pop1(LineColorSpan)" title="Text105">
+                                                        <span id="LineColor" style="background: '#FF0000'; width: 40px; height: 12px; margin-bottom: 6px; margin-top: 2px; border: outset 2px gray; display: inline-block;">&nbsp;</span><br />
+                                                        <span class="i18n">Text105</span>
+                                                    </span>
+                                                    <span>
+                                                        <img src="images/toolbar_separator.gif" align="middle">
+                                                    </span>
+                                                    <span id="LabelImg" class="toolbar_button i18n" onclick="if(!FlyLoaded()) return;PlaceTextLabel();" title="Text107">
+                                                        <img src="images/toolbar_textlabel.gif" /><br />
+                                                        <span class="i18n">Text106</span>
+                                                    </span>
+                                                    <span id="LineImg" class="toolbar_button i18n" onclick="if(!FlyLoaded()) return;StartDrawing();" title="Text109">
+                                                        <img src="images/toolbar_draw.gif" /><br />
+                                                        <span class="i18n">Text108</span>
+                                                    </span>
+                                                    <span id="CursorImg" class="toolbar_button i18n" onclick="if(!FlyLoaded()) return;ActivateCursor();" title="Text111">
+                                                        <img src="images/toolbar_cursor.gif" /><br />
+                                                        <span class="i18n">Text110</span>
+                                                    </span>
+                                                    <span>
+                                                        <img src="images/toolbar_separator.gif" align="middle">
+                                                    </span>
+                                                    <span id="ShareImg" class="toolbar_button i18n" onclick="if(!FlyLoaded()) return;ToggleAutoShare()" title="Text113">
+                                                        <img src="images/toolbar_share.gif" /><br />
+                                                        <span class="i18n">Text112</span>
+                                                    </span>
+                                                    <span>
+                                                        <img src="images/toolbar_separator.gif" align="middle">
+                                                    </span>
+                                                    <span id="InviteImg" class="toolbar_button i18n" onclick="if(!FlyLoaded()) return;ActivateInvite();" title="Text115">
+                                                        <img src="images/toolbar_invite.gif" /><br />
+                                                        <span class="i18n">Text114</span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div id="sharingStatus" style="color: #808080">
+                                            <span class="i18n">Text125</span> <span id="lastSharingTime" class="i18n" style="width: 50px; display: inline-block;">Text126</span><a href="#" class="i18n" style="color: #808080; text-decoration: underline; font-weight: normal" onclick="if(!FlyLoaded()) return;ShareMyGroup()">Text127</a>
+                                            &nbsp;&nbsp;&nbsp;<span class="i18n" id="autoSharingStatus">Text128</span>
+                                        </div>
+                                        <!-- Color dialog  -->
+                                        <span id="LineColorSpan" style="display: none;  cursor: pointer">
+                                            <table border="5" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#FF0000" value="#FF0000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#800000" value="#800000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C00000" value="#C00000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FF4040" value="#FF4040" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FF8080" value="#FF8080" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFC0C0" value="#FFC0C0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#000000" value="#000000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#FFFF00" value="#FFFF00" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#808000" value="#808000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C0C000" value="#C0C000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFFF40" value="#FFFF40" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFFF80" value="#FFFF80" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFFFC0" value="#FFFFC0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#202020" value="#202020" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#00FF00" value="#00FF00" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#008000" value="#008000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#00C000" value="#00C000" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#40FF40" value="#40FF40" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#80FF80" value="#80FF80" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C0FFC0" value="#C0FFC0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#404040" value="#404040" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#00FFFF" value="#00FFFF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#008080" value="#008080" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#00C0C0" value="#00C0C0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#40FFFF" value="#40FFFF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#80FFFF" value="#80FFFF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C0FFFF" value="#C0FFFF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#808080" value="#808080" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#0000FF" value="#0000FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#000080" value="#000080" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#0000C0" value="#0000C0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#4040FF" value="#4040FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#8080FF" value="#8080FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C0C0FF" value="#C0C0FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C0C0C0" value="#C0C0C0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="ColorWin" bgcolor="#FF00FF" value="#FF00FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#800080" value="#800080" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#C000C0" value="#C000C0" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FF40FF" value="#FF40FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FF80FF" value="#FF80FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFC0FF" value="#FFC0FF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                    <td class="ColorWin" bgcolor="#FFFFFF" value="#FFFFFF" onclick="pick(LineColor,LineColorSpan)"></td>
+                                                </tr>
+                                            </table>
+                                        </span>
+
+                                        <!--Invite-->
+                                        <span id="InviteSpan" style="display: none">
+                                            <table border="0" cellspacing="0" cellpadding="1" bgcolor="#ffffff" class="s8" width="100%">
+                                                <tr class='TableOtherLine'>
+                                                    <td align="top" class="s8b i18n" style="width: 100px">Text19</td>
+                                                    <td align="left">
+                                                        <input name="Invite_Email" type="text" value="" style="width: 100%" onkeydown="checkInviteEnter()" onclick="this.select()" />
+                                                    </td>
+                                                    <td style="width: 55px">
+                                                        <input style="width: 50px" type="button" class="i18n" value="Text20" name="Invite_by_Email" onclick="InviteByEmail()" class="button" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </span>
+
+
+                                        <!--Text-->
+                                        <div id="TextSpan" style="display: none">
+                                            <table border="0" cellspacing="0" cellpadding="1" bgcolor="#ffffff" class="s8" width="100%">
+                                                <tr class='TableOtherLine'>
+                                                    <td class="s8b i18n" style="width: 100px">Text21</td>
+                                                    <td align="left">
+                                                        <input name="LabelText" type="text" value="" style="width: 100%" onclick="this.select()" />
+                                                    </td>
+                                                    <td style="width: 20px">
+                                                        <input type="button" class="i18n" value="x" style="width: 15px" onclick="Reset(0, 0)" class="button" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <!-- End Toolbar Span  -->
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--Participants-->
+                                    <div style="background-color: #EFF3F7;">
+                                        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="s8">
+                                            <tr style="height: 25px">
+                                                <td style="width: 100%;">
+                                                    <span class="s8b i18n">Text17</span><br />
+                                                </td>
+                                                <td style="width: 250px;">
+                                                    <nobr><input id="attachPlane" name="attachPlane" onclick="SyncFlight()" type="checkbox" class="checkbox" checked /><label id="SynchronizeText" class="i18n" for="attachPlane">Text9</label></nobr>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" id="Result" style="border: inset 2px #B6CDDC; vertical-align: top"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align: right">
+                                                    <input type="button" class="i18n" value="Text18" name="SetLeader" onclick="SetAsLeader()" class="button" style="" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+</body>
+<script language="vbscript">
+'--------------------------------------
+' HandleCommErrors
+'--------------------------------------
+sub HandleCommErrors 
+'if err then MsgBox err.Description 
+'MsgBox "HandleCommErrors" & err.Description 
+'Currently all errors are handles on Comm_OnConnectionError
+    'err.Clear 
+end sub
+</script>
+
+<object id="TE" classid="CLSID:3a4f9191-65a8-11d5-85c1-0001023952c1" onerror="TEError" style="visibility: hidden; height: 0"></object>
+<object id="Comm" classid="CLSID:662CB034-1B5F-46DE-83C8-8BDCA1424856" onerror="HandleCommErrors" style="visibility: hidden; height: 0"></object>
+<object id="TECollaboration" classid="CLSID:07FEE7FA-EA56-4790-AE41-2E227CCF6EB7" onerror="CollaborationError" style="visibility: hidden; height: 0"></object>
+<object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility: hidden; height: 0"></object>
+<object id="slfm_temp" classid="CLSID:A3EEA80F-5A77-402B-8A2E-D1D9A08A497C" style="visibility: hidden; height: 0"></object>
+<object id="SessionManager" classid="CLSID:69E1509B-58CA-40F5-8A1A-C8D041F04649" style="visibility: hidden; height: 0"></object>
+
+
+<!--<OBJECT ID="CollabPlane" CLASSID="CLSID:1E686889-C1F3-437F-A8CE-729C78AA3BEC" style="visibility:hidden;height:0 " ></OBJECT>
+<OBJECT ID="CollabChat" CLASSID="CLSID:8120661B-1913-4C41-8C47-A0A9279715C6" style="visibility:hidden;height:0 "></OBJECT>
+<OBJECT ID="CollabAnnotation" CLASSID="CLSID:7A412365-8492-42A0-9411-BEE11106AAD6" ></OBJECT>
+<OBJECT ID="CollabVirtualCursor" CLASSID="CLSID:654EE3B6-537D-48AB-B706-80CA73C2D6CF" ></OBJECT>-->
+
+
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+<script language="vbscript" src="CollabElm.vbs"></script>
+<script language="jscript" src="CollabElm.js"></script>
+
+
+<script language="JavaScript">
+
+    var CollabVirtualCursor;
+    var CollabAnnotation;
+    var CollabChat;
+    var CollabPlane;
+    var CollabSessionCreatorManager;
+    var CollabGroupName;
+    var CollabShareManager;
+    // flag that tells us if autosharing functionality is on or off
+    var AutoShare;
+    // flag that tells us if we need to share sharing group, when autoshare will be turned on
+    var SharingGroupIsDirty = false;
+
+
+    var ITerraExplorer
+    var IRender
+    var ITerrain
+    var IObjectManager
+    var IInformationTree
+    var IContainer
+    var ICoordSys
+    var IPlane
+    var sessionmanager
+
+    //--------------
+    // Init
+    function InitHead() {
+        if (GetParamValue("inSG", "") == "1") {
+            document.all["TopAreaTD"].style.height = "57";
+            document.all["TitleTD"].align = "left";
+            document.all["CloseHelpTd"].style.display = "none";
+        }
+        sessionmanager = document.getElementById("SessionManager");
+        sessionmanager.AttachPropertyEvent("SharedGroupChanged", OnSharedGroupChanged);
+
+        SGWorld.AttachEvent("OnObjectAction", TEOnObjectAction);
+        SGWorld.AttachEvent("OnProjectTreeAction", TEOnProjectTreeAction);
+        SGWorld.AttachEvent("OnSGWorld", TEOnSGWorld);
+        MethodChanged();
+
+        ITerraExplorer = TE.interface("ITerraExplorer3");
+        if (ITerraExplorer.Type == "Basic") {
+
+            try {
+                IObjectManager = TE.interface("IObjectManager2");
+                bBasic = false;
+            }
+            catch (err) {
+                bBasic = true;
+            }
+
+            bBasic = true;
+        }
+        else {
+            bBasic = false;
+        }
+
+        //Basic Interfaces
+        IRender = TE.interface("IRender4");
+        IContainer = TE.interface("IContainer2");
+        IPlane = TE.interface("IPlane3");
+
+        //Pro only Interfaces
+        if (!bBasic) {
+            ITerrain = TE.interface("ITerrain4");
+            IObjectManager = TE.interface("IObjectManager2");
+            IInformationTree = TE.interface("IInformationTree3");
+            ICoordSys = TE.interface("ICoordSys2");
+        }
+    }
+
+    function SetSSValueOn() {
+        sessionmanager.SetPropertyValue("CollaborationSession", CollabGroupName + "\\" + form1.UserName.value + " [My share group]");
+    }
+
+    function SetSSValueOff() {
+        sessionmanager.ClearPropertyValue("CollaborationSession");
+    }
+
+    function SetSSValueAlert() {
+        alert(sessionmanager.GetPropertyValue("CollaborationSession"));
+    }
+
+    function uninit() {
+        DisconnectASession();
+
+    }
+
+    function DisconnectASession() {
+        SetSSValueOff();
+        DisconnectStoptSession();
+    }
+
+    function TEOnSGWorld(eventId, param) {
+        if (eventId == 10) // Before_App_Closing event
+        {
+            DisconnectStoptSession();
+        }
+
+    }
+    function GetParamValue(findParam, defaultValue) {
+        var arr = document.location.href.split("?");
+        if (arr.length <= 1) return defaultValue;
+        arr = arr[1].split("&");
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].indexOf(findParam) == 0 && arr[i].indexOf("=") == findParam.length) {
+                arr = arr[i].split("=");
+                return arr[1];
+            }
+        }
+        return defaultValue;
+    }
+
+    function HTMLColor2TeColor(color) {
+        var red, green, blue;
+        // #rrggbb
+        if (color.substr(0, 1) == "#") {
+            var d = 1
+            red = parseInt(color.substr(1, 2), 16)
+            green = parseInt(color.substr(3, 2), 16)
+            blue = parseInt(color.substr(5, 2), 16)
+        }
+        //rgb(r,g,b) or rgba(r,g,b,a) 
+        if (color.substr(0, 3) == "rgb") {
+            // just get the numbers
+            var rgb = color.match(/\d+/g);
+            red = parseInt(rgb.shift());
+            green = parseInt(rgb.shift());
+            blue = parseInt(rgb.shift());
+        }
+        return blue * 65536 + green * 256 + red
+    }
+
+
+    function DisplayProperties(SpanName) {
+        document.getElementById("TextSpan").style.display = "none"
+        document.getElementById("InviteSpan").style.display = "none"
+        document.getElementById("sharingStatus").style.display = "none"
+        var element = document.getElementById(SpanName);
+        if (element)
+            element.style.display = "inline"
+        else
+            document.getElementById("sharingStatus").style.display = "inline"
+    }
+</script>
+
+<script language="VBSCRIPT">
+dim DefaultPort
+dim LocalIP
+DefaultPort = 82
+BaseIP = "0.0.0.0"
+LocalHostIP =  "127.0.0.1"
+
+dim bIamMaster
+dim bBasic
+dim bConnected
+bIamMaster = false
+bConnected = false
+Dim ChatText
+
+dim CollabProjection
+
+
+Dim GroupID
+Dim IPolyline
+
+Dim Tower
+Dim PlaceLabel
+Dim LastX
+Dim LastY
+Dim bJustConnected
+PlaceLabel = false
+bJustConnected = false
+
+Dim InEdit '0= NOT_IN_EDIT, 1=ADD_LABEL, 2=DRAW_LINE, 3=VIRTUAL_CURSOR
+
+Dim CursorCalculatedSize
+Dim ICursor
+Dim ICursor2
+
+Dim LButtonIsDown
+'Dim tempMessageBarText'***DEBUG
+'tempMessageBarText = ""'***DEBUG
+'-------------------------------------------------------------
+' Init
+'-------------------------------------------------------------
+sub Init()
+    InitHead()
+
+
+    'Drawing objects init
+    Set IPolyline = Nothing
+    Reset 1,0
+    
+    Set ICursor = Nothing
+    Set ICursor2 = Nothing
+
+    
+    'TECollaboration initializations
+    if (TECollaboration is nothing) then 
+        msgbox SGLang.i18n("Text35")
+        exit sub
+    end if
+    set TECollaboration.ParentWindow = window.document 
+    if (Comm is nothing) then 
+        msgbox SGLang.i18n("Text36")
+        exit sub
+    end if
+    set TECollaboration.CommObj = Comm
+    set TECollaboration.TerraExplorer = TE
+
+    set CollabChat = CreateCollabChat()
+    TECollaboration.SetObject CollabChat
+    set CollabPlane = CreateCollabPlane()
+    TECollaboration.SetObject CollabPlane
+    set CollabSessionCreatorManager = CreateSessionCreatorManager()
+    TECollaboration.SetObject CollabSessionCreatorManager
+    'TECollaboration.SetObject CollabFlyFile
+    set CollabShareManager = CreateShareManager()
+    TECollaboration.SetObject CollabShareManager
+    
+
+    CollabChat.bAutoRefreshMessageBarChat = 0
+    'Use Pro capabilities if possible or disable	
+    if not bBasic then 
+        Set CollabAnnotation = CreateCollabAnnotation() ' CreateObject("TECollaboration.Annotation")
+        TECollaboration.SetObject (CollabAnnotation )
+        Set CollabVirtualCursor = CreateCollabVirtualCursor() ' CreateObject("TECollaboration.VirtualCursor")
+        TECollaboration.SetObject (CollabVirtualCursor )		
+        CollabVirtualCursor.SendIntervalMiliSec = 10
+    else
+        'ToolsSpanTitle.disabled = true	
+        'ToolsSpan.disabled = true
+        'FreeHandSpanTitle.disabled = true
+        'FreeHandSpan.disabled = true	
+    end if
+    LButtonIsDown = false
+    FillCollabParams
+    ChatText = ""
+
+end sub
+
+'-------------------------------------------------------------
+' Reset
+'-------------------------------------------------------------
+sub Reset (FirstTime, FromMouseInputMode)
+    select case InEdit
+        case 1 'ADD_LABEL
+            PlaceLabel = false ' ***need to delete after delete all occurrences
+        case 2'DRAW_LINE
+            If Not IPolyline Is Nothing Then
+                If IPolyline.NumOfVertices < 2 Then   	' remove if only one point
+                    IPolyline.KeepAliveOnRelease = 0
+                End If
+                IPolyline.HeightStyle = 2
+            End If
+
+            Set IPolyline = Nothing
+            Set LastX = Nothing
+            Set LastY = Nothing
+            GroupID = 0
+        case 3'VIRTUAL_CURSOR
+            CursorCalculatedSize = 10
+            If Not ICursor Is Nothing Then
+                ICursor.KeepAliveOnRelease = 0
+            End If
+            If Not ICursor2 Is Nothing Then
+                ICursor2.KeepAliveOnRelease = 0
+            End If
+            Set ICursor = Nothing
+            Set ICursor2 = Nothing
+    end select	
+    InEdit = 0
+    jQuery(document.all.LabelImg).removeClass("toolbarSelected")
+    jQuery(document.all.LineImg).removeClass("toolbarSelected")
+    jQuery(document.all.CursorImg).removeClass("toolbarSelected")
+    jQuery(document.all.InviteImg).removeClass("toolbarSelected")
+
+    DisplayProperties "sharingStatus"
+
+    If FirstTime <> 1 and FromMouseInputMode=0 then
+        if FlyLoaded() then IRender.SetMouseInputMode 0
+    End If
+
+end sub
+
+'-------------------------------------------------------------
+' TE_OnRButtonUp
+'-------------------------------------------------------------
+sub TE_OnRButtonUp(Flags, X, Y, bHandled)
+  If (InEdit <> 0) Then
+     Reset 0,0
+  End If
+end sub
+
+'-------------------------------------------------------------
+' TE_OnLButtonDown
+'-------------------------------------------------------------
+sub TE_OnLButtonDown(Flags, X, Y, bHandled)
+    select case InEdit
+        case 0 
+                Exit Sub
+        case 1 ' ADD_LABEL
+                exit sub
+        case 2 'DRAW_LINE
+            ObjType = 0
+            ObjectID = 0
+
+            IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+
+            If ObjType <> 32 Then	'If we dont hit the sky
+
+                If IPolyline Is Nothing Then
+                    Set IPolyline = IObjectManager.CreatePolyline (0, HTMLColor2TeColor(document.all.LineColor.style.backgroundColor),  0, GetMyGroupID(SGLang.i18n("Text85")))
+                    IPolyline.AddVertex WX, 1, WY
+                    'IRender.SetMouseCursor abspath()&"\cursor_m.cur"
+                    LastX = WX
+                    LastY = WY
+                End If
+            End If
+        case 3 'VIRTUAL_CURSOR
+            LButtonIsDown = true
+            IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+            CleanCursors
+            Set ICursor = IObjectManager.Create3DArrow (Cdbl(WX), Cdbl(WY), 0, 0, 10, 1, 10, HTMLColor2TeColor(document.all.LineColor.style.backgroundColor), 2, HTMLColor2TeColor(document.all.LineColor.style.backgroundColor),  -1,"Cursor")
+            ICursor.bgalpha = 0.8
+            CollabVirtualCursor.StartCursor 1, 1, HTMLColor2TeColor(document.all.LineColor.style.backgroundColor),Cdbl(WX), Cdbl(WY)
+            'tempMessageBarText = tempMessageBarText & vbNewLine & "StartCursor" '***DEBUG
+            'IContainer.SetMessageBarText  tempMessageBarText'***DEBUG
+        case else
+            exit sub
+    end select
+end sub
+'-------------------------------------------------------------
+' TE_OnLButtonUp
+'-------------------------------------------------------------
+sub TE_OnLButtonUp(Flags, X, Y, bHandled)
+    Dim message
+    select case InEdit
+        case 0
+            Exit Sub
+        case 1 'ADD_LABEL
+            ObjType = 63
+            ObjectID = 0
+            IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+            TerrainHeight = ITerrain.GetGroundHeight (WX,WY,0)
+            IPlane.GetPosition PlaneX,PlaneY,PlaneHeight,PlaneYaw,PlanePitch,PlaneRoll,CameraDeltaYaw,CameraDeltaPitch
+            GrouID = GetMyGroupID(SGLang.i18n("Text86"))
+            set NewLabel = IObjectManager.CreateLabel (WX,WY,WH-TerrainHeight+PlaneHeight/10, GrouID)
+            NewLabel.Text = document.all.LabelText.value 
+            NewLabel.LineToGroundType = 1
+            NewLabel.FgColor = HTMLColor2TeColor(document.all.LineColor.style.backgroundColor)
+            
+            NewLabel.ScaleFactor = PlaneHeight/200
+            
+            if(AutoShare) then
+                CollabAnnotation.CreateTextLabel (NewLabel)
+            else
+                SharingGroupIsDirty = true
+            end if
+            ' PlaceLabel = false
+            ' InEdit = 0
+            ' reset 0,0
+            exit sub
+        case 2 'DRAW_LINE
+            If Not IPolyline Is Nothing Then
+
+                If IPolyline.NumOfVertices < 2 Then   	' reomve if only one point
+                    IPolyline.KeepAliveOnRelease = 0
+                End If
+                
+                IPolyline.HeightStyle = 2
+                if(AutoShare) then
+                    CollabAnnotation.CreatePolyline (IPolyline)
+                else
+                    SharingGroupIsDirty = true
+                end if                        
+                Set IPolyline = Nothing
+
+            End If
+        case 3 'VIRTUAL_CURSOR
+            if not LButtonIsDown then exit sub
+            CleanCursors
+            '	CollabVirtualCursor.EndCursor
+            ObjType = 63
+            ObjectID = 0
+            IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+            TerrainHeight = ITerrain.GetGroundHeight (WX,WY,0)
+            IPlane.GetPosition P_X, P_Y, P_H, P_yaw, P_Pitch, P_Roll, P_C_Yaw, P_C_Pitch
+            CursorCalculatedSize = CalculateCursorSize (WX,WY,P_X,P_Y,P_H)
+            CollabVirtualCursor.EndCursorEx Cdbl(WX), Cdbl(WY), Cdbl(WH-TerrainHeight), Cdbl(CursorCalculatedSize)
+
+            LButtonIsDown = false 
+            'tempMessageBarText = tempMessageBarText & vbNewLine & "EndCursor" '***DEBUG
+            'IContainer.SetMessageBarText  tempMessageBarText '***DEBUG
+        case else
+    end select
+End Sub
+'-------------------------------------------------------------
+' TE_OnFrame
+'-------------------------------------------------------------
+sub TE_OnFrame()
+If IsObject(IRender) then
+    select case InEdit
+        case 0
+            Exit Sub
+        case 1 'ADD_LABEL
+            Exit Sub
+        case 2 'DRAW_LINE
+            
+
+                IRender.GetMouseInfo Flags, X, Y
+                IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+
+                If X >= 0 And X < ScreenWidth And Y >= 0 And Y < ScreenHeight Then	'Make sure the cursor is within the render rect
+
+                    ObjType = 0
+                    ObjectID = 0
+
+                    IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+
+                    If Not IPolyline Is Nothing Then
+                        if ObjType <> 32 And WX <> LastX And WY <> LastY Then
+                            IPolyline.AddVertex WX, 1 , WY	'Add a new vertex
+                            LastX = WX
+                            LastY = WY
+                        End If
+                    End If		
+                End If
+        case 3 'VIRTUAL_CURSOR
+                IRender.GetMouseInfo Flags, X, Y
+                IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+
+                If X >= 0 And X < ScreenWidth And Y >= 0 And Y < ScreenHeight Then	'Make sure the cursor is within the render rect
+                'IContainer.SetMessageBarText "Y: " & Y & " ScreenHeight: " & ScreenHeight				
+
+                    
+
+                    If Not ICursor Is Nothing then
+                        ObjType = 63
+                        ObjectID = 0
+                        ICursor.Visible = false ' Temporary hide the cursor to get the terrain/objects under its position
+                        IRender.ScreenToWorld X , Y , ObjType , WX,WH,WY, ObjectID
+                        ICursor.Visible = true ' Temporary hide the cursor to get the terrain/objects under its position
+                        TerrainHeight = ITerrain.GetGroundHeight (WX,WY,0)
+                        IPlane.GetPosition P_X, P_Y, P_H, P_yaw, P_Pitch, P_Roll, P_C_Yaw, P_C_Pitch
+                        CursorCalculatedSize = CalculateCursorSize (WX,WY,P_X,P_Y,P_H)
+                        ICursor.SetPosition 0,0,WH-TerrainHeight+CursorCalculatedSize/20,0,0,0,61
+                        ICursor.Height = CursorCalculatedSize/8
+                        ICursor.HeadX = WX
+                        ICursor.HeadY = WY
+                        TailX = WX
+                        TailY = WY
+                        ' ICoordSys.MoveCoord TailX,TailY,0,CursorCalculatedSize
+                        ICoordSys.MoveCoordEx TailX,TailY,0,P_Yaw,0,0,-CursorCalculatedSize,0,0
+                        ICursor.TailX = TailX
+                        ICursor.TailY = TailY
+                        CollabVirtualCursor.MoveCursorEx Cdbl(WX), Cdbl(WY), Cdbl(WH-TerrainHeight), Cdbl(CursorCalculatedSize)
+                    End If 
+                    
+                end if
+            
+        case else
+            Exit Sub
+    end select
+End if
+end sub
+'-------------------------------------------------------------
+' TE_OnInputModeChanged
+'-------------------------------------------------------------
+sub TE_OnInputModeChanged(NewMode)
+    If InEdit <> 0 Then
+        Reset 0,1
+    End If
+
+end sub
+
+'-------------------------------------------------------------
+' ConnectStartSession
+'-------------------------------------------------------------
+sub ConnectStartSession()
+
+on error resume next
+CollabGroupName = SGLang.i18n("Text118") & " " & Date & " " & Time
+CollabAnnotation.GroupName = CollabGroupName
+CollabVirtualCursor.GroupName = CollabGroupName
+SharingGroupIsDirty = false
+'SetSSValueOn()
+ConnectToIP = form1.ConnectTo.value
+pos = InStr(1,ConnectToIP ,":", vbTextCompare)
+if (pos <> 0) then 
+    ConnectToIP = Left(form1.ConnectTo.value,pos-1)
+    ConnectToPort = right(form1.ConnectTo.value, len(form1.ConnectTo.value) - pos)
+else
+    ConnectToIP = form1.ConnectTo.value
+    ConnectToPort = DefaultPort
+end if
+   
+   Comm.ConnectTimeOut=20000
+
+select case jQuery("#NotConnectedSpan :checked").val()
+    case 0
+        ' "Join session"
+        Comm.Connect ConnectToIP , ConnectToPort, form1.SessionName.value, form1.Password.value, form1.UserName.value
+        HandleCommErrors 
+    case 1
+        ' "Create local session"
+        if (form1.SessionName.value = "") then 'Empty session name is illegal
+            MsgBox SGLang.i18n("Text32"),,SGLang.i18n("Text37")
+            exit sub
+        end if		
+        if (form1.UserName.value = "") then 'Empty user name is illegal
+            MsgBox SGLang.i18n("Text83"),,SGLang.i18n("Text37")
+            exit sub
+        end if
+        on error resume next
+        Comm.CreateMasterServer	BaseIP, DefaultPort, form1.SessionName.value, form1.Password.value 
+        if err then 
+            MsgBox SGLang.i18n("Text38") & vbNewLine & SGLang.i18n("Text39") & vbNewLine & SGLang.i18n("Text40")
+            'MsgBox err.Description
+            err.Clear 
+            exit sub
+        end if
+        'HandleCommErrors 
+        Comm.Connect LocalHostIP, DefaultPort, form1.SessionName.value, form1.Password.value, form1.UserName.value
+        HandleCommErrors 
+    case 2
+        '"Create session on server"
+        
+        Comm.Connect ConnectToIP, ConnectToPort, "Skyline", form1.Password.value, form1.UserName.value
+        HandleCommErrors 
+        'if (err.number <> 0) then MsgBox Err.number 
+        
+        ' Comm.JoinSession moved to Comm_OnConnectionReady
+        'Comm.JoinSession form1.SessionName.value, form1.Password.value 
+        'HandleCommErrors
+end select
+bJustConnected = true
+SetConnectedText
+' force creation of collaboration group
+GetMyGroupID Nothing
+' set autoshare to false, since we are going to call toggle on the next line to update ribbon appearance and toggle the value
+AutoShare = False
+ToggleAutoShare()
+end sub
+
+
+'-------------------------------------------------------------
+' CommDisconnect
+' Comm.Disconnect should not called directly after sending a message 
+'-------------------------------------------------------------
+sub CommDisconnect() 
+  Comm.Disconnect
+end sub
+
+'-------------------------------------------------------------
+' DisconnectStoptSession
+'-------------------------------------------------------------
+sub DisconnectStoptSession()
+    if not bConnected then exit sub
+
+    SyncFlight()
+select case jQuery("#NotConnectedSpan :checked").val()
+    case 0
+        ' "Join session"
+        CommDisconnect
+        EnableDisable 2, false
+    case 1
+        ' "Open new session"
+        'Comm.Disconnect'***Remarked this cause otherwise onserverdead is not sent.
+        Comm.DestroyMasterServer form1.SessionName.value, form1.Password.value
+        'bIamMaster = false
+        SynchronizeText.innerText = SGLang.i18n("Text9")
+        EnableDisable 1, false
+    case 2
+        '"Create session on server"
+        if (bIamMaster ) then
+            'CollabChat.SendMessageBox SGLang.i18n("Text41") & chr(10) & chr(13) & SGLang.i18n("Text42")
+        end if
+        CommDisconnect
+        'bIamMaster = false
+        SynchronizeText.innerText = SGLang.i18n("Text9")
+        
+        EnableDisable 1, false
+end select
+    bConnected = false
+    bIamMaster = false
+    ClearSessionList ()
+    CollabPlane.ClearLeader
+    document.all.attachPlane.checked  = false 'make sure to stop transmitting
+    Reset 0,0' To Stop drawings like VirtualCursor
+    ResetMessageBarText
+    MethodChanged()
+    CollabShareManager.Disable
+end sub
+
+'-------------------------------------------------------------
+' Reconnect
+'-------------------------------------------------------------
+sub Reconnect()
+    DisconnectStoptSession
+    window.setTimeout "ConnectStartSession()", 500
+end sub
+
+'-------------------------------------------------------------
+' ResetMessageBarText()
+'-------------------------------------------------------------
+sub ResetMessageBarText()
+    on error resume next    'If TE App is closing, than this might rais an exception.
+    IContainer.SetMessageBarText ""
+    ChatText = ""
+    IContainer.HTMLPopup 0, 5,5,0,0,SGLang.i18n("Text87"), "", 2, 1 
+end sub
+
+
+'-------------------------------------------------------------
+' JumpToObjects()
+'-------------------------------------------------------------
+sub JumpToObjects()
+'MsgBox "Not Implemented"
+end sub
+
+'-------------------------------------------------------------
+' Comm_OnListComputersReady()
+'-------------------------------------------------------------
+Dim showLimitedFunctionalityMessage
+showLimitedFunctionalityMessage = false
+
+sub Comm_OnListComputersReady()
+    if not bConnected then exit sub
+    Dim Counter
+    Counter = 0
+    ' Clean the Result list
+    ClearSessionList()
+
+	' If i am requested that session will be created on server, but i ma not the first one in the session, deny access to session
+	' since it was alreay been created
+	if (Comm.Computers.Count > 1) and (jQuery("#NotConnectedSpan :checked").val() = 2) and bJustConnected then
+		bJustConnected = false
+		MsgBox SGLang.i18n("SessionExists"),,SGLang.i18n("Text37")
+		window.setTimeout "DisconnectStoptSession()" , 500
+		exit sub
+	end if
+	
+    if (Comm.Computers.Count = 1) then
+        if not bIamMaster then
+            bIamMaster = true
+            TECollaboration.IsManager = true
+            SynchronizeText.innerText = SGLang.i18n("Text84")
+            if (FlyLoaded()) then			 
+                EnableDisable 1, true			
+            end if
+            'form1.ConnectSession.disabled = true
+            CollabPlane.SetMeAsLeader 	
+            document.all.LineColor.style.backgroundColor = "#FF0000"
+            setfly
+        end if
+    end if
+
+    dim i
+    dim loopLen
+    loopLen = Comm.Computers.Count  -1
+    ' check if current user name is unique. if not, alert the user and disconnect
+    for i = 0 to loopLen
+            if Comm.Computers.Item(i).Name = Comm.Nick  then
+                Counter = Counter + 1
+                if Counter > 1 then 
+                    if bJustConnected then
+                        MsgBox SGLang.i18n("Text43") & vbNewLine & SGLang.i18n("Text44"),,SGLang.i18n("Text37")
+                        bJustConnected = false
+                        window.setTimeout "DisconnectStoptSession()" , 500
+                    end if
+                    exit sub
+                end if
+            end if 
+    Next
+    Dim participantsTable
+    Dim masterConnected
+    set participantsTable = jQuery("#Result").html("<table style='height:100%;width:100%;vertical-align:top;min-height:60px;background-color:white' cellspacing=0 cellpadding=2 border=0><tbody/></table>")
+    for i = 0 to loopLen
+        ' add the usernames to Result panel, marking self as bold, adding [Creator] and [Flight Leader] to appropriate users
+        Dim status,mystyle
+        mystyle = ""
+        status = "&nbsp;"
+        if  (Comm.Computers.Item(i).Name = CollabPlane.LeaderName) then
+            status = status & SGLang.i18n("Text116")
+        end if
+        if  (Comm.Computers.Item(i).Name = Comm.Nick) then
+            mystyle = "font-weight:bold;font-style:italic"
+        end if       
+        if  (Comm.Computers.Item(i).Name = CollabSessionCreatorManager.CreatorName) then
+            status = status & SGLang.i18n("Text117")
+            masterConnected = true
+        end if       
+        participantsTable.find("tbody").append("<tr class='participantRow' onclick='selectParticipantRow(this)'><td style='"& mystyle &"'>" & Comm.Computers.Item(i).Name & "</td><td style='width:20px;'>&nbsp;&nbsp;&nbsp;&nbsp;</td><td style='width:120px;'>" & status & "</td></tr>")
+    next
+    participantsTable.find("tbody").append("<tr style='height:100%'><td colspan=4>&nbsp;</td></tr>")
+    if bJustConnected then
+        SetFly
+        bJustConnected = false
+    end if
+    if(masterConnected) then
+        showLimitedFunctionalityMessage = true
+    else
+        if(showLimitedFunctionalityMessage) then
+            MsgBox SGLang.i18n("Text41") & vbNewLine & SGLang.i18n("Text42")
+        end if
+        showLimitedFunctionalityMessage = false
+    end if
+
+end sub
+
+'-------------------------------------------------------------
+' SyncFlight()
+'-------------------------------------------------------------
+sub SyncFlight()
+    on error resume next    'If TE App is closing, than this might rais an exception.
+    if bConnected = false then exit sub
+    if (document.all.attachPlane.checked = false ) then 
+        'Comm.SendData comm.IP, Comm.Nick , "<Plane><TrackOnOff>Off<TrackOnOff><Plane>" ,0
+        CollabPlane.SyncLocation = False
+        IContainer.SetMessageBarText SGLang.i18n("Text45")
+    else 
+        'Comm.SendData comm.IP, Comm.Nick , "<Plane><TrackOnOff>On<TrackOnOff><Plane>" ,0
+        CollabPlane.SyncLocation = True
+        IContainer.SetMessageBarText SGLang.i18n("Text46")
+    end if
+End sub
+
+'-------------------------------------------------------------
+' TE_OnObjectAction
+'-------------------------------------------------------------
+sub TE_OnObjectAction (ObjectID, Action)
+'MsgBox Action
+'    if not bConnected then exit sub
+'    dim temp
+'    set temp = nothing
+'    if (Action = 16 )then 'AC_EDIT_FINISHED  
+'        On Error resume next ' This to catch the error on this command when creating a Line of Sight
+'        set temp = IObjectManager.GetObject (ObjectID)
+'        if (err.number <> 0) then
+'            Err.Clear
+'            exit sub
+'        end if
+'        if (temp.ObjectType = 18) then 'OT_LABEL  
+'            CollabAnnotation.CreateTextLabel (temp)
+'        end if 
+'    end if
+
+    'If any fly-to operation is made by a user that is not the leader and is in sync flight, this cancels it.	
+    if (document.all.attachPlane.checked = false) then exit sub
+    if (CollabPlane.LeaderName = Comm.Nick) then exit sub
+    if ((Action >= 0 and Action<12) or Action = 14 or Action = 18 )then 'AC_PLAY
+        'MsgBox Action
+        
+        IContainer.SetMessageBarText SGLang.i18n("Text47") & vbNewLine & SGLang.i18n("Text48")
+        IPlane.SetPosition 0, 0, 0, 0, 0, 0, 0, 0, 3135
+        window.setTimeout "ResetMessageBarText()" , 2000
+    end if 
+end sub
+
+'-------------------------------------------------------------
+' TE_OnInfoTreeAction
+'-------------------------------------------------------------
+Sub TE_OnInfoTreeAction(ItemID, Action, ActionParam)
+    if bConnected = false then exit sub
+    If Action = 19 Then	'AC_SHOW
+        ItemIsGroup = IInformationTree.IsGroup(ItemID)
+        CollabAnnotation.ShowHide ITemID, cbool(ActionParam), cbool(ItemIsGroup)	
+    end if
+end sub
+
+'-------------------------------------------------------------
+' TE_OnLoadFinished
+'-------------------------------------------------------------
+Sub TE_OnLoadFinished()
+    ' this if should not be here, wiating for bug fix from Omer to remove it
+    if FlyLoaded() = False then
+        exit sub
+    end if
+    IPlane.SetPosition 0, 0, 0, 0, 0, 0, 0, 0, 3135
+	
+    if bConnected then 	
+        if (jQuery("#NotConnectedSpan :checked").val() = 1) or (jQuery("#NotConnectedSpan :checked").val() = 2)then 'local server or master on remote
+            EnableDisable 1, true
+        else
+            EnableDisable 2, true
+        end if
+    end if
+    ' when fly is reloaded, master sends it to other participants
+    if(bIamMaster) then
+        Comm.BroadcastData "<ShareManager><MasterFlyReloaded><MasterFlyReloaded><ShareManager>",0
+	else
+		' when fly reloaded, not master user asks all other users to send him their share groups, so that he will be synchronized
+		Comm.BroadcastData "<ShareManager><ShareRequest><ShareRequest><ShareManager>",0		
+    end if
+
+end sub
+
+'-------------------------------------------------------------
+' PlaceTextLabel
+'-------------------------------------------------------------
+sub PlaceTextLabel()
+
+    If (InEdit = 1) Then
+        reset 0,0
+        exit sub
+    End if
+
+
+    If (InEdit <> 0) Then reset 0,0
+
+    If (InEdit=0) Then
+        InEdit = 1 'ADD_LABEL
+        DisplayProperties "TextSpan"
+        'document.all.LabelImg.src = "images/drawingNotePressed.gif"
+        jQuery(document.all.LabelImg).addClass("toolbarSelected")
+        PlaceLabel = true
+        IRender.SetMouseInputMode 1
+        
+        IRender.SetMouseCursor abspath()&"\cursor_e.cur"
+        IContainer.SetMessageBarText SGLang.i18n("Text49")
+    end if
+    
+End sub
+
+'-------------------------------------------------------------
+' StartDrawing
+'-------------------------------------------------------------
+sub StartDrawing()
+    If (InEdit = 2) Then
+        reset 0,0
+        exit sub
+    End if
+
+
+    If (InEdit <> 0) Then reset 0,0
+
+    If InEdit = 0 then
+        InEdit = 2
+        IRender.SetMouseInputMode 1
+
+        DisplayProperties "LineSpan"
+        'document.all.LineImg.src = "images/drawingLinePressed.gif"
+        jQuery(document.all.LineImg).addClass("toolbarSelected")
+
+        IRender.SetMouseCursor abspath()&"\cursor_m.cur"
+        IContainer.SetMessageBarText SGLang.i18n("Text50")
+    Else
+        Reset 0,0
+    End If
+end sub
+
+'-------------------------------------------------------------
+' ActivateCursor
+'-------------------------------------------------------------
+sub ActivateCursor ()
+    If (InEdit = 3) Then
+        reset 0,0
+        exit sub
+    End if
+
+
+    If (InEdit <> 0) Then reset 0,0
+    
+    If InEdit = 0 Then
+        InEdit = 3
+        IRender.SetMouseInputMode 1
+
+        DisplayProperties "CursorSpan"
+        'document.all.CursorImg.src = "images/toolbar_cursorPressed.gif"
+        jQuery(document.all.CursorImg).addClass("toolbarSelected")
+
+        IRender.SetMouseCursor abspath()&"\cursor_v.cur"
+        IContainer.SetMessageBarText SGLang.i18n("Text51")
+    Else
+        Reset 0,0
+    End If
+End sub
+
+sub ActivateInvite ()
+    If (InEdit = 4) Then
+        reset 0,0
+        exit sub
+    End if
+    If (InEdit <> 0) Then        reset 0,0
+
+    If InEdit = 0 Then
+         InEdit = 4
+        DisplayProperties "InviteSpan"
+        jQuery(document.all.InviteImg).addClass("toolbarSelected")
+    end if
+End sub
+
+'-------------------------------------------------------------
+' DisplayChatMessage
+'-------------------------------------------------------------
+sub DisplayChatMessage()
+	if(not FlyLoaded()) then
+		exit sub
+	end if
+    htmlText = "<html><body leftmargin='1' topmargin='1' marginwidth='0' marginheight='0' style='overflow-y:scroll;'><font size='2'>"
+    htmlText = htmlText&ChatText
+    'htmlText = htmlText&r
+'	htmlText = htmlText&" </body>"&chr(60)&"script language=javascript>document.body.scrollTop='10000';"&chr(60)&"/script></html>"
+    htmlText = htmlText&" </body>"&chr(60)&"script language=javascript>window.scrollBy(0,10000);document.body.style.backgroundColor='#ffffff';"&chr(60)&"/script></html>"
+    IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+
+    height=170
+    width = Math.min(Math.max(ScreenWidth / 2,500), ScreenWidth - 30)
+    
+    IContainer.HTMLPopup 0, 5,5,width,height,SGLang.i18n("Text87"), htmlText, 42, -1 
+end sub
+
+
+'-------------------------------------------------------------
+' EnableDisable( who, bshow )
+' Who: 1 = master; 2 = Client
+'-------------------------------------------------------------
+sub EnableDisable( who, bshow )
+    if (who = 1) then 'Master
+        document.all.SetLeader.disabled = false
+    else
+        document.all.SetLeader.disabled = true
+    end if
+    'Master and client
+    
+    if bshow then
+        document.all("ConnectedSpan").style.display = "inline"
+        document.all("NotConnectedSpan").style.display = "none"
+    else
+        document.all("ConnectedSpan").style.display = "none"
+        document.all("NotConnectedSpan").style.display = "inline"
+    end if
+    'Make sure "Send Fly file" is not selected when an MPT is opened
+    'Only when enabling
+    if bShow then OnConnectMethodChanged 
+end sub
+
+'-------------------------------------------------------------
+' ClearSessionList
+'-------------------------------------------------------------
+sub ClearSessionList ()
+    jQuery("#Result").html("")
+end sub
+
+'-------------------------------------------------------------
+' Comm_OnConnectionError
+'-------------------------------------------------------------
+sub Comm_OnConnectionError(ErrorDecription)
+    ' there is no point in showing no connection errors.
+    ' Comm_OnServerDead will handle that
+    if ErrorDecription <> "No Connection"& vbnewline then
+        MsgBox SGLang.i18n("Text56") & vbnewline & ErrorDecription, ,SGLang.i18n("Text37")
+    end if
+    EnableDisable 1,false
+end sub
+
+'-------------------------------------------------------------
+' Comm_OnServerDead
+'-------------------------------------------------------------
+sub Comm_OnServerDead()
+    if bConnected then		
+        MsgBox SGLang.i18n("Text58"), ,SGLang.i18n("Text37")
+        ClearSessionList
+        EnableDisable 1,false
+    end if
+    bConnected = false
+end sub
+
+sub window_onunload ()
+    DisconnectStoptSession
+    'if bConnected then 	comm.Disconnect 
+    'if bIamMaster then
+    '	if (form1.SessionType.value = 1) then Comm.DestroyMasterServer form1.SessionName.value, form1.Password.value
+    'end if
+end sub
+'-------------------------------------------------------------
+' Comm_OnConnectionReady
+'-------------------------------------------------------------
+sub Comm_OnConnectionReady()
+'MsgBox "Comm_OnConnectionReady"
+    bConnected = true
+    ' initialize SessionCreatorManager
+    Comm.BroadcastData "<SessionCreatorManager><WhoIsSessionCreator><WhoIsSessionCreator><SessionCreatorManager>", 0
+select case jQuery("#NotConnectedSpan :checked").val()
+    case 0
+        Comm.BroadcastData "<Plane><WhoIsLeader><WhoIsLeader><Plane>", 0
+        TECollaboration.IsManager = false
+        document.all.LineColor.style.backgroundColor = "#0000FF"
+        EnableDisable 2, true
+        ' CollabShareManager will be enabled after master fly file will be synced, in CollabFlyFile_OnFlyFileIsSync
+    case  1
+        bIamMaster = true
+        TECollaboration.IsManager = true
+        SynchronizeText.innerText = SGLang.i18n("Text84")
+        CollabPlane.SetMeAsLeader 	
+        document.all.LineColor.style.backgroundColor = "#FF0000"
+        EnableDisable 1, true
+    case  2
+        Comm.JoinSession form1.SessionName.value, form1.Password.value 
+        bIamMaster = true
+        TECollaboration.IsManager = true
+        SynchronizeText.innerText = SGLang.i18n("Text84")
+        CollabPlane.SetMeAsLeader 	
+        document.all.LineColor.style.backgroundColor = "#FF0000"
+        EnableDisable 1, true
+end select
+    'form1.DisconnectSession.disabled  = false
+    document.all.attachPlane.checked = true ' Turn on 
+    'SetFly' moved to Comm_OnListComputersReady -resolve bug #4519***
+    SyncFlight ()
+end sub
+
+'--------------------------------------
+' ConnectToChanged()
+'--------------------------------------
+sub ConnectToChanged()
+select case jQuery("#NotConnectedSpan :checked").val()
+    case "0" ' Join session
+        WriteCollaborationCookie "LastJoinSessionUsed", form1.ConnectTo.value 
+    case "2" 'Create session on server
+        WriteCollaborationCookie "LastHostUsed", form1.ConnectTo.value 
+end select		
+end sub
+
+'--------------------------------------
+' SendTextMessage()
+'--------------------------------------
+sub SendTextMessage()
+    CollabChat.SendTextMessage document.all.Message.value
+    document.all.Message.value = ""
+end sub
+
+'--------------------------------------
+' InviteByEmail()
+'--------------------------------------
+sub InviteByEmail()
+Dim message
+Dim MyHostName
+Dim result
+Dim FullFilePath
+
+'If I am the master of the session suggest to send fly Link/Fly
+if (bIamMaster and document.all.SendFlyType.value =  1 ) then 
+    message = SGLang.i18n("Text68") & vbNewLine & SGLang.i18n("Text69")
+    result = MsgBox (message, vbYesNoCancel, SGLang.i18n("Text55"))
+    select case result
+    case vbYes
+        document.all.SendFlyType.value = 2'Send Fly Link
+        OnConnectMethodChanged
+    case vbNo
+        'Do nothing
+    case vbCancel
+        exit sub
+    end select 
+end if
+
+if (jQuery("#NotConnectedSpan :checked").val() = 1 ) then 
+    '"Create local session"
+    if (ReadHostCookie() = "") then
+        'MsgBox "no cookie"
+        MyHostName = InputBox (SGLang.i18n("Text71")&vbnewline& SGLang.i18n("Text72"), SGLang.i18n("Text55"))
+    else 
+        MyHostName = InputBox (SGLang.i18n("Text73")&vbnewline& SGLang.i18n("Text74"), SGLang.i18n("Text55"),ReadHostCookie())
+    end if	
+    if (MyHostName <> "") then 
+        WriteHostCookie(MyHostName)
+    else
+        exit sub
+    end if
+else 
+    MyHostName = form1.ConnectTo.value
+end if
+
+'Generate Email
+message =  "mailto:"& document.all.Invite_Email.value  & "?"&SGLang.i18n("Text88")
+message =  message & "&body="
+message =  message & SGLang.i18n("Text93")& Replace(form1.UserName.value,"#","%23") &"." & escape(vbNewLine)'escape converts to hex representation
+message =  message & SGLang.i18n("Text96")  & escape(vbNewLine)
+message =  message & SGLang.i18n("Text97")& escape(vbNewLine)
+message =  message & SGLang.i18n("Text98")& escape(vbNewLine)
+message =  message & escape(vbTab) &  SGLang.i18n("Text99")& MyHostName & escape(vbNewLine)
+message =  message & escape(vbTab) &  SGLang.i18n("Text100")& form1.SessionName.value & escape(vbNewLine)
+message =  message & SGLang.i18n("Text101")& escape(vbNewLine)
+message =  message & SGLang.i18n("Text102")& escape(vbNewLine)
+message =  message & ""
+
+window.location = message
+end sub
+
+'--------------------------------------
+' SetFly()
+'--------------------------------------
+function SetFly()    
+    if not bIamMaster then 
+        'CollabFlyFile.SetLoadFlyURL 0 ' Unknown if client
+        CollabShareManager.SetFlyShareMethod 0
+        SetFly = true
+        exit function
+    end if
+    
+    if ((document.all.SendFlyType.value > 1)and (not (FlyLoaded()))) then ' Need to send a fly
+        window.setTimeout "DisconnectStoptSession()" , 20
+        MsgBox SGLang.i18n("Text75")
+        
+        SetFly = false
+    else
+        'CollabFlyFile.SetLoadFlyURL document.all.SendFlyType.value
+        CollabShareManager.SetFlyShareMethod document.all.SendFlyType.value
+        SetFly = true
+    end if	
+end function
+
+'-------------------------------------------------------------
+' CalculateCursorSize
+'-------------------------------------------------------------
+function CalculateCursorSize(X,Y,P_X,P_Y,P_H)
+
+        Distance = ICoordSys.GetDistance (P_X, P_Y, X, Y)
+        distance2 = sqr(Distance*Distance + P_H*P_H)
+
+        CalculateCursorSize = Distance2/10
+end function
+
+'-------------------------------------------------------------
+' CleanCursors
+'-------------------------------------------------------------
+sub CleanCursors()
+        If Not ICursor Is Nothing Then
+            ICursor.KeepAliveOnRelease = 0
+        End If
+        Set ICursor = Nothing
+        If Not ICursor2 Is Nothing Then
+            ICursor2.KeepAliveOnRelease = 0
+        End If
+        Set ICursor2 = Nothing
+End Sub
+
+sub CollaborationError 
+'if err then MsgBox err.Description 
+'MsgBox "HandleCommErrors" & err.Description 
+'Currently all errors are handles on Comm_OnConnectionError
+    'err.Clear 
+end sub
+
+'--------------------------------------
+' checkChatEnter
+'--------------------------------------
+sub checkChatEnter
+    if Window.event.KeyCode = 13 then     ' Enter
+      SendTextMessage 
+    end if
+End Sub
+
+'--------------------------------------
+' checkInviteEnter
+'--------------------------------------
+sub checkInviteEnter
+    if Window.event.KeyCode = 13 then     ' Enter
+      'SendTextMessage 
+      MsgBox "****"
+    end if
+End Sub
+
+'--------------------------------------
+' GetParamValue
+'--------------------------------------
+Sub FillCollabParams
+    ParamHostName = GetParamValue("ServerHostName","")
+    if (ParamHostName <> "") then 
+        'Set The COnnection type to "Join Session"
+        jQuery("#NotConnectedSpan :checked").val(0)
+        form1.ConnectTo.value = ParamHostName	
+    else 
+        exit sub	
+    end if
+    SessionName = GetParamValue("SessionName","")
+    if (SessionName <> "") then 
+        form1.SessionName.value = SessionName
+    else 
+        exit sub	
+    end if
+    
+    
+    form1.UserName.value = InputBox (SGLang.i18n("Text76"), SGLang.i18n("Text55"))
+    if (form1.UserName.value <> "" ) then
+        ConnectStartSession
+    end if 
+end sub
+
+'--------------------------------------
+' GetParamValue
+'--------------------------------------
+Function GetParamValue( FindParam , Default)
+
+   Dim URL
+   Dim l
+   Dim pl
+   Dim RetVal
+   Dim Params
+
+   RetVal=Default
+   Params=""
+
+   URL=document.location
+   l=Len(URL)
+
+   ' find the location of the first parameter
+   For i = 1 to l 
+     If Mid(URL,i,1)="?" Then
+       ' enter the parameters into params string
+       Params="%26" & Mid(URL,i+1,l-i) & "%26" ' Make Sure it will Start and End With "&"
+     Exit For ' i=l+1 ' finish the for
+     End if 
+   Next 
+
+   ' We Have Parameters List
+
+   l=Len(Params)
+   FindParam = "%26" & FindParam & "="
+
+   pl=Len(FindParam)
+   for i = 1 to l-pl
+     if mid(Params,i,pl)=FindParam then
+     for j = i+pl to l-2
+       if mid(Params,j,3)="%26" then
+           RetVal=mid(Params,i+pl,j-i-pl) 
+         Exit For ' j=l-pl+1 ' finish the for
+         end if 
+       next
+       Exit For ' i=l-pl+1 ' finish the for
+       end if 
+   next 
+     
+   GetParamValue=RetVal
+End Function
+
+'--------------------------------------
+' POP1
+'--------------------------------------
+sub pop1 (id)
+    if id.style.display = "" then
+        id.style.display = "none"
+    else 
+        id.style.display = ""
+    end if
+end sub
+
+</script>
+
+<script language="JAVASCRIPT">
+
+
+    //'-------------------------------------------------------------
+    //' CollabChatOnMessage Event
+    //'-------------------------------------------------------------
+    function CollabChatOnMessage(NewMessage) {
+        r = "";
+        loopLen = NewMessage.length;
+        for (i = 0 ; i < loopLen ; i++)
+            r = r + "&#" + NewMessage.charCodeAt(i);
+        ChatText = ChatText + r + "<br>";
+
+        DisplayChatMessage();
+    }
+    //'-------------------------------------------------------------
+    //' CollabPlaneOnLeaderChanged Event
+    //'-------------------------------------------------------------
+    function CollabPlaneOnLeaderChanged(NewLeader) {
+        if (NewLeader == Comm.Nick) {
+            SynchronizeText.innerText = SGLang.i18n("Text84");
+        }
+        else {
+            SynchronizeText.innerText = SGLang.i18n("Text9");
+        }
+        Comm.RequestComputerList();
+    }
+
+
+
+    function CreateCollabChat() {
+        var collabChat = new Chat();
+        collabChat.attachEvent("OnMessage", CollabChatOnMessage);
+        return collabChat;
+    }
+
+    function CreateCollabVirtualCursor() {
+        var collabVirtualCursor = new VirtualCursor();
+        return collabVirtualCursor;
+    }
+    function CreateCollabAnnotation() {
+        var collabAnnotation = new Annotation();
+        return collabAnnotation;
+    }
+
+    function CreateSessionCreatorManager() {
+        return new SessionCreatorManager();
+    }
+
+    function CreateShareManager() {
+        var shareManager = new ShareManager();
+        shareManager.AttachEvent("ShareFlyReceived", OnShareFlyReceived);
+        shareManager.AttachEvent("MasterFlyReceived", OnMasterFlyReceived);
+        shareManager.AttachEvent("ShareRequest", OnShareRequest);
+        shareManager.AttachEvent("MasterFlyReloaded", OnMasterFlyReloaded);
+        return shareManager;
+    }
+
+    function CreateCollabPlane() {
+        var collabPlane = new Plane();
+        collabPlane.attachEvent("OnLeaderChanged", CollabPlaneOnLeaderChanged);
+        return collabPlane;
+    }
+
+
+    function pick(ButtonID, SpanID) {
+        pop1(SpanID)
+        ButtonID.style.backgroundColor = window.event.srcElement.value;
+    }
+
+    /********Cookie handling methods********/
+    function WriteCollaborationCookie(CookieName, Value) {
+        var thisdate = new Date();
+        thisdate.setMonth(thisdate.getMonth() + 1);
+        document.cookie = CookieName + " =" + escape(Value) + "; expires =" + thisdate.toGMTString();
+    }
+
+    function ReadCollaborationCookie(CookieName) {
+        return GetCookie(CookieName);
+    }
+
+    function WriteHostCookie(HostName) {
+        WriteCollaborationCookie("HostName", HostName);
+    }
+
+    function ReadHostCookie() {
+        return GetCookie("HostName");
+    }
+
+    function getCookieVal(offset) {
+        var endstr = document.cookie.indexOf(";", offset);
+        if (endstr == -1)
+            endstr = document.cookie.length;
+        return unescape(document.cookie.substring(offset, endstr));
+    }
+
+    function GetCookie(name) {
+        var arg = name + "=";
+        var alen = arg.length;
+        var clen = document.cookie.length;
+        var i = 0;
+        while (i < clen) {
+            var j = i + alen;
+            if (document.cookie.substring(i, j) == arg)
+                return getCookieVal(j);
+            i = document.cookie.indexOf(" ", i) + 1;
+            if (i == 0)
+                break;
+        }
+        return "";
+    }
+    /******End Cookie handling methods******/
+
+    function MethodChanged() {
+        var connectionMethod = $("#NotConnectedSpan :checked").val();
+        switch (connectionMethod) {
+            case "1": // local
+                {
+                    $("#ConnectTo").val(SGLang.i18n("Text76")).disableRow();
+                    $("#SendFlyType").enableRow();
+                    $("#connectText").html(SGLang.i18n("Text104"));
+                    break;
+                }
+            case "2": //server
+                {
+                    $("#ConnectTo").val(ReadCollaborationCookie("LastHostUsed")).enableRow();
+                    $("#SendFlyType").enableRow();
+                    $("#connectText").html(SGLang.i18n("Text104"));
+                    break;
+                }
+            case "0": // join
+                {
+                    $("#ConnectTo").val(ReadCollaborationCookie("LastJoinSessionUsed")).enableRow();
+                    $("#SendFlyType").disableRow();
+                    $("#connectText").html(SGLang.i18n("Text103"));
+                    break;
+                }
+        }
+    }
+    function OnConnectMethodChanged() {
+        var sendFlyType = $("#SendFlyType").val();
+        if (sendFlyType > 1 && !FlyLoaded()) // need to send a fly
+        {
+            alert(SGLang.i18n("Text59"));
+            $("#SendFlyType").val(0); // Set pull-down menu back to "Don't Send Fly"		
+        }
+        // If "Send Fly link" check if the current fly is on C Drive -> Issue an error
+        if (sendFlyType == 2 && TE.FlyName.toLowerCase().indexOf("c:\\") == 0) {
+            alert(SGLang.i18n("Text60"));
+        }
+        // 'If "Send Fly file" check if the current fly is an MPT -> Prevent the option
+        if (sendFlyType == 3 && TE.FlyName.toLowerCase().lastIndexOf(".mpt") == TE.FlyName.length - 4) {
+            alert(SGLang.i18n("Text64"));
+            $("#SendFlyType").val(0); // Set pull-down menu back to "Don't Send Fly"
+        }
+        //CollabFlyFile.SetLoadFlyURL($("#SendFlyType").val());
+    }
+
+    function selectParticipantRow(row) {
+        $("#Result tr").removeClass("selectedParticipant");
+        $(row).addClass("selectedParticipant");
+    }
+
+
+    function SetAsLeader() {
+        if (!bIamMaster) {
+            alert(SGLang.i18n("Text52"));
+            return;
+        }
+        var name = $("#Result tr.selectedParticipant").find("td:first").text();
+        if (name != "") {
+            Comm.BroadcastData("<Plane><SetLeader>" + name + "<SetLeader><Plane>", 0);
+            Comm.RequestComputerList();
+        }
+    }
+
+
+    function GetMyGroupID(Component) {
+        return GetGroupID(CollabGroupName, Component, Comm.Nick + " " + SGLang.i18n("Text132"));
+    }
+
+
+    function ShareMyGroup(toNick, toIP) {
+        if (!bConnected || !FlyLoaded())
+            return;
+        var myGroup = GetMyGroupID(null);
+        // used Comm.Nick as part of file name, but it might contain illegal characters for path.
+        var tempName = new Date().getTime() + "_" + Math.random() + ".fly";
+        SGWorld.ProjectTree.SaveAsFly(tempName, myGroup);
+        CollabShareManager.ShareFile(tempName, toNick, toIP);
+        SharingGroupIsDirty = false;
+        var now = new Date();
+        var lastSharingTime = pad2(now.getHours()) + ":" + pad2(now.getMinutes()) + ":" + pad2(now.getSeconds());
+        $("#lastSharingTime").html(lastSharingTime);
+    }
+    function pad2(number) {
+        return (number < 10 ? '0' : '') + number;
+    }
+
+
+    function OnShareFlyReceived(from, path) {
+        if (!FlyLoaded()) // do not receive shares, untill fly is loaded
+        {
+            return;
+        }
+        try // throw Error code: (20003) TERRA_COULD_NOT_LOAD_ANIM     when another computer adds V:\TE Data\KML&KMZ\KML Interactive Sampler\Models\doc.kml to his sharing group.
+        {
+            var tempGroupId = SGWorld.ProjectTree.LoadFlyLayer(path, 0);
+        }
+        catch (e) {
+            var groupName = path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf(".fly"));
+            tempGroupId = SGWorld.ProjectTree.FindItem(groupName);
+            SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text133", { name: from }) + e.description);
+        }
+
+        var tempGroup = SGWorld.ProjectTree.GetItemName(tempGroupId);
+        // first item in temp group is sender's share group
+        var senderGroup = SGWorld.ProjectTree.GetNextItem(tempGroupId, ItemCode.CHILD);
+        // rename it to remove [My share group] suffix
+        SGWorld.ProjectTree.RenameGroup(senderGroup, from);
+        var oldSenderGroup = GetGroupID(CollabGroupName, null, from);
+        SGWorld.ProjectTree.DeleteItem(oldSenderGroup);
+        SGWorld.ProjectTree.SetParent(senderGroup, SGWorld.ProjectTree.FindItem(CollabGroupName));
+        SGWorld.ProjectTree.DeleteItem(tempGroupId);
+    }
+
+    function OnMasterFlyReceived(from, path) {
+        try {
+            SGWorld.Project.Open(path);
+            // in v6 API does not throw exceptions on api calls
+            if (!FlyLoaded()) {
+                alert(SGLang.i18n("Text138", { path: path }));
+                return;
+            }
+            // force creation of collaboration group in the new fly
+            GetMyGroupID(null);
+        }
+        catch (e) {
+            // in v6.1 it does
+            alert(SGLang.i18n("Text138", { path: path }));
+            return;
+        }
+    }
+
+    function OnShareRequest(fromNick, fromIp) {
+        // if autosharing enabled, send the group
+        if (AutoShare)
+            ShareMyGroup(fromNick, fromIp);
+            // otherwise, mark group as dirty, so that it will be shared with everyone when autoshare is on, including the requester.
+        else
+            SharingGroupIsDirty = true;
+    }
+
+    function OnMasterFlyReloaded() {
+        //Manager has reloaded a FLY file, Suggest to the user to reconnect
+        message = SGLang.i18n("Text53") + "\r\n" + SGLang.i18n("Text54");
+        if (confirm(message)) {
+            Comm.BroadcastData("<ShareManager><GetMasterFly><GetMasterFly><ShareManager>", 0);
+        }
+    }
+
+    function ToggleAutoShare() {
+        AutoShare = !AutoShare;
+        if (AutoShare) {
+            $("#ShareImg").addClass("toolbarSelected");
+            $("#autoSharingStatus").text(SGLang.i18n("Text131")).css({ color: "green" });
+            
+            SetSSValueOn();
+        }
+        else {
+            $("#ShareImg").removeClass("toolbarSelected");
+            $("#autoSharingStatus").text(SGLang.i18n("Text128")).css({ color: "red" });
+            SetSSValueOff();
+        }
+        if (AutoShare && SharingGroupIsDirty)
+            ShareMyGroup();
+    }
+
+    function OnSharedGroupChanged() {
+        SharingGroupIsDirty = true;
+        if (AutoShare)
+            ShareMyGroup();
+    }
+
+    function TEOnObjectAction(objectId, action) {
+        // only respond to edit finished messages. 
+        //i.e. When polyline is added, it first sends add event, and then after edit(draw) finished, it sends edit finish
+        if (action.Code != ActionCode.AC_EDIT_FINISHED)
+            return;
+
+        var addedObject = SGWorld.Creator.GetObject(objectId)
+        // if object is not in tree, we are not interested
+        if (!addedObject || !addedObject.TreeItem)
+            return;
+        OnTreeItemChanged(addedObject.TreeItem.ItemID);
+    }
+
+    function TEOnProjectTreeAction(itemId, action) {
+        if (action.Code == ActionCode.AC_SELCHANGED || action.Code == ActionCode.AC_EDIT_STARTED)
+            return;
+        // bug fix #15719 
+        // AC_LAYER_REMOVED event is fired with invalid item id (the one that was deleted) so we can not work with it
+        if (action.Code == 27 /*ActionCode.AC_LAYER_REMOVED */)
+            return;
+
+        // ignore standard groups in collaboration: Label, FreeHand, VirtualCursor
+        if (action.Code == ActionCode.AC_GROUP_ADDED) {
+            var name = SGWorld.ProjectTree.GetItemName(itemId);
+            if (name == SGLang.i18n("Text85") || name == SGLang.i18n("Text86") || name == SGLang.i18n("Text134"))
+                return;
+        }
+        // Ignore cursor deletion: Cursor can be named Cursor, Cursor1 and Cursor2
+        if (action.Code == ActionCode.AC_DELETE) {
+            var name = SGWorld.ProjectTree.GetItemName(itemId);
+            if (name == SGLang.i18n("Text135") || name == SGLang.i18n("Text136") || name == SGLang.i18n("Text137")) // object named Cursor
+            {
+                var parent = SGWorld.ProjectTree.GetNextItem(itemId, ItemCode.PARENT);
+                if (parent > 0) // it has valid parent
+                {
+                    var parentName = SGWorld.ProjectTree.GetItemName(parent);
+                    if (parentName == SGLang.i18n("Text134"))  // and parent name is VirtualCursor
+                        return;
+                }
+            }
+        }
+        OnTreeItemChanged(itemId);
+    }
+
+    function IsInGroup(groupId, itemId) {
+        if (SGWorld.Project.Name == "")
+            return false;
+        var parent = -1;
+        while (parent != 0) {
+            var parent = SGWorld.ProjectTree.GetNextItem(itemId, 15);
+            if (parent == groupId)// object was added to user group, share the group and exit
+            {
+                return true;
+            }
+            itemId = parent;
+        }
+        return false;
+    }
+    function SetConnectedText() {
+        $("#connectedText").html(SGLang.i18n("Text129", { session: form1.SessionName.value, server: form1.ConnectTo.value }));
+    }
+    var treeChangeTimer = null;
+    function OnTreeItemChanged(itemId, fromTimer) {
+        if (!bConnected)
+            return;
+        if (!AutoShare) // if autoshare is disabled, remember that group is dirty and return
+        {
+            SharingGroupIsDirty = true;
+            return;
+        }
+        // object was added to user group, share the group
+        if (IsInGroup(GetMyGroupID(), itemId)) {
+            // kmls are added as a lot of small objects, so wait until TE finished adding objects and only then share the group
+            if (!fromTimer) {
+                clearTimeout(treeChangeTimer);
+                treeChangeTimer = setTimeout(function () { ShareMyGroup(); }, 10);
+            }
+        }
+    }
+
+    function FlyLoaded() {
+        return SGWorld.Project.Name != "";
+    }
+
+    (function ($) {
+        $.fn.disableRow = function () {
+            return this.each(function () {
+                var $this = $(this);
+                $this.parents("tr:first").addClass("disabled").find(":input").attr("disabled", true);
+            });
+        };
+        $.fn.enableRow = function () {
+            return this.each(function () {
+                var $this = $(this);
+                $this.parents("tr:first").removeClass("disabled").find(":input").attr("disabled", false);
+            });
+        };
+    }
+    )(jQuery);
+
+</script>
+
+</html>
+
+
+<!--Sig:00000040M3EX1M3tF3rJCBDRhZE7rSGrwANLU76iT84.r1AqayZlgzs4YWdgqG9.4yvtrLNqzaTj4uslV0LdXn6vRWrqJJJJ-->
+
+
+<!--Sig:00000040F.YefggScjb#OfomsQtNqMB4zWI7#HEFav8etYRlblSTHefS1Y0VBLR4Fwcvth60b0VFqcDV95ddtOWZrNQUGJJJ-->

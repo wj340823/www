@@ -1,0 +1,1039 @@
+package com.sucsoft.gzhbyjwz.service.risksource;
+
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.cgs.sscf.commons.exception.BadRequest;
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import com.sucsoft.gzhbyjwz.bean.common.user.TblUser;
+import com.sucsoft.gzhbyjwz.bean.dc12.*;
+import com.sucsoft.gzhbyjwz.bean.param.Param;
+import com.sucsoft.gzhbyjwz.bean.param.riskManage.PreplanParam;
+import com.sucsoft.gzhbyjwz.service.XzqyService;
+import com.sucsoft.gzhbyjwz.service.user.UserService;
+//import com.sucsoft.gzhbyjwz.util.WordBean;
+import com.sucsoft.gzhbyjwz.util.*;
+import io.swagger.models.auth.In;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.Range;
+
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cgs.dc.starter.model.CountObject;
+import com.cgs.dc.starter.model.GetOptions;
+import com.sucsoft.gzhbyjwz.bean.common.ResultBean;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+
+/**
+ * @author 金林阳，季明耀
+ */
+@Service
+public class RiskSourceService {
+
+	@Autowired
+	private BasicQueryService basicQueryService;
+	@Autowired
+	private JdbcConn jdbcConn;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private XzqyService xzqyService;
+
+    @Autowired
+    private JdbcTemplate jdbc;
+	
+//	@Value("${referenceDrawingFilePath}")
+//	private String filePath;
+	@Value("${enterprise.attachment}")
+	private String filePath;
+	//enterprise.attachment
+
+	@Transactional
+	public List<Map> numberRanking() throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("xzqyIdList",xzqyService.getChildrenAndSelfId(null));
+		List<Map> list = basicQueryService.queryForList("riskNumberRanking", params, Map.class, 0, 0);
+		return list; 
+	}
+
+	@Transactional
+	public List<Map> riskgradeRanking() throws Exception {
+		List<Map> resultList = new ArrayList<>();
+
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("xzqyIdList",xzqyService.getChildrenAndSelfId(null));
+		List<Map> list = basicQueryService.queryForList("riskgradeRanking", params, Map.class, 0, 0);
+		List<Map> countList = basicQueryService.queryForList("countEnterprise", params, Map.class, 0, 0);
+		CountObject number = basicQueryService.getCrudService().listCount(EnterpriseInformation.class.getName(), new GetOptions());
+		long count = Long.parseLong(countList.get(0).get("number").toString());
+		int j = 1;
+		for(Map m:list){
+			Double i = new Double(m.get("NUM").toString());
+			double n = i*100/(double)count;
+			String result = String.format("%.1f", n);
+			m.put("PERCENT", result+"%");
+
+			//显示前五名
+			if (j<=5){
+				resultList.add(m);
+				j++;
+			}else {
+				break;
+			}
+		}
+		return resultList;
+	}
+
+	/**
+	 * 风险源区域分布，查询参数为风险等级
+	 * @param riskGrade
+	 * @return
+	 * @throws Exception
+	 */
+	public Object countEnterpriseByXzqy(String riskGrade) throws Exception {
+		Map param = new HashMap();
+		if (!StringUtils.isBlank(riskGrade)){
+			param.put("riskGrade",riskGrade);
+		}
+
+		return basicQueryService.queryForList("countEnterpriseByXzqy",param,Map.class,0,0);
+
+	}
+
+	@Transactional
+	public List<Map> listRiskSouce(String xzqyId, String keyword, String riverId,String riskGrade) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+//		if(StringUtils.isNotBlank(xzqyId)){
+//			params.put("xzqyId", xzqyId);
+//		}
+		if(StringUtils.isNotBlank(riskGrade)){
+			params.put("riskGrade", riskGrade);
+		}
+		if(StringUtils.isNotBlank(keyword)){
+			params.put("keyword", "%"+keyword+"%");
+		}
+		if (StringUtils.isNotBlank(riverId)){
+			params.put("riverId", riverId);
+		}
+		if(StringUtils.isNotBlank(xzqyId)) {
+			params.put("xzqyIdList", xzqyService.getChildrenAndSelfId(xzqyId));
+		}
+		List<Map> list = basicQueryService.queryForList("listRiskSouce", params, Map.class, 0, 0);		
+		return list;
+	}
+
+
+	@Transactional
+	public Page listRiskSoucepage(String xzqyId, String keyword, String riverId, String riskGrade, Integer pageNo,Integer pageSize) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+//		if(StringUtils.isNotBlank(xzqyId)){
+//			params.put("xzqyId", xzqyId);
+//		}
+		if(StringUtils.isNotBlank(riskGrade)){
+			params.put("riskGrade", riskGrade);
+		}
+		if(StringUtils.isNotBlank(keyword)){
+			params.put("keyword", "%"+keyword+"%");
+		}
+		if (StringUtils.isNotBlank(riverId)){
+			params.put("riverId", riverId);
+		}
+		if(StringUtils.isNotBlank(xzqyId)) {
+			params.put("xzqyIdList", xzqyService.getChildrenAndSelfId(xzqyId));
+		}
+		Page page = basicQueryService.queryForPage("listRiskSouce", params, Map.class, pageNo, pageSize);
+		return page;
+	}
+
+	/**
+	 * 风险源备案列表导出
+	 * @author luowb
+	 * @date 2019/8/25 0025
+	 */
+	public void exportEnterprisePreplan( HttpServletResponse response,String xzqyId, String keyword, String riverId, String riskGrade, Integer pageNo,Integer pageSize) throws Exception {
+		Page<Map> page = listRiskSoucepage(xzqyId, keyword, riverId, riskGrade, pageNo, pageSize);
+		List<Map> list = page.getDataList();
+		// 创建excel工作簿
+		HSSFWorkbook wb = new HSSFWorkbook();
+		formateGoodsList(list);
+		ExcelUtil.addSheet(wb,"风险源信息",list,keysemergency,columnNamesemergency);
+		response.setContentType("application/x-download");
+		response.addHeader("Content-Disposition","attachment;filename=" + "goodslist.xls");
+		wb.write(response.getOutputStream());
+	}
+
+
+	private static String[] keysemergency =
+			{"BUMBER","xzqyName","xzqyName2","COMPANYNAME","RISKGRADE","INDUSTRYCATEGORYNAME","RISKTYPE","RISKWZ","BAZT","YJWZ","YJSS","YYYX"};
+	private static String[] columnNamesemergency =
+			{"序号","行政区划（市州）","行政区划（区县）","企业名称","风险级别","行业类别","风险源类型","风险物质","备案状态","应急物资","应急设施","应急演练"};
+
+	public void formateGoodsList(List<Map> datas){
+		int  i = 1;
+		for(Map data : datas){
+			if(data.get("DOCUMENTYEAR")!= null){
+				data.put("BAZT","已备案");
+			}else {
+				data.put("BAZT","未备案");
+			}
+			data.put("RISKGRADE",data.get("RISKGRADE")==null?"一般":data.get("RISKGRADE").toString()+"风险源");
+			data.put("BUMBER",i+"");
+			Integer code = data.get("RECORDSTATUS")==null?0:(Integer)data.get("RECORDSTATUS");
+			data.put("YJWZ","有");
+			data.put("YJSS","应急池");
+			data.put("YYYX"," ");
+			data.put("xzqyName",data.get("xzqyName")==null?"":data.get("xzqyName"));
+			data.put("xzqyName2",data.get("xzqyName2")==null?"":data.get("xzqyName2"));
+			data.put("INDUSTRYCATEGORYNAME",data.get("INDUSTRYCATEGORYNAME")==null?"":data.get("INDUSTRYCATEGORYNAME"));
+			data.put("COMPANYNAME",data.get("COMPANYNAME")==null?"":data.get("COMPANYNAME"));
+			data.put("RISKTYPE",data.get("RISKTYPE")==null?"":data.get("RISKTYPE"));
+			data.put("RISKWZ",data.get("RISKWZ")==null?" ":data.get("RISKWZ"));
+			i++;
+		}
+	}
+	@Transactional
+	public Page<Map> listRiskSouce(String xzqyId, String keyword, Integer pageSize, Integer pageNo) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isNotBlank(xzqyId)){
+			params.put("xzqyId", xzqyId);
+		}
+		if(StringUtils.isNotBlank(keyword)){
+			params.put("keyword", "%"+keyword+"%");
+		}
+		params.put("xzqyIdList",xzqyService.getChildrenLeafId(xzqyId));
+		Page list = basicQueryService.queryForPage("listRiskSouce", params, Map.class, pageNo, pageSize);
+		return list;
+	}
+	
+	@Transactional
+	public EnterpriseInformation getCompanyDetails(String companyId) throws Exception {
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}		
+		EnterpriseInformation e = basicQueryService.get(companyId, EnterpriseInformation.class);
+		return e;
+	}
+	
+	
+	@Transactional
+	public List<Map> getAroundCompany(String longitude,String latitude,String distance) throws Exception{
+		if(StringUtils.isBlank(latitude)||StringUtils.isBlank(latitude)){
+			throw new Exception("经纬度缺失");
+		}
+		if(StringUtils.isBlank(distance)){
+			distance="1000";
+		}
+		double d = Double.valueOf(distance);
+		double dis = Math.round(d / 100d) / 10d;
+		String r = String.valueOf(dis);
+		Map<String, Object> params = this.returnMaxAndMin(longitude, latitude, r);
+		params.put("lng", longitude);
+		params.put("lat", latitude);
+		List<Map> list = basicQueryService.queryForList("getAroundCompany", params, Map.class, 0, 0);
+		return list;
+	}
+	
+	public Map<String,Object> returnMaxAndMin(String longitude,String latitude,String kilometer){
+		double r = 6378.137;//地球半径千米  
+		//计算经度角度 
+		double lat = Double.valueOf(latitude);
+		double lng = Double.valueOf(longitude);
+		double kilo = Double.valueOf(kilometer);
+        double dlng =  2*Math.asin(Math.sin(kilo/(2*r))/Math.cos(lat*Math.PI/180));  
+        dlng = dlng*180/Math.PI;//角度转为弧度  
+        double dlat = kilo/r;  
+        dlat = dlat*180/Math.PI;          
+        double minlat = lat-dlat;  
+        double maxlat = lat+dlat;  
+        double minlng = lng -dlng;  
+        double maxlng = lng + dlng;  
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("maxlng", maxlng);
+        params.put("minlng", minlng);
+        params.put("minlat", minlat);
+        params.put("maxlat", maxlat);
+        return params;
+	}
+
+	@Transactional
+	public ResultBean uploadFlowChart(HttpServletRequest request, MultipartFile file, String companyId,String annualOutput,String productName) throws Exception {
+		ResultBean r = new ResultBean(0,"上传成功");
+		if(StringUtils.isBlank(productName)){
+			return new ResultBean(1,"产品名称为空");
+		}
+		HashMap<String,Object> params = new HashMap<>();
+		//根据风险源id 查询  风险源
+		params.put("companyId", companyId);
+		CountObject count = basicQueryService.getQueryService().restQueryCount("listRiskSouce", params);
+		if(count.getCount()!=1){
+			return new ResultBean(1,"未找到相关风险源");
+		}
+//		JdbcConn conn = new JdbcConn();
+		Connection con = jdbcConn.getConnection();
+	    PreparedStatement pre = null;
+		try{
+	            InputStream inputStream=file.getInputStream();
+	            String fileName=file.getOriginalFilename();    
+	            String fileType=fileName.substring(fileName.lastIndexOf(".")+1,fileName.length());
+	            String sql = "insert into ProcessFlowChart(id,companyId,productName,technologicalProcess,annualOutput,fileType) values(?,?,?,?,?,?) ";
+//		        String sql = "update EnterpriseInformation set FLOWCHART=? where EnterpriseInformation.companyId=?";
+		        pre = con.prepareStatement(sql);
+		        pre.setString(1, UUID.randomUUID().toString().replaceAll("-", ""));
+		        pre.setString(2,companyId);
+		        pre.setString(3, productName);
+		        pre.setBinaryStream(4,inputStream,inputStream.available());
+		        pre.setString(5,annualOutput);
+		        pre.setString(6, fileType);
+		        pre.executeUpdate();
+		}catch(Exception e){
+			r.setResult(1);
+			r.setMsg("上传失败");
+			e.printStackTrace();
+		}finally{
+			try{
+				if (pre != null){
+					pre.close();					
+				}
+				if (con != null){
+					con.close();	            					
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return r;
+	}
+
+	@Transactional
+	public List<Map<String, Object>> getFlowChart(String companyId) throws SQLException {
+
+		String sql = "select technologicalProcess,annualOutput,productName,fileType from ProcessFlowChart where companyId = ?";
+		List<Map<String, Object>> params = jdbcConn.getPicture(companyId, sql);
+		return params;
+	}
+
+	@Transactional
+	public List<RiskMaterial> getRiskMaterial(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<RiskMaterial> list = basicQueryService.queryForList("getRiskMaterial", params, RiskMaterial.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public Page getEmergencySubstance(String companyId, String keywords,String XZQY,
+									  Integer pageNo, Integer pageSize) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+//		if(StringUtils.isBlank(companyId)){
+//			throw new Exception("没有相关参数");
+//		}
+		params.put("companyId", companyId);
+		if (!StringUtils.isBlank(keywords)){
+			params.put("keywords", "%"+keywords+"%");
+		}
+		if (!StringUtils.isBlank(XZQY)){
+			params.put("XZQY", XZQY);
+		}
+		Page list = basicQueryService.queryForPage("getEmergencySubstanceMap", params, Map.class, pageNo, pageSize);
+		return list;
+	}
+
+	@Transactional
+	public List<Map> getEmergencySubstance(String companyId, String keywords,String XZQY) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+//		if(StringUtils.isBlank(companyId)){
+//			throw new Exception("没有相关参数");
+//		}
+		params.put("companyId", companyId);
+		if (!StringUtils.isBlank(keywords)){
+			params.put("keywords", "%"+keywords+"%");
+		}
+		if (!StringUtils.isBlank(XZQY)){
+			params.put("XZQY", XZQY);
+		}
+		List<Map> list = basicQueryService.queryForList("getEmergencySubstanceMap", params, Map.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyVehicle> getEmergencyVehicle(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyVehicle> list = basicQueryService.queryForList("getEmergencyVehicle", params, EmergencyVehicle.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyFireDevice> getEmergencyFireDevice(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyFireDevice> list = basicQueryService.queryForList("getEmergencyFireDevice", params, EmergencyFireDevice.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyApparatus> getEmergencyApparatus(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyApparatus> list = basicQueryService.queryForList("getEmergencyApparatus", params, EmergencyApparatus.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<ProcessEquipment> getProcessEquipment(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<ProcessEquipment> list = basicQueryService.queryForList("getProcessEquipment", params, ProcessEquipment.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyCrew> getEmergencyCrew(String companyId,String keywords,String department) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+//		if(StringUtils.isBlank(companyId)){
+//			throw new Exception("没有相关参数");
+//		}
+		params.put("companyId", companyId);
+		if (!org.springframework.util.StringUtils.isEmpty(keywords)){
+			params.put("keywords","%"+keywords+"%");
+		}
+		if (!StringUtils.isNotBlank(department)){
+			params.put("department",department);
+		}
+		List<EmergencyCrew> list = basicQueryService.queryForList("getEmergencyCrew", params, EmergencyCrew.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencySpecialist> getEmergencySpecialist(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencySpecialist> list = basicQueryService.queryForList("getEmergencySpecialist", params, EmergencySpecialist.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<ForeignAidUnit> getForeignAidUnit(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<ForeignAidUnit> list = basicQueryService.queryForList("getForeignAidUnit", params, ForeignAidUnit.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyOrganization> getEmergencyOrganization(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyOrganization> list = basicQueryService.queryForList("getEmergencyOrganization", params, EmergencyOrganization.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyGroup> getEmergencyGroup(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyGroup> list = basicQueryService.queryForList("getEmergencyGroup", params, EmergencyGroup.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyCase> getEmergencyCase(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyCase> list = basicQueryService.queryForList("getEmergencyCase", params, EmergencyCase.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<EmergencyPlan> getEmergencyPlan(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<EmergencyPlan> list = basicQueryService.queryForList("getEmergencyPlan", params, EmergencyPlan.class, 0, 0);
+		return list;
+	}
+
+	@Transactional
+	public List<ReferenceDrawing> getReferenceDrawing(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<ReferenceDrawing> list = basicQueryService.queryForList("getReferenceDrawing", params, ReferenceDrawing.class, 0, 0);
+		for(ReferenceDrawing r:list){
+			String fileName = r.getFilePath();
+			if(StringUtils.isNotBlank(fileName)){
+				File file = new File(filePath,fileName);
+				if (file.exists()) {
+					String fileType=fileName.substring(fileName.lastIndexOf(".")+1,fileName.length());
+					FileInputStream inputFile = null;
+					try {
+						inputFile = new FileInputStream(file);
+						byte[] buffer = new byte[(int) file.length()];
+						inputFile.read(buffer);
+						inputFile.close();
+						String base64 = Base64.getEncoder().encodeToString(buffer);
+						base64 = "data:image/"+fileType+";base64,"+base64;
+						r.setFileBase64(base64);
+					}finally {
+						if (inputFile !=null){
+							inputFile.close();
+						}
+					}
+				}			
+			}
+		}
+		return list;
+	}
+
+	@Transactional
+	public ResultBean uploadReferenceDrawing(HttpServletRequest request, MultipartFile file, String companyId,String name) throws Exception {
+		ResultBean r = new ResultBean(0,"上传成功");
+		HashMap<String,Object> params = new HashMap<>();
+		//根据风险源id 查询  风险源
+		params.put("companyId", companyId);
+		CountObject count = basicQueryService.getQueryService().restQueryCount("listRiskSouce", params);
+		if(count.getCount()!=1){
+			return new ResultBean(1,"未找到相关风险源");
+		}
+		if(file.isEmpty()){
+			return new ResultBean(1,"上传文件为空");
+		}
+		try{
+			ReferenceDrawing referenceDrawing = new ReferenceDrawing();
+			if(file!=null){
+				String fileName=file.getOriginalFilename();
+		    	String path = filePath+fileName;
+		    	File dest = new File(path);
+		    	  // 检测是否存在目录
+		    	if (!dest.getParentFile().exists()) {
+		    		dest.getParentFile().mkdirs();// 新建文件夹
+		    	}
+		    	//如果文件存在 则修改文件名称
+		    	if(dest.exists()){
+		    		fileName = System.currentTimeMillis()+fileName;
+		    		dest = new File(filePath+fileName);
+		    	}
+		    	String thePath = dest.getAbsolutePath();
+		    	//存
+		    	referenceDrawing.setCompanyId(companyId);
+		    	referenceDrawing.setFilePath(fileName);
+		    	referenceDrawing.setName(name);
+		    	referenceDrawing.setReferenceDrawingId(UUID.randomUUID().toString().replaceAll("-", ""));
+		    	basicQueryService.save(referenceDrawing);
+		    	dest = new File(thePath);
+		    	file.transferTo(dest);		    	
+			}
+		}catch(Exception e){
+			r.setResult(1);
+			r.setMsg("上传失败");
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+
+	/**
+	 * 查询生产装置
+	 * @param companyId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ProductionUnit> getProductionUnit(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<ProductionUnit> list = basicQueryService.queryForList("getProductionUnit", params, ProductionUnit.class, 0, 0);
+		return list;
+	}
+
+	//查询保护目标
+	public List<ProtectionObject> getProtectionObject(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<ProtectionObject> list = basicQueryService.queryForList("getProtectionObject", params, ProtectionObject.class, 0, 0);
+		return list;
+	}
+
+	//
+	public List<AccidentSource> getAccidentSource(String companyId) throws Exception {
+		Map<String,Object> params = new HashMap<>();
+		if(StringUtils.isBlank(companyId)){
+			throw new Exception("没有相关参数");
+		}
+		params.put("companyId", companyId);
+		List<AccidentSource> list = basicQueryService.queryForList("getAccidentSource", params, AccidentSource.class, 0, 0);
+		return list;
+	}
+
+	//生产装置
+	private static final String[] ProductionUnitTitles = {"装置名称","主要原材料","产品名称","年产能(吨)"};
+	private static final String[] ProductionUnitproperties = {"name","materials","productName","annualCapacity"};
+	//环境保护目标
+	private static final String[] ProtectionObjectTitles = {"保护目标","方位","距离","人数/户数","保护目的","标准"};
+	private static final String[] ProtectionObjectproperties = {"protectObject","direction","distance","peopleNumber","purpose","standard"};
+	//环境污染事故源
+	private static final String[] AccidentSourceTitles = {"事故源","危险性类别","危险特性","泄漏应急措施"};
+	private static final String[] AccidentSourceproperties = {"accidentSource","level","hazardousCharacteristics","emergencyMeasure"};
+	//应急物资
+	private static final String[] EmergencySubstanceTitles = {"名称","数量(个)","计量单位","规格/型号","贮存地点"};
+	private static final String[] EmergencySubstanceproperties = {"name","number","numberUtil","typeNumber","address"};
+	//应急指挥通讯录
+	private static final String[] EmergencyCrewTitles = {"部门","姓名","职务","办公室电话","手机"};
+	private static final String[] EmergencyCrewproperties = {"department","name","companyAgency","officeTelephone","telephone"};
+	//应急外部联络表
+	private static final String[] ForeignAidUnitTitles = {"部门","办公室电话"};
+	private static final String[] ForeignAidUnitproperties = {"department","telephone"};
+	//
+	private static final String[] EmergencySpecialistTitles = {"姓名","单位","职务/职称","联系电话"};
+	private static final String[] EmergencySpecialistproperties = {"name","theUtil","professionalField","telephone"};
+
+	public void downWord(String companyId, String keywords, HttpServletResponse response) throws Exception {
+		//"/data/yilanbiaoT.doc"
+//		EnterpriseInformation e = getCompanyDetails(companyId);
+//		HWPFDocument hdt = createDoc(e,keywords);
+//		download(response,hdt,e.getCompanyName());
+
+		WordBean wordBean = new WordBean();
+		EnterpriseInformation e = getCompanyDetails(companyId);
+		wordBean.addTitle(e.getCompanyName());
+		wordBean.addTitle("  ",20,ParagraphAlignment.LEFT);
+		wordBean.addTitle("  ",20,ParagraphAlignment.LEFT);
+		wordBean.addTitle("公司概况",18, ParagraphAlignment.LEFT);
+
+		wordBean.addTitle("风险源名称：",14,ParagraphAlignment.LEFT);
+		wordBean.addTitle(e.getCompanyName(),14,ParagraphAlignment.LEFT,false);
+		wordBean.addTitle("简介：",14,ParagraphAlignment.LEFT);
+		wordBean.addTitle(e.getSimpleIntroduce()==null?"":e.getSimpleIntroduce(),14,ParagraphAlignment.LEFT,false);
+		wordBean.addTitle("地理位置：",14,ParagraphAlignment.LEFT);
+		wordBean.addTitle(e.getAddress()==null?"":e.getAddress(),14,ParagraphAlignment.LEFT,false);
+		wordBean.addTitle("交通情况：",14,ParagraphAlignment.LEFT);
+		//生产装置区
+		List<ProductionUnit> productionUnitList =  getProductionUnit(companyId);
+		addTitle(wordBean,"生产装置区",productionUnitList,ProductionUnitTitles,ProductionUnitproperties);
+		//环境保护目标
+		List<ProtectionObject> protectionObjectList = getProtectionObject(companyId);
+		addTitle(wordBean,"环境保护目标",protectionObjectList,ProtectionObjectTitles,ProtectionObjectproperties);
+		//环境污染事故源
+		List<AccidentSource> accidentSourceList = getAccidentSource(companyId);
+		addTitle(wordBean,"环境污染事故源",accidentSourceList,AccidentSourceTitles,AccidentSourceproperties);
+		//应急物资
+		List<Map> emergencySubstanceList = getEmergencySubstance(companyId, null, null);
+		addTitle(wordBean,"应急物资",emergencySubstanceList,EmergencySubstanceTitles,EmergencySubstanceproperties);
+		//应急指挥通讯录
+		List<EmergencyCrew> emergencyCrewList = getEmergencyCrew(companyId, null,null);
+		addTitle(wordBean,"应急指挥通讯录",emergencyCrewList,EmergencyCrewTitles,EmergencyCrewproperties);
+		//应急外部联络表
+		List<ForeignAidUnit> foreignAidUnitList = getForeignAidUnit(companyId);
+		addTitle(wordBean,"应急外部联络表",foreignAidUnitList,ForeignAidUnitTitles,ForeignAidUnitproperties);
+		//应急专家
+		List<EmergencySpecialist> emergencySpecialistList = getEmergencySpecialist(companyId);
+		addTitle(wordBean,"应急专家",emergencySpecialistList,EmergencySpecialistTitles,EmergencySpecialistproperties);
+
+		wordBean.write(response,e.getCompanyName()+".docx");
+	}
+
+	private <T> void addTitle(WordBean wordBean,String titleName,List<T> tList, String[] titles, String[] properties) throws Exception {
+		wordBean.addTitle("  ",20,ParagraphAlignment.LEFT);
+		wordBean.addTitle(titleName,17,ParagraphAlignment.LEFT);
+		List<List<String>> protectionObjectMapList = convertMapList(tList, titles, properties);
+		wordBean.addTable(protectionObjectMapList,3,3,null,100);
+	}
+
+	/**
+	 *
+	 * @param tList
+	 * @param titles
+	 * @param properties
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException
+	 * @throws InvocationTargetException
+	 */
+	private <T> List<List<String>> convertMapList(List<T> tList, String[] titles, String[] properties) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		List<List<String>> list = new ArrayList<>();
+		List<String> titleList = Arrays.asList(titles);
+		list.add(titleList);
+		int i = 0;
+		for (T o:tList){
+			List<String> datalist= new ArrayList<>();
+			for (String property:properties){
+				String value = BeanUtils.getProperty(o,property);
+				datalist.add(value==null?"":value);
+			}
+			list.add(datalist);
+		}
+		return list;
+	}
+
+	public HWPFDocument createDoc(EnterpriseInformation e, String keywords) throws Exception {
+		//"/data/yilanbiaoT.doc"
+		HWPFDocument hdt = new HWPFDocument(new FileInputStream("src/main/resources/data/yilanbiaoT.doc"));
+		//替换读取到的word模板内容的指定字段
+		Range range = hdt.getRange();
+		//企业信息
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("$companyName$",e.getCompanyName());
+		map.put("$simpleIntroduce$",e.getSimpleIntroduce());
+		map.put("$address$",e.getAddress());
+		map.put("$transport$",e.getTransport());
+		for (Map.Entry<String,String> entry:map.entrySet()) {
+			range.replaceText(entry.getKey(),entry.getValue()==null?"":entry.getValue());
+		}
+		//生产装置区
+
+		//环境保护目标
+		//环境污染事故源
+		//应急物资
+		//应急指挥通讯录
+		//应急外部联络表
+		//应急专家
+
+		return hdt;
+	}
+
+	public void download(HttpServletResponse response,HWPFDocument hdt,String name) throws IOException {
+		response.setContentType("application/x-msdownload");
+		name = java.net.URLEncoder.encode(name+".doc", "UTF8");
+		response.addHeader("Content-Disposition", "attachment; filename*=utf-8'zh_cn'"+name);
+		response.setCharacterEncoding("utf-8");
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		ServletOutputStream servletOS = response.getOutputStream();
+		hdt.write(ostream);
+		servletOS.write(ostream.toByteArray());
+		servletOS.flush();
+		servletOS.close();
+	}
+
+
+    public Object updateCompanyDetails(EnterpriseInformation enterprise) {
+		if (org.springframework.util.StringUtils.isEmpty(enterprise)){
+			throw new BadRequest("companyId can not be null!");
+		}
+		EnterpriseInformation enterpriseInformation = basicQueryService.get(enterprise.getCompanyId(),EnterpriseInformation.class);
+		enterpriseInformation.setCompanyName(enterprise.getCompanyName());
+		enterpriseInformation.setTransport(enterprise.getTransport());
+		enterpriseInformation.setAddress(enterprise.getAddress());
+		enterpriseInformation.setSimpleIntroduce(enterprise.getSimpleIntroduce());
+		basicQueryService.update(enterpriseInformation);
+		return "success";
+    }
+
+	/**
+	 * 厂区平面图
+	 */
+	public static final int pingmiantu = 1;
+
+	/**
+	 * 上传企业附件
+	 * @param file
+	 * @param companyId
+	 * @param name
+	 * @param type
+	 * @return
+	 */
+	public String uploadAttachment(MultipartFile file, String companyId, String name, String type) throws Exception {
+		if (org.springframework.util.StringUtils.isEmpty(companyId)){
+			throw new BadRequest("companyId can not be null!");
+		}
+		if (String.valueOf(pingmiantu).equals(type)){
+			return uploadpingmiantu(file,companyId,name);
+		}
+
+		return "success";
+	}
+
+	public String uploadpingmiantu(MultipartFile file, String companyId, String name) throws Exception{
+		return uploadFile(file, companyId, name,String.valueOf(pingmiantu));
+	}
+
+	public String uploadFile(MultipartFile file, String companyId, String name,String type) throws Exception {
+		String url = UploadUtil.saveMultipartFile(file, filePath);
+
+		Map param = new HashMap();
+		param.put("companyId",companyId);
+		List<EnterpriseAttachment> attachmentList = basicQueryService.queryForList("getEnterpriseAttachment",param,EnterpriseAttachment.class,0,0);
+		if (attachmentList == null || attachmentList.size()==0){
+
+			EnterpriseAttachment attachment = new EnterpriseAttachment();
+			attachment.setCompanyId(companyId);
+			attachment.setName(name);
+			attachment.setType(type);
+			attachment.setUrl(url);
+			attachment.setId(com.sucsoft.gzhbyjwz.util.StringUtils.getUUID());
+			basicQueryService.save(attachment);
+
+			return "success";
+		}else {
+			EnterpriseAttachment attachment = attachmentList.get(0);
+			attachment.setUrl(url);
+			basicQueryService.update(attachment);
+		}
+		return "success";
+	}
+
+	/**
+	 * 获取厂区附件，暂时只有厂区平面图
+	 * @param companyId
+	 * @param type
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String downloadAttachment(String companyId,String type,HttpServletResponse response) throws Exception {
+		//EnterpriseAttachment attachment = basicQueryService.get(attachmentId, EnterpriseAttachment.class);
+		Map param = new HashMap();
+		param.put("companyId",companyId);
+		param.put("type",type);
+		List<EnterpriseAttachment> attachmentList = basicQueryService.queryForList("getEnterpriseAttachment",param,EnterpriseAttachment.class,0,0);
+		if (attachmentList == null || attachmentList.size()==0){
+			return "该附件不存在";
+		}
+		EnterpriseAttachment attachment = attachmentList.get(0);
+		String url = attachment.getUrl();
+		//String url = "1.png";
+		FileInputStream fis = null;
+		try {
+			fis =  new FileInputStream(Paths.get(filePath,url).toFile());
+			if (fis == null){
+				return "找不到该图片";
+			}
+			response.setContentType("image/png");
+			//response.addHeader("Content-Disposition","attachment;filename=" + com.sucsoft.gzhbyjwz.util.StringUtils.toUtf8String(attachment.getUrl()));
+			FileCopyUtils.copy(fis,response.getOutputStream());
+		}finally {
+			if (fis != null){
+				fis.close();
+			}
+		}
+		return "success";
+	}
+
+	/**
+	 * 获取该企业的应急人员的小组、部门列表
+	 * @param companyId
+	 * @return
+	 */
+	public Object getDepartmentFromCrew(String companyId) throws Exception {
+		Map param =new HashMap();
+		param.put("companyId",companyId);
+
+		List<Map> list = basicQueryService.queryForList("getDepartmentFromCrew",param,Map.class,0,0);
+		return list;
+	}
+
+	/**
+	 * 获取饮用水源地附近的风险源
+	 * @return
+	 */
+	public Object getRiskSourceNearWater(){
+		List<DrinkingWater> waterlist = basicQueryService.getCrudService().list(DrinkingWater.class.getName(),new GetOptions(),DrinkingWater.class);
+		return getNearRiskSource(waterlist);
+	}
+
+	/**
+	 * 获取饮用水源地附近的风险源
+	 * @param list
+	 * @return
+	 */
+	public Object getNearRiskSource(List<DrinkingWater> list){
+		List result = new ArrayList();
+		List<EnterpriseInformation> riksources = basicQueryService.getCrudService().list(EnterpriseInformation.class.getName(),new GetOptions(),EnterpriseInformation.class);
+
+		for (DrinkingWater water:list){
+			Map resultMap = new HashMap();
+			resultMap.put("waterName",water.getName());
+			List resultList = new ArrayList<>();
+			resultMap.put("resultList",resultList);
+			for (EnterpriseInformation risk:riksources){
+				try {
+					double distance = xzqyService.getDistance(water.getLongitude().toString(), water.getLatitude().toString(), risk.getLongitude(), risk.getLatitude());
+					if (distance < 100000){
+						resultList.add(risk);
+					}
+				}catch (Exception e){
+					//e.printStackTrace();
+					continue;
+				}
+			}
+			result.add(resultMap);
+		}
+		return result;
+	}
+
+	/**
+	 * 搜索应急物资分布在哪些厂
+	 * @param keyword
+	 * @return
+	 * @throws Exception
+	 */
+	public Object findSubstance(String keyword) throws Exception {
+		Map param = new HashMap<>();
+		if (!StringUtils.isBlank(keyword)){
+			param.put("keyword","%"+keyword+"%");
+		}
+
+		return basicQueryService.queryForList("findSubstance",param,Map.class,0,0);
+	}
+
+
+
+
+	@Transactional
+	public String addEnterpriseInformation(EnterpriseInformation info) throws Exception {
+	    String id = UUID.randomUUID().toString().replaceAll("-","");
+	    info.setCompanyId(id);
+	    String xzqyId2 = xzqyService.get2levelParent(info.getXzqyId()).getId();
+	    info.setXzqyId2(xzqyId2);
+	    info.setRiskGrade("一般");
+	    basicQueryService.save(info);
+
+        EnterprisePreplan preplan = new EnterprisePreplan();
+        preplan.setUpdateDate(new Date());
+        preplan.setRecordtime(new Date());
+        preplan.setLevel(1);
+        preplan.setCompanyId(id);
+        preplan.setRecordStatus(1);
+	    if(info.getDocumentYear() != null){
+	        String bzYear = info.getDocumentYear();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            preplan.setDocumentYear(df.parse(bzYear));
+        }
+        preplan.setId(UUID.randomUUID().toString().replaceAll("-",""));
+        basicQueryService.save(preplan);
+
+        TblUser tblUser = new TblUser();
+        tblUser.setPassword(info.getPassword());
+        tblUser.setAccount(info.getAccount());
+        tblUser.setAddress(info.getXzqyId());
+        tblUser.setCompanyName(info.getCompanyName());
+        tblUser.setCompany(id);
+        tblUser.setDescription(info.getCompanyName());
+        return userService.createqyUser(tblUser);
+    }
+
+    public Boolean checkCompany(String name) throws Exception {
+	    Map<String,Object> param = new HashMap<>();
+	    param.put("name",name);
+	    List<EnterpriseInformation> list =basicQueryService.queryForList("checKCompany",param,EnterpriseInformation.class,0,0);
+	    if(list != null && list.size()>0){
+	        return true;
+        }
+        return false;
+    }
+    @Transactional
+    public String deleteEnterpriseInformation(String id) throws Exception {
+	    Map<String,Object> map = new HashMap<>();
+	    map.put("companyId",id);
+	    basicQueryService.delete(id,EnterpriseInformation.class);
+	    List<EnterprisePreplan> plans = basicQueryService.queryForList("getEnterprisePreplan",map,EnterprisePreplan.class,0,0);
+	    deleteByid(new EnterprisePreplan(),null,id);
+	    deleteByid(new EmergencyApparatus(),null,id);
+	    deleteByid(new EmergencyCase(),null,id);
+	    deleteByid(new EmergencyCrew(),null,id);
+	    deleteByid(new EmergencyFireDevice(),null,id);
+	    deleteByid(new EmergencyGroup(),null,id);
+	    deleteByid(new EmergencyOrganization(),null,id);
+        deleteByid(new EmergencyPlan(),null,id);
+        deleteByid(new EmergencySpecialist(),null,id);
+        deleteByid(new EmergencySubstance(),null,id);
+        deleteByid(new EnterpriseAttachment(),null,id);
+        deleteByid(new EnterpriseRiver(),null,id);
+        deleteByid(new EnterpriseTask(),"enterpriseId",id);
+        deleteByid(new ForeignAidUnit(),null,id);
+        if(plans != null || plans.size()>0){
+            for (EnterprisePreplan plan : plans){
+                deleteByid(new PlanAttachment(),"planId",plan.getId());
+            }
+        }
+        deleteByid(new ProcessEquipment(),null,id);
+        deleteByid(new ProcessFlowChart(),null,id);
+        deleteByid(new ProductionUnit(),null,id);
+        deleteByid(new ProtectionObject(),null,id);
+        deleteByid(new ReferenceDrawing(),null,id);
+        deleteByid(new RiskInventory(),"enterpriseId",id);
+        deleteByid(new RiskInventoryLog(),"enterpriseId",id);
+        deleteByid(new RiskMaterial(),null,id);
+
+        String sql="delete from authoxuser where COMPANY = '"+id+"'";
+        jdbc.execute(sql);
+        return "success";
+    }
+
+
+    public void deleteByid(Object bean,String field,String id){
+        StringBuffer sql =new StringBuffer()
+                .append("delete from ")
+                .append(bean.getClass().getSimpleName())
+                .append(" where ");
+        if(field != null){
+            sql.append(field);
+        }else {
+            sql.append("COMPANYID");
+        }
+        sql.append("= '").append(id).append("'");
+        String str = sql.toString();
+        jdbc.execute(str);
+    }
+
+}

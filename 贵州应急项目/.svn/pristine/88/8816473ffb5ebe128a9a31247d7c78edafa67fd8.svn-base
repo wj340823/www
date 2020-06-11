@@ -1,0 +1,69 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "环境风险物质")
+public class HjRiskSubstances {
+    @ApiModelProperty(value = "企业ID")
+    private String qyId;
+    @ApiModelProperty(value = "名称")
+    private String name;
+    @ApiModelProperty(value = "化学代码")
+    private String chemicalCode;
+    @ApiModelProperty(value = "使用或贮存场所")
+    private String place;
+    @ApiModelProperty(value = "最大使用或贮存量")
+    private String storage;
+    private String hjrisksubstances_Id;
+
+    public void setQyId(String qyId) {
+        this.qyId = qyId;
+    }
+
+    public String getQyId() {
+        return qyId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setChemicalCode(String chemicalCode) {
+        this.chemicalCode = chemicalCode;
+    }
+
+    public String getChemicalCode() {
+        return chemicalCode;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
+
+    public String getStorage() {
+        return storage;
+    }
+
+    public void setHjrisksubstances_Id(String hjrisksubstances_Id) {
+        this.hjrisksubstances_Id = hjrisksubstances_Id;
+    }
+
+    public String getHjrisksubstances_Id() {
+        return hjrisksubstances_Id;
+    }
+
+}

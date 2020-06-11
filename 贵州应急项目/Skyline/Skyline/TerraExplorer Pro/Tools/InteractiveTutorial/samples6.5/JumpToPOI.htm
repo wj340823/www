@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Set the current position</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        var popup;
+
+        function Init()
+        {
+            
+            var POI = SGWorld.Creator.CreatePosition(-71.07596, // Point of interest X   
+                                                      42.34998, // Point of interest Y
+                                                      30,       // Point of interest altitude (30m)
+                                                      0,        // Altitude type - relative to terrain
+                                                      90.0,     // Direction from which we want to view the point of interest (90.0 means from we are looking east)
+                                                     -10.0,     // Pitch from which we want to view the point of interest (looking 10 degree down)
+                                                      0,        // Roll
+                                                      250);     // The distance we want to be from the point of interest (250m)
+
+            SGWorld.Navigate.JumpTo(POI);
+                        
+            showPopup();
+        }
+
+
+        function showPopup()
+        {
+            popup = SGWorld.Creator.CreatePopupMessage("Point Of Interest sample");
+            popup.InnerHtml = "<b>Trinity Church Boston</b><br>Distance from camera: 250 meters<br>Looking from west to east";
+            SGWorld.Window.ShowPopup(popup);
+        }
+        
+        function onExit()
+        {
+            if(popup)
+                SGWorld.Window.RemovePopup(popup);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="onExit();">
+    </body>
+</html>
+
+
+<!--Sig:00000040ZjkT8KT08M5#57FE5E66d8D3tUIjhTJf.DMGZVMl1Fo1Fpt#0jyZsCrpZ.eAeRQjEOO3EIbeuaV4BYw0DrBmG6JJ-->

@@ -1,0 +1,48 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.List;
+import java.util.Map;
+
+public class PageUtils {
+	
+	/**
+	 * 得到第一个值
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public static Integer getFirst(Integer pageNo,Integer pageSize){
+		pageNo = pageNo!=null?pageNo:1;
+		pageSize = pageSize!=null?pageSize:10;
+		Integer first = pageSize*(pageNo-1);
+		return first;
+	}
+	
+	public static Integer getPageNo(Integer pageNo){
+		pageNo = pageNo!=null?pageNo:1;
+		return pageNo;
+	}
+	
+	public static Integer getPageSize(Integer pageSize){
+		pageSize = pageSize!=null?pageSize:10;
+		return pageSize;
+	}
+
+	public static Integer getPageMaxSize(Integer pageSize){
+		pageSize = pageSize!=null?pageSize:1000;
+		return pageSize;
+	}
+
+	public static PageBean<Map> getPage(List<Map> list,Integer pageNo,Integer pageSize){
+		pageNo = pageNo!=null?pageNo:1;
+		pageSize = pageSize!=null?pageSize:10;
+		PageBean<Map> page = new PageBean<Map>();
+		if(pageNo!=0&&pageSize!=0){
+			 page = new PageBean<Map>(pageNo, list.size(), pageSize,list);
+		}else{//pageNo=0, pageSize=0是导出查询所有
+			 page = new PageBean<Map>(pageNo, list.size(), list.size(),list);
+		}
+    	page.init();
+		return page;
+	}
+}

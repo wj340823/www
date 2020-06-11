@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()" style = "overflow:hidden">
+    
+
+
+
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        
+        </tr>       
+        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+
+                    <tr style="display:table-row" >
+	                    <td class="s8b"><span id="StreamText"  class="i18n">Text77</span> </td>
+	                    <td align=left valign=top  height=25>&nbsp;<input ID="Streamfile" name="Streamfile" accept=".gpx" size="20" type="file" value="3" size="20" align = "right" style = "" >
+	                    </td>
+	                </tr>            
+                    <tr class='TableOtherLine'>
+                        <td class="s8b">
+                            <span id="SizeText" class="i18n">Text18</span>
+                        </td>
+                        <td  align="left">
+                            &nbsp;<input id="WaypointsCbx" type="checkbox" size="7" class="i18n">
+                            <span class="i18n">Text75</span>
+                            &nbsp;<input id="TracksCbx" type="checkbox" size="7" class="i18n" checked>
+                            <span class="i18n">Text76</span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="s8b">
+                            <span id="Span1" class="i18n">Text85</span>
+                        </td>
+                        <td  align="left">
+                            &nbsp;<input id="PinCbx" type="checkbox" size="7" class="i18n" checked>
+                            <span class="i18n">
+                                <label for="createAs" id = "ClampToGround" title = "Select this check box to place track waypoints directly on the terrain. Elevation values from the GPX file will be ignored." class="i18n">Text79</label>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class='TableOtherLine'>
+                        <td class="s8b">
+                            <label for="createAs" class="i18n">Text70</label>
+                        </td>
+                        <td align="left">
+                            &nbsp;<select id="createAs" >
+                                
+                                <option class="i18n" value="LayerStreaming" selected =selected >Text73</option>
+                                <option class="i18n" value="LayerAllFeatures">Text72</option> 
+                                <option class="i18n" value="Group">Text71</option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+        </table>
+        </td>
+        </tr>
+                    <tr class="s8">
+                        <td colspan="2">
+                            <button id="lineButton" class="MenuButton" onclick="ConnectGPS();"><img src="Img\Load.png" /><br /><span class="i18n">Text84</span></button>
+                        </td>
+                    </tr>                   
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<script language="JavaScript">
+
+//--------------
+// Init
+function Init() {
+    Reset();
+    SGWorld.AttachEvent("OnSGWorldMessage", OnSGWorldMessage);   
+}
+
+// gParams
+var XMin;
+var XMax;
+var YMin;
+var YMax;
+var firstTime = true; //set X and Y coordinates for the first time. made for setting bounding box to fly to it.
+
+//OnSGWorldMessage
+function OnSGWorldMessage(messageID, sourceObjectID) {
+    if (messageID == "Save to data source - ") return true;//to avoid substitude tool messages with TE Messages
+}
+//--------------
+// Reset
+function Reset() {
+    //reseting all parameters
+    
+    $("#Streamfile").replaceWith($("#Streamfile").clone(true));
+    $("#createAs").attr("value", "LayerStreaming");
+    if (!($("#WaypointsCbx").is(":checked"))) $('#WaypointsCbx').click();
+    if (!($("#TracksCbx").is(":checked"))) $('#TracksCbx').click();
+    if (!($("#PinCbx").is(":checked"))) $('#PinCbx').click();
+
+    SGWorld.Window.HideMessageBarText();
+
+    // bounding box reset
+    firstTime = true;
+    XMin = null;
+    XMax = null;
+    YMin = null;
+    YMax = null;
+}
+
+//--------------
+// ConnectGPS
+function ConnectGPS() {
+    
+    if ($("#Streamfile").val() != "") {
+
+        if (checkFileName($("#Streamfile").val())) {
+
+            SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text86"), 1, -1);
+            //read GPX
+            switch ($("#createAs").val()) {
+
+                case 'Group':
+                    CreateAsGroup($("#Streamfile").val())
+                    break;
+
+                case 'LayerAllFeatures':
+                    createAsLayer($("#Streamfile").val(), $("#createAs").val())
+                    break;
+
+                case 'LayerStreaming':
+                    createAsLayer($("#Streamfile").val(), $("#createAs").val())
+                    break; 
+                
+                default:
+                    break;
+            }         
+        }
+    }
+    else return alert(SGLang.i18n("Text39"));
+
+    Reset();
+}
+
+//--------------
+// CreateAsGroup
+function CreateAsGroup(Streamfile) {
+    
+    var index = ($("#Streamfile").val()).lastIndexOf("\\") + 1;
+
+    var FileName = $("#Streamfile").val().substring(0, $("#Streamfile").val().length - 4);
+    var GroupID = SGWorld.ProjectTree.CreateGroup(FileName.substr(index), "");
+    
+    var NextPos;
+    var CurrPos;
+    var MessageString;
+    var a = [];
+    var label;
+    var CreateTheObjects = true;
+    var TEMes;
+    var Azimuth;
+    
+
+    $.ajax({
+        url: $("#Streamfile").val(), // name of file you want to parse
+        dataType: "gpx", // type of file you are trying to read
+        success: function (url) { // name of the function to call upon success
+            //Waipoints
+            if ($("#WaypointsCbx").is(":checked")) {
+                //check number of objects & warning if needed
+                if ($(url).find('wpt').length > 1000) CreateTheObjects = confirm(SGLang.i18n("Text80"));
+
+                if (CreateTheObjects) {
+
+                    //messagebar text
+                    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text87"), 1, -1);
+
+                    //create the Waypoints group             
+                    GroupID = SGWorld.ProjectTree.CreateGroup("Waypoints", GroupID);
+
+                    //iterate on each wpt tag
+                    $(url).find('wpt').each(function () {
+
+                        //create label
+                        label = SGWorld.Creator.CreateLabel(SGWorld.Creator.CreatePosition($(this).attr('lon'), $(this).attr('lat'), 0), $(this).find('name').text(), abspath() + "\\Img\\Waypoint.png", SGWorld.Creator.CreateLabelStyle(), GroupID, $(this).find('name').text());
+                        
+                        //calculating the bounding box
+                        if (firstTime) {
+                            XMin = label.Position.X;
+                            XMax = label.Position.X;
+                            YMin = label.Position.Y;
+                            YMax = label.Position.Y;
+                            firstTime = false;
+                        }
+                        else {
+                            if (label.Position.X > XMax) XMax = label.Position.X;
+                            if (label.Position.X < XMin) XMin = label.Position.X;
+                            if (label.Position.Y > YMax) YMax = label.Position.Y;
+                            if (label.Position.Y < YMin) YMin = label.Position.Y;
+                        }
+
+                        //Waypoint label style
+                        label.Style.ShowTextBehavior = 1;
+                        label.Style.TextOnImage = false;
+                        label.Style.TextAlignment = "Top";
+
+                        //Waypoint label message
+                        TEMes = SGWorld.Creator.CreateMessage(5, "Dim xml\nDim xsl\nDim out\nset xml =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nset xsl =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nxml.async = false\nxml.loadXML(\"<DOCUMENT_LIST name='Attributes'><DOCTITLE><TITLE>" + $(this).find('name').text() + "</TITLE><IMAGE>" + abspath() + "\\Img\\Waypoint.png</IMAGE><DESCRIPTION><br></br></DESCRIPTION></DOCTITLE><LIST_BODY><COLUMNS><COLUMN><ID>0</ID><NAME>Attribute</NAME><WIDTH>100</WIDTH><HIDE></HIDE>			</COLUMN><COLUMN><ID>1</ID><NAME>Description</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN><ID>2</ID><NAME>Value</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN class='ToolTip'><ID>3</ID><NAME>Tooltip</NAME><WIDTH>150</WIDTH>			</COLUMN>		</COLUMNS><ROWS><ROW><CELL>NAME</CELL><CELL>NAME</CELL><CELL>" + label.TreeItem.Name + "</CELL><CELL></CELL></ROW><ROW><CELL>DESC</CELL><CELL>DESC</CELL><CELL>" + $(this).find('desc').text() + "</CELL><CELL></CELL></ROW><ROW><CELL>CMT</CELL><CELL>CMT</CELL><CELL>" + $(this).find('cmt').text() + "</CELL><CELL></CELL></ROW><ROW><CELL>TYPE</CELL><CELL>TYPE</CELL><CELL>" + $(this).find('type').text() + "</CELL><CELL></CELL></ROW></ROWS>	</LIST_BODY></DOCUMENT_LIST>\")\nxsl.async = false\nDim  urlPath\nurlPath = \"http://www.skylinesoft.com/terraexplorerlinks.asp?linkID=Default_Message_xsl\"\nif xsl.load(urlPath)=false then msgbox \"Fail to load XSL:\" & urlPath\nout = xml.transformNode(xsl)\nset ic=TerraExplorer.Interface(\"IContainer2\")\nic.HTMLPopup 0,0,0,200,200,\"Message\",out,3,-1", 3);
+                        label.Message.MessageID = TEMes.ID;
+
+                    });
+                }
+            }
+
+            //Tracks
+            if ($("#TracksCbx").is(":checked")) {
+                ////check number of objects & warning if needed
+                if ($(url).find('trkpt').length > 1000) CreateTheObjects = confirm(SGLang.i18n("Text81"));
+                if (CreateTheObjects) {
+
+                    //messagebar text
+                    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text88"), 1, -1);
+
+                    //Track group
+                    if (SGWorld.ProjectTree.GetNextItem(GroupID, 15) == "") GroupID = SGWorld.ProjectTree.CreateGroup("Tracks", GroupID); //if Waypoints checkbox in unchecked.
+                    else GroupID = SGWorld.ProjectTree.CreateGroup("Tracks", SGWorld.ProjectTree.GetNextItem(GroupID, 15));
+
+                    //iterate trk
+                    $(url).find('trk').each(function () {
+
+                        //create group for all tracks
+                        TrackGroup = SGWorld.ProjectTree.CreateGroup($(this).find("name").text(), GroupID);
+                        var trackName = $(this).find("name").text();
+
+                        //iterate on each trkpt tag for each trk tag
+                        var trkptCounter = 0;
+                        $(this).find("trkpt").each(function () {
+
+                            trkptCounter++;
+                            //create trk label
+                            label = SGWorld.Creator.CreateLabel(SGWorld.Creator.CreatePosition($(this).attr('lon'), $(this).attr('lat'), 0), "", abspath() + "\\Img\\Track.png", SGWorld.Creator.CreateLabelStyle(), TrackGroup, trackName + '#' + trkptCounter);
+
+                            //calculating the bounding box
+                            if (firstTime) {
+                                XMin = label.Position.X;
+                                XMax = label.Position.X;
+                                YMin = label.Position.Y;
+                                YMax = label.Position.Y;
+                                firstTime = false;
+                            }
+                            else {
+                                if (label.Position.X > XMax) XMax = label.Position.X;
+                                if (label.Position.X < XMin) XMin = label.Position.X;
+                                if (label.Position.Y > YMax) YMax = label.Position.Y;
+                                if (label.Position.Y < YMin) YMin = label.Position.Y;
+                            }
+
+                            a.push(label.Position.X, label.Position.Y, label.Position.Altitude)//aggregate all positions to generate polyline of entire track
+
+                            if (!($("#PinCbx").is(":checked"))) {//change altitude by user demand
+                                label.Position.AltitudeType = 3;
+                                label.Position.Altitude = $(this).find("ele").text();
+                            }
+
+                            //azimuth calculations
+                            CurrPos = SGWorld.Creator.CreatePosition($(this).attr("lon"), $(this).attr("lat"));
+                            NextPos = SGWorld.Creator.CreatePosition($(this).next().attr("lon"), $(this).next().attr("lat"));
+
+                            //timespan
+                            label.Timespan.Start = new Date($(this).find('time').text()); //start time at the current time tag
+                            label.Timespan.End = new Date($(this).next().find('time').text()); //end time at the start time of next item.
+
+                            if ($(this).next().attr("lat") != null) {
+                                aimingAngles = SGWorld.CoordServices.GetAimingAngles(CurrPos, NextPos);
+                                Azimuth = aimingAngles.Yaw;
+                            }
+
+                            else Azimuth = "Last Point";
+
+                            //message
+                            TEMes = SGWorld.Creator.CreateMessage(5, abspath() + "\\Data\\Message.html?params=" + trackName + "," + $(this).attr("lat") + "," + $(this).attr("lon") + "," + $(this).find("ele").text() + "," + Azimuth + ", Tracks", 1);
+                            label.Message.MessageID = TEMes.ID;
+
+                        });
+                        //creating a polyline for entire track segment
+                        polyline = SGWorld.Creator.CreatePolylineFromArray(a, "#f5d9bc", 2, TrackGroup, trackName);
+                        polyline.LineStyle.Width = -4;
+                        a = [];
+                    });
+                }
+            }
+            flyTo();
+        },
+        error: function () { alert("Error: Something went wrong"); }
+    });                 
+}
+function flyTo() {
+    //create polygon to fly to, set as hidden tree and SaveInFlyFile = false
+    //try {
+        var polArr = [XMin, YMax, 0, XMin, YMin, 0, XMax, YMin, 0, XMax, YMax, 0];
+        AreaPol = SGWorld.Creator.CreatePolygonFromArray(polArr, "FF000099", "FF646464", 0, SGWorld.ProjectTree.HiddenGroupID);
+        AreaPol.visibility.Show = false;
+        AreaPol.SaveInFlyFile = false;
+        SGWorld.Navigate.FlyTo(AreaPol.ID, 0);
+
+}
+//--------------
+// createAsLayer
+function createAsLayer(Streamfile, StreamMode) {
+    
+    var index = ($("#Streamfile").val()).lastIndexOf("\\") + 1;
+    var FileName = $("#Streamfile").val().substring(0, $("#Streamfile").val().length - 4);
+    var GroupID = SGWorld.ProjectTree.CreateGroup(FileName.substr(index), "");
+
+    SGWorld.ProjectTree.LockGroup(GroupID, true);
+    var NextPos;
+    var CurrPos;
+    var a = [];
+    var CreateTheObjects = true;
+    var feature;
+
+    $.ajax({
+        url: $("#Streamfile").val(), // name of file you want to parse
+        dataType: "gpx", // type of file you are trying to read
+        success: function (url) { // name of the function to call upon success
+
+            //Waipoints
+            if ($("#WaypointsCbx").is(":checked")) {
+
+                ////check number of objects & warning if needed
+                if ($(url).find('trkpt').length > 1000) CreateTheObjects = confirm(SGLang.i18n("Text82"));
+                if (CreateTheObjects) {
+
+                    //messagebar text
+                    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text87"), 1, -1);
+
+                    //first create the shapefile and the attributes
+                    var postfix = new Date().getTime();// to diffrentiate between layers with the same name: waypoints.shp
+                    var Waypoints = SGWorld.Creator.CreateNewFeatureLayer("Waypoints", 0, "FileName=Waypoints" + postfix + ".shp;TEPlugName=OGR;", GroupID);
+
+                    Waypoints.DataSourceInfo.Attributes.CreateAttribute('NAME', 0, 250);
+                    Waypoints.DataSourceInfo.Attributes.CreateAttribute('DESC', 0, 250);
+                    Waypoints.DataSourceInfo.Attributes.CreateAttribute('CMT', 0, 250);
+                    Waypoints.DataSourceInfo.Attributes.CreateAttribute('TYPE', 0, 250);
+
+                    //annotation
+                    Waypoints.Annotation = true;
+
+                    Waypoints.Save(); //to enable changes of annotation
+                    Waypoints.Refresh(); //to enable changes of annotation
+
+                    //shapefile features properties
+                    Waypoints.Position.AltitudeType = 2;
+                    Waypoints.FeatureGroups.Point.SetProperty("Image File", abspath() + "\\Img\\Waypoint.png")
+
+
+                    //shapefile annotation properties
+                    Waypoints.FeatureGroups.Annotation.SetProperty("Text", "[NAME]");
+                    Waypoints.FeatureGroups.Annotation.SetProperty("Line to Ground", "1");
+                    Waypoints.FeatureGroups.Annotation.SetProperty("Text Relative to Image", "3"); //around image
+                    Waypoints.FeatureGroups.Annotation.SetProperty("Text Alignment", "11"); //top center
+
+                    if (StreamMode == 'LayerAllFeatures') {
+                        Waypoints.Streaming = false;
+                        Waypoints.Load(); // to apply changes
+                        Waypoints.Refresh();
+                    }
+
+                    //iterate on each wpt tag
+                    $(url).find('wpt').each(function () {
+
+                        //create Waypoints features
+                        featureID = Waypoints.FeatureGroups.Point.CreateFeature([$(this).attr('lon'), $(this).attr('lat'), 0]);
+                        feature = SGWorld.ProjectTree.GetObject(featureID);
+
+                        //calculating boundoing box
+                        if (firstTime) {
+                            XMin = feature.Geometry.X;
+                            XMax = feature.Geometry.X;
+                            YMin = feature.Geometry.Y;
+                            YMax = feature.Geometry.Y;
+                            firstTime = false;
+                        }
+                        else {
+                            if (feature.Geometry.X > XMax) XMax = feature.Geometry.X;
+                            if (feature.Geometry.X < XMin) XMin = feature.Geometry.X;
+                            if (feature.Geometry.Y > YMax) YMax = feature.Geometry.Y;
+                            if (feature.Geometry.Y < YMin) YMin = feature.Geometry.Y;
+                        }
+
+                        //inserting attributes to features
+                        feature.FeatureAttributes(0).Value = $(this).find('name').text();
+                        feature.FeatureAttributes(1).Value = $(this).find('desc').text();
+                        feature.FeatureAttributes(2).Value = $(this).find('cmt').text();
+                        feature.FeatureAttributes(3).Value = $(this).find('type').text();
+
+                    });
+
+                    //message for popup
+                    if (Waypoints.FeatureGroups.Point.Features.count != 0) {
+                        var TEMes = SGWorld.Creator.CreateMessage(5, "Dim xml\nDim xsl\nDim out\nset xml =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nset xsl =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nxml.async = false\nxml.loadXML(\"<DOCUMENT_LIST name='Attributes'><DOCTITLE><TITLE>" + feature.FeatureAttributes(0).Value + "</TITLE><IMAGE>" + abspath() + "\\Img\\Waypoint.png</IMAGE><DESCRIPTION><br></br></DESCRIPTION></DOCTITLE><LIST_BODY><COLUMNS><COLUMN><ID>0</ID><NAME>Attribute</NAME><WIDTH>100</WIDTH><HIDE></HIDE>			</COLUMN><COLUMN><ID>1</ID><NAME>Description</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN><ID>2</ID><NAME>Value</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN class='ToolTip'><ID>3</ID><NAME>Tooltip</NAME><WIDTH>150</WIDTH>			</COLUMN>		</COLUMNS><ROWS><ROW><CELL>NAME</CELL><CELL>NAME</CELL><CELL>[NAME]</CELL><CELL></CELL></ROW><ROW><CELL>DESC</CELL><CELL>DESC</CELL><CELL>[DESC]</CELL><CELL></CELL></ROW><ROW><CELL>CMT</CELL><CELL>CMT</CELL><CELL>[CMT]</CELL><CELL></CELL></ROW><ROW><CELL>TYPE</CELL><CELL>TYPE</CELL><CELL>[TYPE]</CELL><CELL></CELL></ROW></ROWS>	</LIST_BODY></DOCUMENT_LIST>\")\nxsl.async = false\nDim  urlPath\nurlPath = \"http://www.skylinesoft.com/terraexplorerlinks.asp?linkID=Default_Message_xsl\"\nif xsl.load(urlPath)=false then msgbox \"Fail to load XSL:\" & urlPath\nout = xml.transformNode(xsl)\nset ic=TerraExplorer.Interface(\"IContainer2\")\nic.HTMLPopup 0,0,0,200,200,\"Message\",out,3,-1", 3);
+                        Waypoints.FeatureGroups.Point.SetProperty("Message", TEMes.ID);
+                        Waypoints.Save();
+                    }
+                    else SGWorld.ProjectTree.DeleteItem(Waypoints.ID); //made also to check if there are no records in the feature layer. if no records - delete entire group.\
+                }
+            }
+            //Tracks
+            if ($("#TracksCbx").is(":checked")) {
+
+                ////check number of objects & warning if needed
+                if ($(url).find('trkpt').length > 1000) CreateTheObjects = confirm(SGLang.i18n("Text83"));
+
+                if (CreateTheObjects) {
+
+                    //messagebar text
+                    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text88"), 1, -1);
+
+                    //create group
+                    GroupID = SGWorld.ProjectTree.CreateGroup("Tracks", GroupID);
+
+                    $(url).find('trk').each(function () {
+
+                        TrackGroup = SGWorld.ProjectTree.CreateGroup($(this).find("name").text(), GroupID);
+                        var trackName = $(this).find("name").text();
+                        var Track = SGWorld.Creator.CreateNewFeatureLayer($(this).find("name").text(), 0, "FileName=" + $(this).find("name").text() + postfix + ".shp;TEPlugName=OGR;", TrackGroup); // postfix: to diffrentiate between layers with the same name: tracks.shp
+                        
+                        //shapefile properties
+                        Track.Position.AltitudeType = 2;
+                        Track.FeatureGroups.Point.SetProperty("Image File", abspath() + "\\Img\\Track.png");
+                        if (!($("#PinCbx").is(":checked"))) Track.FeatureGroups.Point.SetProperty("Altitude Method", 11);
+
+                        if (StreamMode == 'LayerAllFeatures') {
+                            Track.Streaming = false;
+                            Track.Save(); // workaround for bug #???(need to report): if changing streaming mode, need to save and refresh. if not, layer stack on "Pause"
+                            Track.Refresh();
+                        }
+
+                        //creating attributes
+                        Track.DataSourceInfo.Attributes.CreateAttribute('LAT', 2, 24, 15);
+                        Track.DataSourceInfo.Attributes.CreateAttribute('LON', 2, 24, 15);
+                        Track.DataSourceInfo.Attributes.CreateAttribute('ELE', 2, 24, 15);
+                        Track.DataSourceInfo.Attributes.CreateAttribute('AZM', 0, 250);
+
+                        //Message
+                        TEMes = SGWorld.Creator.CreateMessage(5, "Dim xml\nDim xsl\nDim out\nset xml =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nset xsl =  CreateObject(\"Msxml2.DOMDocument.3.0\")\nxml.async = false\nxml.loadXML(\"<DOCUMENT_LIST name='Attributes'><DOCTITLE><TITLE>" + trackName + "</TITLE><IMAGE>" + abspath() + "\\Img\\Track.png</IMAGE><DESCRIPTION><br></br></DESCRIPTION></DOCTITLE><LIST_BODY><COLUMNS><COLUMN><ID>0</ID><NAME>Attribute</NAME><WIDTH>100</WIDTH><HIDE></HIDE>			</COLUMN><COLUMN><ID>1</ID><NAME>Description</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN><ID>2</ID><NAME>Value</NAME><WIDTH>150</WIDTH>			</COLUMN><COLUMN class='ToolTip'><ID>3</ID><NAME>Tooltip</NAME><WIDTH>150</WIDTH>			</COLUMN>		</COLUMNS><ROWS><ROW><CELL>LAT</CELL><CELL>LAT</CELL><CELL>[LAT]</CELL><CELL></CELL></ROW><ROW><CELL>LON</CELL><CELL>LON</CELL><CELL>[LON]</CELL><CELL></CELL></ROW><ROW><CELL>ELE</CELL><CELL>ELE</CELL><CELL>[ELE]</CELL><CELL></CELL></ROW><ROW><CELL>AZM</CELL><CELL>AZM</CELL><CELL>[AZM]</CELL><CELL></CELL></ROW></ROWS>	</LIST_BODY></DOCUMENT_LIST>\")\nxsl.async = false\nDim  urlPath\nurlPath = \"http://www.skylinesoft.com/terraexplorerlinks.asp?linkID=Default_Message_xsl\"\nif xsl.load(urlPath)=false then msgbox \"Fail to load XSL:\" & urlPath\nout = xml.transformNode(xsl)\nset ic=TerraExplorer.Interface(\"IContainer2\")\nic.HTMLPopup 0,0,0,200,200,\"[NAME] Attributes\",out,3,-1", 3);
+                        Track.FeatureGroups.Point.SetProperty("Message", TEMes.ID)
+
+                        //iterate on each trkpt tag
+                        $(this).find("trkpt").each(function () {
+
+                            //creating the features
+                            featureID = Track.FeatureGroups.Point.CreateFeature([$(this).attr('lon'), $(this).attr('lat'), 0]); //elevation will be changed according to user predefine
+                            var feature = SGWorld.ProjectTree.GetObject(featureID);
+
+
+                            //calculating boundoing box
+                            if (firstTime) {
+                                XMin = feature.Geometry.X;
+                                XMax = feature.Geometry.X;
+                                YMin = feature.Geometry.Y;
+                                YMax = feature.Geometry.Y;
+                                firstTime = false;
+                            }
+                            else {
+                                if (feature.Geometry.X > XMax) XMax = feature.Geometry.X;
+                                if (feature.Geometry.X < XMin) XMin = feature.Geometry.X;
+                                if (feature.Geometry.Y > YMax) YMax = feature.Geometry.Y;
+                                if (feature.Geometry.Y < YMin) YMin = feature.Geometry.Y;
+                            }
+
+                            //inserting attributes to features
+                            feature.FeatureAttributes(0).Value = $(this).attr("lat");
+                            feature.FeatureAttributes(1).Value = $(this).attr("lon");
+                            feature.FeatureAttributes(2).Value = $(this).find("ele").text();
+
+                            //getting current and next positions for azimuth calculation
+                            CurrPos = SGWorld.Creator.CreatePosition($(this).attr("lon"), $(this).attr("lat"));
+                            NextPos = SGWorld.Creator.CreatePosition($(this).next().attr("lon"), $(this).next().attr("lat"));
+
+                            if ($(this).next().attr("lat") != null) {
+
+                                aimingAngles = SGWorld.CoordServices.GetAimingAngles(CurrPos, NextPos);
+                                feature.FeatureAttributes(3).Value = aimingAngles.Yaw;
+
+                                a.push(CurrPos.X, CurrPos.Y, 0); //aggregate the points into array
+
+                            }
+                            else {
+
+                                feature.FeatureAttributes(3).Value = "Last Point"; //this is the last point
+
+                                //create polyline for entire segment
+                                a.push(CurrPos.X, CurrPos.Y, 0); //last point
+                                polyline = SGWorld.Creator.CreatePolylineFromArray(a, "#f5d9bc", 2, TrackGroup, trackName);
+                                polyline.LineStyle.Width = -4;
+                                a = [];
+                            }
+
+                        });
+
+                        if (Track.FeatureGroups.Point.Features.count == 0) { // delete feature layer if there are no features
+                            SGWorld.ProjectTree.DeleteItem(Track.ID);
+                            return;
+
+                        }
+
+                        if (!($("#PinCbx").is(":checked"))) Track.FeatureGroups.Point.SetClassification("Altitude", "[ELE]");
+
+                        Track.Save();
+                        SGWorld.ProjectTree.ExpandGroup(TrackGroup, false);
+                    });
+                }
+            }
+            //for bug #(Need to report) if layers are all features, group is automatically expanded
+            SGWorld.ProjectTree.ExpandGroup(GroupID, false);
+
+            try {
+                SGWorld.ProjectTree.LockGroup(SGWorld.ProjectTree.GetNextItem(GroupID, 15), false);
+                SGWorld.ProjectTree.ExpandGroup(SGWorld.ProjectTree.GetNextItem(GroupID, 15), false);
+                if (SGWorld.ProjectTree.GetNextItem(GroupID, 11) == "") SGWorld.ProjectTree.DeleteItem(GroupID); // delete group if there are no tracks
+
+
+            }
+            catch (err) {
+                SGWorld.ProjectTree.LockGroup(GroupID, false);
+                SGWorld.ProjectTree.ExpandGroup(GroupID, false);
+            }
+
+            flyTo();
+        },
+        error: function () { alert("Error: Something went wrong"); }
+    });
+}
+//--------------
+// checkFileName
+function checkFileName(file) {
+    
+    var extension = file.substr((file.lastIndexOf('.') + 1));
+    if (extension != 'gpx') return alert(SGLang.i18n("Text41"));
+    return true;
+}
+
+</script>
+</body>
+</html>
+
+
+<!--Sig:00000040ugFISVOKMAv36jEHoerX80lN2ITCQ2DPkBcQkNpqoKG0G#rrFAQiDU18PgTWdy7n7EBi465kjJVG57X.51BTGtJJ-->
+
+
+<!--Sig:00000040RK#pZ7#QVieujDPtTlDLwmeZjPmWcBKSLErZqPvWJXjzWF.5Zz9V6u87U0F.PrvzCVUf35ehimrfml#U0edIXlJJ-->
+
+
+<!--Sig:00000040xUiWBvW.GpzoTFIzM32XCdwyhO#tEbJPj61IexpUjmQO2nJmwy.S.SO70tvDf.EVPxKoJ7C003h.Hl2WCWdfMrJJ-->

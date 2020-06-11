@@ -1,0 +1,67 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.math.BigDecimal;
+
+/**
+ * 经纬度转换成小数
+ */
+public class JwdFormat {
+
+    /**
+     * 经纬度转换成小数
+     * @param lng
+     * @return
+     */
+    public static Double tranformPos(String lng){
+        Double result = 0d;
+        String[] lntArr = lng.trim()
+                .replace("°", ";")
+                .replace("′", ";")
+                .replace("'", ";")
+                .replace("\"", "")
+                .split(";");
+        for(int i = lntArr.length; i > 0; i--){
+            double v = Double.parseDouble(lntArr[i-1]);
+            if(i == 1){
+                result = v + result;
+            }else{
+                result = (result + v) / 60;
+            }
+        }
+        return result;
+    }
+
+    public static String tranformXis(String lngs){
+        String result = null;
+        String du = "0";
+        String fe = "0";
+        String mi = "0";
+        String lng = lngs.trim();
+        if(lng != null && lng.length() > 0){
+            if(lng.contains(".")){
+                String[] sp = lng.split("\\.");
+                du = sp[0];
+                BigDecimal a = new BigDecimal(Double.parseDouble(sp[0]));
+                double d = (Double.parseDouble(lng) - a.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue()) * 60;
+                BigDecimal e = new BigDecimal(d);
+                String f = String.valueOf(e.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(f.contains(".")){
+                    String[] fes = f.split("\\.");
+                    fe = fes[0];
+                    double m = (d - Double.parseDouble(fe)) * 60;
+                    BigDecimal b = new BigDecimal(m);
+                    mi = String.valueOf(b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }else {
+                    fe = sp[1];
+                }
+            }else{
+                du = lng;
+            }
+        }else{
+            return result;
+        }
+        result = du + "-" + fe + "-" + mi;
+        return result;
+    }
+
+}

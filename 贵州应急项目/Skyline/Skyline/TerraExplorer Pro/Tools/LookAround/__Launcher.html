@@ -1,0 +1,27 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+</head>
+
+    <body  > 
+
+
+                    <button id="start" onclick="Start()">      Start Binoculars</button>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<script language="JavaScript">
+    function Start() {
+        var myPopup = SGWorld.Creator.CreatePopupMessage("Look Around", abspath() + "/LookAround.html", 25, 105, 350, 50, -1);
+        //myPopup.Flags = 4;
+        SGWorld.Window.ShowPopup (myPopup);
+    }
+
+</script>
+</body>
+</html>
+  
+
+<!--Sig:00000040tHRnZtdHh6sHovewodqw2xwek#Fe.epXTEsaRFxwPDVP06E9mPdcjfsZbRQQjFsFy#OKRaoY4F2ThATG##0tJiJJ-->

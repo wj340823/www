@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Preventing right popup</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            SGWorld.AttachEvent("onRButtonDown", onRButtonDown);
+            SGWorld.AttachEvent("onRButtonDblClk", onRButtonDblClk);
+
+            SGWorld.Window.ShowMessageBarText("This sample shows how to disable the default right context menu. Double right-click to re-enable", 3);   
+        }        
+        
+        function onRButtonDown(flags, x,y)
+        {
+
+            return true; // Tell TE that the OnRButtonDown event was processed by the client
+        }
+        
+        function onRButtonDblClk(flags, x,y)
+        {
+            SGWorld.DetachEvent("onRButtonDown", onRButtonDown);
+            SGWorld.DetachEvent("onRButtonDblClk", onRButtonDblClk);
+            SGWorld.Window.HideMessageBarText();
+
+            alert("Right click is now enabled");
+            
+            return false;
+        }
+       
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040LI7V.plvtC.zbYbu8TFOufr.tsFyH7Qv88#ZLxYpkxYQSV8sKY6KkqfwkMe3HGZLSUe1Fcw#JYSkLuOp7VL.X2JJ-->

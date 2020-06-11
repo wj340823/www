@@ -1,0 +1,59 @@
+package com.sucsoft.gzhbyjwz.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DataDealService {
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    public Map getRiskSubstance(String name) throws Exception {
+        Map<String,Object> param = new HashMap<>();
+        param.put("name",name);
+        List<Map> list = basicQueryService.queryForList("getRiskSubstance",param,Map.class,0,0);
+        if(list!= null && list.size()>0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public Map getData(String compangyId) throws Exception {
+        Map<String,Object> result = new HashMap<>();
+        Map<String,Object> param = new HashMap<>();
+        param.put("COMPANYID",compangyId);
+        List<Map> list = basicQueryService.queryForList("getReverName",param,Map.class,0,0);
+        if(list != null && list.size()>0){
+            Map rever = list.get(0);
+            String reverName = rever.get("name").toString();
+            result.put("rever",reverName);
+            List<Map> zcpk = basicQueryService.queryForList("getZcqk",param,Map.class,0,0);
+            List<Map> mgd = basicQueryService.queryForList("getPoint",param,Map.class,0,0);
+            List<Map> mgds = new ArrayList<>();
+            for(Map map : mgd){
+                Map info = new HashMap();
+                info.put("fw",map.get("fw"));
+                info.put("jl",map.get("jl"));
+                info.put("rs",map.get("rs"));
+                Map data = new HashMap();
+                data.put("COMPANYNAME",map.get("COMPANYNAME"));
+                data.put("LATITUDE",map.get("LATITUDE"));
+                data.put("LONGITUDE",map.get("LONGITUDE"));
+                data.put("TYPE",map.get("TYPE"));
+                data.put("info",info);
+                mgds.add(data);
+            }
+            result.put("zcqk",zcpk);
+            result.put("mgdMarkers",mgds);
+        }
+        return result;
+    }
+
+}

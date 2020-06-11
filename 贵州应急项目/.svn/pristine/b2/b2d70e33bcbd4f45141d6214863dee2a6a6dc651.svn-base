@@ -1,0 +1,115 @@
+<div  ng-controller="yilanbiao">
+   <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button tab-left" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hgsjt" ui-sref-active="active">
+                宏观数据图
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxys" ui-sref-active="active">
+                环境风险要素
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxwz" ui-sref-active="active">
+                环境风险物质
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxdy" ui-sref-active="active">
+                环境风险单元
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxfkss" ui-sref-active="active">
+                环境风险防控设施
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.sczzq" ui-sref-active="active">-->
+<!--                生产装置区-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.scgy" ui-sref-active="active">
+                生产工艺
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境风险受体
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >
+                环境污染事故源
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.tfhjsjqjfx" ui-sref-active="active" >
+                突发环境事件情景分析
+            </button>
+            <div class="tab-button tab-left">
+                <span>应急物资及人员联络方式</span>
+                <i class="iconfont icon-webicon215"></i>
+                <div>
+                    <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active" style="width:185px;">
+                        应急物资
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active" style="width:185px;">
+                        应急指挥通讯录
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active" style="width:185px;">
+                        应急外部联络表
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active" style="width:185px;">
+                        应急专家
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="item-content" style="background-color: rgba(0,0,0,.7)">
+        <div class="clearfix" style="background-color: #222;height:35px;">
+            <div class="tb-title">添加附件</div>
+        </div>
+        <div style="margin-top: 10px">
+             <span class="check-result1" style="width: 90px;">附件：</span>
+             <input type="text" id="txt" name="txt"  class="text-info-input" ng-click="size()" disabled="disabled"/>
+             <input type="button" onMouseMove="f.style.pixelLeft=event.x-60;f.style.pixelTop=this.offsetTop;" value="浏览" size="30" onClick="f.click()" class='searchBtn'>
+             <input type="file" id="f" name="f"  onChange="txt.value=this.value"  class="files" size="1" style="height:26px; opacity: 0;display: none"  />
+         </div>
+        <br>
+        <div>
+            <span class="check-result1" style="width: 90px;">附件类型：</span>
+            <select ng-model="type" class="text-info-input">
+                <option value="企业平面图">企业平面图</option>
+                <option value="企业环境风险单元分布图">企业环境风险单元分布图</option>
+                <option value="企业与环境保护目标关系图">企业与环境保护目标关系图</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+        <div class="operate" >
+            <button class="searchBtn" ng-click="saveRiskFile()">保存</button>
+            <div class="clearfix"></div>
+        </div>
+        <br>
+        <div class="clearfix" style="background-color: #222;height:35px;">
+            <div class="tb-title">附件展示</div>
+        </div>
+        <div style="margin-top: 10px">
+                <a ng-repeat="item in ylb.riskfile" style="position: relative;float:left; padding:5px 8px; margin-bottom:10px; margin-right:15px;">
+                    <p style='width:220px; height:120px' align='center'>
+                        <img src="riskSourceTwo/file/download/{{item.id}}" style="width:200px;max-height: 120px;"  ng-click="showRiskFileImg(item.id)">
+                        <span ng-click='deleteRiskFile(item.id)' style="position: absolute;margin-left: -5px; margin-top:-3px;width: 17px;height: 14px;background: red;color: #fff;font-size: 10px;text-align: center;line-height: 12px;font-weight:bold;-webkit-border-radius:50%; -moz-border-radius:50%; border-radius:50%;cursor:pointer;">X</span>
+                    </p>
+                    <p style='color:#999999; font-size:13px;' align='center'>{{item.type}}-{{item.fileName}}</p>
+                </a>
+            <p class="dangerColor noDate"  ng-if="ylb.riskfile==0">暂无图片</p>
+        </div>
+        <br>
+        <div style="clear:both;"></div>
+    </div>
+    <div class="bigCon" ng-show="bigImg">
+        <div style="width: 30px;height: 30px;border-radius: 50%;text-align: center;line-height: 30px;position:absolute; top:10px;
+        right:10px;color: #bdbdbd" ng-click="bigImg=false">
+            <i class="iconfont icon-guanbi"></i>
+        </div>
+        <img src="riskSourceTwo/file/download/{{hgsjtFileid}}" class="bigImg">
+    </div>
+    <!--<div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定提交吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定提交吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>-->
+</div>

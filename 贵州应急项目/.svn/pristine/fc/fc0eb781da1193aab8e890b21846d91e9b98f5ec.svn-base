@@ -1,0 +1,22 @@
+---
+  grammer: SQL
+  queries:
+    #查询危险装置
+    - name: getDangerUnit
+      resultType: Map
+      statement:
+        "
+        select
+          *
+        from
+          DangerUnit u
+        where
+          1=1
+        #if($id)
+          and u.id =:id
+        #end
+        #if($companyId)
+         and u.companyid =:companyId
+        #end
+        "
+

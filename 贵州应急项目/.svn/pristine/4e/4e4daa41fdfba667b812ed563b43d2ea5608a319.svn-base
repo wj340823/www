@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html ng-controller="appCtrl">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>贵州省重点行业企业风险源管理与分析系统</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="plugin/iconfont/iconfont.css" />
+    <link rel="stylesheet" href="plugin/jquery-ui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="plugin/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/emergencyPlan.css">
+    <link rel="stylesheet" href="css/riskPrevention.css">
+    <!-- ztree -->
+    <link rel="stylesheet" href="plugin/ztree/css/zTreeStyle/zTreeStyle.css" />
+    
+    <link rel="stylesheet" href="plugin/flowplayer/functional.css">
+
+    <!-- openlayers -->
+    <link rel="stylesheet" href="plugin/OpenLayers/4/ol.css" />
+    <link rel="stylesheet" href="plugin/OpenLayers/dist/angular-openlayers-directive.css" />
+    <link rel="stylesheet" href="plugin/OpenLayers/p-ol3/p-ol3.min.css" />
+    <link rel="stylesheet" href="plugin/color-picker/color-picker.min.css" />
+    <link rel="stylesheet" href="css/perfect-scrollbar.min.css" />
+    <link rel="stylesheet" href="css/gzxm.css?version=@release-version@" />
+    <link rel="stylesheet" href="css/riskSpatial.css?version=@release-version@" />
+    <link rel="stylesheet" href="css/riskInvest.css?version=@release-version@" />
+    <link rel="stylesheet" href="partials/authority/css/user.css" />
+    <script src="plugin/echarts/echarts.common.min.js"></script>
+    <script src="js/dropzone.js"></script>
+    <script src="plugin/fcolor/cuon-matrix.js"></script>
+    <script src="plugin/fcolor/cuon-utils.js"></script>
+    <script src="plugin/fcolor/webgl-utils.js"></script>
+    <script src="plugin/fcolor/webgl-debug.js"></script>
+</head>
+
+<body ng-style="{overflow:(system==='new')?'auto':'hidden'}" >
+<div class="loadGif">
+    <img src="images/load.gif" alt="">
+</div>
+    <div style="width: 100%;height: 100%" ng-if="system!=='new'?true:false">
+        <div class="baseMap" >
+            <openlayers id="map1" width="100%" height="100%" ol-center="olMap.center" ol-defaults="olMap.defaults" ol-view="olMap.view" custom-layers="false">
+                <ol-layer ol-layer-properties="layer" ng-repeat="layer in olMap.map"></ol-layer>
+                <ol-control name="{{ control.name }}" ng-repeat="control in olMap.controls | filter: {active: true}" ol-control-properties="control">
+                </ol-control>
+                <!-- 选中图层 -->
+                <ol-flash coords="selectPos.coord" ng-if="selectPos.visible" projection="EPSG:3857"></ol-flash>
+                <!-- 红枫湖 -->
+                <!--<ol-layer ol-layer-properties="hfhLayer"></ol-layer>-->
+                <!--省界线-->
+                <!--<ol-layer ol-layer-properties="risk.gzLayer" on-layer-created="risk.gzLayer.loadEnd(oSource)"></ol-layer>-->
+                <ol-layer ol-layer-properties="sjxLayer" ></ol-layer>
+                <!--贵州水系-->
+                <ol-layer ol-layer-properties="gzsxLayer" on-layer-created="riverCreated(oSource)"></ol-layer>
+                <!--<div ng-if="route=='home'">
+                    &lt;!&ndash; 重点污染区域 &ndash;&gt;
+                    &lt;!&ndash;<ol-layer ol-layer-properties="zdqyLayer"></ol-layer>&ndash;&gt;
+                    &lt;!&ndash;<ol-marker ol-marker-properties="marker" ng-repeat="marker in material.stores track by $index" zindex="19"></ol-marker>
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in risk.markers"></ol-marker>&ndash;&gt;
+                </div>-->
+                <div ng-if="route=='home.dataType1'||route=='home.dataType2'">
+                    <div ng-if="risk.gzLayer.show">
+                        <ol-layer ol-layer-properties="risk.gzLayer" on-layer-created="risk.gzLayer.loadEnd(oSource)"></ol-layer>
+                    </div>
+                    <ol-heat-map points="olMap.points" ng-show="dataType.page!=3"></ol-heat-map>
+                    <ol-marker ol-marker-properties="item" zindex="99" ng-repeat="item in risk.topDistricts" ></ol-marker>
+                    <ol-marker ol-marker-properties="item" zindex="90" ng-repeat="item in risk.cityMark" ></ol-marker>
+                    <!--<ol-marker ol-marker-properties="item" zindex="90" ng-repeat="item in risk.HeatMark" ></ol-marker>-->
+                </div>
+                <div ng-if="route =='home.dataType3'">
+                    <!--<ol-layer ol-layer-properties="zdqyLayer"></ol-layer>
+                    <ol-marker ol-marker-properties="marker" ng-repeat="marker in material.stores track by $index" zindex="19"></ol-marker>
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in risk.markers"></ol-marker>-->
+                </div>
+                <div ng-if="route =='home.emerStatus1'">
+                    <ol-layer ol-layer-properties="risk.gzLayer" on-layer-created="risk.gzLayer.loadEnd(oSource)"></ol-layer>
+                    <ol-marker ol-marker-properties="marker" ng-repeat="marker in material.stores track by $index" zindex="19" ></ol-marker>
+                    <ol-marker ol-marker-properties="item" zindex="99" ng-repeat="item in risk.topDistricts" ng-click="showMarker.material(item)"></ol-marker>
+                </div>
+                <div ng-if="route =='home.emerStatus2'">
+                    <ol-layer ol-layer-properties="risk.gzLayer" on-layer-created="risk.gzLayer.loadEnd(oSource)"></ol-layer>
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in riskSub.mark"></ol-marker>
+                </div>
+                <div ng-if="route=='home.waterSource'">
+                    <ol-layer ol-layer-properties="syd.river"></ol-layer>
+                </div>
+                <!---->
+                <div ng-if="route=='emergency.emergencyMaterial'">
+                    <ol-marker ol-marker-properties="marker" ng-repeat="marker in material.stores track by $index" zindex="19"></ol-marker>
+                    <ol-marker ol-marker-properties="item" ng-repeat="item in risk.material" zindex="9"></ol-marker>
+                    <ol-path coords="material.line.coords" ol-style="material.line.style" type="LineString" projection="EPSG:3857"
+                             zindex="9" create-end="material.line.viewFit(feature)" ng-if="material.line.visible"></ol-path>
+                    <ol-overlay coord="material.line.overlay.coord" label="material.line.overlay.label" projection="EPSG:3857" ng-if="material.line.overlay.visible"></ol-overlay>
+                </div>
+                <div ng-if="route=='riskPrevention.riskSource'">
+                    <div>
+                        <!---->
+                        <!--<ol-overlay coord="overlay.coord" label="overlay.label" ng-repeat="overlay in risk.districts" projection="EPSG:4326"></ol-overlay>-->
+                        <!--<ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in risk.topDistricts"></ol-marker>-->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in risk.markers" ng-click="risk.popLabel(item)"></ol-marker>
+                        <ol-overlay coord="risk.popOverlay.coord" label="risk.popOverlay.label" templateurl="partials/pop/risk.html" projection="EPSG:4326" ng-if="risk.popOverlay.visible"></ol-overlay>
+                    </div>
+                </div>
+                <!-- <div ng-if="route=='riskPrevention.riskSpatial.air'">
+                    <ol-layer ol-layer-properties="cshLayer"></ol-layer>
+                    <ol-layer ol-layer-properties="yjhLayer"></ol-layer>
+                    <div ng-if="airModel.modelShow">
+                        <ol-fcolor fluid="windfluidcolor" fluid-data="olMap.windData" timestamp="olMap.timestamp"></ol-fcolor>
+                        <ol-path coords="nearCircle1.coords" ol-style="nearStyle" radius="1450" type="Circle" projection="EPSG:4326" zindex="19"></ol-path>
+                        <ol-path coords="nearCircle1.coords" ol-style="nearStyle1" radius="2790" type="Circle" projection="EPSG:4326" zindex="18"></ol-path>
+                        <ol-plot type="airModel.plot40l3.type" is-edit="airModel.plot40l3.edit"
+                                 draw-end="airModel.plot40l3.drawEnd(feature)"
+                                 is-clear="airModel.plot40l3.clear" has-features="airModel.plot40l3.point"
+                                 zindex="29" ng-if="airModel.plot40l3.start"></ol-plot>
+                        <ol-path coords="nearRadius.coords" ol-style="radiusStyle" type="LineString" projection="EPSG:3857" zindex="20"></ol-path>
+                        <ol-path coords="nearRadius1.coords" ol-style="radiusStyle" type="LineString" projection="EPSG:3857" zindex="20"></ol-path>
+                        <ol-overlay coord="nearRadius.midCoord" label="nearRadius.label" projection="EPSG:3857"></ol-overlay>
+                        <ol-overlay coord="nearRadius1.midCoord" label="nearRadius1.label" projection="EPSG:3857"></ol-overlay>
+                        <ol-overlay coord="lay.coord" label="lay.label" projection="EPSG:3857" ng-repeat="lay in airtextLays"></ol-overlay>
+                        <ol-path coords="nearCircle1.coords" ol-style="somepointStyle" type="Point" projection="EPSG:4326" zindex="21"></ol-path>
+                    </div>
+                </div> -->
+                <div ng-if="route=='riskPrevention.riskSpatial.air'">
+                     <!-- 选点 -->
+                    <ol-plot type="aiModalTool.plot40l3.type" icon="{{aiModalTool.plot40l3.img}}" is-edit="aiModalTool.plot40l3.edit" draw-end="aiModalTool.plot40l3.drawEnd(feature)" draging="aiModalTool.plot40l3.draging(coord)" is-clear="aiModalTool.plot40l3.clear" has-features="aiModalTool.plot40l3.point" zindex="29" ng-if="aiModalTool.plot40l3.start"></ol-plot>
+                    <ol-fcolor fluid="windfluidcolor" fluid-data="olMap.windData" timestamp="olMap.timestamp" url="AtmosphericEvent/downloadTempJson"></ol-fcolor>
+                    <ol-path coords="aiModalTool.safeZone.coords" ol-style="aiModalTool.safeZone.style" radius="{{aiModalTool.safeZone.radius}}" type="Circle" projection="EPSG:4326" zindex="19"></ol-path>
+                    <ol-path coords="aiModalTool.dangerZone.coords" ol-style="aiModalTool.dangerZone.style" radius="{{aiModalTool.dangerZone.radius}}" type="Circle" projection="EPSG:4326"  zindex="19"></ol-path>
+
+                    <ol-path coords="aiModalTool.dangerLine.coords" ol-style="aiModalTool.dangerZone.style"  type="LineString" projection="EPSG:4326" zindex="19"></ol-path>
+                    <ol-path coords="aiModalTool.safeLine.coords" ol-style="aiModalTool.safeZone.style" type="LineString" projection="EPSG:4326"  zindex="19"></ol-path>
+
+                    <ol-overlay coord="aiModalTool.dangerLine.center" label="aiModalTool.dangerLine.label" projection="EPSG:4326"></ol-overlay>
+                    <ol-overlay coord="aiModalTool.safeLine.center" label="aiModalTool.safeLine.label" projection="EPSG:4326"></ol-overlay>
+                </div>
+                <!-- <div ng-if="route=='riskPrevention.riskSpatial.water'">
+                    <ol-layer ol-layer-properties="cshLayer"></ol-layer>
+                    <ol-layer ol-layer-properties="yjhLayer"></ol-layer>
+                    <ol-layer ol-layer-properties="sjxLayer"></ol-layer>
+                    <ol-path coords="nearCircle1.coords" ol-style="nearStyle" radius="500" type="Circle" projection="EPSG:4326" zindex="19"></ol-path>
+                    <ol-overlay templateurl="partials/pop/lay.html" coord="inOverlay.coord" label="inOverlay.label" projection="EPSG:4326"></ol-overlay>
+                    <ol-overlay templateurl="partials/pop/lay1.html" coord="outOverlay.coord" label="outOverlay.label" projection="EPSG:4326"></ol-overlay>
+                    <div ng-if="waterModel.tab==1">
+                        <ol-layer ol-layer-properties="waterModel.dzmLayer" on-layer-created="waterModel.dzmLayer.regionLoaded(oSource)" refresh="true" ng-if="waterModel.dzmLayer.visible"></ol-layer>
+                        <ol-plot type="waterModel.plot40l3.type" icon="{{waterModel.plot40l3.img}}" is-edit="waterModel.plot40l3.edit" draw-end="waterModel.plot40l3.drawEnd(feature)" is-clear="waterModel.plot40l3.clear" has-features="waterModel.plot40l3.point" zindex="29" ng-if="waterModel.plot40l3.start"></ol-plot>
+                        <ol-layer ng-if="!waterModel.calculating" ol-layer-properties="waterModel.mgdLayer" on-layer-created="waterModel.mgdLayer.regionLoaded(oSource)" refresh="true"></ol-layer>
+                        <ol-overlay coord="waterModel.mgdOverlay.coord" label="waterModel.mgdOverlay.label" projection="EPSG:3857"></ol-overlay>
+                        <div ng-if="waterModel.nearCircle.visible">
+                            <ol-path coords="waterModel.nearCircle.coords" ol-style="nearStyle" radius="500" type="Circle" projection="EPSG:3857" create-end="waterModel.nearCircle.createEnd(feature)" zindex="19"></ol-path>
+                        </div>
+                        <ol-overlay coord="waterModel.posOverlay.coord" label="waterModel.posOverlay.label" projection="EPSG:3857"></ol-overlay>
+                        <ol-overlay coord="waterModel.overlay.coord" label="waterModel.overlay.label" projection="EPSG:3857"></ol-overlay>
+                    </div>
+                    <div ng-if="waterModel.tab==2">
+                        <ol-layer ol-layer-properties="waterModel.jcdLayer" ng-if="waterModel.jcdLayer"></ol-layer>
+                        <ol-marker ol-marker-properties="waterModel.sourceMarker" zindex="29" ng-if="waterModel.sourceMarker"></ol-marker>
+                        <ol-overlay coord="waterModel.jcdOverlay.coord" label="waterModel.jcdOverlay.label"></ol-overlay>
+                        <ol-overlay coord="waterModel.jcdOverlay1.coord" label="waterModel.jcdOverlay1.label"></ol-overlay>
+                        <ol-overlay coord="waterModel.jcdOverlay2.coord" label="waterModel.jcdOverlay2.label"></ol-overlay>
+                        <ol-overlay coord="waterModel.jcdOverlay3.coord" label="waterModel.jcdOverlay3.label"></ol-overlay>
+                        <ol-overlay coord="waterModel.jcdOverlay4.coord" label="waterModel.jcdOverlay4.label"></ol-overlay>
+                        <ol-marker zindex="29" ol-marker-properties="item" ng-repeat="item in waterModel.eventsMarker |filter:{active:true}"></ol-marker>
+                    </div>
+                </div> -->
+                <div ng-if="route=='riskPrevention.riskSpatial.water'">
+                     <!-- 选点 -->
+                     <!--<ol-plot type="waterModalTool.plot40l3.type" icon="{{waterModalTool.plot40l3.img}}" is-edit="waterModalTool.plot40l3.edit" draw-end="waterModalTool.plot40l3.drawEnd(feature)" draging="waterModalTool.plot40l3.draging(coord)" is-clear="waterModalTool.plot40l3.clear" has-features="waterModalTool.plot40l3.point" zindex="29" ng-if="waterModalTool.plot40l3.start"></ol-plot>-->
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in waterModalTool.plot40l3.marker"></ol-marker>
+                    <!--<ol-layer ol-layer-properties="resourceMap.river" on-layer-created="riverCreated(oSource)"></ol-layer>-->
+                    <!-- 等值面 -->
+                    <ol-layer ol-layer-properties="waterModalTool.dzmLayer" on-layer-created="waterModalTool.dzmLayer.regionLoaded(oSource)" refresh="true" ng-if="waterModalTool.dzmLayer.visible"></ol-layer>
+                    <!-- 污染带影响范围 -->
+                    <div ng-if="waterModalTool.nearCircle.visible">
+                        <ol-path coords="waterModalTool.nearCircle.coords" ol-style="nearStyle" radius="{{waterModalTool.nearCircle.radius}}" type="Circle" projection="EPSG:3857" create-end="waterModalTool.nearCircle.createEnd(feature)" zindex="19"></ol-path>
+                    </div>
+                    
+                </div>
+                <div ng-if="route=='riskPrevention.riskSpatial.resouceRelation'">
+                    <ol-layer ol-layer-properties="resourceMap.river" on-layer-created="riverCreated(oSource)"></ol-layer>
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.fxy.markers" ng-click="resourceMap.fxyPopLabel(item)"></ol-marker>
+                    <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.mgd.markers"></ol-marker>
+                    <ol-overlay coord="resourceMap.fxy.popup.coord" label="resourceMap.fxy.popup.label" templateurl="partials/pop/resourceRelaFxy.html" projection="EPSG:4326" ng-if="resourceMap.fxy.popup.visible"></ol-overlay>
+                </div>
+                <div ng-if="route=='riskPrevention.riskSpatial.emergencyMoni'">
+                    <div ng-if="resourceMap.type=='air'">
+                        <ol-fcolor fluid="windfluidcolor" fluid-data="olMap.windData" timestamp="olMap.timestamp"></ol-fcolor>
+                        <!-- <ol-path coords="resourceMap.safeZone.coords" ol-style="resourceMap.safeZone.style" radius="{{resourceMap.safeZone.radius}}" type="Circle" projection="EPSG:4326" zindex="19"></ol-path>
+                        <ol-path coords="resourceMap.dangerZone.coords" ol-style="resourceMap.dangerZone.style" radius="{{resourceMap.dangerZone.radius}}" type="Circle" projection="EPSG:4326"  zindex="19"></ol-path>
+
+                        <ol-path coords="resourceMap.dangerLine.coords" ol-style="resourceMap.dangerZone.style"  type="LineString" projection="EPSG:4326" zindex="19"></ol-path>
+                        <ol-path coords="resourceMap.safeLine.coords" ol-style="resourceMap.safeZone.style" type="LineString" projection="EPSG:4326"  zindex="19"></ol-path>
+
+                        <ol-overlay coord="resourceMap.dangerLine.center" label="resourceMap.dangerLine.label" projection="EPSG:4326"></ol-overlay>
+                        <ol-overlay coord="resourceMap.safeLine.center" label="resourceMap.safeLine.label" projection="EPSG:4326"></ol-overlay> -->
+                        <!-- 风险源 -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.fxy.markers" ng-click="resourceMap.fxyPopLabel(item)"></ol-marker>
+                        <!-- 敏感点 -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.mgd.markers"></ol-marker>
+                        <!-- 监测点 -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.jcd.markers"></ol-marker>
+                        <ol-overlay coord="item.coord" label="item.label" ng-repeat="item in resourceMap.jcd.overlays"></ol-overlay>
+                        
+                    </div>
+                    <div ng-if="resourceMap.type=='water'">
+                        <ol-layer ol-layer-properties="waterModel.river" on-layer-created="waterModel.riverCreated(oSource)"></ol-layer>
+                        <!-- 等值面 -->
+                        <ol-layer ol-layer-properties="waterModel.dzmLayer" on-layer-created="waterModel.dzmLayer.regionLoaded(oSource)" refresh="true" ng-if="waterModel.dzmLayer.visible"></ol-layer>
+                        <!-- 敏感点 -->
+                        <!-- <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.mgd.markers | filter:{visible:true}"></ol-marker> -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.mgd.markers"></ol-marker>
+                        <!-- 监测点 -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.jcd.markers"></ol-marker>
+                        <ol-overlay coord="item.coord" label="item.label" ng-repeat="item in resourceMap.jcd.overlays"></ol-overlay>
+                        <!-- 流经地址 -->
+                        <ol-layer ol-layer-properties="waterModel.addrLayer" on-layer-created="waterModel.addrCreated(oSource)"></ol-layer>
+                        <!-- <ol-layer ol-layer-properties="waterModel.mgdLayer" on-layer-created="waterModel.mgdLayer.regionLoaded(oSource)" refresh="true"></ol-layer> -->
+                        <!-- <ol-overlay coord="waterModel.mgdOverlay.coord" label="waterModel.mgdOverlay.label" projection="EPSG:3857"></ol-overlay>   -->
+                        <ol-marker ol-marker-properties="item" zindex="29" ng-repeat="item in resourceMap.fxy.markers" ng-click="resourceMap.fxyPopLabel(item)"></ol-marker>
+
+                        <ol-overlay coord="waterModel.posOverlay.coord" label="waterModel.posOverlay.label" projection="EPSG:3857"></ol-overlay>
+                        <!-- 污染带影响范围 -->
+                        <div ng-if="waterModel.nearCircle.visible">
+                            <ol-path coords="waterModel.nearCircle.coords" ol-style="nearStyle" radius="{{waterModel.nearCircle.radius}}" type="Circle" projection="EPSG:3857" create-end="waterModel.nearCircle.createEnd(feature)" zindex="19"></ol-path>
+                        </div>
+
+                        <!-- 起始点标记 -->
+                        <ol-overlay templateurl="partials/pop/lay.html" coord="inOverlay.coord" label="inOverlay.label" projection="EPSG:4326"></ol-overlay>
+                        <ol-overlay templateurl="partials/pop/lay1.html" coord="outOverlay.coord" label="outOverlay.label" projection="EPSG:4326"></ol-overlay>
+                    </div>
+
+                </div>
+            </openlayers>
+        </div>
+    </div>
+    <div ui-view style="width: 100%;background-color:#21252a;padding: 12px 16px;height: 100%;overflow-y: auto" ></div>
+    <script data-baseurl="./" data-main="js/requireMain.js?version=@release-version@"
+            src="js/require.min.js" id="main">
+    </script>
+</body>
+</html>

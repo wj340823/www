@@ -1,0 +1,498 @@
+package com.sucsoft.gzhbyjwz.service.riskmanage;
+
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import com.sucsoft.gzhbyjwz.bean.constant.PreplanConstant;
+import com.sucsoft.gzhbyjwz.bean.dc12.*;
+import com.sucsoft.gzhbyjwz.bean.param.riskManage.PreplanParam;
+import com.sucsoft.gzhbyjwz.service.XzqyService;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.service.user.UserService;
+import com.sucsoft.gzhbyjwz.util.PageBean;
+import com.sucsoft.gzhbyjwz.util.PageUtils;
+import com.sucsoft.gzhbyjwz.util.StringUtils;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Logger;
+
+@Service
+public class EnterprisePreplanService {
+
+    @Value("${emergencyPlan.filePath}")
+    private String filePath;
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    @Autowired
+    private TaskCountService taskCountService;
+    @Autowired
+    private XzqyService xzqyService;
+
+    @Autowired
+    private UserService userService;
+
+    private Logger logger = Logger.getLogger(EnterprisePreplanService.class.getName());
+
+    //预案管理列表
+    public PageBean<Map> listEnterprisePreplan(PreplanParam preplanParam, Integer pageNo, Integer pageSize) throws Exception {
+        Map<String, Object> param = preplanParam.toParam();
+        List<Map> list = basicQueryService.queryForList("listEnterprisePreplan", param, Map.class, 0, 0);
+
+        list= judgeStatus(list,preplanParam.getState());
+
+        return PageUtils.getPage(list,pageNo,pageSize);
+    }
+    //企业列表
+    public PageBean<Map> listEnterpriseInfoPage(PreplanParam preplanParam, Integer pageNo, Integer pageSize) throws Exception{
+        if(org.apache.commons.lang.StringUtils.isNotBlank(preplanParam.getQxXzqyId())){
+            preplanParam.setQxXzqyId(preplanParam.getQxXzqyId());
+        }else{
+            preplanParam.setXzqyIdList(xzqyService.getChildrenAndSelfId(preplanParam.getXzqyId()));
+        }
+
+        Map<String, Object> param = preplanParam.toParam();
+        //sql 预留查询条件（应急设施。。。）
+        List<Map> list = basicQueryService.queryForList("listEnterpriseInfoPage", param, Map.class, 0, 0);
+
+        list= judgeStatus(list,preplanParam.getState());
+
+        return PageUtils.getPage(list,pageNo,pageSize);
+    }
+
+
+    /**
+     * 导出应急预案
+     * @param response
+     * @param preplanParam
+     * @throws Exception
+     */
+    public void writeToResponse(HttpServletResponse response,PreplanParam preplanParam )throws Exception{
+        Map<String, Object> param = preplanParam.toParam();
+        List<Map> list = basicQueryService.queryForList("listEnterprisePreplan", param, Map.class, 0, 0);
+        list= judgeStatus(list,preplanParam.getState());
+
+        for(Map map : list){
+            if(map.get("RECORDSTATUS").toString().equals("1")){
+                map.put("zt","已备案");
+            }else if(map.get("RECORDSTATUS").toString().equals("2")){
+                map.put("zt","即将到期");
+            }else if(map.get("RECORDSTATUS").toString().equals("3")){
+                map.put("zt","备案超期");
+            }else{
+                map.put("zt","未备案");
+            }
+            map.put("bznf",map.get("DOCUMENTYEAR").toString().substring(0,4));
+            map.put("basj",map.get("RECORDTIME").toString().substring(0,10));
+        }
+
+        String[] bt = {"企业名称","行政区域","风险级别","备案状态","备案时间","编制年份"};
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet();
+
+        HSSFFont headfont = workbook.createFont();
+        headfont.setFontName("黑体");
+        headfont.setFontHeightInPoints((short) 18);// 字体大小
+
+        CellStyle style= workbook.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        style.setWrapText(true);// 自动换行
+        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左右居中
+        style.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);// 上下居中
+        style.setFont(headfont);
+
+        for(int i = 0;i< 5;i++){
+           if(i == 0){
+               HSSFCell cell = sheet.createRow(0).createCell(0);
+               cell.setCellValue(bt[0]);
+               cell.setCellStyle(style);
+           }else{
+               HSSFCell cell = sheet.getRow(0).createCell(i);
+               cell.setCellValue(bt[i]);
+               cell.setCellStyle(style);
+           }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            sheet.createRow(i+1).createCell(0).setCellValue(list.get(i).get("COMPANYNAME").toString());
+            sheet.getRow(i+1).createCell(1).setCellValue(list.get(i).get("NAME").toString());
+            sheet.getRow(i+1).createCell(2).setCellValue(list.get(i).get("RISKGRADE").toString());
+            sheet.getRow(i+1).createCell(3).setCellValue(list.get(i).get("zt").toString());
+            sheet.getRow(i+1).createCell(4).setCellValue(list.get(i).get("basj").toString());
+            sheet.getRow(i+1).createCell(6).setCellValue(list.get(i).get("bznf").toString());
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + toUtf8String("应急预案" + sdf.format(new Date()) + ".xls"));// 默认Excel名称
+        response.flushBuffer();
+
+        workbook.write(response.getOutputStream());
+    }
+    /**
+     * 文件名中文输出方法修改
+     *
+     * @return
+     */
+    public static String toUtf8String(String s) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 0 && c <= 255) {
+                sb.append(c);
+            } else {
+                byte[] b;
+                try {
+                    b = Character.toString(c).getBytes("utf-8");
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                    b = new byte[0];
+                }
+                for (int j = 0; j < b.length; j++) {
+                    int k = b[j];
+                    if (k < 0)
+                        k += 256;
+                    sb.append("%" + Integer.toHexString(k).toUpperCase());
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 根据编制年份查询过期(3年)的预案
+     * @param preplanParam
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    public PageBean<Map> listAlarmPreplan(PreplanParam preplanParam, Integer pageNo, Integer pageSize) throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.YEAR, -3);
+
+        if (preplanParam.getEndDate() == null || preplanParam.getEndDate() > cal.getTimeInMillis()) {
+            preplanParam.setEndDate(cal.getTimeInMillis());
+        }
+        return listEnterprisePreplan(preplanParam, pageNo, pageSize);
+    }
+
+
+    /**
+     * 统计附件类型对应的企业数
+     * @param preplanParam
+     * @return
+     * @throws Exception
+     */
+    public Object getfjStatistics(PreplanParam preplanParam)throws Exception{
+        Map<String, Object> param = preplanParam.toParam();
+        List<Map> list = basicQueryService.queryForList("listEnterpriseFj", param, Map.class, 0, 0);
+        List<Map> list1 = basicQueryService.queryForList("enterpriseCount1", new HashMap<>(), Map.class, 0, 0);
+        int allCount= Integer.parseInt(list1.get(0).get("allCount").toString());
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        // 设置精确到小数点后2位
+        numberFormat.setMaximumFractionDigits(2);
+
+        for(Map map :list){
+            int count =  Integer.parseInt(map.get("typeCount").toString());
+            String result = numberFormat.format((float)count/(float)allCount*100);
+            map.put("percentage",result);
+        }
+        return list;
+    }
+
+    /**
+     * 查询有无上传该类型文件的企业
+     * @param type
+     * @param name
+     * @param isUpload
+     * @param xzqy
+     * @param riskGrade
+     * @return
+     * @throws Exception
+     */
+    public  Object getFjTypeCompany(String type,String name,String isUpload,String xzqy,String riskGrade) throws Exception{
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        if("1".equals(isUpload)){
+            param.put("isUpload", isUpload);
+        }else{
+            param.put("noUpload", isUpload);
+        }
+        if(org.apache.commons.lang.StringUtils.isNotBlank(name)){
+            param.put("companyName", name);
+        }
+        if(org.apache.commons.lang.StringUtils.isNotBlank(riskGrade)){
+            param.put("riskGrade", riskGrade);
+        }
+        if(org.apache.commons.lang.StringUtils.isNotBlank(xzqy)){
+            param.put("xzqyId", xzqy);
+            //按行政区域划分数据权限
+            List<String> xzqyIdList = xzqyService.getChildrenAndSelfId(xzqy);
+            param.put("xzqyIdList", xzqyIdList);
+        }
+        List<Map> list = basicQueryService.queryForList("listEnterpriseFj1", param, Map.class, 0, 0);
+
+        return list;
+    }
+
+    /**
+     * 导出企业
+     * @param response
+     * @throws Exception
+     */
+    public void writeToResponse1(HttpServletResponse response,String type,String name,String isUpload,String xzqy,String riskGrade )throws Exception {
+
+        List<Map> list = (List<Map>) getFjTypeCompany(type, name, isUpload, xzqy, riskGrade);
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet();
+
+        HSSFFont headfont = workbook.createFont();
+        headfont.setFontName("黑体");
+        headfont.setFontHeightInPoints((short) 18);// 字体大小
+
+        CellStyle style= workbook.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        style.setWrapText(true);// 自动换行
+        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 左右居中
+        style.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);// 上下居中
+        style.setFont(headfont);
+
+        HSSFCell cell = sheet.createRow(0).createCell(0);
+        cell.setCellValue("企业名称");
+        cell.setCellStyle(style);
+
+        for(int i = 0; i < list.size() ; i++){
+            HSSFCell cell1 = sheet.createRow(i+1).createCell(0);
+            cell.setCellValue(list.get(i).get("companyname").toString());
+            cell.setCellStyle(style);
+        }
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + toUtf8String("企业名单" + sdf.format(new Date()) + ".xls"));// 默认Excel名称
+        response.flushBuffer();
+
+        workbook.write(response.getOutputStream());
+    }
+
+
+    /**
+     * 对查询结果的备案状态重新判定
+     *
+     * @param list
+     */
+    public List judgeStatus(List<Map> list, int state) {
+        List<Map> data = new ArrayList<>();
+        for (Map map : list) {
+            int status = 0;
+            if (map.get("RECORDSTATUS") == null) {
+                status =PreplanConstant.RecordStatus.notOnRecord.getStatus();
+            } else {
+                status = taskCountService.getPreplanStatus((Integer) map.get("RECORDSTATUS"), map.get("RECORDTIME") == null ? null : ((java.sql.Timestamp) map.get("RECORDTIME")).getTime());
+            }
+            map.put("RECORDSTATUS", status);
+            if(status == state || state==-1 ){
+                data.add(map);
+            }
+        }
+        return data;
+    }
+
+    public void saveRecord(String planId,String operaTion,String account){
+        AttachmentOperationRecord record = new AttachmentOperationRecord();
+        record.setCompanyId(planId);
+        record.setOperationDate(new Date());
+        record.setOperation(operaTion);
+        record.setOprerationAccount(account);
+        record.setId(UUID.randomUUID().toString());
+        basicQueryService.save(record);
+    }
+
+    //添加附件
+    public void addPlanAttachment(MultipartFile file, PlanAttachment attachment) throws IOException {
+        int size = file.getInputStream().available();
+        String account = userService.getUserName();
+        saveRecord(attachment.getPlanId(),"0",account);
+        String url = file.getOriginalFilename();
+        if(!file.isEmpty()) {
+            Path path = Paths.get(filePath, url);
+            File dest = path.toFile();
+            if (!dest.getParentFile().exists()) {
+                dest.getParentFile().mkdirs();
+            }
+            dest = setFileName(dest,url,1);
+            url = dest.getName();
+            file.transferTo(dest);
+            attachment.setUrl(url);
+            attachment.setSize(String.valueOf(size));
+            attachment.setTime(new Date());
+            basicQueryService.save(attachment);
+            EnterprisePreplan preplan = basicQueryService.get(attachment.getPlanId(),EnterprisePreplan.class);
+            preplan.setUpdateDate(new Date());
+            basicQueryService.update(preplan);
+            saveRecord(attachment.getPlanId(),"1",account);
+        }
+    }
+
+    private File setFileName(File dest,String url,int i){
+        File file = dest;
+        logger.info(file.getName());
+        if(!dest.exists()){
+            return file;
+        }
+        StringBuffer target = new StringBuffer();
+        if(i==1){
+            target.append(".");
+        }else {
+            target.append(i-1).append(".");
+        }
+        StringBuffer replacement = new StringBuffer();
+        replacement.append(i).append(".");
+        url = url.replace(target.toString(),replacement.toString());
+        dest = Paths.get(filePath,url).toFile();
+        i++;
+        return setFileName(dest,url,i);
+    }
+
+    //附件下载
+    public void downPlanAttachment(String attachmentId, HttpServletResponse response) throws IOException {
+        PlanAttachment attachment = basicQueryService.get(attachmentId, PlanAttachment.class);
+        String url = attachment.getUrl();
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(Paths.get(filePath, url).toFile());
+            response.setContentType("application/x-download");
+            response.addHeader("Content-Disposition", "attachment;filename=" + StringUtils.toUtf8String(attachment.getUrl()));
+            FileCopyUtils.copy(fis, response.getOutputStream());
+        } finally {
+            fis.close();
+        }
+        saveRecord(attachment.getPlanId(),"2",userService.getUserName());
+        basicQueryService.delete(attachmentId,EnterpriseAttachment.class);
+    }
+
+    //根据预案id查询附件列表
+    public Page listAttachmentByPlan(String planId, Integer pageNo, Integer pageSize) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("planId", planId);
+
+        return basicQueryService.queryForPage("listAttachmentByPlan", param, Map.class, pageNo, pageSize);
+    }
+
+
+    //更新或修改
+    public Integer saveOrUpdatePreplan(EnterprisePreplan preplan) throws Exception {
+        if (preplan.getLevel() == null) {
+            return 1;
+        }
+        preplan.setUpdateDate(new Date());
+        if (preplan.getId() == null || getBycompanyId(preplan.getCompanyId()) == null) {
+            basicQueryService.save(preplan);
+        } else {
+            basicQueryService.update(preplan);
+        }
+        EnterpriseInformation e = basicQueryService.get(preplan.getCompanyId(), EnterpriseInformation.class);
+        //更新风险源的风险等级
+        if (preplan.getLevel() != null) {
+            logger.info("level:"+preplan.getLevel());
+            logger.info("level:"+e.getRiskGrade());
+            e.setRiskGrade((String) PreplanConstant.levelMap.get(preplan.getLevel()));
+            logger.info("level:"+e.getRiskGrade());
+        }
+        basicQueryService.update(e);
+        return 0;
+    }
+
+    //未备案预案备案
+    public Integer setPreplan(Integer num) throws Exception {
+        Integer sucNum = 0;
+        List<EnterpriseInformation> list = basicQueryService.queryInfoList(new HashMap(),num);
+        Map<String, String> map = basicQueryService.queryPlanList();
+        for (EnterpriseInformation info : list) {
+            if (map.containsKey(info.getCompanyId())) {
+                continue;
+            }
+            saveEnterprisePreplan(info);
+            sucNum++;
+        }
+        return sucNum;
+    }
+    //员备案数据保存
+    public String saveEnterprisePreplan(EnterpriseInformation info) throws Exception {
+        EnterprisePreplan plan = new EnterprisePreplan();
+        plan.setRecordStatus(1);
+        Date date = new Date();
+        plan.setRecordtime(date);
+        plan.setUpdateDate(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(org.apache.commons.lang.StringUtils.isNotBlank(info.getDocumentYear())){
+            StringBuffer time = new StringBuffer()
+                    .append(info.getDocumentYear().replace(",","").substring(0,4))
+                    .append("-01-01 00:00:00");
+            Date date1 = sdf.parse(time.toString());
+            plan.setDocumentYear(date1);
+        }else {
+            Date date1 = sdf.parse("2018-01-01 00:00:00");
+            plan.setDocumentYear(date);
+        }
+        plan.setCompanyId(info.getCompanyId());
+        String riskGrade = info.getRiskGrade();
+        if("较大".equals(riskGrade)){
+            plan.setLevel(2);
+        }else if("重大".equals(riskGrade)){
+            plan.setLevel(3);
+        }else {
+            plan.setLevel(1);
+        }
+        return (String) basicQueryService.save(plan);
+
+    }
+
+    //根据企业id获取企业预案
+    public Map getBycompanyId(String companyId) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("companyId", companyId);
+        List<Map> list = basicQueryService.queryForList("getPreplanByCompanyId", param, Map.class, 0, 0);
+        if (list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public String deleteAttacment(String id){
+        PlanAttachment attachment = basicQueryService.get(id,PlanAttachment.class);
+        if(attachment != null){
+            AttachmentOperationRecord record = new AttachmentOperationRecord();
+            record.setId(UUID.randomUUID().toString());
+            record.setOperation("3");
+            record.setOperationDate(new Date());
+            record.setOprerationAccount(userService.getUserName());
+            record.setCompanyId(attachment.getPlanId());
+            basicQueryService.save(record);
+            basicQueryService.delete(id,PlanAttachment.class);
+            return "success";
+        }
+        return "fail";
+    }
+}

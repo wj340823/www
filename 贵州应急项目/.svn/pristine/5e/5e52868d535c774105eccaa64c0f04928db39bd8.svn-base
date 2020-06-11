@@ -1,0 +1,198 @@
+---
+  grammer: SQL
+  queries:
+    #根据条件查询预案列表
+    - name: listEnterprisePreplan
+      resultType: Map
+      statement:
+        "
+        SELECT
+          e.COMPANYID eId,
+          e.COMPANYNAME,
+          e.RISKGRADE,
+          x.NAME,
+          p.*
+        FROM enterpriseinformation e
+        LEFT JOIN enterprisepreplan p ON e.COMPANYID = p.COMPANYID
+        LEFT JOIN xzqy x on e.XZQYID = x.ID
+        WHERE
+          1=1
+        #if($xzqyId)
+          and e.xzqyid =:xzqyId
+        #end
+        #if($xzqyIdList)
+          and e.xzqyid #qin($xzqyIdList 'xzqyIdList')
+        #end
+        #if($riskGrade)
+          and e.RISKGRADE =:riskGrade
+        #end
+        #if($notInRecord)
+          and (p.ID IS NULL OR p.RECORDSTATUS IS NULL OR p.RECORDSTATUS = 0)
+        #end
+        #if($recordStatus)
+          and p.recordstatus =:recordStatus
+        #end
+        #if($companyName)
+          and e.companyName like :companyName
+        #end
+        #if($strDate)
+          and p.documentYear >=:strDate
+        #end
+        #if($endDate)
+          and p.documentYear < :endDate
+        #end
+        order by p.updateDate desc
+        "
+    - name: listEnterpriseInfoPage
+      resultType: Map
+      statement:
+        "
+        SELECT
+          e.COMPANYID eId,
+          e.COMPANYNAME,
+          e.RISKGRADE,
+          e.SQNAME,
+          '有' as YJWZ,
+          x.NAME
+        FROM
+        (select
+           a.*,b.name as sqName
+         from
+           enterpriseinformation a
+          left join
+           xzqy b
+          on a.xzqyid2 = b.id)e
+        LEFT JOIN enterprisepreplan p ON e.COMPANYID = p.COMPANYID
+        LEFT JOIN xzqy x on e.XZQYID = x.ID
+        WHERE
+          1=1
+        #if($xzqyId)
+          and e.xzqyid =:xzqyId
+        #end
+        #if($xzqyIdList)
+          and e.xzqyid #qin($xzqyIdList 'xzqyIdList')
+        #end
+        #if($riskGrade)
+          and e.RISKGRADE =:riskGrade
+        #end
+        #if($notInRecord)
+          and (p.ID IS NULL OR p.RECORDSTATUS IS NULL OR p.RECORDSTATUS = 0)
+        #end
+        #if($recordStatus)
+          and p.recordstatus =:recordStatus
+        #end
+        #if($companyName)
+          and e.companyName like :companyName
+        #end
+        #if($strDate)
+          and p.documentYear >=:strDate
+        #end
+        #if($endDate)
+          and p.documentYear < :endDate
+        #end
+        order by p.updateDate desc
+        "
+    #根据预案id查询附件列表
+    - name: listAttachmentByPlan
+      resultType: Map
+      statement:
+        "
+        SELECT
+          a.*
+        FROM newplanattachment a
+        LEFT JOIN enterprisepreplan p ON a.PLANID = p.ID
+        WHERE
+          1=1
+        #if($planId)
+          and p.ID =:planId
+        #end
+        "
+    #根据预案id查询附件列表
+    - name: getPreplanByCompanyId
+      resultType: Map
+      statement:
+        "
+        SELECT
+          p.*,
+          e.companyName
+        FROM enterprisepreplan p
+        LEFT JOIN enterpriseinformation e ON e.COMPANYID = p.COMPANYID
+        WHERE
+          e.COMPANYID =:companyId
+        "
+    - name: listEnterpriseFj
+      resultType: Map
+      statement:
+       "  SELECT
+              b.type,COUNT(*) as typeCount from (
+         SELECT
+          distinct a.type, e.companyname
+
+         FROM
+           newPlanAttachment a
+          LEFT JOIN
+           enterprisepreplan  p on a.planId = p.id
+         LEFT JOIN enterpriseinformation e ON e.COMPANYID = p.COMPANYID
+
+         WHERE
+           1=1
+         #if($xzqyId)
+           and e.xzqyid =:xzqyId
+         #end
+         #if($xzqyIdList)
+           and e.xzqyid #qin($xzqyIdList 'xzqyIdList')
+         #end
+         #if($riskGrade)
+           and e.RISKGRADE =:riskGrade
+         #end
+         #if($notInRecord)
+           and (p.ID IS NULL OR p.RECORDSTATUS IS NULL OR p.RECORDSTATUS = 0)
+         #end
+         #if($recordStatus)
+           and p.recordstatus =:recordStatus
+         #end
+         #if($companyName)
+           and e.companyName like :companyName
+         #end
+         #if($strDate)
+           and p.documentYear >=:strDate
+         #end
+         #if($endDate)
+           and p.documentYear < :endDate
+         #end
+        ) b  GROUP BY b.type
+       "
+    - name: listEnterpriseFj1
+      resultType: Map
+      statement:
+       "
+         SELECT
+           distinct e.companyname
+         FROM
+            enterpriseinformation e
+          LEFT JOIN
+          enterprisepreplan  p ON e.COMPANYID = p.COMPANYID
+         LEFT JOIN
+          newPlanAttachment a  on a.planId = p.id
+         WHERE
+           1=1
+         #if($xzqyId)
+           and e.xzqyid =:xzqyId
+         #end
+         #if($xzqyIdList)
+           and e.xzqyid #qin($xzqyIdList 'xzqyIdList')
+         #end
+         #if($riskGrade)
+           and e.RISKGRADE =:riskGrade
+         #end
+         #if($companyName)
+           and e.companyName like :companyName
+         #end
+         #if($isUpload)
+             and a.TYPE = :type
+         #end
+          #if($noUpload)
+             and a.TYPE is  null
+          #end
+        "
+

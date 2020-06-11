@@ -1,0 +1,138 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import com.sucsoft.gzhbyjwz.bean.constant.ApplicationEnv;
+
+import java.security.MessageDigest;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+public final class DataUtil {
+	public static double lat;
+	public static double lgt;
+	private static DecimalFormat df = new DecimalFormat("#.00");
+	/**
+	 * 得到validBit位的百分数
+	 * @param divisor		除数
+	 * @param dividend		被除数
+	 * @return  validBit位的百分数
+	 */
+	public static String filterHtml(String context) {
+		if (context == null)
+            return (null);
+        char content[] = new char[context.length()];
+        context.getChars(0, context.length(), content, 0);
+        StringBuffer result = new StringBuffer(content.length + 50);
+        for (int i = 0; i < content.length; i++) {
+            switch (content[i]) {
+            case '<':
+                result.append("&lt;");
+                break;
+            case '>':
+                result.append("&gt;");
+                break;
+            case '&':
+                result.append("&amp;");
+                break;
+            case '"':
+                result.append("&quot;");
+                break;
+            default:
+                result.append(content[i]);
+            }
+        }
+        return (result.toString());
+	}
+	public static String getPercent(Double divisor,Double dividend,int validBit){
+		NumberFormat nt = NumberFormat.getPercentInstance();
+		//设置百分数精确度2即保留两位小数
+		nt.setMinimumFractionDigits(validBit);
+		return nt.format(divisor/dividend);
+	}
+	/**
+	 * 采用MD5加密
+	 */
+	public static String md5(String src){
+		StringBuffer buffer = new StringBuffer();
+		char [] chars = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte [] data = md.digest(src.getBytes(ApplicationEnv.encoding));
+			for(byte b:data){
+				//高4位
+				buffer.append(chars[(b >> 4) & 0x0F]);
+				//低4位
+				buffer.append(chars[b&0x0F]);
+			}
+			return buffer.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//去除两个数组中的重复元素
+	@SuppressWarnings("unchecked")
+	public static List<String> getOffList(String[] onlineArray, String[] totalArray) {
+		List<String> onlineList = new ArrayList(Arrays.asList(onlineArray));
+		List<String> totalList = new ArrayList(Arrays.asList(totalArray));
+		totalList.removeAll(onlineList);
+		return totalList;
+	}
+	
+	public static String getTwoDecimal(double number){
+		return df.format(number);
+	}
+	
+	/*
+	 * 抽取所有实体的id，构成字符串
+	 */
+//	public static String extractEntityIds(Collection <? extends BaseBean> c) {
+//		if(ValidateUtil.isValid(c)){
+//			return null;
+//		}
+//		else{
+//			String temp = "";
+//			for(BaseBean baseBean:c){
+//				temp = temp + baseBean.getId().toString() + ",";
+//			}
+//			return temp.substring(0, temp.length()-1);
+//		}
+//	}
+	
+	//判断轨迹是否相同经纬度
+	public static boolean isSame(Object lgt1, Object lat1) {
+		boolean flag = false;
+		if(lgt1!=null && lat1!=null){
+			if( lat != Double.parseDouble(lat1.toString()) ||(lgt != Double.parseDouble(lgt1.toString()))){
+				flag = true;
+				lat = Double.parseDouble(lat1.toString());
+				lgt = Double.parseDouble(lgt1.toString());
+				return flag;
+			}
+		}
+		return flag;
+	}
+	
+	//set转成json
+	  public static String set2json(Set<String> set) {
+	        StringBuilder json = new StringBuilder();
+	        json.append("[");
+	        if (set != null && set.size() > 0) {
+	            for (String str : set) {
+	                json.append("\"").append(str).append("\"");
+	                json.append(",");
+	            }
+	            json.setCharAt(json.length() - 1, ']');
+	        } else {
+	            json.append("]");
+	        }
+	        return json.toString();
+	    }
+
+	
+}

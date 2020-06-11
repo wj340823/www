@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Create Polyline</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        function Init()
+        {
+            var geometry = SGWorld.Creator.GeometryCreator.CreateLineStringGeometry([-114.73656, 36.01659, 10000, -115.14515, 36.15498, 300000, -118.24834, 34.05090, 700000]);
+            // 3 in AltitudeTypeCode means absolute, "" means add to root 
+            var line = SGWorld.Creator.CreatePolyline(geometry, "#ff0000", 3, "", "my poly");
+            line.Position.Distance = 900000.0; // set max viewing distance in meters
+            SGWorld.Navigate.FlyTo(line);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040y3uYtyaA2nTY01AkG#N7rHOZNvSP.BBvOruzZ9YXRB2KG4PEBu#DCrk4n2euB7f1cC7ZaBQ#vDKjD7a.gwfVGQJJ-->

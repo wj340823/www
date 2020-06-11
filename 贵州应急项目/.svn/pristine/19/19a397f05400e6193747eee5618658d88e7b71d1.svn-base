@@ -1,0 +1,67 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.persistence.Transient;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 生产工艺
+ * @author jinly
+ *
+ */
+@ApiModel(value = "生产工艺", description = "生产工艺")
+public class ProductionProcess {
+
+	private String productionProcess_Id;
+	private String qyId;
+
+	@ApiModelProperty(value = "工艺类型")
+	private String gylx;
+	@ApiModelProperty(value = "名称")
+	private String gyName;
+	@ApiModelProperty(value = "备注")
+	private String bz;
+
+	public String getProductionProcess_Id() {
+		return productionProcess_Id;
+	}
+
+	public void setProductionProcess_Id(String productionProcess_Id) {
+		this.productionProcess_Id = productionProcess_Id;
+	}
+
+	public String getQyId() {
+		return qyId;
+	}
+
+	public void setQyId(String qyId) {
+		this.qyId = qyId;
+	}
+
+	public String getGylx() {
+		return gylx;
+	}
+
+	public void setGylx(String gylx) {
+		this.gylx = gylx;
+	}
+
+	public String getGyName() {
+		return gyName;
+	}
+
+	public void setGyName(String gyName) {
+		this.gyName = gyName;
+	}
+
+	public String getBz() {
+		return bz;
+	}
+
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
+}

@@ -1,0 +1,3 @@
+<div class="loadGif" ng-controller="loadCt">
+    <img src="images/load.gif" alt="">
+</div>

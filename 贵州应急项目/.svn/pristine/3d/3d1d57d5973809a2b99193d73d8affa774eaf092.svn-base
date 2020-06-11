@@ -1,0 +1,243 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+import io.swagger.annotations.ApiModelProperty;
+
+public class HiddenDanger {
+
+    private String address;
+    /**
+     * 隐患级别：0-无，1-一般隐患，2-重大隐患,3-应急隐患
+     * 
+     */
+    private Integer level;
+    /**
+     * 备注
+     * 
+     */
+    private String remark;
+
+    @ApiModelProperty(value = "是否已整改：0-未整改，1-正在整改，2-已整改")
+    private Integer isRectification;
+    /**
+     * 整改日期
+     * 
+     */
+    private java.util.Date rectificationTime;
+    /**
+     * 排查结果：0-是，1-否，2-其它情况
+     * 
+     */
+    private Integer result;
+    /**
+     * 序号：如1-(2)
+     * 
+     */
+    private String number;
+    private String hiddenDanger;
+    /**
+     * 责任人
+     * 
+     */
+    private String responsiblePerson;
+    /**
+     * 是否限期整改：0-否，1-是
+     * 
+     */
+    private Boolean isLimitRectification;
+    private String name;
+    /**
+     * 排查表id
+     * 
+     */
+    private String inventoryId;
+    /**
+     * 是否挂牌督办：0-否，1-是
+     * 
+     */
+    private Boolean licensesToSupervise;
+    private Integer id;
+    /**
+     * 治理期限
+     * 
+     */
+    private String deadline;
+    private java.util.Date updatetime;
+    /**
+     * 追究责任人数
+     * 
+     */
+    private Integer investigated;
+
+    /**
+     * 是否追究责任人
+     */
+    private Boolean isinvestigated;
+
+    /**
+     * 标题
+     */
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getIsinvestigated() {
+        return isinvestigated;
+    }
+
+    public void setIsinvestigated(Boolean isinvestigated) {
+        this.isinvestigated = isinvestigated;
+    }
+
+    public Boolean getLimitRectification() {
+        return isLimitRectification;
+    }
+
+    public void setLimitRectification(Boolean limitRectification) {
+        isLimitRectification = limitRectification;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setIsRectification(Integer isRectification) {
+        this.isRectification = isRectification;
+    }
+
+    public Integer getIsRectification() {
+        return isRectification;
+    }
+
+    public void setRectificationTime(java.util.Date rectificationTime) {
+        this.rectificationTime = rectificationTime;
+    }
+
+    public java.util.Date getRectificationTime() {
+        return rectificationTime;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setHiddenDanger(String hiddenDanger) {
+        this.hiddenDanger = hiddenDanger;
+    }
+
+    public String getHiddenDanger() {
+        return hiddenDanger;
+    }
+
+    public void setResponsiblePerson(String responsiblePerson) {
+        this.responsiblePerson = responsiblePerson;
+    }
+
+    public String getResponsiblePerson() {
+        return responsiblePerson;
+    }
+
+    public void setIsLimitRectification(Boolean isLimitRectification) {
+        this.isLimitRectification = isLimitRectification;
+    }
+
+    public Boolean getIsLimitRectification() {
+        return isLimitRectification;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setInventoryId(String inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public String getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setLicensesToSupervise(Boolean licensesToSupervise) {
+        this.licensesToSupervise = licensesToSupervise;
+    }
+
+    public Boolean getLicensesToSupervise() {
+        return licensesToSupervise;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setUpdatetime(java.util.Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public java.util.Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setInvestigated(Integer investigated) {
+        this.investigated = investigated;
+    }
+
+    public Integer getInvestigated() {
+        return investigated;
+    }
+
+}

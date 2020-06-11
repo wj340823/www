@@ -1,0 +1,44 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class ChemicalProducts {
+
+    private String id;
+    private String cas;
+    private String pm;
+    private String ljl;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setCas(String cas) {
+        this.cas = cas;
+    }
+
+    public String getCas() {
+        return cas;
+    }
+
+    public void setPm(String pm) {
+        this.pm = pm;
+    }
+
+    public String getPm() {
+        return pm;
+    }
+
+    public void setLjl(String ljl) {
+        this.ljl = ljl;
+    }
+
+    public String getLjl() {
+        return ljl;
+    }
+
+}

@@ -1,0 +1,709 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()" OnUnLoad="Deinit()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+<form name="form1">
+	<tr class="s8">
+	<td valign="top" class="s8b i18n">Text1</td>
+	<td align=left>&nbsp;<SELECT ID="TargetSelectMode" SIZE="1" style="z-index:1;" onchange="TargetSelectModeChanged()">
+					<OPTION VALUE=0 class="i18n">Text2</OPTION>
+					<OPTION VALUE=1	selected  class="i18n">Text3</OPTION>
+		</SELECT>
+         <span id="NumericInputSpan" style="display: none">
+	            <table border=0 cellspacing=0 cellpadding=1 bgcolor="#ffffff" class="s8" >
+	            <tr class="s8">
+	            <td  class="s8b i18n" ><span class="i18n">Text16</span> &nbsp; <input name="TargetXfield" type="text"  value="0" size="4" style="width:80px; display:inline;" />  </td>
+	            </tr>
+
+	            <tr >
+	            <td  class="s8b i18n"><span class="i18n">Text17</span> &nbsp;<input name="TargetYfield" type="text" value="0" size="4" style="width:80px; display:inline;" />  </td>
+	            </tr>
+
+	            <tr class="s8">
+	            <td  class="s8b i18n"><span class="i18n">Text18</span> &nbsp;<input name="TargetHfield" type="text"  value="0" size="4" style="width:80px; display:inline;" />  </td>
+	            </tr>
+	            </table>
+	    </span>
+	</td>
+	</tr>
+
+	<tr class="s8">
+	<td align=top class="s8b i18n">Text9</td>
+	<td align=left>&nbsp;<INPUT name="MarkSize" type="text" value="1" SIZE="8" style=""> <!--<span id="MarkSizeUnits" class="i18n">Text11</span>--> </td>
+	</tr>
+
+	<tr class='TableOtherLine'>
+	<td align=top class="s8b i18n">Text10</td>
+	<td align=left>&nbsp;<SELECT ID="DisplayUnits" SIZE="1" style="z-index:1;width:70px;" onchange="DisplayUnitsChanged()">
+					<OPTION VALUE=0 class="i18n" selected>Text11</OPTION>
+					<OPTION VALUE=1 class="i18n">Text12</OPTION>
+		</SELECT>
+	</td>
+	</tr>
+
+	<tr class="s8">
+	<td align=top class="s8b i18n">Text13</td>
+	<td align=left>&nbsp;<SELECT ID="UseTargetDir" SIZE="1" onchange="UseTargetDirChanged(UseTargetDir.value)" style="z-index:1;width:70px;">
+					<OPTION VALUE=0 class="i18n">Text5</OPTION>
+					<OPTION VALUE=1	class="i18n" selected>Text14</OPTION>
+		</SELECT>
+	</td>
+	</tr>
+
+	<tr class='TableOtherLine'>
+	<td align=top class="s8b i18n">Text15</td>
+	<td align=left>&nbsp;<SELECT ID="UseTargetMgrs" SIZE="1" style="z-index:1;width:70px;">
+					<OPTION VALUE=0 class="i18n" selected>Text5</OPTION>
+					<OPTION VALUE=1	class="i18n">Text14</OPTION>
+		</SELECT>
+	</td>
+	</tr>
+
+	<tr class="s8">
+	<td align=top class="s8b i18n" colspan=2>
+	</td>
+	</tr>
+
+</table>
+
+	<INPUT  type=button class="MenuButton i18n" style="height:30px;font-weight:bold;" value="Text23" id="SetTarget" onclick="StartSetTarget()" >
+	<INPUT  type=button class="MenuButton i18n" style="height:30px;font-weight:bold;display:none" value="Text24" id="ResetTarget" onclick="StartResetTarget()"  >
+	<INPUT  type=button class="MenuButton i18n" style="height:30px;font-weight:bold;display:none" value="Text42" id="FlyTo"  onclick="FlyToTarget()"  >
+	<br>
+<span class="s8">
+&nbsp;<span class="s8b i18n">Text19</span><br>
+<span id="SpanCamera">  </span><br>
+<span id="SpanCameraMGRS">  </span>
+<span id="SpanCameraLL" style="display: none">  </span>
+&nbsp;<span class="s8b i18n">Text20</span><br>
+<span id="SpanCursor">  </span><br>
+<span id="SpanCursorMGRS">  </span>
+<span id="SpanCursorLL" style="display: none">  </span>
+&nbsp;<span class="s8b i18n">Text21</span><br>
+<span id="SpanTarget">  </span><br>
+<span id="SpanTargetMGRS">  </span>
+<span id="SpanTargetLL" style="display: none">  </span>
+&nbsp;<span class="s8b i18n">Text22</span><br>
+<span id="SpanTargetDistance">  </span><br>
+</span>
+</td>
+</tr>
+</table>
+
+
+
+</FORM>
+
+
+<OBJECT ID="SGWorld" CLASSID="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></OBJECT>
+
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<SCRIPT Language="JavaScript">
+
+var InEdit;
+var DisplayInfo;
+var TargetX;
+var TargetY;
+var TargetH = 0;
+var gTargetPos;
+var gTargetIcon;
+var gArrow;
+//--------------
+// Init
+function InitHead()
+{        
+	if (GetParamValue ("inSG","") == "1")
+	{
+		document.all["TopAreaTD"].style.height = "57";
+		document.all["TitleTD"].align= "left";
+		document.all["CloseHelpTd"].style.display = "none";
+	}
+
+}
+
+function GetParamValue(findParam, defaultValue)
+{
+    var arr = document.location.href.split("?");
+    if (arr.length <= 1) return defaultValue;
+    arr = arr[1].split("&");    
+    for (var i=0; i<arr.length; i++)
+    {
+        if (arr[i].indexOf(findParam) == 0 && arr[i].indexOf("=") == findParam.length)
+        {
+            arr = arr[i].split("=");
+            return arr[1];
+        }
+    }
+    return defaultValue;
+}
+
+// -------------------------------------------------------------
+//  Init
+// -------------------------------------------------------------
+function Init() {
+
+    InitHead();
+    DisplayInfo = 0;
+    Reset(1, 0);
+    DisplayUnitsChanged();
+    gTargetIcon = null;
+    gArrow = null;
+    StartListening();
+}  
+
+// -------------------------------------------------------------
+//  StartListening
+// -------------------------------------------------------------
+function StartListening() {         
+    SGWorld.AttachEvent("OnFrame", TE_OnFrame);
+    SGWorld.AttachEvent("OnLButtonDown", TE_OnLButtonDown);
+    SGWorld.AttachEvent("OnRButtonUp", TE_OnRButtonUp);
+    SGWorld.AttachEvent("OnFileClosing", TE_OnFileClosing);
+    EventsStarted = 1;
+    }
+
+// -------------------------------------------------------------
+//  StopListening
+// -------------------------------------------------------------
+function StopListening() {          
+    SGWorld.DetachEvent("OnFrame", TE_OnFrame);
+    SGWorld.DetachEvent("OnLButtonDown", TE_OnLButtonDown);
+    SGWorld.DetachEvent("OnRButtonUp", TE_OnRButtonUp);
+    SGWorld.DetachEvent("OnFileClosing", TE_OnFileClosing);
+    }
+
+// -------------------------------------------------------------
+//  Deinit
+// -------------------------------------------------------------
+    function Deinit() {
+        StartResetTarget();
+        StopListening();
+    }
+
+// -------------------------------------------------------------
+//  Reset
+// -------------------------------------------------------------
+function Reset (FirstTime, FromMouseInputMode)
+{
+    InEdit = 0;
+
+    SpanCamera.innerHTML = " ";
+    SpanTarget.innerHTML = " ";
+    SpanTargetDistance.innerHTML = " ";
+    SpanCursor.innerHTML = " ";
+    SpanCursorMGRS.innerHTML = " ";
+    SpanCameraMGRS.innerHTML = " ";
+    SpanTargetMGRS.innerHTML = " ";
+    SpanCameraLL.innerHTML = " ";
+    SpanTargetLL.innerHTML = " ";
+    SpanCursorLL.innerHTML = " ";
+
+    document.form1.SetTarget.value = SGLang.i18n("Text23");
+
+    if (FirstTime != 1 && FromMouseInputMode == 0)
+        SGWorld.Window.SetInputMode(0, "", true);
+}
+
+
+// -------------------------------------------------------------
+//  TargetSelectModeChanged
+// -------------------------------------------------------------
+function TargetSelectModeChanged() {
+    if (document.form1.TargetSelectMode.value == 0)  // Numeric entry  
+        NumericInputSpan.style.display = "inline";
+    else
+        NumericInputSpan.style.display = "none";
+}
+
+// -------------------------------------------------------------
+//  DisplayUnitsChanged
+// -------------------------------------------------------------
+function DisplayUnitsChanged() {
+/**
+    if (document.form1.DisplayUnits.value == 0)
+        MarkSizeUnits.innerText = SGLang.i18n("Text11");
+    else
+        MarkSizeUnits.innerText = SGLang.i18n("Text12");
+**/
+    TE_OnFrame();
+}
+
+// -------------------------------------------------------------
+//  FormatHeight
+// -------------------------------------------------------------
+function FormatHeight(nHeight) {
+    var nNewHeight = nHeight;
+
+    if (document.form1.DisplayUnits.value == 0) {
+        if (nHeight < 5000)
+            return FormatNumber(nHeight, 0, -1) + SGLang.i18n("Text11");
+        else
+            return FormatNumber(nHeight / 1000, 3, -1) + SGLang.i18n("Text25");
+    }
+    else {
+        if (nHeight < 8046)
+            return FormatNumber(nHeight * 3.2808399, 0, -1) + SGLang.i18n("Text12");
+        else
+            return FormatNumber(nHeight * 0.0006214, 3, -1) + SGLang.i18n("Text26");
+    }
+}
+
+// -------------------------------------------------------------
+//  UseTargetDirChanged
+// -------------------------------------------------------------
+function UseTargetDirChanged(mode) {
+    if (mode == 1)
+        CreateDirArrow();
+    else if (gArrow != null) {
+        SGWorld.Creator.DeleteObject(gArrow.ID);
+        gArrow = null;
+    }
+}
+
+// -------------------------------------------------------------
+//  TargetSelectModeChanged
+// -------------------------------------------------------------
+function StartSetTarget() {
+
+    if (SGWorld.CoordServices.IsWktValid) {
+        alert(SGLang.i18n("Text27"));
+        return;
+    }
+
+    if (document.form1.TargetSelectMode.value == 0)
+        StartEnterTarget();
+    if (document.form1.TargetSelectMode.value == 1)
+        StartSelectTarget();
+}
+
+// -------------------------------------------------------------
+//  StartEnterTarget
+// -------------------------------------------------------------
+function StartEnterTarget() {
+    nTargetHeight = validateNumber(document.form1.TargetHfield.value);
+
+    if (document.form1.DisplayUnits.value == 1)
+        nTargetHeight = nTargetHeight / 3.2808399;
+
+    SetTarget(validateNumber(document.form1.TargetXfield.value), validateNumber(document.form1.TargetYfield.value), nTargetHeight, 1);
+}
+
+
+// -------------------------------------------------------------
+//  StartSelectTarget
+// -------------------------------------------------------------
+function StartSelectTarget() {
+    if (InEdit == 0) {
+        InEdit = 1;
+        SGWorld.Window.SetInputMode(1, abspath() + "\\cursor_v.cur", true);
+        document.form1.SetTarget.value = SGLang.i18n("Text29");
+        SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text30"), 1, 500);
+    }
+    else
+        Reset(0, 0);
+}
+
+function TE_OnFileClosing() {
+    StartResetTarget();
+}
+
+// -------------------------------------------------------------
+//  StartResetTarget
+// -------------------------------------------------------------
+function StartResetTarget() {
+    DisplayInfo = 0;
+    Reset(1, 0);
+    if (gTargetIcon != null) {
+        SGWorld.Creator.DeleteObject(gTargetIcon.ID);
+        gTargetIcon = null;
+    }
+    if (gArrow != null) {
+        SGWorld.Creator.DeleteObject(gArrow.ID);
+        gArrow = null;
+    }
+    $("#ResetTarget, #FlyTo").hide();
+
+}
+//-------------------
+//  FlyToTarget
+function FlyToTarget() {
+    if (gTargetIcon != null)
+        SGWorld.Navigate.FlyTo(gTargetIcon);
+}
+// -------------------------------------------------------------
+//  TE_OnRButtonUp
+// -------------------------------------------------------------
+function TE_OnRButtonUp(Flags, X, Y, bHandled) {
+    if (InEdit != 0)
+        Reset(0, 0);
+}
+
+// -------------------------------------------------------------
+//  TE_OnLButtonDown
+// -------------------------------------------------------------
+function TE_OnLButtonDown(Flags, X, Y, bHandled) {
+    if (InEdit == 0)
+        return;
+    ObjType = 31;
+    ObjectID = 0;
+
+    if (InEdit == 1) // --- Line
+    {
+        var PixelTW = SGWorld.Window.PixelToWorld(X, Y, -1);
+        if (PixelTW.Type != 32)  // If we dont hit the sky
+            SetTarget(PixelTW.Position.X, PixelTW.Position.Y, PixelTW.Position.Altitude, PixelTW.Type);
+    }
+}
+
+// -------------------------------------------------------------
+//  CreateDirArrow
+// -------------------------------------------------------------
+function CreateDirArrow() {
+    if (gArrow != null)
+        gArrow = null;
+    var pos = SGWorld.Creator.CreatePosition(0, 0, 0, 3, 0, 0, 0, 0);
+
+    gArrow = SGWorld.Creator.CreateModel(pos, abspath() + "\\3DArrow.xpl2", 1, 0, -1, SGLang.i18n("Text31"));
+
+/**    gArrow = SGWorld.Creator.Create3DArrow(pos, 1.00, 1, 0.2, "#000000", "#FDFF4D", -1, SGLang.i18n("Text31"));
+    gArrow.FillStyle.Color.SetAlpha(0.25);
+***/
+    gArrow.SaveInFlyFile = false;
+    //gArrow.ClientData("") = "<OBJECTPARAM>IgnorTerrainZBuffer</OBJECTPARAM>";
+}
+
+// -------------------------------------------------------------
+//  SetTarget
+// -------------------------------------------------------------
+function SetTarget(TX, TY, TH, ObjType) {
+    TargetX = TX;
+    TargetY = TY;
+    TargetH = TH;
+    if (gTargetIcon != null) {
+        SGWorld.Creator.DeleteObject(gTargetIcon.ID);
+        gTargetIcon = null;
+    }
+    if (gArrow != null) {
+        SGWorld.Creator.DeleteObject(gArrow.ID);
+        gArrow = null;
+    }
+
+    nMarkSize = validateNumber(document.form1.MarkSize.value);
+
+    if (document.form1.DisplayUnits.value == 1)
+        nMarkSize = nMarkSize / 3.2808399;
+
+    if (document.form1.UseTargetDir.value == 1)
+        CreateDirArrow();
+
+    var TargetStyle = SGWorld.Creator.CreateLabelStyle(0);
+    gTargetPos = SGWorld.Creator.CreatePosition(TargetX, TargetY, TargetH, 3, 0, 0, 0, 0);
+    gTargetIcon = SGWorld.Creator.CreateImageLabel(gTargetPos, abspath() + "\\target.png", TargetStyle, -1, SGLang.i18n("Text32"));
+    gTargetIcon.SaveInFlyFile = false;
+    gTargetIcon.Style.Scale = document.form1.MarkSize.value;
+
+    DisplayInfo = 1;
+
+    $("#ResetTarget, #FlyTo").show();
+    Reset(0, 0);
+}
+
+// -------------------------------------------------------------
+//  FormatMGRS
+// -------------------------------------------------------------
+function FormatMGRS(str) {
+    if (str.length != 15) {
+        return str;
+    }
+
+    return LeftString(str, 3) + " " + str.substr(3, 2) + " " + str.substr(5, 5) + " " + RightString(str, 5);
+}
+
+function RightString(str, n) {
+    if (n <= 0)
+        return "";
+    else if (n > String(str).length)
+        return str;
+    else {
+        var intLen = String(str).length;
+        return String(str).substring(intLen, intLen - n);
+    }
+}
+
+
+function LeftString(str, n) {
+    if (n <= 0)
+        return "";
+    else if (n > String(str).length)
+        return str;
+    else
+        return String(str).substring(0, n);
+}
+
+function PutSpanText(Span, text) {
+    if (Span.innerHTML != text)
+        Span.innerHTML = text;
+}
+
+// -------------------------------------------------------------
+//  TE_OnFrame
+// -------------------------------------------------------------
+
+var pos;
+function TE_OnFrame() {
+
+    if (DisplayInfo == 0)
+        return;
+
+    // **** Cursor position
+    var x1, y1, w1, h1;
+    var ObjectType, WorldX, WorldH, WorldY, ObjectID;
+    x1 = SGWorld.Window.Rect.Left;   // X Coordinate
+    y1 = SGWorld.Window.Rect.Top;   // Y Coordinate
+    w1 = SGWorld.Window.Rect.Width; // Width Coordinate
+    h1 = SGWorld.Window.Rect.Height;   // Height Coordinate
+    var mouseInfo = SGWorld.Window.GetMouseInfo();
+    X = mouseInfo.X;
+    Y = mouseInfo.Y;
+
+    var bCursorInSky = false;
+
+    if (X >= w1 || Y >= h1 || X < 0 || Y < 0)
+        bCursorInSky = true;
+    else {
+        ObjectType = 62;
+
+        if (gTargetIcon != null)
+            gTargetIcon.Visibility.Show = false;
+
+        if (gArrow != null)
+            gArrow.Visibility.Show = false;
+
+        var PixelTW = SGWorld.Window.PixelToWorld(X, Y, -1);
+        WorldX = PixelTW.Position.X;
+        WorldY = PixelTW.Position.Y;
+        WorldH = PixelTW.Position.Altitude;
+        ObjectID = PixelTW.ObjectID;
+
+        if (gArrow != null)
+            gArrow.Visibility.Show = true;
+
+        if (gTargetIcon != null)
+            gTargetIcon.Visibility.Show = true;
+
+        if (ObjectType != 32) {
+            PutSpanText(SpanCursor, SGLang.i18n("Text33") + FormatNumber(WorldX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(WorldY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(WorldH) + SGLang.i18n("Text36"));
+
+            sCursorMGRS = SGWorld.CoordServices.ConvertCoordinateToMGRS(WorldX, WorldY);
+            PutSpanText(SpanCursorMGRS, " " + FormatMGRS(sCursorMGRS) + SGLang.i18n("Text37") + "<br>");
+        }
+        else
+            bCursorInSky = true;
+    }
+
+    if (bCursorInSky) {
+        PutSpanText(SpanCursor, SGLang.i18n("Text38") + "<br>" + SGLang.i18n("Text38"));
+        PutSpanText(SpanCursorMGRS, SGLang.i18n("Text38") + "<br>");
+    }
+    // *** End Cursor
+
+    bTargetInSky = false;
+    var pos1 = SGWorld.Navigate.GetPosition(0);
+    CurrX = pos1.X;
+    CurrY = pos1.Y;
+    CurrH = pos1.Altitude;
+    CurrDirection = pos1.Yaw;
+    CurrPitch = pos1.Pitch;
+    CurrRoll = pos1.Roll;
+
+    sCameraMGRS = SGWorld.CoordServices.ConvertCoordinateToMGRS(CurrX, CurrY);
+    sFormattedCameraMGRS = FormatMGRS(sCameraMGRS);
+    PutSpanText(SpanCameraMGRS, " " + sFormattedCameraMGRS + SGLang.i18n("Text37") + "<br>");
+
+    Distance = SGWorld.CoordServices.GetDistance(TargetX, TargetY, CurrX, CurrY);
+
+    var CurrGroundH = SGWorld.Terrain.GetGroundHeightInfo(CurrX, CurrY, 0, true);
+    CurrH = CurrH + CurrGroundH.Position.Altitude;
+    RealDistance = Math.sqrt(Distance * Distance + (TargetH - CurrH) * (TargetH - CurrH));
+
+    Distance = SGWorld.CoordServices.GetDistance(WorldX, WorldY, CurrX, CurrY);
+    //var a = SGWorld.Terrain.GetGroundHeightInfo(WorldX, WorldY, 0, true);
+    RealCursorDistance = Math.sqrt(Distance * Distance + (TargetH - CurrH) * (TargetH - CurrH));
+
+    if (bCursorInSky == false)
+        SpanCursor.innerHTML = SpanCursor.innerHTML + "<br>" + SGLang.i18n("Text39") + FormatHeight(RealCursorDistance);
+
+    if (gArrow != null) {
+        var pos2 = SGWorld.Navigate.GetPosition(3);
+
+        var ratio = SGWorld.Window.Rect.Width * 1.0 / SGWorld.Window.Rect.Height;
+        if (ratio < 1)
+            ratio = 1 / ratio;
+        var scale = Math.max(0.5,Math.abs(pos1.Altitude/100));
+        gArrow.ScaleFactor = scale/40.0;
+        SGWorld.CoordServices.MoveCoordEx(pos2, 3 * scale*ratio, 0, -1.10*scale);
+        pos2 = pos2.AimTo(gTargetPos);
+        gArrow.Position = pos2;
+      
+    }
+
+    PutSpanText(SpanCamera, SGLang.i18n("Text33") + FormatNumber(CurrX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(CurrY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(CurrH) + SGLang.i18n("Text36"));
+
+    var sCSKey, sGroupKey, sDatumKey, sUnitKey;
+
+    if (document.form1.UseTargetMgrs.value == 1) {
+        SpanCameraMGRS.style.display = "inline";
+        SpanCursorMGRS.style.display = "inline";
+        SpanTargetMGRS.style.display = "inline";
+    }
+    else {
+        SpanCameraMGRS.style.display = "none";
+        SpanCursorMGRS.style.display = "none";
+        SpanTargetMGRS.style.display = "none";
+    }
+
+    if (!SGWorld.CoordServices.SourceCoordinateSystem.IsPlanar()) {
+        SpanTargetLL.style.display = "none";
+        SpanCameraLL.style.display = "none";
+        SpanCursorLL.style.display = "none";
+    }
+    else {
+        SpanTargetLL.style.display = "inline";
+        SpanCameraLL.style.display = "inline";
+        SpanCursorLL.style.display = "inline";
+
+        var hLLCS, hCurrCS;
+        var nProjectedCameraX, nProjectedCameraY;
+
+
+        nProjectedCameraX = CurrX;
+        nProjectedCameraY = CurrY;
+        PutSpanText(SpanCameraLL, SGLang.i18n("Text33") + FormatNumber(nProjectedCameraX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(nProjectedCameraY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(CurrH) + SGLang.i18n("Text41") + "<br>");
+
+        if (bCursorInSky == false) {
+            var nProjectedCursorX, nProjectedCursorY;
+            nProjectedCursorX = WorldX;
+            nProjectedCursorY = WorldY;
+            PutSpanText(SpanCursorLL, SGLang.i18n("Text33") + FormatNumber(nProjectedCursorX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(nProjectedCursorY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(WorldH) + SGLang.i18n("Text41") + "<br>");
+        }
+        else
+            PutSpanText(SpanCursorLL, SGLang.i18n("Text38") + "<br>");
+
+        if (bTargetInSky == false) {
+            var nProjectedTargetX, nProjectedTargetY;
+            nProjectedTargetX = TargetX;
+            nProjectedTargetY = TargetY;
+            PutSpanText(SpanTargetLL, SGLang.i18n("Text33") + FormatNumber(nProjectedTargetX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(nProjectedTargetY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(TargetH) + SGLang.i18n("Text41") + "<br>");
+        }
+        else
+            PutSpanText(SpanTargetLL, SGLang.i18n("Text38") + "<br>");
+    }
+
+    if (bTargetInSky == false) {
+        PutSpanText(SpanTarget, SGLang.i18n("Text33") + FormatNumber(TargetX, 5, -1) + SGLang.i18n("Text34") + FormatNumber(TargetY, 5, -1) + SGLang.i18n("Text35") + FormatHeight(TargetH) + SGLang.i18n("Text36"));
+        sTargetMGRS = SGWorld.CoordServices.ConvertCoordinateToMGRS(TargetX, TargetY);
+        PutSpanText(SpanTargetMGRS, " " + FormatMGRS(sTargetMGRS) + SGLang.i18n("Text37") + "<br>");
+        PutSpanText(SpanTargetDistance, " " + FormatHeight(RealDistance));
+    }
+    else {
+        PutSpanText(SpanTarget, SGLang.i18n("Text38"));
+        PutSpanText(SpanTargetMGRS, SGLang.i18n("Text38") + "<br>");
+        PutSpanText(SpanTargetDistance, SGLang.i18n("Text38"));
+    }
+}
+
+/* *********************************************************************
+IN:
+NUM - the number to format
+decimalNum - the number of decimal places to format the number to
+bolLeadingZero - true / false - display a leading zero for
+numbers between -1 and 1
+bolParens - true / false - use parenthesis around negative numbers
+bolCommas - put commas as number separators.
+ 
+RETVAL:
+The formatted number!
+********************************************************************* */
+function FormatNumber(num, decimalNum, bolLeadingZero, bolParens, bolCommas) {
+    if (isNaN(parseInt(num))) return "NaN";
+
+    var tmpNum = num;
+    var iSign = num < 0 ? -1 : 1; 	// Get sign of number
+
+    // Adjust number so only the specified number of numbers after
+    // the decimal point are shown.
+    tmpNum *= Math.pow(10, decimalNum);
+    tmpNum = Math.round(Math.abs(tmpNum))
+    tmpNum /= Math.pow(10, decimalNum);
+    tmpNum *= iSign; 				// Readjust for sign
+
+
+    // Create a string object to do our formatting on
+    var tmpNumStr = new String(tmpNum);
+
+    // See if we need to strip out the leading zero or not.
+    if (!bolLeadingZero && num < 1 && num > -1 && num != 0)
+        if (num > 0)
+            tmpNumStr = tmpNumStr.substring(1, tmpNumStr.length);
+        else
+            tmpNumStr = "-" + tmpNumStr.substring(2, tmpNumStr.length);
+
+    // See if we need to put in the commas
+    if (bolCommas && (num >= 1000 || num <= -1000)) {
+        var iStart = tmpNumStr.indexOf(".");
+        if (iStart < 0)
+            iStart = tmpNumStr.length;
+
+        iStart -= 3;
+        while (iStart >= 1) {
+            tmpNumStr = tmpNumStr.substring(0, iStart) + "," + tmpNumStr.substring(iStart, tmpNumStr.length)
+            iStart -= 3;
+        }
+    }
+
+    // See if we need to use parenthesis
+    if (bolParens && num < 0)
+        tmpNumStr = "(" + tmpNumStr.substring(1, tmpNumStr.length) + ")";
+
+    return tmpNumStr; 	// Return our formatted string!
+}
+
+</SCRIPT>
+
+</BODY>
+
+</HTML>
+
+
+<!--Sig:000000404t2QplClmA70aWK2f3p#svJO9R5Ibb9wfgxAJQs2RckiKRajohhVadKmveAQaAILm0vQiDb5ZxnR.KZgvWr.GvJJ-->
+
+
+<!--Sig:00000040Tb2v#tujTXj#VjfzJA7zipKSaCsv7dfZ9zpMBzzGhZlOrsbVl8gS3U8PpXP3TWdvQfgy09#wQePE6Hn2Mh#0G.JJ-->
+
+
+<!--Sig:000000403ikBfS4#WnGlpaFg5UO8lUnshhyO2tGqpCapITju.f87Upn6HbrT66THHv1wngZfReOUvLH1oekQzRUqBl78XhJJ-->

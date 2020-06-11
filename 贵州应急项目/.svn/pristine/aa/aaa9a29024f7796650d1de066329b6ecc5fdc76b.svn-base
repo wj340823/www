@@ -1,0 +1,35 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class EnterpriseRiver {
+
+    private String companyId;
+    private String id;
+    private String riverId;
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setRiverId(String riverId) {
+        this.riverId = riverId;
+    }
+
+    public String getRiverId() {
+        return riverId;
+    }
+
+}

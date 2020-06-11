@@ -1,0 +1,110 @@
+---
+  grammer: SQL
+  queries:
+    #根据条件统计任务列表
+    - name: countTask
+      resultType: Map
+      statement:
+        "
+        SELECT
+        	x.NAME as xzqyName,
+        	e.ID,
+        	e.status,
+        	e.deadline,
+        	t1.cId,
+        	h. LEVEL,
+        	h.ISRECTIFICATION,
+        	h.RESULT,
+        	h.ISLIMITRECTIFICATION,
+        	h.LICENSESTOSUPERVISE,
+        	h.INVESTIGATED,
+        	e2.COMPANYID
+        FROM
+        	enterprisetask e
+        LEFT JOIN enterpriseinformation e2 ON e2.COMPANYID = e.ENTERPRISEID
+        LEFT JOIN xzqy x on x.ID = e2.XZQYID
+        LEFT JOIN emergencytask e3 on e3.ID = e.EMERGENCYTASKID
+        LEFT JOIN (
+        	SELECT
+        		e1.ID AS cId
+        	FROM
+        		enterprisetask e1
+        	WHERE
+        		e1. STATUS = 100
+        ) t1 ON t1.cId = e.ID
+        LEFT JOIN riskinventory i ON i.TASKID = e.ID
+        LEFT JOIN hiddendanger h ON h.INVENTORYID = i.ID
+        where 1=1
+        #if($taskId)
+          and e3.ID =:taskId
+        #end
+        #if($xzqyId)
+          and e2.XZQYID =:xzqyId
+        #end
+        #if($xzqyIdList)
+          and e2.XZQYID #qin($xzqyIdList 'xzqyIdList')
+        #end
+        ORDER BY e2.XZQYID
+        "
+
+    #根据预案统计
+    - name: countPreplan
+      resultType: Map
+      statement:
+        "
+        SELECT
+        	x. NAME as xzqyName,
+        	e.COMPANYID as cId,
+            e.RISKGRADE,
+        	p.Id as pId,
+        	p.RECORDSTATUS,
+        	p.RECORDTIME,
+        	p. LEVEL
+        FROM
+        	xzqy x
+        LEFT JOIN enterpriseinformation e ON e.XZQYID = x.ID
+        LEFT JOIN enterprisepreplan p ON p.COMPANYID = e.COMPANYID
+        WHERE
+            1=1
+        	#if($xzqyId)
+              and e.XZQYID =:xzqyId
+            #end
+            #if($xzqyIdlist)
+              and e.XZQYID #qin($xzqyIdlist 'xzqyIdlist')
+            #end
+        GROUP BY
+        	e.COMPANYID
+        ORDER BY
+        	x.SORT
+        "
+    #根据预案统计
+    - name: countCompletedEnterprise
+      resultType: Map
+      statement:
+        "
+        SELECT
+        	count(*) AS total
+        FROM
+        	(
+        		SELECT
+        			AVG(STATUS) AS avgstatus
+        		FROM
+        			enterprisetask
+        		GROUP BY
+        			ENTERPRISEID
+        	) t
+        	where t.avgstatus = 100
+        UNION ALL
+        SELECT
+        	count(*) AS total
+        FROM
+        	(
+        		SELECT
+        			AVG(STATUS) AS avgstatus
+        		FROM
+        			enterprisetask
+        		GROUP BY
+        			ENTERPRISEID
+        	) t
+        	where t.avgstatus < 100
+        "

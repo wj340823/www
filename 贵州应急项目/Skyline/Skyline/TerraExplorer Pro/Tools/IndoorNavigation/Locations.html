@@ -1,0 +1,276 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+
+
+    <script language="javascript" src="../ToolsCommon.js" type="text/javascript"></script>
+
+    <link rel="StyleSheet" href="../Style.css" type="text/css" />
+    <style type="text/css">
+.s8w {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.s9w {font-family:  Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.s10w {font-family:  Arial, Helvetica, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.listClass {cursor:pointer;}
+.button {cursor:pointer; font-family:  Arial; font-size: 13px; font-weight: bold; color: #ffffff; border:1px solid white; padding:1px; }
+.link {cursor:pointer; font-family:  Arial; font-size: 13px; font-weight: bold; color: #ffffff;  text-decoration:underline;}
+.header {font-family:  Arial; font-size: 15px; font-weight: bold; color: black;  background-color:White;}
+</style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="background-color:#3F3F3F; border: 0;overflow:auto"  id="Body" onload="Init()" oncontextmenu="return false;" >
+    <!--oncontextmenu="return false;"  onclick="bHide=true;HideOptionsNow()" > -->
+
+        <table border="0" cellspacing="0" cellpadding="4"  class="s8w" width="100%">
+        <tr>
+        <td class="header"  style="width:18px;"  >
+            <div class="header" style="cursor:pointer;" onclick="up();" id="UpID" ><img class="header" src="images/BackToBuildings.png" alt="" /></div>
+        </td>
+        <td class="header" style="width:95%;">
+            <span class="i18n" id="headerID"></span>
+        </td>
+
+        </tr>
+        <tr>
+        <td colspan=2 align="right">
+            <span class="i18n link" id="addBtnID" onclick="AsktoAdd();">AddBuilding</span>
+        </td>
+        </tr>
+        <tr>
+            <td colspan=2 class="s9w">
+                <div id="LocationList"></div>
+            </td>            
+
+        </tr>
+    </table>
+
+    <div id="deleteDiv" style="border:1px solid white; background-color:Black; padding:6px; display:none; position: absolute; width:150px; left:20px; top:20px; ">
+        <span class="i18n s9w">Text7</span><br /><br />
+        <span class="i18n button" onclick="DeleteLocation();" style="margin-left:40px;">Text8</span>
+        <span class="i18n button" onclick="DontDelete();">Text9</span>
+        <br />
+    </div>
+
+    <div id="renameDiv" style="border:1px solid white; background-color:Black; padding:6px; display:none; position: absolute; width:150px; left:20px; top:20px; ">
+        <span class="i18n s9w">Text13</span>
+        <input type="text" id="renameTxt"  onkeydown="if (event.keyCode == 13) Rename();"/>
+        <br /><br />
+        <span class="i18n button" onclick="Rename();" style="margin-left:40px;">Text11</span>
+        <span class="i18n button" onclick="DontRename();">Text12</span>
+        <br />
+    </div>
+
+    <div id="NewDiv" style="border:1px solid white; background-color:Black; padding:6px; display:none; position: absolute; width:150px; left:20px; top:20px; ">
+        <span class="i18n s9w">Text10</span>
+        <input type="text" id="newTxt" onkeydown="if (event.keyCode == 13) AddNew();"/>
+        <br /><br />
+        <span class="i18n button" onclick="AddNew();" style="margin-left:40px;">Text11</span>
+        <span class="i18n button" onclick="DontAdd();">Text12</span>
+        <br />
+    </div>
+
+    <object id="SGWorld" classid="CLSID:3a4f9199-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+
+<script language="JavaScript">
+function DetectTEMode() {
+    var vMode = document.documentMode;
+    var rMode = 'IE5 Quirks Mode';
+    if (vMode == 8) {
+        rMode = 'IE8 Standards Mode';
+    } else if (vMode == 7) {
+        rMode = 'IE7 Strict Mode';
+    } else if (vMode == 9) {
+        rMode = 'IE9 Strict Mode';
+    }
+    //alert('Rendering in: ' + rMode);
+}
+DetectTEMode();
+var gItemToDelete = null;
+var gItemToRename = null;
+var gMainGroup;
+var gSelectedGroup;
+
+//--------------
+// Init
+function Init() {
+
+    //gSelectedGroup = SGWorld.ProjectTree.FindItem(SGLang.i18n("LocationsGroup"));
+    var building = GetParamValue("building", "");
+    if (building != "")
+        BuildLocations(building);
+    else
+        BuildBuildings();
+}
+//--------------
+// Exit
+function Exit(e) {
+    if (e != "")
+        alert(e.message);
+    SGWorld.Window.RemovePopupByCaption(SGLang.i18n("Locations"));
+}
+//--------------
+// up
+function up() {
+    try {
+        if (gSelectedGroup != null)
+            BuildBuildings();
+    }
+    catch (e) { Exit(e) }
+}
+//--------------
+// BuildBuildings
+function BuildBuildings() {
+    try {
+        gSelectedGroup = null;
+        gMainGroup = SGWorld.ProjectTree.FindItem(SGLang.i18n("LocationsGroup"));
+        if (gMainGroup == "")
+            gMainGroup = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("LocationsGroup"), SGWorld.ProjectTree.RootID);
+        var listStr = "";
+        var building = SGWorld.ProjectTree.GetNextItem(gMainGroup, 11);
+        while (building != "") {
+            if (SGWorld.ProjectTree.IsGroup(building)) 
+            {
+                listStr += "<span class='listClass' onclick='AskDelete(\"" + building + "\");'> <img src='images/delete.png'> </span>";
+                listStr += "<span class='listClass' onclick='AskToRename(\"" + building + "\");'> <img src='images/rename.png'> </span>";
+                listStr += "<img src='images/seperator.png'> ";
+                listStr += "<span class='listClass' onclick='BuildLocations(\"" + building + "\");'>" + SGWorld.ProjectTree.GetItemName(building) + "</span><br/>";
+            }
+            building = SGWorld.ProjectTree.GetNextItem(building, 13);
+        }
+        $("#LocationList").html(listStr);
+        $("#headerID").html(SGLang.i18n("Buildings"));
+        $("#UpID").hide();
+        $("#addBtnID").html(SGLang.i18n("AddBuilding"));
+        SGWorld.Window.ShowMessageBarText("$$Indoor$$", 0, 1);
+
+        
+    }
+    catch (e) {Exit(e)}
+}
+//--------------
+// BuildLocations
+function BuildLocations(building) {
+ //   try {
+        gSelectedGroup = building;
+        var listStr = "";
+        var location = SGWorld.ProjectTree.GetNextItem(building, 11);
+        while (location > "") {
+            var locationObj = SGWorld.ProjectTree.GetObject(location);
+            if (locationObj.ObjectType == 19) // location
+            {
+                listStr += "<span class='listClass' onclick='AskDelete(\"" + locationObj.ID + "\");'> <img src='images/delete.png'> </span>";
+                listStr += "<span class='listClass' onclick='AskToRename(\"" + locationObj.ID + "\");'> <img src='images/rename.png'> </span>";
+                listStr += "<img src='images/seperator.png'> ";
+                listStr += "<span class='listClass' onclick='JumpTo(\"" + locationObj.ID + "\");'>" + SGWorld.ProjectTree.GetItemName(location) + "</span><br/>";
+            }
+            location = SGWorld.ProjectTree.GetNextItem(location, 13);
+        }
+        $("#LocationList").html(listStr);
+        $("#headerID").html(SGWorld.ProjectTree.GetItemName(gSelectedGroup));
+        $("#UpID").show();
+        $("#addBtnID").html(SGLang.i18n("AddLocation"));
+        SGWorld.Window.ShowMessageBarText("$$Indoor$$"+gSelectedGroup, 0, 1);
+
+  //  }
+  //  catch (e) { Exit(e) }
+}
+//--------------
+// JumpTo
+function JumpTo(obj) {
+    try {
+        SGWorld.Navigate.JumpTo(obj);
+    }
+    catch (e) { Exit(e) }
+}
+
+//--------------
+// AskDelete
+function AskDelete(obj) {
+    gItemToDelete = obj;
+    $("#deleteDiv").show();
+}
+//--------------
+// DontDelete
+function DontDelete() {
+    $("#deleteDiv").hide();
+}
+//--------------
+// DeleteLocation
+function DeleteLocation() {
+    try {
+        if (SGWorld.ProjectTree.IsGroup(gItemToDelete)) {
+            SGWorld.ProjectTree.DeleteItem(gItemToDelete);
+            BuildBuildings();
+        }
+        else {
+            SGWorld.ProjectTree.DeleteItem(gItemToDelete);
+            BuildLocations(gSelectedGroup);
+        }
+    }
+    catch (e) { }
+    $("#deleteDiv").hide();
+}
+//--------------
+// AsktoAdd
+function AsktoAdd() {
+
+    $("#NewDiv").show();
+}
+//--------------
+// DontAdd
+function DontAdd() {
+    $("#NewDiv").hide();
+}
+//--------------
+// AddNew
+function AddNew() {
+    try {
+        if (gSelectedGroup == null) {
+            gSelectedGroup = SGWorld.ProjectTree.CreateGroup($("#newTxt").val(), gMainGroup);
+            BuildLocations(gSelectedGroup);
+        }
+        else {
+            SGWorld.Creator.CreateLocationHere(gSelectedGroup, $("#newTxt").val());
+            BuildLocations(gSelectedGroup);
+        }
+    }
+    catch (e) { Exit(e) }
+    $("#NewDiv").hide();
+}
+//--------------
+// AskToRename
+function AskToRename(objID) {
+    try {
+        gItemToRename = objID;
+        $("#renameTxt").val(SGWorld.ProjectTree.GetItemName(objID));
+        $("#renameDiv").show();
+    } catch (e) { Exit(e) }
+}
+//--------------
+// DontAdd
+function DontRename() {
+    $("#renameDiv").hide();
+}
+//--------------
+// Rename
+function Rename() {
+    try {
+        if (SGWorld.ProjectTree.IsGroup(gItemToRename)) {
+            SGWorld.ProjectTree.RenameGroup(gItemToRename, $("#renameTxt").val());
+            BuildBuildings();
+        }
+        else {
+            var obj = SGWorld.ProjectTree.GetObject(gItemToRename);
+            obj.TreeItem.Name = $("#renameTxt").val();
+            BuildLocations(gSelectedGroup);
+        }
+    }
+    catch (e) { Exit(e) }
+    $("#renameDiv").hide();
+}
+
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:00000040zuU9Ty4syA9dcvgRaO2#DnFwwK.V90sUAKxHG#r22KGweyjK2c2FMhjjvuIdc#Trmk6BILOIpRwDEbuOz0OvXaJJ-->

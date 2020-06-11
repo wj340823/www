@@ -1,0 +1,106 @@
+<div  ng-controller="yilanbiao">
+   <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button tab-left" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hgsjt" ui-sref-active="active">
+                宏观数据图
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxys" ui-sref-active="active">
+                环境风险要素
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxwz" ui-sref-active="active">
+                环境风险物质
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxdy" ui-sref-active="active">
+                环境风险单元
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxfkss" ui-sref-active="active">
+                环境风险防控设施
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.sczzq" ui-sref-active="active">-->
+<!--                生产装置区-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.scgy" ui-sref-active="active">
+                生产工艺
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境风险受体
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >-->
+<!--                环境污染事故源-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.tfhjsjqjfx" ui-sref-active="active" >
+                情景分析
+            </button>
+            <div class="tab-button tab-left">
+                <span>应急物资及人员联络方式</span>
+                <i class="iconfont icon-webicon215"></i>
+                <div>
+                    <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active" style="width:185px;">
+                        应急物资
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active" style="width:185px;">
+                        应急指挥通讯录
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active" style="width:185px;">
+                        应急外部联络表
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active" style="width:185px;">
+                        应急专家
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="table-content">
+        <div class="search-nav">
+            <button class="searchBtn" style="margin-left: 20px" ui-sref="msgManage.addtr1">
+                <i class="iconfont icon-tianjia"></i> 新增
+            </button>
+            <a type="submit" class="searchBtn" style="margin-left: 10px;" ng-href="riskSourceTwo/downModel">
+                <i class="iconfont icon-daochu"></i> 导入模板下载
+            </a>
+            <button class="searchBtn" style="margin-left: 20px"  ng-click="openFileEntry(8)">
+                <i class="iconfont "></i> Excel导入
+            </button>
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th ng-repeat="i in ylb.th1">{{i}}</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in ylb.proLists">
+                <td ng-bind="$index+1"></td>
+                <td ng-bind="item.name"></td>
+                <td ng-bind="item.materials"></td>
+                <td ng-bind="item.productName"></td>
+                <!--                                <td ng-bind="item.prab"></td>-->
+                <td>{{item.annualCapacity}}</td>
+                <td>
+                    <span class="oper hander" ui-sref="msgManage.addtr1({opType:'edit',name:item.name,materials:item.materials,
+                    productName:item.productName,annualCapacity:item.annualCapacity,id:item.productionUnitId})">修改</span>
+                    <span class="oper hander" ng-click="deltr(item,1)">删除</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="ylb.proLists==0">无数据</p>
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定提交吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定提交吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+</div>

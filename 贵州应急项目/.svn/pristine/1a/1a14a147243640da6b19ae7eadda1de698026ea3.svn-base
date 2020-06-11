@@ -1,0 +1,54 @@
+package com.sucsoft.gzhbyjwz.config;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Map;
+
+import com.sucsoft.gzhbyjwz.bean.common.reader.ResourceReader;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.sucsoft.gzhbyjwz.bean.common.TempData;
+
+import net.sf.json.JSONObject;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+@Configuration
+@EnableAsync
+public class ApplicationConfig {
+	/*@Value("${rtdBus.configPath}")
+	private String rtdBusConfigPath;*/
+	
+	/*@Bean
+	JdbcTemplate jt(DataSource ds) {
+		return new JdbcTemplate(ds);
+	}*/
+	private Logger logger = Logger.getLogger(this.getClass());
+	
+	@Value("${data.temp}")
+	private String tempUrl;
+
+	//application.file.encoding
+	@Value("${application.file.encoding}")
+	private String encoding;
+
+
+
+	//读取临时数据
+	@SuppressWarnings("unchecked")
+	@Bean
+	TempData tempData() throws IOException{
+        
+        Map<String, Object> mapJson = new ResourceReader().readJsonFromClassPath(tempUrl,encoding);
+        
+        return new TempData(tempUrl, mapJson);
+	}
+
+
+
+
+}

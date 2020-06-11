@@ -1,0 +1,126 @@
+package com.sucsoft.gzhbyjwz.bean.param.event;
+
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
+
+public class EventParam extends AtmosphericEventParam {
+    @ApiModelProperty(value = "事件ID")
+    private String eventid;
+    @ApiModelProperty(value = "事件名称")
+    private String name;
+    @ApiModelProperty(value = "企业id")
+    private String companyId;
+    @ApiModelProperty(value = "企业名称")
+    private String companyName;
+    @ApiModelProperty(value = "模拟时间")
+    private java.util.Date time;
+    @ApiModelProperty(value = "1-气，2-水")
+    private Integer eventType;
+    @ApiModelProperty(value = "参数")
+    private String args;
+    @ApiModelProperty(value = "预估伤害浓度范围")
+    private String harmRange;
+    @ApiModelProperty(value = "预估半致死浓度范围")
+    private String halfdeadRange;
+    @ApiModelProperty(value = "污染物")
+    private String pollutant;
+    private String colors;
+    private String levels;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getColors() {
+        return colors;
+    }
+
+    public void setColors(String colors) {
+        this.colors = colors;
+    }
+
+    public String getLevels() {
+        return levels;
+    }
+
+    public void setLevels(String levels) {
+        this.levels = levels;
+    }
+
+    public String getHarmRange() {
+        return harmRange;
+    }
+
+    public void setHarmRange(String harmRange) {
+        this.harmRange = harmRange;
+    }
+
+    public String getHalfdeadRange() {
+        return halfdeadRange;
+    }
+
+    public void setHalfdeadRange(String halfdeadRange) {
+        this.halfdeadRange = halfdeadRange;
+    }
+
+    public String getPollutant() {
+        return pollutant;
+    }
+
+    public void setPollutant(String pollutant) {
+        this.pollutant = pollutant;
+    }
+
+    public String getArgs() {
+        return args;
+    }
+
+    public void setArgs(String args) {
+        this.args = args;
+    }
+
+    public String getEventid() {
+        return eventid;
+    }
+
+    public void setEventid(String eventid) {
+        this.eventid = eventid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Integer getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(Integer eventType) {
+        this.eventType = eventType;
+    }
+}

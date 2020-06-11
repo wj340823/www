@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-laber="Close" ng-click="cancel()">
+        <span class="fa fa-times-circle" aria-hidden="true"></span>
+    </button>
+    <h4 class="modal-title">{{op}}</h4>
+</div>
+<div class="modal-body" style="padding: 5px 10px 20px 10px;">
+    <div class="modal_role_text">成员加入后即拥有该组权限，一个组内同一成员不能重复添加。</div>
+   	<div isteven-multi-select input-model="multiSel" 
+       output-model="select.checkUsers" button-label="displayName" search-property="['displayName','account']" out-index-property="uid" 
+       item-label="displayName" tick-property="ticked" no-multi="true" left-bana="可选成员" right-bana="已选成员" template-url="dir/checkMultiList.html"
+        style="width:180px;height:335px;margin-top:10px">
+         <div class="multiSelect-index">{{$parent.item.account}}({{$parent.item.displayName}})</div>
+         <div class="multiSelect-des">{{$parent.item.description}}</div>
+   	</div>
+    <div style="clear:both;"></div>
+</div>
+<div class="modal-footer">
+    <div class="form-group" style="margin-bottom: 2px;">
+        <button class="btn btn-primary" ng-click="commit()" ><span class="fa fa-check">&nbsp确定</span></button>
+        <button class="btn btn-default" ng-click="cancel()"><span class="fa fa-close">&nbsp取消</span></button>
+    </div>
+</div>

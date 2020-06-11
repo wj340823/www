@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var globe = null;
+        var pos   = null;
+        var popup, popup2;
+                
+        function Init()
+        {
+
+            SGWorld.AttachEvent("onLButtonDown", onLButtonDown);
+            SGWorld.AttachEvent("onRButtonDown", onRButtonDown);
+            popup2 = SGWorld.Creator.CreatePopupMessage()
+            popup2.InnerText = "Left click on the terrain to get the coordinates at cursor position. Right click to finish.";
+            SGWorld.Window.ShowPopup(popup2);
+        }
+        
+        function onLButtonDown(flags, x,y)
+        {
+            var ret = SGWorld.Window.PixelToWorld(x, y);
+                    
+            popup = SGWorld.Creator.CreatePopupMessage("onLButtonDown event", "", x, y);
+            
+            popup.InnerText = (ret == null) ? "Screen coordinate hit the sky" : "Screen coordinates ("+x+","+y+"):\nTerrain coordinate:\nX: " + ret.Position.X + "\nY: " + ret.Position.Y;
+
+            SGWorld.Window.ShowPopup(popup);      
+
+            return true; // event was processed by the client. return false to allow additional processing of the event.
+        }
+        
+        function onRButtonDown(flags, x,y)
+        {
+
+            SGWorld.DetachEvent("onLButtonDown", onLButtonDown);
+            SGWorld.DetachEvent("onRButtonDown", onRButtonDown);
+
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+			if(popup2)
+				SGWorld.Window.RemovePopup(popup2);
+            
+            return true; // event was processed by the client. return false to allow additional processing of the event.
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040hlHCp#9aSFj#FfvyQiKB#QkvrE2ED7ge7EBEMWYnxUGfHryC4DJbd5NGVf9rfyO9aEQCe3pZc508o4G1IZfFX4JJ-->

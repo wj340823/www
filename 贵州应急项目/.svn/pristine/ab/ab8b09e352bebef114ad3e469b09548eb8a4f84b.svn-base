@@ -1,0 +1,27 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.List;
+
+import com.cgs.authox.AuthoxManagingException;
+import com.cgs.authox.starter.util.CurrentPage;
+
+public class PaginationHelper<T> {
+	public CurrentPage<T> fetchPage(int pageNum, int pageSize, List<T> list,int count){
+		CurrentPage<T> page= new CurrentPage<T>(pageNum, pageSize, count);
+		if(list == null || list.size() == 0){
+			return page;
+		}
+		if(pageNum < 0 || pageSize< 1 ){
+			throw new AuthoxManagingException("Fail to get user by pageNum: " + pageNum 
+					+ ", pageSize: " + pageSize + ".");
+		}else{
+			page.setPageItems(list);
+//			if((pageNum + 1)*pageSize >= list.size()){
+//				page.setPageItems(list.subList(pageNum*pageSize, list.size()));
+//			}else{
+//				page.setPageItems(list.subList(pageNum*pageSize, (pageNum + 1)*pageSize));
+//			}
+		}
+		return page;
+	}
+}

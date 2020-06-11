@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>sgapi.internalTE</title>
+    <script language="vbscript">
+    
+        dim teScriptEngine
+        dim mouseHandler
+        dim teMessageHandler
+        dim FID
+        
+        sub SGAPITEObj2_OnTerraExplorerMessage(TEMessageID, SourceObjectID, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if teMessageHandler is Nothing then on error resume next : set teMessageHandler = teScriptEngine.GetGlobalName("++" & FID & "teMessageHandler")
+            if not teMessageHandler is Nothing then bHandled = teMessageHandler(TEMessageID, SourceObjectID)
+        end sub        
+        sub SGAPITEObj2_OnLButtonDown(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnLButtonDown",Flags, X, Y)
+        end sub        
+        sub SGAPITEObj2_OnLButtonUp(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnLButtonUp",Flags, X, Y)
+        end sub        
+        sub SGAPITEObj2_OnMButtonDown(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnMButtonDown",Flags, X, Y)
+        end sub        
+        sub SGAPITEObj2_OnMButtonUp(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnMButtonUp",Flags, X, Y)
+        end sub                
+        sub SGAPITEObj2_OnRButtonDown(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnRButtonDown",Flags, X, Y)
+        end sub        
+        sub SGAPITEObj2_OnRButtonUp(Flags, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnRButtonUp",Flags, X, Y)
+        end sub        
+        sub SGAPITEObj2_OnMouseWheel(Flags, zDelta, X, Y, bHandled)
+            if not IsObject(teMessageHandler) then exit sub
+            if mouseHandler is Nothing then on error resume next : set mouseHandler = teScriptEngine.GetGlobalName("++" & FID & "mouseHandler")
+            if not mouseHandler is Nothing then bHandled = mouseHandler("OnMouseWheel",Flags, X, Y, zDelta)
+        end sub        
+        sub init()
+            set mouseHandler = Nothing
+            set teMessageHandler = Nothing        
+            set teScriptEngine = SGAPITEObj2.Interface("IScriptEngine5")
+            FID = GetParamValue("fid","")
+        end sub
+        
+        Function GetParamValue( FindParam , Default)
+
+         Dim URL,l,pl,RetVal,Params
+
+         RetVal=Default
+         Params=""
+
+         URL=document.location
+         l=Len(URL)
+
+         ' find the location of the first parameter
+         For i = 1 to l 
+           If Mid(URL,i,1)="?" Then
+	         ' enter the parameters into params string
+	         Params="%26" & Mid(URL,i+1,l-i) & "%26" ' Make Sure it will Start and End With "&"
+	         Exit For ' i=l+1 ' finish the for
+           End if 
+         Next 
+
+         ' We Have Parameters List
+
+         l=Len(Params)
+         FindParam = "%26" & FindParam & "="
+
+         pl=Len(FindParam)
+         for i = 1 to l-pl
+           if mid(Params,i,pl)=FindParam then
+	         for j = i+pl to l-2
+	           if mid(Params,j,3)="%26" then
+		           RetVal=mid(Params,i+pl,j-i-pl) 
+	           Exit For ' j=l-pl+1 ' finish the for
+	           end if 
+	         next
+	         Exit For ' i=l-pl+1 ' finish the for
+           end if 
+         next 
+         
+         GetParamValue=RetVal
+        End Function
+        
+    </script>
+</head>
+<body  onload="init()">
+    <object id="SGAPITEObj2" name="SGAPITEObj2" classid="clsid:3a4f9191-65a8-11d5-85c1-0001023952c1"></object>
+</body>
+</html>

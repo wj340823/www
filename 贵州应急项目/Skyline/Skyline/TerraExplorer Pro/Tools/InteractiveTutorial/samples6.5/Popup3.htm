@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Popup3</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            var popup = SGWorld.Creator.CreatePopupMessage("My popup");
+
+            popup.innerText = "Did you know:\r\nYou can have multiple popup messages by giving them different caption.\r\nPopup messages with the same caption, replaces each other.";
+
+            SGWorld.Window.ShowPopup(popup);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040HlAnuwSr7u.c5PDchmyAzoTE2QUhPaZ#4ekVixtBQo4vYYCrBLyyZUBU7nfmsNrXYyb2dhPIvLDGPi7r0iN#JKJJ-->

@@ -1,0 +1,133 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+import java.util.Date;
+
+public class ManagerSpecialist {
+
+    /**
+     * 生日
+     * 
+     */
+    private Date birthday;
+    /**
+     * 专业领域
+     * 
+     */
+    private String profession;
+    /**
+     * 工作单位
+     * 
+     */
+    private String unit;
+    /**
+     * 性别
+     * 
+     */
+    private String gender;
+    /**
+     * 职务
+     * 
+     */
+    private String post;
+    /**
+     * 手机
+     * 
+     */
+    private String phone;
+    /**
+     * 姓名
+     * 
+     */
+    private String name;
+    /**
+     * 职称
+     * 
+     */
+    private String jobTitle ;
+    private String id;
+
+    private String xzqy;
+
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getXzqy() {
+        return xzqy;
+    }
+
+    public void setXzqy(String xzqy) {
+        this.xzqy = xzqy;
+    }
+}

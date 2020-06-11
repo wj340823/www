@@ -1,0 +1,42 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class AppVersion {
+    private String id;
+    private String versionId;
+    private String filename;
+    private Date lastupdatetime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public Date getLastupdatetime() {
+        return lastupdatetime;
+    }
+
+    public void setLastupdatetime(Date lastupdatetime) {
+        this.lastupdatetime = lastupdatetime;
+    }
+}

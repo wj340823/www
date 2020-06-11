@@ -1,0 +1,44 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class TaskAttachmentMap {
+
+    private String id;
+    private String xzqyId;
+    private String attendId;
+    private String taskId;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setXzqyId(String xzqyId) {
+        this.xzqyId = xzqyId;
+    }
+
+    public String getXzqyId() {
+        return xzqyId;
+    }
+
+    public void setAttendId(String attendId) {
+        this.attendId = attendId;
+    }
+
+    public String getAttendId() {
+        return attendId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+}

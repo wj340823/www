@@ -1,0 +1,59 @@
+package com.sucsoft.gzhbyjwz.service;
+
+
+import com.sucsoft.gzhbyjwz.bean.dc12.EmergencyOrganization;
+import com.sucsoft.gzhbyjwz.bean.dc12.ManagerCrew;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.util.DateUtils;
+import com.sucsoft.gzhbyjwz.util.WordBean;
+import io.swagger.models.auth.In;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.*;
+
+@Service
+public class TestGoodsService {
+
+    @Autowired
+    private BasicQueryService queryService;
+
+    public List<Map> testSql(Map<String,Object> param) throws Exception {
+
+        List<Map> list = queryService.queryForList("testTime",param,Map.class,0,0);
+        return list;
+    }
+
+    public Object test() throws Exception {
+        Date time = DateUtils.sdf.parse("2018-03-03 00:00:00");
+
+        Map<String,Object> param = new HashMap<>();
+        param.put("time",time);
+        return testSql(param);
+    }
+
+    public Object cleanemergencyorganization() throws Exception {
+        List<EmergencyOrganization> list = queryService.queryForList("cleanemergencyorganization",new HashMap<>(),EmergencyOrganization.class,0,0);
+        for (EmergencyOrganization o :list){
+            String telephone = o.getTelephone();
+            o.setTelephone(telephone==null?null:telephone.replaceAll(",",""));
+            queryService.update(o);
+        }
+        return "success";
+    }
+
+    public void downWord(HttpServletResponse response) throws IOException {
+        WordBean wordBean = new WordBean();
+        wordBean.addTitle("标题1");
+        List<List<String>> data = new ArrayList<List<String>>();
+        List<String> data1 = Arrays.asList(new String[]{"a","b","c"});
+        data.add(data1);
+        List<String> data2 = Arrays.asList(new String[]{"1","2","3"});
+        data.add(data2);
+        wordBean.addTable(data,0,0,null,3);
+        wordBean.write(response);
+    }
+}

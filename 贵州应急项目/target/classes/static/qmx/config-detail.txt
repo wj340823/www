@@ -1,0 +1,13 @@
+﻿// q:单位时间污染物泄漏量，单位mg/s
+// u:风速,单位m/s,
+// gl:gl:污染物泄漏时长，单位s
+// angle:风速与正东方向夹角，单位度
+// anglems:风向描述
+// id:唯一标识
+// lg:泄漏源精度
+// lt:泄漏源纬度
+// harmRange：预估伤害浓度范围
+// halfdeadRange:预估半致死浓度范围
+// companyId:关联企业企业id
+// pollutant:污染物
+//utf-8格式

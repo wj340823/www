@@ -1,0 +1,113 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+@ApiModel(value = "应急人员", description = "应急人员")
+public class EmergencyCrew {
+
+	@ApiModelProperty(value = "唯一标识")
+	private String emergencyCrewId;
+	private String companyId;
+	@ApiModelProperty(value = "姓名")
+	private String name;
+	@ApiModelProperty(value = "联系电话")
+	private String telephone;
+	@ApiModelProperty(value = "职务")
+	private String companyAgency;
+	
+	@ApiModelProperty(value = "身份证号码")
+	private String sfzNum;
+	@ApiModelProperty(value = "性别")
+	private String sex;
+	@ApiModelProperty(value = "所属单位")
+	private String theUtil;
+	@ApiModelProperty(value = "部门")
+	private String department;
+	@ApiModelProperty(value = "办公室电话")
+	private String officeTelephone;
+	private String la;
+	private String lo;
+
+	public String getLo() {
+		return lo;
+	}
+
+	public void setLo(String lo) {
+		this.lo = lo;
+	}
+
+	public String getLa() {
+		return la;
+	}
+
+	public void setLa(String la) {
+		this.la = la;
+	}
+
+	public String getOfficeTelephone() {
+		return officeTelephone;
+	}
+
+	public void setOfficeTelephone(String officeTelephone) {
+		this.officeTelephone = officeTelephone;
+	}
+
+	public String getEmergencyCrewId() {
+		return emergencyCrewId;
+	}
+	public void setEmergencyCrewId(String emergencyCrewId) {
+		this.emergencyCrewId = emergencyCrewId;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCompanyAgency() {
+		return companyAgency;
+	}
+	public void setCompanyAgency(String companyAgency) {
+		this.companyAgency = companyAgency;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone == null?null:telephone.replaceAll(",", "");
+	}
+	public String getSfzNum() {
+		return sfzNum;
+	}
+	public void setSfzNum(String sfzNum) {
+		this.sfzNum = sfzNum;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getTheUtil() {
+		return theUtil;
+	}
+	public void setTheUtil(String theUtil) {
+		this.theUtil = theUtil;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	
+	
+}

@@ -1,0 +1,88 @@
+
+<div class="mainOuter" ng-controller="homeCtrl">
+  <div class="header">
+    <div class="logo">
+      <img src="images/lgfxy.png" alt="">
+    </div>
+    <div class="userInfo" >
+      <span>{{userName}}</span>
+      <i class="iconfont icon-webicon215" style="font-size: 12px;"></i>
+      <div class="logout">
+        <a href="logout">注销登录</a>
+        <a ng-click="showUserInfo()">用户信息</a>
+        <a ng-click="changePwd()">修改密码</a>
+      </div>
+    </div>
+    <ul class="menu" style="margin-right: 15px">
+      <li ui-sref="index" ui-sref-active="active">
+        <i class="iconfont icon-shouye"></i> <span>首页</span>
+      </li>
+      <li class="active">
+        <div>
+          <i class="iconfont icon-shujuzhongxin"></i> <span>数据中心</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <i class="iconfont icon-wuzi"></i>
+          <span>应急资源</span>
+        </div>
+        <div class="menuSecond">
+          <div ui-sref="emergency.emergencyMaterial" ui-sref-active="active">应急物资</div>
+          <div ui-sref="emergencyPlan" ui-sref-active="active">应急预案</div>
+          <div ui-sref="emergency.emerCase" ui-sref-active="active">应急案例</div>
+          <!--<div ui-sref="emergency.organise" ui-sref-active="active">机构人员</div>-->
+          <div ui-sref="emergency.experts" ui-sref-active="active">专家库</div>
+        </div>
+      </li>
+      <li ui-sref="riskPrevention.riskSource" ui-sref-active="active">
+        <i class="iconfont icon-fengxianyuan"></i> <span>风险源</span>
+      </li>
+      <li ui-sref="province" ui-sref-active="active">
+        <i class="iconfont icon-fengxianpaicha"></i> <span>风险排查</span>
+      </li>
+      <li>
+        <div>
+          <i class="iconfont icon-kongjianfenxi"></i>
+          <span>风险评估</span>
+        </div>
+        <div class="menuSecond">
+          <div ui-sref="riskPrevention.riskSpatial.resouceRelation" ui-sref-active="active">源关系</div>
+          <div ui-sref="riskPrevention.riskSpatial.emergencyMng" ui-sref-active="active">应急管理</div>
+          <div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.air" ui-sref-active="active">气模型工具</div>
+          <div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.water" ui-sref-active="active">水模型工具</div>
+        </div>
+      </li>
+      <li ng-show="userList.role=='admin'">
+        <div ui-sref="system.user"  ui-sref-active="active">
+          <i class="iconfont icon-set"></i>
+          <span>系统管理</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div ng-include=" 'partials/pop/storeBtns.html' "></div>
+  <div class="riskSourcePop" ng-show="risk.sourceInfo.overview" style="width:calc(100% - 700px);min-width: 1000px;left: 350px;">
+    <div class="head">
+      <span ng-bind="riskDetail.COMPANYNAME+riskDetail.DOCUMENTYEAR"></span>
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="closePrint()"></i>
+      <a style="float: right;margin-right: 30px;" type="submit" class="searchBtn" ng-href="riskSource/downWord?companyId={{linkCompanyId}}">
+        <i class="iconfont icon-daochu"></i> 导出word
+      </a>
+      <a style="float: right;margin-right: 10px;" type="submit" class="searchBtn" ng-href="yjInfosImport/exportExcel?companyId={{linkCompanyId}}">
+        <i class="iconfont iccon-daochu"></i> 导出EXCEL
+      </a>
+    </div>
+    <!-- 一览表-->
+    <div style="height: calc(100% - 40px)" ng-include="'partials/pop/yilanbiao.html'"></div>
+    </div>
+  <div class="riskSourcePop" ng-show="risk.sourceInfo.emergency" style="width:calc(100% - 700px);min-width: 1000px;left: 350px;">
+    <div class="head">
+      <span ng-bind="riskDetail.COMPANYNAME"></span>
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="closePrint()"></i>
+    </div>
+    <!-- 预案管理  -->
+    <div style="height: calc(100% - 40px)" ng-include="'partials/pop/emergency.html'"></div>
+  </div>
+  <div ui-view style="height: 100%"></div>
+</div>

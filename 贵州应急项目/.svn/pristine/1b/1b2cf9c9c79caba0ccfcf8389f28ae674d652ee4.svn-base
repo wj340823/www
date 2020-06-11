@@ -1,0 +1,51 @@
+package com.sucsoft.gzhbyjwz.bean.param.riskManage;
+
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+
+public class CompanyParam implements Serializable {
+    @ApiModelProperty(value = "企业ID")
+    private String companyId;
+
+    @ApiModelProperty(value = "行政区域ID")
+    private String xzqyId;
+
+    @ApiModelProperty(value = "联系电话")
+    private String lxdh;
+
+    @ApiModelProperty(value = "负责人")
+    private String fzr;
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getXzqyId() {
+        return xzqyId;
+    }
+
+    public void setXzqyId(String xzqyId) {
+        this.xzqyId = xzqyId;
+    }
+
+    public String getLxdh() {
+        return lxdh;
+    }
+
+    public void setLxdh(String lxdh) {
+        this.lxdh = lxdh;
+    }
+
+    public String getFzr() {
+        return fzr;
+    }
+
+    public void setFzr(String fzr) {
+        this.fzr = fzr;
+    }
+}

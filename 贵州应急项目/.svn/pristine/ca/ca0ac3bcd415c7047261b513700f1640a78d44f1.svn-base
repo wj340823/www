@@ -1,0 +1,309 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class EnterprisePreplan {
+
+    /**
+     * 备案时间
+     *
+     */
+    private java.util.Date recordtime;
+
+    private java.util.Date updateDate;
+    /*备案编号*/
+    private String babh;
+    /*备案单位*/
+    private String badw;
+    /**
+     * 区县驳回意见
+     *
+     */
+    private String qxbhyj;
+    /**
+     * 预案风险级别：1-一般，2-重大，3-特大
+     *
+     */
+    private Integer level;
+    /**
+     * 区县审核人
+     *
+     */
+    private String qxshr;
+    /**
+     * 市州审核意见
+     *
+     */
+    private String szshyj;
+    /**
+     * 区县审核意见
+     *
+     */
+    private String qxshyj;
+    /**
+     * 编制年份
+     *
+     */
+    private java.util.Date documentYear;
+    private String preplanTel;
+    private String companyId;
+    /**
+     * 省厅审核意见
+     *
+     */
+    private String stshyj;
+    /**
+     * 备案状态：1-已备案，2-即将到期，3-备案超期
+     *
+     */
+    private Integer recordStatus;
+    /**
+     * 签署人
+     *
+     */
+    private String underSigned;
+    /**
+     *  1 过期 0 正常 -1 审核中
+     *
+     */
+    private String deleted;
+    /**
+     * 省厅驳回意见
+     *
+     */
+    private String stbhyj;
+    /**
+     * 区县审核时间
+     *
+     */
+    private java.util.Date qxshsj;
+    /**
+     * 省厅审核人
+     *
+     */
+    private String stshr;
+    /**
+     * 省厅审核时间
+     *
+     */
+    private java.util.Date stshsj;
+    /**
+     * 市州审核时间
+     *
+     */
+    private java.util.Date szshsj;
+    private String shzt;
+    private String id;
+    /**
+     * 市州审核人
+     *
+     */
+    private String szshr;
+    /**
+     * 市州驳回意见
+     *
+     */
+    private String szbhyj;
+
+
+    public String getBabh() {
+        return babh;
+    }
+
+    public void setBabh(String babh) {
+        this.babh = babh;
+    }
+
+    public String getBadw() {
+        return badw;
+    }
+
+    public void setBadw(String badw) {
+        this.badw = badw;
+    }
+
+    public void setRecordtime(java.util.Date recordtime) {
+        this.recordtime = recordtime;
+    }
+
+    public java.util.Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setUpdateDate(java.util.Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public java.util.Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setQxbhyj(String qxbhyj) {
+        this.qxbhyj = qxbhyj;
+    }
+
+    public String getQxbhyj() {
+        return qxbhyj;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setQxshr(String qxshr) {
+        this.qxshr = qxshr;
+    }
+
+    public String getQxshr() {
+        return qxshr;
+    }
+
+    public void setSzshyj(String szshyj) {
+        this.szshyj = szshyj;
+    }
+
+    public String getSzshyj() {
+        return szshyj;
+    }
+
+    public void setQxshyj(String qxshyj) {
+        this.qxshyj = qxshyj;
+    }
+
+    public String getQxshyj() {
+        return qxshyj;
+    }
+
+    public void setDocumentYear(java.util.Date documentYear) {
+        this.documentYear = documentYear;
+    }
+
+    public java.util.Date getDocumentYear() {
+        return documentYear;
+    }
+
+    public void setPreplanTel(String preplanTel) {
+        this.preplanTel = preplanTel;
+    }
+
+    public String getPreplanTel() {
+        return preplanTel;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setStshyj(String stshyj) {
+        this.stshyj = stshyj;
+    }
+
+    public String getStshyj() {
+        return stshyj;
+    }
+
+    public void setRecordStatus(Integer recordStatus) {
+        this.recordStatus = recordStatus;
+    }
+
+    public Integer getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setUnderSigned(String underSigned) {
+        this.underSigned = underSigned;
+    }
+
+    public String getUnderSigned() {
+        return underSigned;
+    }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setStbhyj(String stbhyj) {
+        this.stbhyj = stbhyj;
+    }
+
+    public String getStbhyj() {
+        return stbhyj;
+    }
+
+    public void setQxshsj(java.util.Date qxshsj) {
+        this.qxshsj = qxshsj;
+    }
+
+    public java.util.Date getQxshsj() {
+        return qxshsj;
+    }
+
+    public void setStshr(String stshr) {
+        this.stshr = stshr;
+    }
+
+    public String getStshr() {
+        return stshr;
+    }
+
+    public void setStshsj(java.util.Date stshsj) {
+        this.stshsj = stshsj;
+    }
+
+    public java.util.Date getStshsj() {
+        return stshsj;
+    }
+
+    public void setSzshsj(java.util.Date szshsj) {
+        this.szshsj = szshsj;
+    }
+
+    public java.util.Date getSzshsj() {
+        return szshsj;
+    }
+
+    public void setShzt(String shzt) {
+        this.shzt = shzt;
+    }
+
+    public String getShzt() {
+        return shzt;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setSzshr(String szshr) {
+        this.szshr = szshr;
+    }
+
+    public String getSzshr() {
+        return szshr;
+    }
+
+    public void setSzbhyj(String szbhyj) {
+        this.szbhyj = szbhyj;
+    }
+
+    public String getSzbhyj() {
+        return szbhyj;
+    }
+
+}

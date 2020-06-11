@@ -1,0 +1,44 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+public class RiskSourceCatalog {
+
+    private String objectId;
+
+    private String wzmc;
+
+    private String cas;
+
+    private String ljl;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getWzmc() {
+        return wzmc;
+    }
+
+    public void setWzmc(String wzmc) {
+        this.wzmc = wzmc;
+    }
+
+    public String getCas() {
+        return cas;
+    }
+
+    public void setCas(String cas) {
+        this.cas = cas;
+    }
+
+    public String getLjl() {
+        return ljl;
+    }
+
+    public void setLjl(String ljl) {
+        this.ljl = ljl;
+    }
+}

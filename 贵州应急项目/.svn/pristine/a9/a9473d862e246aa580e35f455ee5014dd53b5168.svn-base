@@ -1,0 +1,67 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("环境风险防控设施气")
+public class QiRiskControlMeasures {
+    private String qiRiskControlMeasures_Id;
+    private String qyId;
+    @ApiModelProperty("是否涉及有毒有害气体")
+    private String sfshtdtgqt;
+    @ApiModelProperty("是否符合环评及批复文件防护距离要求")
+    private String sffghppfyq;
+    @ApiModelProperty("近3年内突发大气环境事件发生情况")
+    private String sntfqk;
+    @ApiModelProperty("是否具备厂界有毒有害气体泄漏监控预警系统")
+    private String sfjbjkyjxt;
+
+    public String getQiRiskControlMeasures_Id() {
+        return qiRiskControlMeasures_Id;
+    }
+
+    public void setQiRiskControlMeasures_Id(String qiRiskControlMeasures_Id) {
+        this.qiRiskControlMeasures_Id = qiRiskControlMeasures_Id;
+    }
+
+    public String getQyId() {
+        return qyId;
+    }
+
+    public void setQyId(String qyId) {
+        this.qyId = qyId;
+    }
+
+    public String getSfshtdtgqt() {
+        return sfshtdtgqt;
+    }
+
+    public void setSfshtdtgqt(String sfshtdtgqt) {
+        this.sfshtdtgqt = sfshtdtgqt;
+    }
+
+    public String getSffghppfyq() {
+        return sffghppfyq;
+    }
+
+    public void setSffghppfyq(String sffghppfyq) {
+        this.sffghppfyq = sffghppfyq;
+    }
+
+    public String getSntfqk() {
+        return sntfqk;
+    }
+
+    public void setSntfqk(String sntfqk) {
+        this.sntfqk = sntfqk;
+    }
+
+    public String getSfjbjkyjxt() {
+        return sfjbjkyjxt;
+    }
+
+    public void setSfjbjkyjxt(String sfjbjkyjxt) {
+        this.sfjbjkyjxt = sfjbjkyjxt;
+    }
+}

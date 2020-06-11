@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-laber="Close" ng-click="cancel()">
+        <span class="fa fa-times-circle" aria-hidden="true"></span>
+    </button>
+    <h4 class="modal-title">{{op}}</h4>
+</div>
+<div class="modal-body">
+    <form name="role" class="form-horizontal">
+        <div class="form-group has-feedback" ng-if='!showSel'>
+            <label class="col-md-4 control-label">角色标识：</label>
+            <div class="col-md-6" ng-class="{ 'has-error' : role.role.$invalid && !role.role.$pristine,'has-success' : role.role.$valid }">
+                <input type="text" class="form-control" name="role" check-url="rest/authox/roles" check-property="role" ng-model-options="{updateOn:'default blur',debounce:{default:600,blur:0}}" ng-model="select.role" placeholder="请输入角色标识" required samecheck/>
+                <span class="fa fa-check form-control-feedback" ng-show="role.role.$valid"></span>
+                <span class="fa fa-remove form-control-feedback" ng-show="role.role.$invalid && !role.role.$pristine"></span>
+                <span ng-show="role.role.$error.samecheck" class="error-feedback">账号重复</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">角色名称：</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="name" ng-class="{ 'has-error' : role.name.$invalid }" ng-model="select.name" placeholder="请输入角色名" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">父节点：</label>
+            <div isteven-multi-select input-model="multiSel" output-model="select.parentsObj" button-label="name" item-label="name" tick-property="ticked" class="col-md-6"></div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">备注：</label>
+            <div class="col-md-6">
+                <textarea type="text" class="form-control" ng-model="select.des" placeholder="请输入备注" >
+                </textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="form-group" style="margin-bottom: 2px;">
+        <button class="btn btn-primary" ng-click="commit()" ng-disabled="!role.$valid"><span class="fa fa-check">&nbsp提交</span></button>
+        <button class="btn btn-warning" ng-click="cancel()"><span class="fa fa-close">&nbsp取消</span></button>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>onFrame - Move camera</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var time = 5 * 1000; // move for 5 sec.
+
+        function Init()
+        {
+            SGWorld.AttachEvent("onFrame", onFrame);
+
+            SGWorld.Navigate.JumpTo(SGWorld.Creator.CreatePosition(-100.0, 40.0, 13000000, 3, 0, -85));
+            setTimeout(function () { SGWorld.DetachEvent("onFrame", onFrame); }, time);
+        }
+        
+        function onFrame()
+        {
+
+            var pos = SGWorld.Navigate.GetPosition();
+            
+            pos.X += 0.5;
+            pos.Y -= 0.2;
+
+            SGWorld.Navigate.SetPosition(pos);                       
+            
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:000000403j.vC7AGfz4t3.VsbmLXbVPXsjo4bmQJOqvrHheyE3IO#T4COy7kbEIUF#tRiELkEbGfllRAl0Q9kC0T.NqYGCJJ-->

@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Untitled Page</title>
+    <style>
+      html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      border:none
+   }
+    </style>
+    <script type="text/javascript">
+    function OnLoad()
+    {
+    
+        var showImage = "0";
+        var frameSrc = null;
+        var queryString = location.search;
+        if(queryString.length > 1)
+            queryString = queryString.substring(1,queryString.length);
+        var parameters = queryString.split("&");
+        for(var i=0; i < parameters.length; i++) 
+        {
+            var param = parameters[i].split("=");
+            if(param[0].toLowerCase() == "showImage".toLowerCase())
+                showImage = param[1];
+            if(param[0].toLowerCase() == "frameSrc".toLowerCase())
+                frameSrc = unescape(param[1]);
+        }
+            
+        if(showImage == "1")
+            loadingImg.style.display = "inline";
+            
+        if(frameSrc != null)
+        {
+            var contentFrame = document.createElement("IFrame");
+            contentFrame.id = "contentFrame";
+            contentFrame.width = "100%";
+            contentFrame.height = "100%";     
+            contentFrame.frameborder = "0";
+            contentFrame.style.overflow = "hidden";
+            contentFrame.style.padding = "0";
+            contentFrame.style.margin = "0";
+            contentFrame.style.padding = "0";
+            contentFrame.style.borderStyle = "none";
+
+
+
+            contentDiv.appendChild(contentFrame);
+            contentFrame.onreadystatechange = function()
+            {   
+                // if tool farme laoding is complete, remove loading frame, copy visibility setting from loading frame to real frame.
+                // set reference tor eal frame in tool object
+                if (contentFrame.readyState == "complete") 
+                {
+                    loadingDiv.style.display = "none";
+                    contentDiv.style.display = "";
+                }   
+            }
+            contentFrame.src = frameSrc;
+        }
+    }
+    </script>
+</head>
+<body onload="OnLoad()" style="overflow:hidden;padding:0;margin:0;border:0" scroll="no" scrolling="no" >
+
+<div id="loadingDiv">
+<table  style="height: 100%;width:100%;vertical-align:middle;text-align:center">
+<tr><td><img id="loadingImg" style="display:none" src="sgapi.Loading.gif" /></td></tr>
+</table>
+</div>
+<div id="contentDiv" style="overflow:hidden;padding:0;margin:0; height:100%;width:100%;display:none;border-style:none">
+</div>
+</body>
+</html>

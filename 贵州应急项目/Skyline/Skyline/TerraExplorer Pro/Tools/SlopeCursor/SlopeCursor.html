@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+
+                  <tr class='TableOtherLine'>
+                        <td align="top" class="s8b i18n">
+                            <label for="createAs" class="i18n">Text18</label>
+                        </td>
+                        <td align="left">
+                            <select id="DisplayMinMaxSlope"  style="width:100px;" >
+                                <option class="i18n" value=0>Text19</option>
+                                <option class="i18n" value=1 >Text20</option>
+                                <option class="i18n" value=2 selected>Text21</option>
+                            </select>
+                        </td>
+                    </tr>
+                           
+                  <tr >
+                        <td align="top" class="s8b i18n">
+                            <label for="createAs" class="i18n">Text22</label>
+                        </td>
+                        <td align="left">
+                            <select id="DisplayHeadingSlope"  style="width:100px;" >
+                                <option class="i18n" value=0 selected>Text19</option>
+                                <option class="i18n" value=1 >Text20</option>
+                                <option class="i18n" value=2 >Text21</option>
+                            </select>
+                        </td>
+                    </tr>
+                           
+                  <tr class='TableOtherLine'>
+                        <td align="top" class="s8b i18n">
+                            <label for="createAs" class="i18n">Text23</label>
+                        </td>
+                        <td align="left">
+                            <select id="DisplayCoordinateInfo"  style="width:100px;" >
+                                <option class="i18n" value=0 >Text19</option>
+                                <option class="i18n" value=1 selected>Text20</option>
+                                <option class="i18n" value=2 >Text21</option>
+                            </select>
+                        </td>
+                    </tr>
+                           
+
+                    <tr>
+                        <td class="s8b">
+                            <label for="createAs" class="i18n">Text11</label>
+                        </td>
+                        <td align="left">
+                        <input id="distanceID"  type="text"  value="10" style="width:100px" /><label for="createAs" class="i18n">Text16</label>
+                        </td>            
+                    </tr>  
+                   <tr class='TableOtherLine'>
+                        <td align="top" class="s8b i18n">
+                            <label for="createAs" class="i18n">Text12</label>
+                        </td>
+                        <td align="left">
+                        <input id="warningSlopeID"  type="text"  value="10"  style="width:100px; background-color:#FFD7C1"/><label for="createAs" class="i18n">Text17</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s8b">
+                            <label for="createAs" class="i18n">Text13</label>
+                        </td>
+                        <td align="left">
+                        <input id="alertSlopeID"  type="text" value="15"  style="width:100px; background-color:#FFD7D7;"/><label for="createAs" class="i18n">Text17</label>
+                        </td>            
+                    </tr>  
+ 
+                    <tr>
+                    <td colspan="2" align="center" class="ToolButtonsArea">
+                          
+                    <button id="groupButton" class="MenuButton MenuButtonLast" onclick="StartStop()"><img src="./query.png" /><br />         <span id="startstopSpan" class="i18n">Text3</span></button>
+
+                        </td>
+                        </tr>
+    </table>
+
+ <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">    </object>
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<script language="JavaScript">
+function DetectTEMode()
+{
+var vMode = document.documentMode;
+var rMode = 'IE5 Quirks Mode';
+if(vMode == 8){
+  rMode = 'IE8 Standards Mode';
+} else if(vMode == 7){
+  rMode = 'IE7 Strict Mode';
+} else if(vMode == 9){
+  rMode = 'IE9 Strict Mode';
+}
+//alert('Rendering in: ' + rMode);
+}
+DetectTEMode();
+
+var isStart = false;
+var gDisplayHeadingSlope ;
+var gDisplayMinMaxSlope ;
+var gDisplayCoordinateInfo;
+var gLastClickMouseX;
+var gLastClickMouseY;
+///var popupMsg;
+var timeoutID;
+var measureDistance;
+var warningSlope;
+var alertSlope;
+var arrowMaxPositive;
+var arrowMaxNegative;
+var arrowHeading;
+var labelMaxPositive;
+var labelMaxNegative;
+var labelHeading;
+var labelCoordinateInfo;
+var groupID;
+var colorNormalPositive ;
+var colorNormalNegative;
+var colorHeading;
+var colorLinewarning ;
+var colorLineAlert;
+var colorLabel;
+var colorTextNormal;
+var colorTextWarning;
+var colorTextAlert;
+var gNameIndex = 1;
+
+var cameraClickPos;
+var rootId;
+//--------------
+// Init
+function Init() {
+
+    SGWorld.AttachEvent("onFrame", onFrame);
+    SGWorld.AttachEvent("onLButtonDown", onLButtonDown);
+    SGWorld.AttachEvent("onLButtonUp", onLButtonUp);
+    SGWorld.AttachEvent("onRButtonUp", onRButtonUp);
+    SGWorld.AttachEvent("OnInputModeChanged", OnInputModeChanged);
+    rootId = GetParamValue("rootId", SGWorld.ProjectTree.RootID);
+    groupID = -1;
+
+    colorNormalPositive = SGWorld.Creator.CreateColor(255, 255, 255, 255);
+    colorNormalNegative = SGWorld.Creator.CreateColor(197, 197, 197, 255);
+    colorHeading = SGWorld.Creator.CreateColor(198, 255, 198, 255);
+
+    colorLinewarning = SGWorld.Creator.CreateColor(238, 173, 23, 255);
+    colorLineAlert = SGWorld.Creator.CreateColor(255, 117, 117, 255);
+    colorLabel = SGWorld.Creator.CreateColor(255, 255, 255, 255);
+    colorTextNormal = SGWorld.Creator.CreateColor(230, 230, 230,  0);
+    colorTextWarning = SGWorld.Creator.CreateColor(238, 173, 23 , 0 );
+    colorTextAlert = SGWorld.Creator.CreateColor(255,117,117, 0);
+    Reset(true, false);
+
+    
+
+}
+
+//------------------
+// Reset
+//------------------
+function Reset(FirstTime, FromMouseInputMode) {
+
+    try {
+        startstopSpan.innerHTML = SGLang.i18n("Text3");
+        if (isStart && SGWorld.Project.Name != "") {
+            ///ClosePopup();
+          //  alert(SGWorld.Project.Name);
+            isStart = false;
+            deleteObjs();
+        }
+
+        arrowMaxPositive = null;
+        arrowMaxNegative = null;
+        labelMaxPositive = null;
+        labelMaxNegative = null;
+        arrowHeading = null;
+        labelHeading = null;
+        labelCoordinateInfo = null;
+        gLastClickMouseX = -1;
+        gLastClickMouseY = -1;
+        isStart = false;
+
+        document.getElementById("distanceID").disabled = false;
+        document.getElementById("alertSlopeID").disabled = false;
+        document.getElementById("warningSlopeID").disabled = false;
+        document.getElementById("DisplayHeadingSlope").disabled = false;
+        document.getElementById("DisplayMinMaxSlope").disabled = false;
+        document.getElementById("DisplayCoordinateInfo").disabled = false;
+
+
+        if (FirstTime != 1 && FromMouseInputMode == 0) {
+            //        alert("input");
+            SGWorld.Window.SetInputMode(0);
+        }
+    }
+    catch (err) { isStart = false; }
+}
+
+//--------------
+// StartStop
+function StartStop() {
+
+    if (!isStart) {
+        isStart = true;
+        document.getElementById("distanceID").disabled = true;
+        document.getElementById("alertSlopeID").disabled = true;
+        document.getElementById("warningSlopeID").disabled = true;
+        document.getElementById("DisplayHeadingSlope").disabled = true;
+        document.getElementById("DisplayMinMaxSlope").disabled = true;
+        document.getElementById("DisplayCoordinateInfo").disabled = true;
+
+        startstopSpan.innerHTML = SGLang.i18n("Text4");
+        measureDistance = document.getElementById("distanceID").value;
+        alertSlope = document.getElementById("alertSlopeID").value;
+        warningSlope = document.getElementById("warningSlopeID").value;
+
+        gDisplayHeadingSlope = document.getElementById("DisplayHeadingSlope").value ;
+        gDisplayMinMaxSlope = document.getElementById("DisplayMinMaxSlope").value ;
+        gDisplayCoordinateInfo = document.getElementById("DisplayCoordinateInfo").value ;
+
+        createObjs(false);
+        
+        SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur", true);
+
+    }
+    else {
+        //        clearInterval (timeoutID);
+        Reset(false,false);
+    }
+
+}
+
+//------------
+//onFrame
+function onFrame() {
+    if (isStart == false)
+        return;
+
+    displaySlopeInfo(false);
+
+    }
+
+//------------
+//onLButtonDown
+function onLButtonDown(Flag, X, Y) {
+    if (isStart == false)
+        return;
+    SGWorld.Window.SetInputMode(1, abspath()+"/cursor_wait.cur", true);
+
+    // Save camera location to identify dragging 
+    cameraClickPos = SGWorld.Navigate.GetPosition();    
+}
+ //------------
+//onLButtonUp
+function onLButtonUp(Flag, X, Y) {
+    if (isStart == false)
+        return;
+
+    // Creating objects only if not dragging the terrain
+    if (cameraClickPos.IsEqual (SGWorld.Navigate.GetPosition()))
+        createObjs(true);
+    SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur", true);
+
+}
+
+//------------
+//onRButtonUp
+function onRButtonUp(Flag, X, Y) {
+    if (isStart == false)
+        return;
+        Reset (0,0);
+    return true;
+
+}
+//------------
+//OnInputModeChanged
+function OnInputModeChanged (newMode) {
+
+    Reset(0, 1);
+}
+
+//------------
+//createObjs
+function createObjs(fromClick) {
+
+    var subGroupID;
+
+   // try {
+
+        var tmpGroup = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName"), SGWorld.ProjectTree.HiddenGroupID);
+
+        if (fromClick) {
+
+            displaySlopeInfo(true);  // Add tooltips to the objects
+
+            if (groupID == -1)
+                groupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName"), rootId);
+
+            try {
+                subGroupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName") + gNameIndex, groupID);
+            }
+            catch (err) {
+                groupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName"), rootId);
+                subGroupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName")+gNameIndex, groupID);
+            }
+
+            if (gDisplayMinMaxSlope > 0) {
+                SGWorld.ProjectTree.SetParent(arrowMaxPositive.ID, subGroupID);
+                SGWorld.ProjectTree.SetParent(arrowMaxNegative.ID, subGroupID);
+                SGWorld.ProjectTree.SetParent(labelMaxPositive.ID, subGroupID);
+                SGWorld.ProjectTree.SetParent(labelMaxNegative.ID, subGroupID);
+            }
+            if (gDisplayHeadingSlope > 0) {
+                SGWorld.ProjectTree.SetParent(arrowHeading.ID, subGroupID);
+                SGWorld.ProjectTree.SetParent(labelHeading.ID, subGroupID);
+            }
+            if (gDisplayCoordinateInfo > 0) {
+                SGWorld.ProjectTree.SetParent(labelCoordinateInfo.ID, subGroupID);
+            }
+
+            gNameIndex += 1;
+        }
+
+        var pos = SGWorld.Creator.CreatePosition(1.0, 1.0, 2.0, 3, 0, 0, 0);
+        var labelStyle = SGWorld.Creator.CreateLabelStyle(0);
+        labelStyle.Bold = true;
+        labelStyle.LineToGround = false;
+        labelStyle.Scale = measureDistance / 20;
+        labelStyle.FontSize = 10;
+        labelStyle.BackgroundColor = SGWorld.Creator.CreateColor(15, 15, 15, 0);
+
+        var arrowStyle = SGWorld.Creator.CreateLabelStyle(0);
+        arrowStyle.LimitScreenSize = false;
+        arrowStyle.Scale =  measureDistance / 100;
+        arrowStyle.LockMode = 1;
+
+        // Min/Max slopes arrows and labels
+        if (gDisplayMinMaxSlope > 0) {
+            arrowMaxPositive = SGWorld.Creator.CreateImageLabel(pos, abspath() + "./arrow.png", arrowStyle, tmpGroup, "max positive");
+            
+            // Max negative Arrow
+            arrowMaxNegative = SGWorld.Creator.CreateImageLabel(pos, abspath() + "./arrow.png", arrowStyle, tmpGroup, "max negative");
+
+            // Labels
+            labelMaxPositive = SGWorld.Creator.CreateLabel(pos, "positive", "", labelStyle, tmpGroup, "max positive label");
+            labelMaxNegative = SGWorld.Creator.CreateLabel(pos, "negative", "", labelStyle, tmpGroup, "max negative label");
+        }
+        // Heading arrow and label
+        if (gDisplayHeadingSlope > 0) {
+            arrowStyle.Scale = measureDistance / 50;
+            arrowHeading = SGWorld.Creator.CreateImageLabel(pos, abspath() + "./arrow.png", arrowStyle, tmpGroup, "Heading");
+            labelHeading = SGWorld.Creator.CreateLabel(pos, "Heading", "", labelStyle, tmpGroup, "Heading label");
+        }
+
+        if (gDisplayCoordinateInfo > 0) {
+            labelStyle.LineToGround = true;
+            labelStyle.MultilineJustification = "Left";
+            labelCoordinateInfo = SGWorld.Creator.CreateLabel(pos, "Info", "", labelStyle, tmpGroup, "Coordinate Info label");
+        }
+//    }
+//    catch (err) { alert(SGLang.i18n("Text15") + err); Reset(0, 0); }
+}
+//------------
+//deleteObjs
+function deleteObjs() {
+    try {
+        if (arrowMaxPositive != null)
+            SGWorld.Creator.DeleteObject(arrowMaxPositive.ID);
+        if (arrowMaxNegative != null)
+            SGWorld.Creator.DeleteObject(arrowMaxNegative.ID);
+        if (labelMaxPositive != null)
+            SGWorld.Creator.DeleteObject(labelMaxPositive.ID);
+        if (labelMaxNegative != null)
+            SGWorld.Creator.DeleteObject(labelMaxNegative.ID);
+        if (arrowHeading != null)
+            SGWorld.Creator.DeleteObject(arrowHeading.ID);
+        if (labelHeading != null)
+            SGWorld.Creator.DeleteObject(labelHeading.ID);
+        if (labelCoordinateInfo != null)
+            SGWorld.Creator.DeleteObject(labelCoordinateInfo.ID);
+    }
+    catch (err) { alert(SGLang.i18n("Text15") + err); Reset(0, 0); }
+}
+//------------
+//displaySlopeInfo
+function displaySlopeInfo(fromClick) {
+    if (!isStart) {
+        return false;
+    }
+
+    try {
+
+        var slopeSampling = 10;
+        var getGroundHeighType = 0;
+        if (fromClick) {
+            slopeSampling = 1;
+            getGroundHeighType = 2;
+        }
+
+        var mouseInfo = SGWorld.Window.GetMouseInfo();
+        var CursorInfo = SGWorld.Window.PixelToWorld(mouseInfo.X, mouseInfo.Y, 0 + 1 + 8192);
+
+        // After clicking the left mouse and recalculate the slopes with better accuracy do not recalculate until the mouse is moved
+        if (fromClick == false && gLastClickMouseX != -1 && gLastClickMouseX == mouseInfo.X && gLastClickMouseY == mouseInfo.Y)
+            return false;
+
+        if (fromClick) {
+            gLastClickMouseX = mouseInfo.X;
+            gLastClickMouseY = mouseInfo.Y;
+        }
+        /*Arik  
+         if (CursorInfo.Type != 0)
+            return false;    */
+
+        //Groud height in mouse location
+        var groundInfo = SGWorld.Terrain.GetGroundHeightInfo(CursorInfo.Position.X, CursorInfo.Position.Y, getGroundHeighType, true);
+        //Ground Height around mouse location
+        var i;
+        var maxPositiveAlt = -9999999;
+        var maxPositivePos;
+        var maxNegativeAlt = 9999999;
+        var maxNegativePos;
+        var destGroundInfo;
+        var headingPos;
+        var newPos = CursorInfo.Position.Copy();
+        // find min/max slopes
+        if (gDisplayMinMaxSlope == 2 || (gDisplayMinMaxSlope == 1 && fromClick)) {
+            for (i = 0; i < 360; i = i + slopeSampling) {
+                newPos = CursorInfo.Position.Copy();
+                newPos.Yaw = i;
+                SGWorld.CoordServices.MoveCoordEx(newPos, measureDistance, 0, 0);
+                destGroundInfo = SGWorld.Terrain.GetGroundHeightInfo(newPos.X, newPos.Y, getGroundHeighType, true);
+                if (destGroundInfo.Position.Altitude > maxPositiveAlt) {
+                    maxPositiveAlt = destGroundInfo.Position.Altitude;
+                    maxPositivePos = destGroundInfo.Position.Copy();
+                }
+
+                if (destGroundInfo.Position.Altitude < maxNegativeAlt) {
+                    maxNegativeAlt = destGroundInfo.Position.Altitude;
+                    maxNegativePos = destGroundInfo.Position.Copy();
+                }
+                //   measureDistance
+            }
+
+            if (maxPositiveAlt == maxNegativeAlt) {  // flat area - make sure not to position both arrows on the same position
+                newPos = CursorInfo.Position.Copy();
+                newPos.Yaw = 180;
+                SGWorld.CoordServices.MoveCoordEx(newPos, measureDistance, 0, 0);
+                destGroundInfo = SGWorld.Terrain.GetGroundHeightInfo(newPos.X, newPos.Y, getGroundHeighType, true);
+                maxPositiveAlt = destGroundInfo.Position.Altitude;
+                maxPositivePos = destGroundInfo.Position.Copy();
+            }
+        }
+        // heading arrow
+        if (gDisplayHeadingSlope == 2 || (gDisplayHeadingSlope == 1 && fromClick)) {
+            newPos = CursorInfo.Position.Copy();
+            newPos.Yaw = SGWorld.Navigate.GetPosition().Yaw;
+            SGWorld.CoordServices.MoveCoordEx(newPos, measureDistance * 2, 0, 0);
+            destGroundInfo = SGWorld.Terrain.GetGroundHeightInfo(newPos.X, newPos.Y, 2, true);
+            headingPos = destGroundInfo.Position.Copy();
+        }
+        // Set the object properties according to the new values
+        setObjsPosition(CursorInfo.Position, maxPositivePos, maxNegativePos, headingPos, fromClick);
+
+        // Send information to the Information Dialog
+        ///  SGWorld.Window.ShowMessageBarText("##SlopeCursor## X:" + CursorInfo.Position.X.toFixed(6) + "<br/>Y: " + CursorInfo.Position.Y.toFixed(6) + "<br/> Ground elevation: " + groundInfo.Position.Altitude.toFixed(2) + " m AMSL" + "<br/>Max elevation in range: = " + maxPositiveAlt.toFixed(2) + "<br/>Min elevation in range = " + maxNegativeAlt.toFixed(2), 0, 1);
+    }
+    catch (err) {        alert(SGLang.i18n("Text15") + err);   Reset(0, 0); } 
+}
+
+//-----------------
+// setObjsPosition
+function setObjsPosition(CursorPosition, maxPositivePos, maxNegativePos, headingPos, fromClick) {
+
+ try {
+    // Set Min/Max slope arrows and labels
+     if (gDisplayMinMaxSlope == 2 || (gDisplayMinMaxSlope == 1 && fromClick)) {
+
+         // Max positive angle
+         CursorPosition = CursorPosition.AimTo(maxPositivePos);
+
+         //arrowMaxPositive.Position = CursorPosition.Copy().MoveToward(maxPositivePos, measureDistance );
+         arrowMaxPositive.Position = CursorPosition.Copy().AimTo(maxPositivePos);
+         labelMaxPositive.Position = maxPositivePos.Copy();
+         labelMaxPositive.Position.Altitude = labelMaxPositive.Position.Altitude + measureDistance / 2;
+         if (CursorPosition.Pitch > alertSlope) {
+             labelMaxPositive.Style.TextColor = colorTextAlert;
+             arrowMaxPositive.Style.IconColor = colorLineAlert;
+         }
+         else if (CursorPosition.Pitch > warningSlope) {
+             labelMaxPositive.Style.TextColor = colorTextWarning;
+             arrowMaxPositive.Style.IconColor = colorLinewarning;
+         }
+         else {
+             labelMaxPositive.Style.TextColor = colorTextNormal;
+             arrowMaxPositive.Style.IconColor = colorNormalPositive;
+         }
+         var positiveAltDiff = maxPositivePos.Altitude - CursorPosition.Altitude;
+         if (fromClick)
+             labelMaxPositive.Tooltip.Text = "Max positive slope altitude = " + maxPositivePos.Altitude.toFixed(2) + " m AMSL (+" + positiveAltDiff.toFixed(2) + "m)";
+         labelMaxPositive.Text = "+" + CursorPosition.Pitch.toFixed(2) + String.fromCharCode(186);//  degree sign;
+
+         // Max negative angle
+         CursorPosition = CursorPosition.AimTo(maxNegativePos);
+         //arrowMaxNegative.Position = CursorPosition.Copy().MoveToward(maxNegativePos, measureDistance );
+         arrowMaxNegative.Position = CursorPosition.Copy().AimTo(maxNegativePos);
+         labelMaxNegative.Position = maxNegativePos.Copy();
+         labelMaxNegative.Position.Altitude = labelMaxNegative.Position.Altitude + measureDistance / 2;
+
+         if (CursorPosition.Pitch < -alertSlope) {
+             labelMaxNegative.Style.TextColor = colorTextAlert;
+             arrowMaxNegative.Style.IconColor = colorLineAlert;
+         }
+         else if (CursorPosition.Pitch < -warningSlope) {
+             labelMaxNegative.Style.TextColor = colorTextWarning;
+             arrowMaxNegative.Style.IconColor = colorLinewarning;
+         } else {
+             labelMaxNegative.Style.TextColor = colorTextNormal;
+             arrowMaxNegative.Style.IconColor = colorNormalNegative;
+         }
+         var negativeAltDiff = maxNegativePos.Altitude - CursorPosition.Altitude;
+         if (fromClick)
+             labelMaxNegative.Tooltip.Text = "Max negative slope altitude: " + maxNegativePos.Altitude.toFixed(2) + " m AMSL (" + negativeAltDiff.toFixed(2) + "m)";
+         labelMaxNegative.Text = CursorPosition.Pitch.toFixed(2) + String.fromCharCode(186); // degree sign;
+     }
+
+    // heading
+    if (gDisplayHeadingSlope == 2 || (gDisplayHeadingSlope == 1 && fromClick)) {
+        CursorPosition = CursorPosition.AimTo(headingPos);
+        //arrowHeading.Position = CursorPosition.Copy().MoveToward(headingPos, measureDistance*2 );
+        arrowHeading.Position = CursorPosition.Copy().AimTo(headingPos);
+        labelHeading.Position = headingPos.Copy();
+        labelHeading.Position.Altitude = labelHeading.Position.Altitude + measureDistance / 2;
+        arrowHeading.Style.IconColor = colorNormalPositive;
+        if (Math.abs(CursorPosition.Pitch) > alertSlope) {
+            labelHeading.Style.TextColor = colorTextAlert;
+        }
+        else if (Math.abs(CursorPosition.Pitch) > warningSlope) {
+            labelHeading.Style.TextColor= colorTextWarning;
+        } else {
+            labelHeading.Style.TextColor = colorTextNormal;
+        }
+        var headingAltDiff = headingPos.Altitude - CursorPosition.Altitude;
+        if (fromClick)
+            labelHeading.Tooltip.Text = "Heading slope altitude: " + headingPos.Altitude.toFixed(2) + " m AMSL (" + headingAltDiff.toFixed(2) + "m)";
+        if (CursorPosition.Pitch.toFixed(2) > 0 )
+            labelHeading.Text = "+" + CursorPosition.Pitch.toFixed(2) + String.fromCharCode(186); //degree sign;
+        else
+            labelHeading.Text = CursorPosition.Pitch.toFixed(2) + String.fromCharCode(186); //degree sign;
+    }
+
+    // Coordinate information
+    if (gDisplayCoordinateInfo == 2 || (gDisplayCoordinateInfo == 1 && fromClick)) {
+
+        labelCoordinateInfo.Position = CursorPosition.Copy();
+        labelCoordinateInfo.Position.Altitude = labelCoordinateInfo.Position.Altitude + measureDistance*1;
+        //labelCoordinateInfo.Position.AltitudeType = 0;
+        ///labelHeading.Style.BackgroundColor = colorTextNormal;
+        labelCoordinateInfo.Text = "X: " + CursorPosition.X.toFixed(6) + "\r\nY: " + CursorPosition.Y.toFixed(6) + "\r\nAlt: " + CursorPosition.Altitude.toFixed(2) + " m AMSL ";
+    }
+}
+catch (err) { alert(SGLang.i18n("Text15") + err); Reset(0, 0); } 
+}
+//--------------
+// ClosePopup
+function ClosePopup() {
+    try {
+    SGWorld.Window.RemovePopup(popupMsg);
+    }
+    catch (err) { }
+}
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:00000040MR6E6O1waW4m0DJ..Mg3WwaMJSrvr9RM50IgTTMPWySaeV5yJwR7d72J8nxzJlNrDIcc2OIRrJBwlCJA5o2uXMJJ-->

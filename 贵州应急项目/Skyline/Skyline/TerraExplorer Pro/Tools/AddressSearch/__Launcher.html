@@ -1,0 +1,41 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+</head>
+
+<body  > 
+    <button id="start" onclick="StartStop(1)"> Address Search</button>
+    <button id="Button1" onclick="StartStop(2)">Reverse Address Search</button>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<script language="JavaScript">
+
+var gPopup = null;
+function StartStop(ID) {
+
+    try {
+        if (ID == 1) {
+            gPopup = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("ToolName"), abspath() + "/search.html", 25, 105, 350, 50, -1);
+            SGWorld.Window.ShowPopup(gPopup);
+        }
+        else
+            if (ID == 2) {
+                gPopup = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("ToolNameReserve"), abspath() + "/ReverseSearch.html", 25, 105, 400, 60, -1);
+                SGWorld.Window.ShowPopup(gPopup);
+            }
+        
+        }
+    catch (e) { }
+
+
+    }
+
+</script>
+</body>
+</html>
+  
+
+<!--Sig:00000040CYFPDxqvh1WWWT.s9N9LXA1ljfpat0WpeRCGiKQwZ742khs1V4cu6#8lajEcDFSNHcS1dtl7Yn5oH1EadfY3JiJJ-->

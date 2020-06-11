@@ -1,0 +1,48 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "生产工艺流程图", description = "生产工艺流程")
+public class ProcessFlowChart {
+
+	private String id;
+	private String companyId;
+	@ApiModelProperty(value = "产品名称")
+	private String productName;//主要产品名称
+	private java.sql.Blob technologicalProcess;
+	@ApiModelProperty(value = "年产量")
+	private String annualOutput;//年产量
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public java.sql.Blob getTechnologicalProcess() {
+		return technologicalProcess;
+	}
+	public void setTechnologicalProcess(java.sql.Blob technologicalProcess) {
+		this.technologicalProcess = technologicalProcess;
+	}
+	public String getAnnualOutput() {
+		return annualOutput;
+	}
+	public void setAnnualOutput(String annualOutput) {
+		this.annualOutput = annualOutput;
+	}
+	
+	
+}

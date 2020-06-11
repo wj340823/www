@@ -1,0 +1,73 @@
+---
+  grammer: SQL
+  queries:
+    #根据时间查询排查任务
+    - name: getTaskWarning
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          e.TASKID,date_format(e.STARTTIME,'%Y-%m-%d') AS STARTTIME,date_format(e.ENDTIME,'%Y-%m-%d') AS ENDTIME,
+          e.TASKNAME,e.TASKDETAILS
+        from
+          EnvironmentTask e
+        where
+          1 = 1
+        #if($startTime)
+          and endTime >= :startTime
+        #end
+        #if($endTime)
+          and endTime < :endTime
+        #end
+        order by e.endTime
+        "
+    #查询任务排查详情
+    - name: queryTaskAndDep
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          t.TASKID,t.STATUS,t.FILEPATH,e.DEPARTMENTID,e.NAME,e.TELEPHONE,e.CONTACT
+        from
+          Task_DepartMent t
+        left join
+          EnvironmentDepartMent e
+        on 
+          t.departMentId = e.departMentId
+        where
+          t.taskId = :taskId
+        "
+    #查询任务排查详情
+    - name: queryTask
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          e.TASKID,date_format(e.STARTTIME,'%Y-%m-%d') AS STARTTIME,date_format(e.ENDTIME,'%Y-%m-%d') AS ENDTIME,
+          e.TASKNAME,e.TASKDETAILS
+        from
+          EnvironmentTask e
+        where
+          1 = 1
+        #if($name)
+          and e.TaskName like :name
+        #end
+        order by e.endTime desc       
+        "
+    #根据任务id查询相关内容
+    - name: queryForTaskByID
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          t.ID,t.TASKID
+        from
+          task_department t
+        where
+          t.TASKID = :taskId      
+        "
+   

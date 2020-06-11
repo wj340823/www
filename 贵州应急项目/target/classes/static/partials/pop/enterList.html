@@ -1,0 +1,15 @@
+<!--<div style="width: 200px;height: 400px;background-color: #000" >
+    <ul style="height: 100%; width: 100%;">
+        <li>111</li>
+    </ul>
+</div>-->
+
+
+<div class="materialDetail" ng-class="{true:'scrub'}[scrubEffect]" ng-controller="enterPopCtrl" >
+    <div class="popClose" ng-click="closeStoreLay()" title="关闭"><i class="iconfont icon-guanbi cursor-pointer"></i></div>
+    <div cgs-slim options="{height:'400px',size:'5px',color:'gray'}" style="line-height:30px">
+        <div ng-repeat = 'item in enterList' ng-click="locateSource(item)">{{item.COMPANYNAME}}</div>
+        <div ng-show = 'enterList == 0' class="dangerColor">暂无数据</div>
+    </div>
+
+</div>

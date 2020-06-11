@@ -1,0 +1,148 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+@ApiModel(value = "应急车辆", description = "应急车辆")
+public class EmergencyVehicle {
+
+	private String emergencyVehicleId;
+	@ApiModelProperty(value = "名称")
+	private String name;
+	@ApiModelProperty(value = "车辆类别")
+	private String carClass;
+	@ApiModelProperty(value = "车辆型号")
+	private String carModel;
+	@ApiModelProperty(value = "数量")
+	private String number;
+	@ApiModelProperty(value = "状态")
+	private String status;
+	@ApiModelProperty(value = "车牌号")
+	private String carNumber;
+	@ApiModelProperty(value = "生产厂家")
+	private String manufacturer;
+	@ApiModelProperty(value = "用途")
+	private String application;
+	@ApiModelProperty(value = "载重")
+	private String loadCapacity;
+	@ApiModelProperty(value = "存放地点")
+	private String address;
+	@ApiModelProperty(value = "所在单位")
+	private String theUnit;
+	@ApiModelProperty(value = "负责人")
+	private String manager;
+	@ApiModelProperty(value = "负责人电话")
+	private String managerTelephone;
+	@ApiModelProperty(value = "车辆类型")
+	private String carType;
+	@ApiModelProperty(value = "限载人数")
+	private String loadlimitNumber;
+	
+	private String companyId;
+	
+	
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getEmergencyVehicleId() {
+		return emergencyVehicleId;
+	}
+	public void setEmergencyVehicleId(String emergencyVehicleId) {
+		this.emergencyVehicleId = emergencyVehicleId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCarClass() {
+		return carClass;
+	}
+	public void setCarClass(String carClass) {
+		this.carClass = carClass;
+	}
+	public String getCarNumber() {
+		return carNumber;
+	}
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
+	}
+	public String getCarModel() {
+		return carModel;
+	}
+	public void setCarModel(String carModel) {
+		this.carModel = carModel;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getManufacturer() {
+		return manufacturer;
+	}
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+	public String getApplication() {
+		return application;
+	}
+	public void setApplication(String application) {
+		this.application = application;
+	}
+	public String getLoadCapacity() {
+		return loadCapacity;
+	}
+	public void setLoadCapacity(String loadCapacity) {
+		this.loadCapacity = loadCapacity;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getTheUnit() {
+		return theUnit;
+	}
+	public void setTheUnit(String theUnit) {
+		this.theUnit = theUnit;
+	}
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+	public String getManagerTelephone() {
+		return managerTelephone;
+	}
+	public void setManagerTelephone(String managerTelephone) {
+		this.managerTelephone = managerTelephone;
+	}
+	public String getCarType() {
+		return carType;
+	}
+	public void setCarType(String carType) {
+		this.carType = carType;
+	}
+	public String getLoadlimitNumber() {
+		return loadlimitNumber;
+	}
+	public void setLoadlimitNumber(String loadlimitNumber) {
+		this.loadlimitNumber = loadlimitNumber;
+	}
+	
+}

@@ -1,0 +1,103 @@
+<div class="emergencyPlan" ng-controller="emerPlanCtrl">
+<!--  <div class="tab-task">-->
+<!--    <div class="tab-nav">-->
+<!--      <button class="tab-button" ui-sref="enterpriseHead.emergencyManage" ui-sref-active="active">-->
+<!--        预案管理-->
+<!--      </button>-->
+<!--      <button class="tab-button" ui-sref="enterpriseHead.emergencyStatistics" ui-sref-active="active">-->
+<!--        预案统计-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="table-content">
+    <div class="search-nav" style="margin-top:0">
+<!--      <span>行政区划：</span>-->
+<!--      <select class="span" ng-options='itArea.id as itArea.name for itArea in itAreas' ng-model="exzqyId">-->
+<!--			</select>-->
+<!--      <span>风险级别：</span>-->
+<!--      <select class="span" ng-model="search.level" style="width: 150px;">-->
+<!--        <option value="-1">全部</option>-->
+<!--        <option value="1">一般风险源</option>-->
+<!--        <option value="3">较大风险源</option>-->
+<!--        <option value="2">重大风险源</option>-->
+<!--      </select>-->
+<!--      <span>备案状态：</span>-->
+<!--      <select class="span" ng-model="search.recordStatus">-->
+<!--        <option value="-1">全部</option>-->
+<!--        <option value="0">未备案</option>-->
+<!--        <option value="1">已备案</option>-->
+<!--        <option value="2">即将到期</option>-->
+<!--        <option value="3">备案超期</option>-->
+<!--      </select>-->
+<!--      <input ng-model="search.companyName" type="text" placeholder="企业名称" class="span" style="width: 200px">-->
+        <span>备案状态：</span>
+        <input type="radio" ng-model="search.recordStatus" value="0" class="regular-radio" id="radio1"  ng-change="searchUnauditedInfo()"/>
+        <label for="radio1" class="hander"></label>
+        <span style="margin-right: 10px">未备案 </span>
+        <input type="radio" ng-model="search.recordStatus" value="1" class="regular-radio" id="radio2" ng-change="searchAuditedInfo()"/>
+        <label for="radio2" class="hander"></label>
+        <span style="margin-right: 10px">已备案</span>
+        <button class="searchBtn" style="margin-left: 20px" ui-sref="enterpriseHead.addemergency">
+          <i class="iconfont icon-tianjia"></i> 新增
+        </button>
+    </div>
+    <table style="margin-top: 10px">
+      <thead>
+            <tr>
+              <th>序号</th>
+              <th>企业名称</th>
+              <th>风险级别</th>
+              <th>备案时间</th>
+              <th>审核状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="detail in page.list.dataList">
+              <td ng-bind="$index+1">1</td>
+              <td> {{ detail.COMPANYNAME }} </td>
+              <td> {{ detail.RISKGRADE=="重大"?'重大风险源': detail.RISKGRADE=="较大"?'较大风险源':detail.RISKGRADE=="一般"?'一般风险源':''}} </td>
+              <td> {{ detail.RECORDTIME | date:'yyyy-MM-dd'}} </td>
+              <td ng-class="detail.RECORDSTATUS==3?'dangerColor':detail.RECORDSTATUS==1?'finishColor':detail.RECORDSTATUS==2?
+                  'warning':''"> {{ detail.RECORDSTATUS==3?'驳回':detail.RECORDSTATUS==2?'审核中':detail.RECORDSTATUS==1?'已完成':
+                detail.RECORDSTATUS==0?'未备案':'未备案'}} </td>
+              <td ui-sref-active="active" ui-sref="enterpriseHead.emergencyDetail({ID:detail.ID, RECORDTIME:detail.RECORDTIME, COMPANYNAME:detail.COMPANYNAME, RECORDSTATUS:detail.RECORDSTATUS, LEVEL:detail.LEVEL, UNDERSIGNED:detail.UNDERSIGNED})">
+                <span class="hander oper">详情</span>
+              </td>
+            </tr>
+<!--      <thead>-->
+<!--        <tr>-->
+<!--          <th>序号</th>-->
+<!--          <th>备案状态</th>-->
+<!--          <th>行政区划</th>-->
+<!--          <th>企业名称</th>-->
+<!--          <th>风险级别</th>-->
+<!--          <th>备案日期</th>-->
+<!--          <th>操作</th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--        <tr ng-repeat="detail in page.list.dataList">-->
+<!--          <td ng-bind="$index+1">1</td>-->
+<!--          <td ng-class="detail.RECORDSTATUS==3?'dangerColor':detail.RECORDSTATUS==1?'finishColor':detail.RECORDSTATUS==2?-->
+<!--              'warning':''"> {{ detail.RECORDSTATUS==3?'备案超期':detail.RECORDSTATUS==2?'即将到期':detail.RECORDSTATUS==1?'已备案':-->
+<!--							detail.RECORDSTATUS==0?'未备案':'未备案'}} </td>-->
+<!--          <td> {{ detail.NAME }} </td>-->
+<!--          <td> {{ detail.COMPANYNAME }} </td>-->
+<!--          <td> {{ detail.RISKGRADE=="重大"?'重大风险源': detail.RISKGRADE=="较大"?'较大风险源':detail.RISKGRADE=="一般"?'一般风险源':''}} </td>-->
+<!--          <td> {{ detail.RECORDTIME | date:'yyyy-MM-dd'}} </td>-->
+<!--          <td ui-sref-active="active" ui-sref="enterpriseHead.emergencyDetail({ID:detail.ID, RECORDTIME:detail.RECORDTIME, COMPANYNAME:detail.COMPANYNAME, RECORDSTATUS:detail.RECORDSTATUS, LEVEL:detail.LEVEL, UNDERSIGNED:detail.UNDERSIGNED})">-->
+<!--            <span class="hander oper">详情</span>-->
+<!--          </td>-->
+<!--        </tr>-->
+      </tbody>
+    </table>
+      <div class="loader" ng-include="partials/pop/load.html"></div>
+    <uib-pagination ng-change="getManageDetail()" total-items="page.totalCount" items-per-page="page.pageSize" ng-model="page.currentPage" class="pagination" boundary-link-numbers="true" direction-links="false" rotate="false" max-size="3" first-text="首页"
+      last-text="末页">
+    </uib-pagination>
+    <div class="clearfix">
+    </div>
+  </div>
+
+</div>

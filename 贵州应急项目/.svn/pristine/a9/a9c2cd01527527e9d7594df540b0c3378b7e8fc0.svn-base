@@ -1,0 +1,22 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.ResourceBundle;
+
+//配置文件读取类
+public final class ConfigReadUtil {
+
+	/**
+	 * 读取resource包下面的配置文件
+	 * @param fileName  例如locus.properties只需输入locus
+	 * @param key
+	 * @return  key的值
+	 */
+	public static String readProperty(String fileName,String key){
+		ResourceBundle rb = ResourceBundle.getBundle(fileName);
+		String value = rb.getString(key);
+		return value;
+	}
+}

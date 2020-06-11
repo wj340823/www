@@ -1,0 +1,727 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="img/ViewshedQueryIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+        <tr class='TableOtherLine'>
+            <td class="s8b">
+                <label for="createAs"  class="i18n">Text0</label>
+            </td>
+            <td align="left">
+                &nbsp;<select id="createAs" >
+                    <option class="i18n" value="Layer" >Text2</option>
+                    <option class="i18n" value="LayerStreaming" selected="selected">Text3</option>
+                </select>
+            </td>     
+        </tr>
+        <tr > <!--Select Viewshed -->
+            <td class="s8b">
+                <label for="createAs"  class="i18n">Text5</label>
+            </td>
+            <td align="left">
+<!--          DO NOT REMOVE THE FOCUS CALL IN THE LIST BELOW!!
+              This focus call  minimize the effect of a very strange bug. When you select an entry from the Viewshed list, click on the terrain and then ctrl-click on other list entry the HTML list control do not really recieve this additional selection (although you do see the new line highlighted).
+-->
+                &nbsp;<select id="ViewshedID" multiple="multiple" ondblclick="flyToViewshed();" onmouseover="this.focus()" style="width:100%;" >
+                </select><br />
+                <span  class="i18n" style="text-decoration:underline;cursor:pointer;" onclick="RefreshViewshedList();">Text37</span>
+<!--                <span style="margin-left:40px;"></span>
+                <span  class="i18n" style="text-decoration:underline;cursor:pointer;" onclick="SelectInView();">Text42</span>
+-->            </td>     
+        </tr>
+        <tr class='TableOtherLine'> <!--Out of rane points -->
+            <td class="s8b">
+                <label for="createAs"  class="i18n">Text6</label>
+            </td>
+            <td align="left">
+                &nbsp;<select id="OutOfRangeID" >
+                    <option class="i18n" value="true" >Text7</option>
+                    <option class="i18n" value="false" selected="selected">Text8</option>
+                </select>
+            </td>     
+        </tr>
+        <tr > <!--Color Scheme -->
+            <td class="s8b">
+                <label for="createAs"  class="i18n">Text14</label>
+            </td>
+            <td align="left">
+                &nbsp;<select id="ColorSchemeID" >
+                    <option class="i18n" value="0" >Text15</option>
+                    <option class="i18n" value="1" selected="selected">Text16</option>
+                </select>
+            </td>     
+        </tr>
+        <tr class='TableOtherLine'> <!-- Distance between points-->
+            <td class="s8b ">
+                <span id="DistanceText" class="i18n">Text9</span>
+            </td>
+            <td align="left">
+                &nbsp;<input id="distance" type="text" value="20" size="7" onchange="CheckNumberEx(distance,10,0.01,999999)" />
+                <span class="i18n">Text10</span>
+            </td>
+        </tr>
+        <tr > <!-- Min Altitude above ground-->
+            <td class="s8b ">
+                <span id="Span1" class="i18n">Text11</span>
+            </td>
+            <td align="left">
+                &nbsp;<input id="minAltitude" type="text" value="1.8" size="7" onchange="CheckNumberEx(minAltitude,1.8,0.01,999999)">
+                <span class="i18n">Text10</span>
+            </td>
+        </tr>
+        <tr class='TableOtherLine'> <!-- max Altitude above ground-->
+            <td class="s8b ">
+                <span id="Span2" class="i18n">Text12</span>
+            </td>
+            <td align="left">
+                &nbsp;<input id="maxAltitude" type="text" value="1.8" size="7" onchange="CheckNumberEx(maxAltitude,1.8,0.01,999999)">
+                <span class="i18n">Text10</span>
+            </td>
+        </tr>
+ 
+ 
+    </table>
+        <tr class="s8">
+            <td colspan="2" align="center"  class="ToolButtonsArea">
+                <button id="lineButton" class="MenuButton" onclick="CreateObjects(1);">               <img src="../commonimg/polyline.png" /><br />         <span class="i18n">Text33</span></button>
+                <button id="areaButton" class="MenuButton"  onclick="CreateObjects(2);"><img src="../commonimg/polygon.png" /><br /><span class="i18n">Text34</span></button>
+                <button id="groupButton" class="MenuButton" onclick="SelectGroupObjects()"><img src="../commonimg/group.png" /><br /><span class="i18n">Text35</span></button>
+                <button id="clipboardButton" class="MenuButton" onclick="SelectClipboardObjects()"><img src="../commonimg/Clipboard.png" /><br /><span class="i18n">Text36</span></button>
+                <button id="ViewshedButton" class="MenuButton MenuButtonLast" onclick="SelectViewshedObjects()"><img src="img/ViewshedIcon.png" /><br /><span class="i18n">Text38</span></button>
+            </td>
+        </tr>
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+
+<script language="JavaScript">
+
+
+//** this is a global variables for the polyline/polygon drawings
+var gPolyObj =null;
+var gPolyMethod;
+var gPolygonText = SGLang.i18n("Text35");
+var gPolylineText = SGLang.i18n("Text36");
+var gDrawPolyClick = null;
+var gEndDrawPoly = DrawPoly;
+//**
+
+var PointLayer;
+var gPositionsArray = [];
+var gVisibleArray = [];
+var gPointsIndex = 0;
+var gViewshedIndex = 0;
+var gVisibilityDistance;
+
+var bInEdit;
+var bFirstTime;
+var gStartDate;
+var gEndDate;
+var gForceOutOfRange;
+///var gTotalHours;
+
+//--------------
+// Init
+function Init() {
+    if (GetParamValue("inSG", "") == "1") {
+        $("#TopAreaTD").attr("height", "57");
+        $("#TitleTD").attr("align", "left");
+        $("#CloseHelpTd").attr("display", "none");
+    }
+    gDrawPolyAltitudeType = 3; // draw lines and polygon as absolute lines
+    RefreshViewshedList();
+}
+//-------------------
+// RefreshViewshedList
+function RefreshViewshedList() {
+    $("#ViewshedID").html("");
+    BuildViewshedList(SGWorld.ProjectTree.RootID);
+}
+//-------------------
+// BuildViewshedList
+function BuildViewshedList(parentNode) {
+
+    try {
+        var node = SGWorld.ProjectTree.GetNextItem(parentNode, 11);
+        while (node != "") {
+
+            if (SGWorld.ProjectTree.IsGroup(node))
+                BuildViewshedList(node);
+
+            else if (SGWorld.ProjectTree.IsLayer(node) ) {
+            }
+            else {
+                var a = SGWorld.ProjectTree.GetItemName(node);
+                var Object = SGWorld.Creator.GetObject(node);
+                if (Object != null) {
+                    if (Object.ObjectType == 41)
+                        AddViewshedToList(Object);
+                }
+            }
+            node = SGWorld.ProjectTree.GetNextItem(node, 13);
+        }
+    }
+    catch (err) { }
+}
+//---------------
+// AddViewshedToList
+function AddViewshedToList(Object) {
+    $("#ViewshedID").append("<option value="+Object.ID+">"+Object.TreeItem.Name+"</option>");
+}
+//------------------
+// Reset
+//------------------
+function Reset(FirstTime, FromMouseInputMode) {
+
+    try {
+        if (gPolyObj != null)
+            SGWorld.Creator.DeleteObject(gPolyObj.ID);
+    } catch (e) { }
+
+    if (gPointsIndex > 0) {
+        if (AnalyzePoints())
+            DrawPoints();
+    }
+
+    if (PointLayer != null)
+    {
+        PointLayer.Save();
+    }
+    gPolyObj = null;
+    GroupID = null;
+    PointLayer = null;
+    gForceOutOfRange = false;
+    gPointsIndex = 0;
+    gViewshedIndex = 0;
+    gPositionsArray = [];
+    gVisibleArray = [];
+    gVisibilityDistance = 4000;
+
+    $("#lineButton").removeClass("MenuButtonHighlight");
+    $("#areaButton").removeClass("MenuButtonHighlight");
+    $("#groupButton").removeClass("MenuButtonHighlight");
+    $("#clipboardButton").removeClass("MenuButtonHighlight");
+    $("#ViewshedButton").removeClass("MenuButtonHighlight");
+
+    SGWorld.ProjectTree.EnableRedraw(1);
+    SGWorld.Window.HideMessageBarText();
+
+    if (bInEdit) {
+        SGWorld.DetachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.DetachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.DetachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.DetachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+    }
+    bInEdit = false;
+
+    if (FirstTime != 1 && FromMouseInputMode == 0)
+        SGWorld.Window.SetInputMode(0);
+}
+
+//--------------
+// CreateObjects
+//--------------
+function CreateObjects(method) {
+    if (!bInEdit) {
+        bInEdit = true;
+        SGWorld.AttachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.AttachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.AttachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.AttachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+
+
+        gPolyMethod = method;
+        SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur");
+        SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text17"));
+        $(event.srcElement).addClass("MenuButtonHighlight");
+
+    }
+    else {
+        DrawPolyRButtonUp(0, 0, 0, 0);
+    }
+}
+//-----------
+// SelectGroupObjects
+function SelectGroupObjects() {
+    var node = SGWorld.ProjectTree.GetNextItem("", 10);
+    if (node == 0 || !(SGWorld.ProjectTree.IsGroup(node) || SGWorld.ProjectTree.IsLayer(node))) {
+        alert(SGLang.i18n("Text24"));
+        return;
+    }
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text19"));
+
+    searchGeometries2(node, DrawPoly);
+
+    Reset(0, 0);
+}
+//-----------
+// SelectClipboardObjects
+function SelectClipboardObjects() {
+    //debugger
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text19"), -1);
+
+    searchGeometriesClipboard(DrawPoly);
+
+    Reset(0, 0);
+} //-----------
+// SelectViewshedObjects
+function SelectViewshedObjects() {
+
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text19"), -1);
+    gForceOutOfRange = true;
+
+    //try{
+    $("#ViewshedID option:selected").each(function () {
+        var viewshedObj = SGWorld.Creator.GetObject($(this).val());
+        var centerPoint = viewshedObj.Position;
+
+        if (viewshedObj.FieldOfViewX == 360) // Spherical
+        {
+            var sqrDist = viewshedObj.Distance * Math.sqrt(2) ;
+            var Point1 = centerPoint.Move(sqrDist, 45, centerPoint.Pitch);
+            var Point2 = centerPoint.Move(sqrDist, 135, centerPoint.Pitch);
+            var Point3 = centerPoint.Move(sqrDist, 225, centerPoint.Pitch);
+            var Point4 = centerPoint.Move(sqrDist, 315, centerPoint.Pitch);
+            var verticesArray = [Point1.X, Point1.Y, 0, Point2.X, Point2.Y, 0, Point3.X, Point3.Y, 0, Point4.X, Point4.Y, 0];
+        }
+        else {
+            var rightPoint = centerPoint.Move(viewshedObj.Distance / Math.cos(viewshedObj.FieldOfViewX * Math.PI / 360), centerPoint.Yaw - viewshedObj.FieldOfViewX / 2, centerPoint.Pitch);
+            var leftPoint = centerPoint.Move(viewshedObj.Distance / Math.cos(viewshedObj.FieldOfViewX * Math.PI / 360), centerPoint.Yaw + viewshedObj.FieldOfViewX / 2, centerPoint.Pitch);
+            var verticesArray = [centerPoint.X, centerPoint.Y, 0, rightPoint.X, rightPoint.Y, 0, leftPoint.X, leftPoint.Y, 0];
+        }
+        var tmpPolygon = SGWorld.Creator.CreatePolygonFromArray(verticesArray, 0, 0, 0, SGWorld.ProjectTree.HiddenGroupID, "");
+        DrawPoly(tmpPolygon.Geometry, 2, 2);
+        SGWorld.ProjectTree.DeleteItem(tmpPolygon.ID);
+    });
+      //  }
+      //  catch(err)
+      //  {
+      //      alert(SGLang.i18n("Text26"));
+      //      return false;
+      //  }
+
+    Reset(0, 0);
+}
+
+//-------------
+// DrawPoly
+function DrawPoly(geometry, type, altitudeType) {
+
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text19"));
+    SGWorld.ProjectTree.EnableRedraw(0);
+
+    if (!ValidateInput())
+        return false;
+
+    if (type == 1) {
+        if (!DrawOnPolyline(geometry, type, altitudeType))
+            return false;
+    }
+    else if (type == 2)
+    {
+        if (!DrawOnPolygon(geometry, type, altitudeType))
+            return false;
+    }
+    else // Selected points
+    {
+        var tmpCoord = geometry.Copy(); // to avoid changes in the CurrCoord value in the DrawObject function
+        AddPoint(tmpCoord);
+
+    }
+
+
+    return true;
+
+}
+//----
+// DrawOnPolyline
+function DrawOnPolyline(polylineGeometry, type, altitudeType) {
+    var lastCoord;
+    var currCoord;
+    var tmpCoord;
+    var SegmentLength;
+    var lastSegmentLenght;
+    var distance = validateNumber($("#distance").attr("value"));
+    var LeftOver = 0;
+    var totlaDistance = 0;
+
+    for (var k = 1; k < polylineGeometry.Points.count; k++)   // calculate total distance
+    {
+        lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(k - 1).X, polylineGeometry.Points.Item(k - 1).Y, polylineGeometry.Points.Item(k - 1).Z, altitudeType);
+        currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(k).X, polylineGeometry.Points.Item(k).Y, polylineGeometry.Points.Item(k).Z, altitudeType);
+        totlaDistance += lastCoord.DistanceTo(currCoord);
+    }
+    
+    var firstSegment = true;
+    for (var i = 1; i < polylineGeometry.Points.count; i++) {
+        lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i - 1).X, polylineGeometry.Points.Item(i - 1).Y, polylineGeometry.Points.Item(i - 1).Z, altitudeType);
+        currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, polylineGeometry.Points.Item(i).Z, altitudeType);
+
+        lastCoord.yaw = lastCoord.AimTo(currCoord).yaw;
+        lastCoord = lastCoord.MoveToward(currCoord, -LeftOver);
+
+        if (firstSegment) {
+            tmpCoord = lastCoord.Copy();
+            if (AddToPointsList(tmpCoord) == false)
+                return false;
+        }
+        SegmentLength = lastCoord.DistanceTo(currCoord);
+        lastSegmentLenght = SegmentLength;
+
+        while (SegmentLength >= distance && lastSegmentLenght >= SegmentLength) {
+            lastSegmentLenght = SegmentLength;
+            lastCoord = lastCoord.MoveToward(currCoord, distance);
+            tmpCoord = lastCoord.Copy();
+            if (AddToPointsList(tmpCoord) == false)
+                return false;
+            SegmentLength = lastCoord.DistanceTo(currCoord);
+        }
+
+        LeftOver = SegmentLength;
+ 
+        firstSegment = false;
+    }
+
+    // fix for bug #14439
+    //Restore3DModelToGroundObject();
+    return true;
+}
+//-----------
+// DrawOnPolygon
+function DrawOnPolygon(polygonGeometry, type, altitudeType) {
+    var envelope = polygonGeometry.Envelope; // Multi polygon evnelope (min/max)
+
+
+    //// var pos = SGWorld.Navigate.GetPosition();
+    CreateTheObjects = true;
+    var MinX = Math.min(envelope.Rings(0).Points(0).x, envelope.Rings(0).Points(2).x);
+    var MaxX = Math.max(envelope.Rings(0).Points(0).x, envelope.Rings(0).Points(2).x);
+    var MinY = Math.min(envelope.Rings(0).Points(0).y, envelope.Rings(0).Points(2).y);
+    var MaxY = Math.max(envelope.Rings(0).Points(0).y, envelope.Rings(0).Points(2).y);
+
+    var XDist = SGWorld.CoordServices.GetDistance(MinX, MinY, MaxX, MinY);
+    var YDist = SGWorld.CoordServices.GetDistance(MinX, MinY, MinX, MaxY);
+    var distanceVal = validateNumber($("#distance").attr("value"));
+
+        ////        var currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, 0, 0, pos.yaw);
+        // Find the first point altitude
+        var currCoord;
+        switch (polygonGeometry.GeometryType) {
+            case 3: // ipolygon
+                currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, polygonGeometry.Rings(0).Points.Item(0).Z, altitudeType, 0);
+                break;
+            case 6: // imultipolygon
+                currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, polygonGeometry.Item(0).Rings(0).Points.Item(0).Z, altitudeType, 0);
+                break;
+        }
+
+        var currCoordAlt = currCoord.Altitude;
+
+        while (currCoord.x < MaxX) {
+            currCoord.y = MinY;
+            while (currCoord.y < MaxY) {
+                var pointGeometry = SGWorld.Creator.GeometryCreator.CreatePointGeometry([currCoord.x, currCoord.y, 0]);
+                if (polygonGeometry.SpatialRelation.Intersects(pointGeometry)) {
+                    var tmpCoord = currCoord.Copy(); // to avoid changes in the CurrCoord value in the DrawObject function
+                    if (AddToPointsList(tmpCoord) == false)
+                        return false;
+                }
+                currCoord = currCoord.Move(distanceVal, 0, 0);
+                currCoord.Altitude = currCoordAlt;
+            }
+            currCoord = currCoord.Move(distanceVal, 90, 0);
+            currCoord.Altitude = currCoordAlt;
+        }
+
+    return true;
+}
+//------------
+//  AddToPointsList
+function AddToPointsList(position) {
+    var minAltitude = validateNumber($("#minAltitude").val());
+    var maxAltitude = validateNumber($("#maxAltitude").val());
+    var distanceVal = validateNumber($("#distance").attr("value"));
+
+    position.AltitudeType = 3;
+    var groundAltitude = SGWorld.Terrain.GetGroundHeightInfo(position.X, position.Y, 2, true).Position.Altitude;  // including buildings
+    for (var currAltitude = minAltitude; currAltitude <= maxAltitude; currAltitude += distanceVal) {
+        position.Altitude = groundAltitude + currAltitude;
+        AddPoint(position);
+    }
+
+    var posNew;
+    var neighborAltitude;
+    var altitudeDiff = -1;
+    var found = false;
+    for (var yaw = 270; yaw >= 0; yaw -= 90) {
+        posNew = position.Copy();
+        posNew = posNew.Move(distanceVal, yaw, 0);
+        neighborAltitude = SGWorld.Terrain.GetGroundHeightInfo(posNew.X, posNew.Y, 0, true).Position.Altitude;  // including buildings
+        altitudeDiff = Math.max(altitudeDiff, neighborAltitude - groundAltitude);
+    }
+
+    if (altitudeDiff > distanceVal * 2)
+        for (var currAltitude = minAltitude + distanceVal; currAltitude <= maxAltitude + altitudeDiff; currAltitude += distanceVal) {
+            position.Altitude = groundAltitude + currAltitude;
+            AddPoint(position);
+        }
+}
+
+//-------------
+// AddPoint
+function AddPoint(pos) {
+    var position1 = pos.ToAbsolute(0);
+    gPositionsArray[gPointsIndex] = position1;
+    gVisibleArray[gPointsIndex] = -1;
+    gPointsIndex += 1;
+}
+//------------
+//  AnalyzePoints
+function AnalyzePoints() {
+
+    var PointVisible = 0;
+    var foundPointInRange = false;
+
+    var viewshedID ;
+
+///     alert ( $("#ViewshedID option:selected").length);
+    var totalPoints = gPointsIndex;
+    var CreateTheObjects = true;
+    if (totalPoints > 10000)
+        CreateTheObjects = confirm(SGLang.i18n("Text20") + totalPoints + SGLang.i18n("Text21"));
+    if (!CreateTheObjects)
+        return false;
+
+    try{
+        $("#ViewshedID option:selected").each(function () {
+            viewshedID = ($(this).val());
+
+            SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text22") + SGWorld.ProjectTree.GetItemName(viewshedID), -1);
+            SGWorld.Analysis.StartViewshedVisibilityQuery(viewshedID);
+
+            for (var i = 0; i < gPointsIndex; i++) {
+                try {
+                    PointVisible = AnalyzePoint(gPositionsArray[i]); // Returns 1 for visible , 0 for unvisiblr and -1 if not in range
+                    if (PointVisible > -1) // not out of range
+                    {
+                        gVisibleArray[i] = Math.max(gVisibleArray[i] , 0);
+                        gVisibleArray[i] += PointVisible;
+                    }
+                }
+                catch (err) {  }
+            }
+
+            // Release viewshed buffer
+            SGWorld.Analysis.EndVisibilityQuery();
+
+            gViewshedIndex++;
+        });
+
+    }
+    catch (err) {
+            alert (SGLang.i18n("Text26"));
+            return false;
+    }
+/**
+    if (!foundPointInRange) 
+    {
+        alert(SGLang.i18n("Text29"));
+        return false;
+    }
+***/
+    return true;
+}
+
+
+//------------
+//  DrawPoints
+function DrawPoints() {
+    for (var i = 0; i < gPointsIndex; i++) {
+        DrawObject(gPositionsArray[i],i);
+    }
+    return true;
+}
+
+//---------
+// DrawObject
+function DrawObject(position, index) {
+    var node;
+    var TEObj;
+    var ObjType = "ImageLabel";
+    var distance = validateNumber($("#distance").attr("value"));
+    var size = distance / 100;
+    
+    var noiseVal = 0;
+    var createAs = $("#createAs").val();
+    var ignoreOutOfRange = $("#OutOfRangeID").val();
+    var colorScheme = $("#ColorSchemeID").val();
+    
+    var PointVisible;
+
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text31") + " " + index, -1);
+
+    var VisibleValue = gVisibleArray[index];
+    var VisibleRatio = (gVisibleArray[index] / gViewshedIndex) * 100;
+
+    if (VisibleValue < 0 && (ignoreOutOfRange == "true" || gForceOutOfRange))  // point outside the Viewshed range
+       return true;
+    VisibleValue = Math.max(VisibleValue, 0);
+    var IconColor = 0; // red + green * 256 + blue * 65536;
+    if (colorScheme == 0) {
+        if (VisibleRatio < 1)
+            IconColor = 255 + 0 * 256 + 0 * 65536; // red
+        else
+            IconColor = 0 + 255 * 256 + 0 * 65536; // green
+    }
+    else {
+        if (VisibleRatio < 1)
+            IconColor = 255 + 0 * 256 + 0 * 65536; // red
+        else if (VisibleRatio < 50)
+            IconColor = 244 + 167 * 256 + 68 * 65536; // orange
+        else if (VisibleRatio < 80)
+            IconColor = 255 + 255 * 256 + 0 * 65536; // yellow
+        else
+            IconColor = 0 + 255 * 256 + 0 * 65536; // green
+    }
+    if (PointLayer == null) 
+    {
+        CreateGroupOrLayer();
+
+        // style the feature group
+        if (featureLayerStyles[ObjType] != null) 
+        {
+            var result = featureLayerStyles[ObjType](size, abspath() + "/img/point.gif","[IconColor]");
+            if (result === false)
+                return false;
+        }
+    }
+
+    PointLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], gViewshedIndex + ";" + VisibleValue + ";" + IconColor);
+
+    return true;
+
+}
+//----------
+//    CreateGroupOrLayer
+function CreateGroupOrLayer() {
+
+    var distance = 10;
+    distance =  validateNumber($("#distance").attr("value"));
+        if (PointLayer == null) {
+            var postfix = new Date().getTime();
+            PointLayer = SGWorld.Creator.CreateNewFeatureLayer(SGLang.i18n("Text13"), LayerGeometryType.LGT_POINT, "FileName=ViewshedQuery" + postfix + ".shp;TEPlugName=OGR;", "");
+            PointLayer.Streaming = $("#createAs").val() == "LayerStreaming";
+            PointLayer.BlockWidth = distance*60;
+            PointLayer.Refresh();
+            //PointLayer.DataSourceInfo.Attributes.CreateAttribute("EndDate", 0, 40, 0);
+            ////PointLayer.DataSourceInfo.Attributes.CreateAttribute("LightHrs", 1, 20, 0);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute(SGLang.i18n("Text39"), 1, 20, 0);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute(SGLang.i18n("Text40"), 1, 20, 0);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute(SGLang.i18n("Text41"), 1, 20, 0);
+            PointLayer.DataSourceInfo.Attributes.ImportAll = true;
+            PointLayer.Visibility.MaxVisibilityDistance = gVisibilityDistance;
+            // style the feature group
+            PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_LABEL;
+
+        }  
+ 
+}
+var featureLayerStyles = {
+
+    "ImageLabel": function (size, param, param2) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_IMAGE_LABEL;
+        PointLayer.FeatureGroups.Point.SetProperty("Image file", param)
+        PointLayer.FeatureGroups.Point.SetProperty("Image Color", param2)
+        PointLayer.FeatureGroups.Point.SetProperty("Scale", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Altitude Method", 1);
+        PointLayer.FeatureGroups.Point.SetProperty("Limit growth", true);
+        PointLayer.FeatureGroups.Point.SetProperty("Tool Tip", SGLang.i18n("Text40") + ": [" + SGLang.i18n("Text40") + "]");
+    }
+   
+}
+
+//----
+// AnalyzePoint
+function AnalyzePoint(position) {
+   // try {
+    var a = SGWorld.Analysis.QueryPointVisibility(position);
+    return a;
+      //  }
+     //   catch (err) {alert (err);return -1;}
+}
+
+//---------------
+// flyToViewshed
+function flyToViewshed() 
+{
+    $("#ViewshedID option:selected").each(function () {
+        var viewshedID = ($(this).val());
+        SGWorld.Navigate.FlyTo (viewshedID,10);
+    });
+}
+//---------------
+// ValidateInput
+function ValidateInput() {
+
+    if ($("#ViewshedID").val() == null ) {
+        alert(SGLang.i18n("Text30"));
+        return false;
+/**        
+        RefreshViewshedList();
+        if ($("#ViewshedID").val() == null ) {
+            alert(SGLang.i18n("Text28"));
+            return false;
+        }
+**/
+    }
+    return true;
+}
+//--------------
+// CheckNumberEx
+function CheckNumberEx(field, defVal, MinNum, MaxNum) {
+    try {
+        field.value = validateNumber(field.value);
+
+        if (field.value < MinNum)
+            field.value = MinNum;
+        if (field.value > MaxNum)
+            field.value = MaxNum;
+    }
+    catch (e) { field.value = defVal }
+}
+
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:00000040UJUOmviCjdjFK8CpUird2IcaiSQt36yXPDPuw4oY6iVFin1DX03Ovk0bD3NP6Nddl693eT2wtMhnyawyvIqSXEJJ-->

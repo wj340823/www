@@ -1,0 +1,43 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public final class Date2String {
+	DateFormat format= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");        
+	String str = null;                 
+	           
+	// String转Date 
+	public Date StringToDate(String str) throws ParseException{
+		if(str==null){
+			return null;
+		}else{
+			Date date = format.parse(str);
+	        return date;
+		}
+				
+	 }
+	
+	/**
+	 * 返回date时间的前beforeDays天日期
+	 * @param date  指定时间
+	 * @param beforeDays  往前推几天
+	 * @return
+	 */
+	public static String []  getDatePeriod(Date date, int beforeDays) {
+		String [] dateArray = new String[beforeDays];
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int inputDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+		for(int i=0;i<beforeDays;i++){
+			cal.set(Calendar.DAY_OF_YEAR, inputDayOfYear - beforeDays+i);
+			dateArray[i]= dateFormat.format(cal.getTime());
+		}
+		return dateArray;
+	}
+
+}

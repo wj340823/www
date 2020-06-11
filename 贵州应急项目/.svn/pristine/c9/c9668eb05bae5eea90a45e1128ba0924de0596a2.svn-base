@@ -1,0 +1,394 @@
+package com.sucsoft.gzhbyjwz.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import com.sucsoft.gzhbyjwz.bean.dc12.*;
+import com.sucsoft.gzhbyjwz.service.RiverService;
+import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.sucsoft.gzhbyjwz.bean.common.ResultBean;
+import com.sucsoft.gzhbyjwz.bean.common.TempData;
+import com.sucsoft.gzhbyjwz.service.risksource.RiskSourceService;
+
+@RestController
+@RequestMapping("/riskSource")
+@Api(value="RiskSourceController",description="风险源模块")
+public class RiskSourceController {
+
+	@Autowired
+	private RiskSourceService riskSourceService;
+	@Autowired
+	private RiverService riverService;
+	@Autowired
+	private TempData tempData;
+
+	public static String topLevelId = "-1";
+	
+	@ApiOperation(value = "风险源排行",notes = "风险源数量排行", httpMethod = "GET")
+	@RequestMapping(value="/numberRanking",method=RequestMethod.GET)
+	public List<Map> numberRanking() throws Exception{
+//		if (tempData.getMap().isEmpty()) {
+//			return riskSourceService.numberRanking();
+//		}else {
+//			return (List<Map>) tempData.getMap().get("numberRanking");
+//		}
+		return riskSourceService.numberRanking();
+	}
+	
+	@ApiOperation(httpMethod="GET",value="风险源风险等级占比",notes="风险源风险级别占比")
+	@RequestMapping(value="/riskgradeRanking",method=RequestMethod.GET)
+	public List<Map> riskgradeRanking() throws Exception{
+//		if (tempData.getMap().isEmpty()) {
+//			return riskSourceService.numberRanking();
+//		}else {
+//			return (List<Map>) tempData.getMap().get("riskgradeRanking");
+//		}
+		return riskSourceService.riskgradeRanking();
+	}
+
+	@ApiOperation(httpMethod="GET",value="风险源区域占比",notes="风险源区域占比")
+	@RequestMapping(value="/countEnterpriseByXzqy",method=RequestMethod.GET)
+	public Object countEnterpriseByXzqy(String riskGrade) throws Exception{
+
+		return riskSourceService.countEnterpriseByXzqy(riskGrade);
+	}
+	
+    @ApiOperation(value = "风险源查询",notes = "根据行政区,风险源名称关键字查询风险源", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "xzqyId",paramType = "query",value = "行政区域id"),
+            @ApiImplicitParam(name = "keyword",paramType = "query",value = "名称关键字"),
+			@ApiImplicitParam(name = "riskGrade",paramType = "query",value = "风险级别"),
+			@ApiImplicitParam(name = "riverId",paramType = "query",value = "河流Id")
+    })
+    @RequestMapping(value="/listRiskSouce",method=RequestMethod.GET)
+	public List<Map> listRiskSouce(String xzqyId,String keyword,String riverId,String riskGrade) throws Exception{
+		if (xzqyId!=null && topLevelId.equals(xzqyId)){
+			xzqyId = null;
+		}
+
+		return riskSourceService.listRiskSouce(xzqyId,keyword,riverId,riskGrade);
+	}
+
+
+	@ApiOperation(value = "风险源查询",notes = "根据行政区,风险源名称关键字查询风险源", httpMethod = "GET")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "xzqyId",paramType = "query",value = "行政区域id"),
+			@ApiImplicitParam(name = "keyword",paramType = "query",value = "名称关键字"),
+			@ApiImplicitParam(name = "riskGrade",paramType = "query",value = "风险级别"),
+			@ApiImplicitParam(name = "riverId",paramType = "query",value = "河流Id")
+	})
+	@RequestMapping(value="/listRiskSoucePage",method=RequestMethod.GET)
+	public Page listRiskSouce1(String xzqyId,String keyword,String riverId,String riskGrade,Integer pageNo,Integer pageSize) throws Exception{
+		if (xzqyId!=null && topLevelId.equals(xzqyId)){
+			xzqyId = null;
+		}
+
+		return riskSourceService.listRiskSoucepage(xzqyId,keyword,riverId,riskGrade,pageNo,pageSize);
+	}
+
+	@ApiOperation(httpMethod="GET",value="企业风险源概况查询",notes="根据风险源id查询企业风险源概况")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",value = "企业风险源id")
+	})
+	@RequestMapping(value="/getCompanyDetails",method=RequestMethod.GET)
+	public EnterpriseInformation getCompanyDetails(String companyId) throws Exception{
+		return riskSourceService.getCompanyDetails(companyId);
+	}
+
+	@ApiOperation(httpMethod="POST",value="企业风险源概况修改",notes="企业风险源概况修改，companyId必填")
+	@RequestMapping(value="/updateCompanyDetails",method=RequestMethod.POST)
+	public Object updateCompanyDetails(@RequestBody EnterpriseInformation enterpriseInformation) throws Exception{
+		return riskSourceService.updateCompanyDetails(enterpriseInformation);
+	}
+    
+	@ApiOperation(httpMethod="GET",value="查询周边风险源",notes="查询周边风险源")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "longitude",paramType = "query",required = true,value = "查询地经度"),
+        @ApiImplicitParam(name = "latitude",paramType = "query",required = true,value = "查询地纬度"),
+        @ApiImplicitParam(name = "distance",paramType = "query",value = "距离单位米")
+	})
+	@RequestMapping(value="/getAroundCompany",method=RequestMethod.GET)
+	public List<Map> getAroundCompany(String longitude,String latitude,String distance) throws Exception{
+		return riskSourceService.getAroundCompany(longitude, latitude, distance);
+	}
+	
+	 @ApiOperation(value = "生产工艺流程图导入",httpMethod = "POST",notes = "生产工艺流程图导入")
+	 @ApiImplicitParams({
+         @ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query"),
+         @ApiImplicitParam(value = "年产量",name = "annualOutput",paramType = "query"),
+         @ApiImplicitParam(value = "产品名称",name = "productName",required = true,paramType = "query")
+	 })
+	 @RequestMapping(value = "/uploadFlowChart",method = RequestMethod.POST)
+	 public ResultBean uploadFlowChart(HttpServletRequest request, MultipartFile file,String companyId,String annualOutput,String productName){
+		 try {
+			 return riskSourceService.uploadFlowChart(request,file,companyId,annualOutput,productName);
+		 } catch (Exception e) {
+			 e.printStackTrace();
+			 return new ResultBean(-1,"导入失败");
+		 }
+	 }
+	 
+	 @ApiOperation(value = "根据风险源id查询其产品工艺流程图",httpMethod = "GET",notes = "查询其工艺流程图")
+	 @ApiImplicitParams({
+         @ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query")
+	 })
+	 @RequestMapping(value = "/getFlowChart",method = RequestMethod.GET)
+	 public List<Map<String,Object>> getFlowChart(String companyId) throws Exception{
+        return riskSourceService.getFlowChart(companyId);
+	 }
+	 
+	@ApiOperation(httpMethod="GET",value="企业主要风险物质查询",notes="根据风险源id查询主要风险物质")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getRiskMaterial",method=RequestMethod.GET)
+	public List<RiskMaterial> getRiskMaterial(String companyId) throws Exception{
+		return riskSourceService.getRiskMaterial(companyId);
+	}
+
+	@ApiOperation(httpMethod="GET",value="企业应急物资查询",notes="根据风险源id查询企业应急物资")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "companyId",paramType = "query",required = false,value = "风险源id 企业id"),
+			@ApiImplicitParam(name = "keywords",paramType = "query",required = false,value = "搜索关键字")
+	})
+	@RequestMapping(value="/downWord",method=RequestMethod.GET)
+	public void downWord(String companyId, String keywords, HttpServletResponse response) throws Exception{
+		riskSourceService.downWord(companyId,keywords,response);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急物资查询",notes="根据风险源id查询企业应急物资")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = false,value = "风险源id 企业id"),
+		@ApiImplicitParam(name = "keywords",paramType = "query",required = false,value = "搜索关键字")
+	})
+	@RequestMapping(value="/getEmergencySubstance",method=RequestMethod.GET)
+	public Page<EmergencySubstance> getEmergencySubstance(String companyId, String keywords,String XZQY,
+														  Integer pageNo,
+														  Integer pageSize) throws Exception{
+		return riskSourceService.getEmergencySubstance(companyId,keywords,XZQY,pageNo,pageSize);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急车辆查询",notes="根据风险源id查询企业应急车辆查询")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyVehicle",method=RequestMethod.GET)
+	public List<EmergencyVehicle> getEmergencyVehicle(String companyId) throws Exception{
+		return riskSourceService.getEmergencyVehicle(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急消防设备查询",notes="根据风险源id查询应急消防设备")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyFireDevice",method=RequestMethod.GET)
+	public List<EmergencyFireDevice> getEmergencyFireDevice(String companyId) throws Exception{
+		return riskSourceService.getEmergencyFireDevice(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急仪器设备查询",notes="根据风险源id查询应急仪器设备")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyApparatus",method=RequestMethod.GET)
+	public List<EmergencyApparatus> getEmergencyApparatus(String companyId) throws Exception{
+		return riskSourceService.getEmergencyApparatus(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="污染源处理设备/存储装置查询",notes="根据风险源id查询污染源处理设备/存储装置")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getProcessEquipment",method=RequestMethod.GET)
+	public List<ProcessEquipment> getProcessEquipment(String companyId) throws Exception{
+		return riskSourceService.getProcessEquipment(companyId);
+	}
+
+	@ApiOperation(httpMethod="GET",value="查询应急人员",notes="根据风险源id查询应急人员")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = false,value = "风险源id 企业id"),
+		@ApiImplicitParam(name = "keywords",paramType = "query",required = false,value = "单位/姓名")
+	})
+	@RequestMapping(value="/getEmergencyCrew",method=RequestMethod.GET)
+	public List<EmergencyCrew> getEmergencyCrew(String companyId,String keywords,String department) throws Exception{
+		return riskSourceService.getEmergencyCrew(companyId,keywords,department);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="查询应急专家",notes="根据风险源id查询应急专家")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencySpecialist",method=RequestMethod.GET)
+	public List<EmergencySpecialist> getEmergencySpecialist(String companyId) throws Exception{
+		return riskSourceService.getEmergencySpecialist(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业联动单位查询",notes="根据风险源id查询联动单位")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getForeignAidUnit",method=RequestMethod.GET)
+	public List<ForeignAidUnit> getForeignAidUnit(String companyId) throws Exception{
+		return riskSourceService.getForeignAidUnit(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急机构查询",notes="根据风险源id查询企业应急机构")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyOrganization",method=RequestMethod.GET)
+	public List<EmergencyOrganization> getEmergencyOrganization(String companyId) throws Exception{
+		return riskSourceService.getEmergencyOrganization(companyId);
+	}
+	@ApiOperation(httpMethod="GET",value="企业应急小组查询",notes="根据风险源id查询企业应急小组")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyGroup",method=RequestMethod.GET)
+	public List<EmergencyGroup> getEmergencyGroup(String companyId) throws Exception{
+		return riskSourceService.getEmergencyGroup(companyId);
+	}
+	@ApiOperation(httpMethod="GET",value="企业应急案例查询",notes="根据风险源id查询企业应急案例")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyCase",method=RequestMethod.GET)
+	public List<EmergencyCase> getEmergencyCase(String companyId) throws Exception{
+		return riskSourceService.getEmergencyCase(companyId);
+	}
+	@ApiOperation(httpMethod="GET",value="企业应急预案查询",notes="根据风险源id查询企业应急预案")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getEmergencyPlan",method=RequestMethod.GET)
+	public List<EmergencyPlan> getEmergencyPlan(String companyId) throws Exception{
+		return riskSourceService.getEmergencyPlan(companyId);
+	}
+	
+	@ApiOperation(httpMethod="GET",value="企业应急事故参考图",notes="根据风险源id查询企业应急事故参考图")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getReferenceDrawing",method=RequestMethod.GET)
+	public List<ReferenceDrawing> getReferenceDrawing(String companyId) throws Exception{
+		return riskSourceService.getReferenceDrawing(companyId);
+	}
+
+	@ApiOperation(httpMethod="GET",value="查询生产装置",notes="根据风险源id查询生产装置")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getProductionUnit",method=RequestMethod.GET)
+	public List<ProductionUnit> getProductionUnit(String companyId) throws Exception{
+		return riskSourceService.getProductionUnit(companyId);
+	}
+
+	@ApiOperation(httpMethod="GET",value="查询保护目标",notes="根据风险源id查询查询保护目标")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getProtectionObject",method=RequestMethod.GET)
+	public List<ProtectionObject> getProtectionObject(String companyId) throws Exception{
+		return riskSourceService.getProtectionObject(companyId);
+	}
+
+	@ApiOperation(httpMethod="GET",value="查询事故源",notes="根据风险源id查询查询事故源")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "companyId",paramType = "query",required = true,value = "风险源id 企业id")
+	})
+	@RequestMapping(value="/getAccidentSource",method=RequestMethod.GET)
+	public List<AccidentSource> getAccidentSource(String companyId) throws Exception{
+		return riskSourceService.getAccidentSource(companyId);
+	}
+
+	 @ApiOperation(value = "企业应急事故参考图",httpMethod = "POST",notes = "企业应急事故参考图导入")
+	 @ApiImplicitParams({
+        @ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query"),
+        @ApiImplicitParam(value = "产品名称",name = "name",required = true,paramType = "query")
+	 })
+	 @RequestMapping(value = "/uploadReferenceDrawing",method = RequestMethod.POST)
+	 public ResultBean uploadReferenceDrawing(HttpServletRequest request, MultipartFile file,String companyId,String name) throws Exception{
+       return riskSourceService.uploadReferenceDrawing(request,file,companyId,name);
+	 }
+
+	@ApiOperation(value = "企业附件上传",httpMethod = "POST",notes = "企业附件上传")
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query"),
+			@ApiImplicitParam(value = "附件名称",name = "name",required = true,paramType = "query"),
+			@ApiImplicitParam(value = "附件类型",name = "type",required = true,paramType = "query")
+	})
+	@RequestMapping(value = "/uploadAttachment",method = RequestMethod.POST)
+	public String uploadAttachment(MultipartFile file, String companyId, String name, String type) throws Exception{
+		return riskSourceService.uploadAttachment(file,companyId,name,type);
+	}
+
+	@ApiOperation(value = "企业附件图片接口",httpMethod = "GET",notes = "企业附件图片接口")
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query"),
+			@ApiImplicitParam(value = "附件类型",name = "type",required = true,paramType = "query")
+	})
+	@RequestMapping(value = "/downloadAttachment",method = RequestMethod.GET)
+	public Object downloadAttachment(String companyId,String type,HttpServletResponse response) throws Exception{
+		return riskSourceService.downloadAttachment(companyId,type,response);
+	}
+
+	@ApiOperation(value = "获取该企业的应急人员的小组、部门列表",httpMethod = "GET",notes = "获取该企业的应急人员的小组、部门列表")
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "风险源企业id",name = "companyId",required = true,paramType = "query")
+	})
+	@RequestMapping(value = "/getDepartmentFromCrew",method = RequestMethod.GET)
+	public Object getDepartmentFromCrew(String companyId) throws Exception{
+		return riskSourceService.getDepartmentFromCrew(companyId);
+	}
+
+	@ApiOperation(value = "获取饮用水源地附近的风险源",httpMethod = "GET",notes = "获取饮用水源地附近的风险源")
+	@RequestMapping(value = "/getRiskSourceNearWater",method = RequestMethod.GET)
+	public Object getRiskSourceNearWater() throws Exception{
+		return riskSourceService.getRiskSourceNearWater();
+	}
+
+	@ApiOperation(value = "获取重点水流附近的风险源",httpMethod = "GET",notes = "获取重点水流附近的风险源")
+	@RequestMapping(value = "/listRiskNearRiver",method = RequestMethod.GET)
+	public Object listRiskNearRiver() throws Exception{
+		return riverService.listRiskNearRiver();
+	}
+
+	@ApiOperation(value = "搜索应急物资分布在哪些厂",httpMethod = "GET",notes = "搜索应急物资分布在哪些厂")
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "应急物资名称关键字",name = "keyword",required = true,paramType = "query")
+	})
+	@RequestMapping(value = "/findSubstance",method = RequestMethod.GET)
+	public Object findSubstance(String keyword) throws Exception{
+		return riskSourceService.findSubstance(keyword);
+	}
+
+    @ApiOperation(value = "新增企业用户",httpMethod = "POST",notes = "新增企业用户")
+    @RequestMapping(value = "/addEnterpriseInformation",method = RequestMethod.POST)
+    public String addEnterpriseInformation(@RequestBody EnterpriseInformation info) throws Exception{
+	     return riskSourceService.addEnterpriseInformation(info);
+    }
+
+    @ApiOperation(value = "查询企业是否存在",httpMethod = "GET",notes = "查询企业是否存在")
+    @RequestMapping(value = "/checkCompanyByname",method = RequestMethod.GET)
+    public Boolean addEnterpriseInformation(@ApiParam("企业名称")@RequestParam("companyName")String companyName) throws Exception{
+        return riskSourceService.checkCompany(companyName);
+    }
+
+    @ApiOperation(value = "企业删除",httpMethod = "GET",notes = "企业删除")
+    @RequestMapping(value = "/deleteCompanyById",method = RequestMethod.GET)
+    public String deleteEnterpriseInformation(@ApiParam("企业id")@RequestParam("companyId")String companyId) throws Exception{
+        return riskSourceService.deleteEnterpriseInformation(companyId);
+    }
+
+
+
+	
+}

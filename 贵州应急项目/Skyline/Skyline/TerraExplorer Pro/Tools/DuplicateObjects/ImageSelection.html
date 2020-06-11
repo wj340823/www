@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+
+<LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+</HEAD>
+
+<BODY leftmargin="3" topmargin="3" marginwidth="0" marginheight="0" bgcolor="#F7F7F7" id="Body" OnLoad="Init()"> <!-- oncontextmenu="return false;"> -->
+	<table class="PropertiesTable" border=1 cellPadding=1 CELLSPACING=0 width=100% height=100% align=center valign=bottom>
+
+
+    <tr valign=bottom>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-1.gif',0.1)"><img src="icons/tree-1.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-2.gif',0.13)"><img src="icons/tree-2.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-3.gif',0.1)"><img src="icons/tree-3.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-4.gif',0.1)"><img src="icons/tree-4.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-5.gif',0.08)"><img src="icons/tree-5.gif" border=0 style="width:40px" /></a> </td>
+    </tr>
+
+    <tr valign=bottom>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-6.gif',0.08)"><img src="icons/tree-6.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-7.gif',0.08)"><img src="icons/tree-7.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-8.gif',0.08)"><img src="icons/tree-8.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-9.gif',0.08)"><img src="icons/tree-9.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-10.gif',0.06)"><img src="icons/tree-10.gif" border=0 style="width:40px" /></a> </td>
+    </tr>
+
+    <tr valign=bottom>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-11.gif',0.08)"><img src="icons/tree-11.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('tree-12.gif',0.06)"><img src="icons/tree-12.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('bush-1.gif',0.02)"><img src="icons/bush-1.gif" border=0 style="width:30px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('bush-2.gif',0.02)"><img src="icons/bush-2.gif" border=0 style="width:30px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('bush-3.gif',0.02)"><img src="icons/bush-3.gif" border=0 style="width:30px" /></a> </td>
+    </tr>
+
+    <tr valign=bottom>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('cow-1.gif',0.04)"><img src="icons/cow-1.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('cow-2.gif',0.045)"><img src="icons/cow-2.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('cow-3.gif',0.04)"><img src="icons/cow-3.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('sheep-1.gif',0.02)"><img src="icons/sheep-1.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('sheep-2.gif',0.02)"><img src="icons/sheep-2.gif" border=0 style="width:40px" /></a> </td>
+    </tr>
+
+    <tr valign=bottom>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('sheep-3.gif',0.02)"><img src="icons/sheep-3.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('horse-1.gif',0.04)"><img src="icons/horse-1.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('horse-2.gif',0.04)"><img src="icons/horse-2.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('horse-3.gif',0.04)"><img src="icons/horse-3.gif" border=0 style="width:40px" /></a> </td>
+    <td width=48px><a style="cursor:hand" onclick="SelectIcon('horse-4.gif',0.02)"><img src="icons/horse-4.gif" border=0 style="width:40px" /></a> </td>
+    </tr>
+    
+
+    
+    </table>
+
+<OBJECT ID="globe" CLASSID="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1"></OBJECT>
+</BODY>
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+<SCRIPT Language="JavaScript">
+
+//--------------------------------------
+// Init
+//--------------------------------------
+function Init()
+{
+}
+//--------------------------------------
+// SelectIcon
+//--------------------------------------
+function SelectIcon(iconName,scale)
+{
+    try {
+        var a = "#DuplicateObjects#" + iconName + "#" + scale + "#";
+        globe.Window.ShowMessageBarText(a);
+    }
+	catch(e) {a=1;}
+
+	globe.Window.RemovePopupByCaption(SGLang.i18n("Text26"));
+
+}
+
+</SCRIPT>
+</HTML>

@@ -1,0 +1,559 @@
+package com.sucsoft.gzhbyjwz.service.user;
+
+import com.cgs.authox.AuthoxManagingException;
+import com.cgs.authox.AuthoxRole;
+import com.cgs.authox.spring.helper.AuthoxRealmResolverRegistry;
+import com.cgs.authox.sql.SqlRoleMapper;
+import com.cgs.authox.standard.SimpleAuthoxRealm;
+import com.cgs.authox.starter.authenticate.BasicAuthenticationProvider;
+import com.cgs.authox.starter.dao.BaseUserDAO;
+import com.cgs.authox.starter.dao.DefaultUserDAO;
+import com.cgs.authox.starter.domain.BasicUser;
+import com.cgs.authox.starter.domain.DefaultUser;
+import com.cgs.authox.starter.service.AuthoxManageService;
+import com.cgs.authox.starter.util.PaginationHelper;
+import com.sucsoft.gzhbyjwz.bean.common.user.TblUser;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterpriseInformation;
+import com.sucsoft.gzhbyjwz.bean.dc12.LoginLog;
+import com.sucsoft.gzhbyjwz.bean.dc12.ManagerCrew;
+import com.sucsoft.gzhbyjwz.bean.dc12.XZQY;
+import com.sucsoft.gzhbyjwz.service.XzqyService;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.util.Pinyin4j;
+import com.sucsoft.gzhbyjwz.util.StringUtils;
+import com.sucsoft.gzhbyjwz.util.collect.BaseTreeGrid;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedCaseInsensitiveMap;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.security.SecureRandom;
+import java.util.*;
+import java.util.regex.Pattern;
+
+/**
+ * 用户服务
+ *
+ * @author jmy
+ */
+@Service
+public class UserService extends DefaultUserDAO {
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    @Autowired
+    private AuthoxManageService authoxManageService;
+
+    @Autowired
+    AuthoxRealmResolverRegistry realmRegitry;
+
+    @Autowired
+    private JdbcTemplate jt;
+    //PaginationHelper<DefaultUser> pageHelper = new PaginationHelper<DefaultUser>();
+    public static int SALT_LENGTH = 18;
+    @Value("${authox.user.table-name:authoxuser}")
+    private String userTableName;
+    @Value("${authox.user.uid-column:uid}")
+    private String uidColumn;
+    @Value("${authox.user.account-column:account}")
+    private String accountColumn;
+    @Value("${authox.user.password-column:password}")
+    private String passwordColumn;
+    @Value("${authox.user.salt-column:salt}")
+    private String saltColumn;
+    @Value("${authox.user.deleted-column:deleted}")
+    private String deletedColumn;
+    @Value("${authox.user.expired-column:expired}")
+    private String expiredColumn;
+    @Value("${authox.user.locked-column:locked}")
+    private String lockedColumn;
+    @Value("${authox.user.pwd-expired-column:pwdexpired}")
+    private String pwdExpiredColumn;
+    @Value("${authox.user.displayname-column:displayname}")
+    private String displaynameColumn;
+    @Value("${authox.user.description-column:description}")
+    private String descriptionColumn;
+    @Value("${authox.user.createtimestamp-column:createtimestamp}")
+    private String createtimestampColumn;
+    @Value("${authox.user.defaultPassword:123456}")
+    private String defaultPassword;
+
+    /**
+     * 存在session中的用户信息的key值
+     */
+    private static String userkey = "DefaultUser";
+
+    /**
+     * 获取当前用户对象
+     *
+     * @param session
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public TblUser getMyUserDetails(HttpSession session) throws Exception {
+        if (session.getAttribute(userkey) == null) {
+            DefaultUser user = getUser(authoxManageService.getCurUserId());
+            TblUser user1 = assemble(user);
+            return user1;
+        }
+        return (TblUser) session.getAttribute(userkey);
+    }
+
+    /**
+     * 将defaultUser组装成前端容易展示的TblUser
+     *
+     * @param user
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public TblUser assemble(DefaultUser user) {
+        TblUser user1 = new TblUser();
+        BeanUtils.copyProperties(user, user1);
+        //隐藏敏感信息
+        user1.setPassword(null);
+        user1.setSalt(null);
+
+        //添加角色信息
+        SqlRoleMapper roleMapper = (SqlRoleMapper) ((SimpleAuthoxRealm) realmRegitry.getResolver(AuthoxManageService.DEFAULT_REALM)
+                .resolve(AuthoxManageService.DEFAULT_REALM)).getRoleMapper();
+        roleMapper.findRoleList(user1.getUid());
+        user1.setRoles(roleMapper.findRoleList(user1.getUid()));
+        //添加行政区域信息
+        if (user1.getAddress() != null) {
+            user1.setXzqy(basicQueryService.getDataset().get(user1.getAddress(), XZQY.class));
+        }
+        if (user1.getCompany() != null) {
+            user1.setCompanyName(basicQueryService.get(user1.getCompany(), EnterpriseInformation.class).getCompanyName());
+        }
+
+        return user1;
+    }
+
+    @Transactional
+    public TblUser getCurUserDetails() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        return getMyUserDetails(request.getSession());
+    }
+
+    public String getCurUserId() {
+        return authoxManageService.getCurUserId();
+    }
+
+    /**
+     * 获取当前用户的企业id
+     *
+     * @param session
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public String getCurUserComId(HttpSession session) throws Exception {
+        DefaultUser user = getMyUserDetails(session);
+        return user.getCompany();
+    }
+
+    /**
+     * 获取当前用户的行政区域id
+     *
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String getCurXzqyId() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        DefaultUser user = getMyUserDetails(request.getSession());
+        return user.getAddress();
+    }
+
+    /**
+     * 获取当前用户的行政区域id
+     *
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public XZQY getCurXzqy() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        TblUser user = getMyUserDetails(request.getSession());
+        return user.getXzqy();
+    }
+
+    /**
+     * 修改当前用户密码
+     *
+     * @param oldP
+     * @param newP
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void changePW(String oldP, String newP) throws Exception {
+        changePassword(getCurUserDetails().getAccount(), oldP, newP);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public void createUsers() throws Exception {
+        List<XZQY> xzqyList = basicQueryService.queryForList("listXzqyByParentId", new HashMap<>(), XZQY.class, 0, 0);
+        for (XZQY xzqy : xzqyList) {
+            if (xzqy.getParentId() == null) {
+                continue;
+            }
+            if (xzqy.getParentId().equals("1")) {
+                addSzUser(xzqy);
+            } else if (xzqy.getParentId() != null) {
+                addQxUser(xzqy);
+                addQyUser(xzqy);
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void createUsers1() throws Exception {
+        List<Map> list = basicQueryService.queryForList("getcompany", new HashMap<>(), Map.class, 0, 0);
+        for (Map m : list) {
+            DefaultUser user = new DefaultUser();
+            user.setAccount(getUserName(m.get("COMPANYNAME").toString()) + "qy");
+            user.setPassword("123");
+            user.setUid(UUID.randomUUID().toString());
+            user.setAddress(m.get("XZQYID").toString());
+            user.setCompany(m.get("COMPANYID").toString());
+            user.setDescription(m.get("COMPANYNAME").toString());
+            addUser(user);
+
+            authoxManageService.addMapping(user.getUid(), "qyrole", "root");
+        }
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public void createUsersFromManagerCrew() throws Exception {
+        Map param = new HashMap();
+        param.put("level", 2);
+        List<XZQY> xzqyList = basicQueryService.queryForList("listXzqyByParentId", param, XZQY.class, 0, 0);
+        List<ManagerCrew> crewList = basicQueryService.queryForList("listManagerCrew", new HashMap<>(), ManagerCrew.class, 0, 0);
+        for (ManagerCrew crew : crewList) {
+            String unit = crew.getUnit();
+            boolean issz = false;
+            for (XZQY xzqy : xzqyList) {
+                if (unit.contains(xzqy.getShortName())) {
+                    issz = true;
+                    addSzUser(xzqy, crew);
+                }
+            }
+            if (!issz) {
+                addStUser(crew);
+            }
+        }
+        return;
+    }
+
+
+    public void addStUser(ManagerCrew crew) {
+        DefaultUser user = new DefaultUser();
+//        user.setDisplayName(crew.getName());
+//        user.setDescription(crew.getPosition());
+//        user.setPhoneMobile(crew.getPhoneNumber());
+//        user.setPhoneOffice(crew.getOfficeTelephone());
+
+        //user.setAccount(checkSameName((getUserName(crew.getName()) + "sz"), 0));
+        String id  = UUID.randomUUID().toString();
+        user.setAccount(crew.getName());
+        user.setPassword("123");
+        user.setUid(id);
+        user.setAddress(crew.getXzqy());
+        addUser(user);
+
+        //authoxManageService.addMapping(id, "qxrole", "root");
+    }
+
+    public String checkSameName(String name, int i) {
+        String sql = String.format("SELECT count(*) FROM %s WHERE %s = ?", userTableName, accountColumn);
+        //RowMapper<DefaultUser> rowMapper = new BeanPropertyRowMapper<DefaultUser>(DefaultUser.class);
+        int count = jt.queryForObject(sql, Integer.class, name);
+        if (count > 0) {
+            i++;
+            return checkSameName(name + i, i);
+        }
+        return i == 0 ? name : name + i;
+    }
+
+    public void addQxUser(XZQY xzqy) {
+        DefaultUser user = new DefaultUser();
+        user.setAccount(getUserName(xzqy.getName()) + "qx");
+        user.setPassword("123");
+        user.setUid(UUID.randomUUID().toString());
+        user.setAddress(xzqy.getId());
+        addUser(user);
+
+        authoxManageService.addMapping(user.getUid(), "qxrole", "root");
+    }
+
+    public void addSzUser(XZQY xzqy) {
+        DefaultUser user = new DefaultUser();
+        user.setAccount(getUserName(xzqy.getName()) + "sz");
+        user.setPassword("123");
+        user.setUid(UUID.randomUUID().toString());
+        user.setAddress(xzqy.getId());
+        addUser(user);
+
+        authoxManageService.addMapping(user.getUid(), "szrole", "root");
+    }
+
+    public void addSzUser(XZQY xzqy, ManagerCrew crew) {
+        DefaultUser user = new DefaultUser();
+        user.setAccount(checkSameName((getUserName(xzqy.getName() + crew.getName()) + "sz"), 0));
+        user.setDisplayName(crew.getName());
+        user.setDescription(crew.getPosition());
+        user.setPhoneMobile(crew.getPhoneNumber());
+        user.setPhoneOffice(crew.getOfficeTelephone());
+        user.setPassword("123456");
+        user.setUid(UUID.randomUUID().toString());
+        user.setAddress(xzqy.getId());
+        addUser(user);
+
+        authoxManageService.addMapping(user.getUid(), "szrole", "root");
+    }
+
+    public void addQyUser(XZQY xzqy) {
+        DefaultUser user = new DefaultUser();
+        user.setAccount(getUserName(xzqy.getName()) + "qy");
+        user.setPassword("123");
+        user.setUid(UUID.randomUUID().toString());
+        user.setAddress(xzqy.getId());
+        user.setCompany(addCompany(xzqy));
+        addUser(user);
+
+        authoxManageService.addMapping(user.getUid(), "qyrole", "root");
+    }
+
+
+    public String addCompany(XZQY xzqy) {
+        EnterpriseInformation e = new EnterpriseInformation();
+        e.setAddress(xzqy.getId());
+        e.setCompanyId(UUID.randomUUID().toString());
+        e.setCompanyName(xzqy.getName() + "-测试工厂");
+        e.setLatitude(xzqy.getLatitude());
+        e.setLongitude(xzqy.getLongitude());
+        e.setTelAddress("12345678");
+        basicQueryService.save(e);
+
+        return e.getCompanyId();
+    }
+
+    public static Pattern p = Pattern.compile(
+            "^([\\u4e00-\\u9fa5]+?)([\\u533a\\u53bf\\u5e02\\u81ea\\u6cbb\\u8f96]{1,3})$");
+
+    /**
+     * 取得行政区域的拼音的首字母。但是要去掉自治州、区、县、市这种后缀。
+     *
+     * @param xzqyName 完整的行政区域名称汉字
+     * @return
+     */
+    public String getUserName(String xzqyName) {
+        //去掉自治州、区、县、市这种后缀
+        //String sname = p.matcher(xzqyName).group(1);
+        //取得行政区域的拼音的首字母
+        String firstSpell = Pinyin4j.getFirstSpell(xzqyName);
+
+        return firstSpell;
+    }
+
+    // SELECT accountColumn,uidColumn FROM %s WHERE accountColumn = %s
+
+    @Transactional(rollbackFor = Exception.class)
+    public void addUser(DefaultUser user) {
+        String sql = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                userTableName, accountColumn, displaynameColumn, passwordColumn,
+                descriptionColumn, saltColumn, uidColumn, createtimestampColumn, "address", "company","phonemobile");
+        String salt = getSalt();
+
+        Object[] objects = new Object[]{user.getAccount(), user.getDisplayName(),
+                rawPasswordToDigest(user.getPassword(), salt), user.getDescription(),
+                salt, user.getUid(), System.currentTimeMillis(), user.getAddress(), user.getCompany(),user.getPhoneMobile()};
+        jt.update(sql, objects);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void  deleteuser(String uid){
+            String sql = "delete from authoxuser where uid = '"+uid+"'";
+        jt.execute(sql);
+    }
+
+    private String getSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[SALT_LENGTH];
+        random.nextBytes(salt);
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < salt.length; i++) {
+            String hex = Integer.toHexString(0xff & salt[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    /**
+     * 创建用户
+     *
+     * @param tblUser
+     * @return
+     */
+    public String createqyUser(TblUser tblUser) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("getAccount", tblUser.getAccount());
+
+            List list = basicQueryService.queryForList("getcount", params, Map.class, 0, 0);
+
+            params.put("getcompanyId", tblUser.getCompany());
+
+            List list1 = basicQueryService.queryForList("getcount", params, Map.class, 0, 0);
+            if(!list1.isEmpty()){
+               return "1";
+            }
+
+            if (list.isEmpty()) {
+                tblUser.setUid(UUID.randomUUID().toString());
+                addUser(tblUser);
+
+                addjs(tblUser.getUid());
+            } else {
+                return "2";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "3";
+        }
+        return "0";
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void addjs(String uid) {
+        String sql = String.format("INSERT INTO authoxrolemap (%s, %s, %s) VALUES (?,?,?)",
+                 "subjecttag", "role", "discriminator");
+        Object[] objects = new Object[]{uid,"qyrole", "root"};
+        jt.update(sql, objects);
+    }
+
+
+
+
+    public com.sucsoft.gzhbyjwz.bean.common.Page queryqy(String address, String companyName,Integer pageNo,Integer pageSize) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        if (org.apache.commons.lang.StringUtils.isNotBlank(address)) {
+            params.put("getAddress", address);
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(companyName)) {
+            params.put("getcompanyName", "%" + companyName + "%");
+        }
+        com.sucsoft.gzhbyjwz.bean.common.Page page = basicQueryService.queryForPage("getcount", params, Map.class, pageNo, pageSize);
+        return page;
+    }
+
+
+    /**
+     * 判断当前角色是否是admin角色。
+     *
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public boolean isAdmin() throws Exception {
+        for (AuthoxRole role : getCurUserDetails().getRoles()) {
+            if (role.getRole().equals("admin")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Object createUserByCrewId(Integer crewId) {
+        ManagerCrew managerCrew = basicQueryService.get(crewId, ManagerCrew.class);
+        addStUser(managerCrew);
+        return "success";
+    }
+
+    @Override
+    @Transactional
+    public BasicUser getBasicUser(String account, String password) {
+        BasicUser basicUser = super.getBasicUser(account, password);
+        if (basicUser == null) {
+            return null;
+        }
+        TblUser user = assemble(getUser(basicUser.getUid()));
+        //登录日志
+        addLoginLog(user);
+        return basicUser;
+    }
+
+    public BasicUser getBasicUser(String account) {
+        String sql = String.format("select * from %s where %s=?", this.userTableName, "singleAccount");
+        BasicUser user = null;
+        List<Map<String, Object>> qr = this.jt.queryForList(sql, new Object[]{account});
+        Iterator var6 = qr.iterator();
+
+        while(var6.hasNext()) {
+            Map<String, Object> _row = (Map)var6.next();
+            LinkedCaseInsensitiveMap<Object> row = (LinkedCaseInsensitiveMap)_row;
+            user = new BasicUser();
+            user.setAccount(account);
+            user.setDeleted(false);
+            user.setUid((String)this.getOrDefault(row, this.uidColumn, account, String.class));
+            user.setExpired((Boolean)this.getOrDefault(row, this.expiredColumn, false, Boolean.class));
+            user.setLocked((Boolean)this.getOrDefault(row, this.lockedColumn, false, Boolean.class));
+            user.setPwdExpired((Boolean)this.getOrDefault(row, this.pwdExpiredColumn, false, Boolean.class));
+            user.setDisplayName((String)this.getOrDefault(row, this.displaynameColumn, false, String.class));
+        }
+        return user;
+    }
+
+    private <T> T getOrDefault(LinkedCaseInsensitiveMap<Object> row, String column, Object defaultValue, Class<T> clazz) {
+        Object val = row.get(column);
+        if (val == null) {
+            val = defaultValue;
+        }
+
+        return (T) ConvertUtils.convert(val, clazz);
+    }
+
+    /**
+     * 添加登录日志
+     *
+     * @param user
+     */
+    @Transactional
+    public void addLoginLog(TblUser user) {
+        LoginLog loginLog = new LoginLog();
+        loginLog.setAccount(user.getAccount());
+        loginLog.setDisplayName(user.getDisplayName());
+        loginLog.setLogTime(new Date());
+        loginLog.setRoleName(user.getRoles().get(0).getName());
+        loginLog.setXzqyName(user.getXzqy().getName());
+        loginLog.setCompanyName(user.getCompanyName());
+
+        basicQueryService.save(loginLog);
+    }
+
+    public String getUserName(){
+        return authoxManageService.getCurUserName();
+    }
+}

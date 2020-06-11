@@ -1,0 +1,80 @@
+package com.sucsoft.gzhbyjwz.service;
+
+import com.cgs.dc.starter.model.GetOptions;
+import com.sucsoft.gis.geometry.Coordinate;
+import com.sucsoft.gis.geometry.Polyline;
+import com.sucsoft.gis.spatialRelationship.SpatialRelationshipUtil;
+import com.sucsoft.gzhbyjwz.bean.common.river.RiverData;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterpriseInformation;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.util.GisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+@Service
+public class RiverService {
+
+    @Autowired
+    RiverData riverData;
+
+    @Autowired
+    BasicQueryService queryService;
+
+    public Object listRiskNearRiver(){
+        List<EnterpriseInformation> companyList = queryService.getCrudService().list(EnterpriseInformation.class.getName(),new GetOptions(),EnterpriseInformation.class);
+        riverData.lock.readLock().lock();
+        int companyNum = riverData.getCompanyNum();
+        riverData.lock.readLock().unlock();
+        if (companyList.size() == companyNum){
+            return riverData.getResult();
+        }
+
+        List resultList = new ArrayList();
+        for (Object riverName:riverData.getRiverMap().keySet()){
+            Map map = new HashMap();
+            map.put("riverName",riverName);
+            int companycount = 0;
+            for (EnterpriseInformation e:companyList){
+                try{
+                    double distance = GisUtil.getDistancePointToLines(Double.parseDouble(e.getLongitude()),Double.parseDouble(e.getLatitude()),riverData.getRiverMap().get(riverName)).get("distance");
+                    if (distance < 100000){
+                        companycount++;
+                    }
+                }catch (Exception e1){
+                    //e1.printStackTrace();
+                    continue;
+                }
+            }
+
+            map.put("riverList",companycount);
+            resultList.add(map);
+        }
+
+        riverData.updateData(companyList.size(),resultList);
+        return resultList;
+
+    }
+
+
+
+    public Polyline convert2Polyline(List<List> lists) {
+        List<Coordinate> points = new ArrayList();
+        for (List list:lists){
+            points.add(new Coordinate(Double.parseDouble(list.get(0).toString()),Double.parseDouble(list.get(1).toString())));
+        }
+
+        List<List<Coordinate>> path = new ArrayList<>();
+        path.add(points);
+        Polyline polyline = new Polyline();
+        polyline.setPaths(path);
+        return polyline;
+    }
+
+
+}

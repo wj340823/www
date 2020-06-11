@@ -1,0 +1,157 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("水环境风险防控设施")
+public class SuiRiskControlMeasures {
+    private String suiRiskControlMeasures_Id;
+    private String qyId;
+    @ApiModelProperty("应急池容量(m3)")
+    private String yjcrl;
+    @ApiModelProperty("是否空置")
+    private String sfkz;
+    @ApiModelProperty("节流措施")
+    private String jlcs;
+    @ApiModelProperty("事故废水收集措施")
+    private String sgfssjcs;
+    @ApiModelProperty("是否涉及清静废水")
+    private String sfsjqjfs;
+    @ApiModelProperty("清净废水系统风险防控措施")
+    private String qjfsxtfxfkcs;
+    @ApiModelProperty("雨水排水系统风险防控措施")
+    private String yspsxtfxfkcs;
+    @ApiModelProperty("是否有生产废水产生或外排")
+    private String sfyscfscshwp;
+    @ApiModelProperty("清净废水系统风险防控措施")
+    private String qjfsxtfxfkcss;
+    @ApiModelProperty("废水排放去向")
+    private String fspfqx;
+    @ApiModelProperty("厂内危险废物环境管理")
+    private String cnwxfwhjgl;
+    @ApiModelProperty("近3年内突发水环境事件发生情况")
+    private String sntfhjqk;
+    @ApiModelProperty("状态")
+    private String status;
+
+    public String getSuiRiskControlMeasures_Id() {
+        return suiRiskControlMeasures_Id;
+    }
+
+    public void setSuiRiskControlMeasures_Id(String suiRiskControlMeasures_Id) {
+        this.suiRiskControlMeasures_Id = suiRiskControlMeasures_Id;
+    }
+
+    public String getQyId() {
+        return qyId;
+    }
+
+    public void setQyId(String qyId) {
+        this.qyId = qyId;
+    }
+
+    public String getYjcrl() {
+        return yjcrl;
+    }
+
+    public void setYjcrl(String yjcrl) {
+        this.yjcrl = yjcrl;
+    }
+
+    public String getSfkz() {
+        return sfkz;
+    }
+
+    public void setSfkz(String sfkz) {
+        this.sfkz = sfkz;
+    }
+
+    public String getJlcs() {
+        return jlcs;
+    }
+
+    public void setJlcs(String jlcs) {
+        this.jlcs = jlcs;
+    }
+
+    public String getSgfssjcs() {
+        return sgfssjcs;
+    }
+
+    public void setSgfssjcs(String sgfssjcs) {
+        this.sgfssjcs = sgfssjcs;
+    }
+
+    public String getSfsjqjfs() {
+        return sfsjqjfs;
+    }
+
+    public void setSfsjqjfs(String sfsjqjfs) {
+        this.sfsjqjfs = sfsjqjfs;
+    }
+
+    public String getQjfsxtfxfkcs() {
+        return qjfsxtfxfkcs;
+    }
+
+    public void setQjfsxtfxfkcs(String qjfsxtfxfkcs) {
+        this.qjfsxtfxfkcs = qjfsxtfxfkcs;
+    }
+
+    public String getYspsxtfxfkcs() {
+        return yspsxtfxfkcs;
+    }
+
+    public void setYspsxtfxfkcs(String yspsxtfxfkcs) {
+        this.yspsxtfxfkcs = yspsxtfxfkcs;
+    }
+
+    public String getSfyscfscshwp() {
+        return sfyscfscshwp;
+    }
+
+    public void setSfyscfscshwp(String sfyscfscshwp) {
+        this.sfyscfscshwp = sfyscfscshwp;
+    }
+
+    public String getQjfsxtfxfkcss() {
+        return qjfsxtfxfkcss;
+    }
+
+    public void setQjfsxtfxfkcss(String qjfsxtfxfkcss) {
+        this.qjfsxtfxfkcss = qjfsxtfxfkcss;
+    }
+
+    public String getFspfqx() {
+        return fspfqx;
+    }
+
+    public void setFspfqx(String fspfqx) {
+        this.fspfqx = fspfqx;
+    }
+
+    public String getCnwxfwhjgl() {
+        return cnwxfwhjgl;
+    }
+
+    public void setCnwxfwhjgl(String cnwxfwhjgl) {
+        this.cnwxfwhjgl = cnwxfwhjgl;
+    }
+
+    public String getSntfhjqk() {
+        return sntfhjqk;
+    }
+
+    public void setSntfhjqk(String sntfhjqk) {
+        this.sntfhjqk = sntfhjqk;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

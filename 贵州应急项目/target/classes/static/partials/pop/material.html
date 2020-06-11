@@ -1,0 +1,25 @@
+<div class="materialDetail" ng-class="{true:'scrub'}[scrubEffect]" ng-controller="materialPopCtrl">
+    <div class="popClose" ng-click="closeStoreLay()" title="关闭"><i class="iconfont icon-guanbi cursor-pointer"></i></div>
+    <div class="itemLine">
+        <span>行政区划：</span>
+        <span ng-bind="materialDetail.xzqy"></span>
+    </div>
+    <div class="itemLine">
+        <span>管理单位：</span>
+        <span ng-bind="materialDetail.managementUnit"></span>
+    </div>
+    <!--<div class="itemLine">
+        <span>联系人：</span>
+        <span ng-bind="materialDetail.contacts"></span>
+        <div class="telphone">
+            <img src="images/tel.png" />
+            <span ng-bind="materialDetail.contactNumber"></span>
+        </div>
+    </div>-->
+    <div style="margin-top:10px;">
+        <button type="button" class="layBtn" ng-click="getReserve()">储备现状</button>
+        <!--<button type="button" class="layBtn" ng-click="getAnaData()">储备分析</button>
+        <button type="button" class="layBtn" ng-click="videoControl()" ng-click="">
+            视频监控</button>-->
+    </div>
+</div>

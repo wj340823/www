@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Layers 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript" src="abspath.js"></script>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            var imageryLayer = SGWorld.Creator.CreateImageryLayer(toAbspath("data/goldengate.gif"), -122.47656, 37.82298, -122.46310, 37.81359);
+            SGWorld.Navigate.FlyTo(imageryLayer);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040rP.xqWIoVozYjLQAOfu8jYjdA1y9suammxtp40yfaZi0VhCOJlYwDRFrbsS7wekU0ZuIByi#Hf0PPUF73UMPGUJJ-->

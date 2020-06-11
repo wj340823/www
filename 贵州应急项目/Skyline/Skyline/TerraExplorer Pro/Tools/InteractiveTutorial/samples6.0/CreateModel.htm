@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Create Model</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script src="abspath.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+                
+        function Init()
+        {
+            var pos = SGWorld.Creator.CreatePosition(-122.38050, // x
+                                                      37.62331,  // y
+                                                      40.0,      // height
+                                                      3,         // absolute
+                                                      297.0,     // yaw
+                                                      15.0);     // pitch
+
+            var model = SGWorld.Creator.CreateModel(pos, toAbspath("data/747.xpc"), 0.2);
+
+
+            SGWorld.Navigate.FlyTo(model);
+            
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040qgTRSoonvP.vmCpLkabgMXk.2veLj7vAVNpV8qMBuFxvHRW3SsdUFo77hDCXbFIxAjsMEZJLa4K6QhVFkDKPGLJJ-->

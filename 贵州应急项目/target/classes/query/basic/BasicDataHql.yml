@@ -1,0 +1,119 @@
+---
+  grammer: HQL
+  queries:
+    #企业主要风险物资查询
+    - name: listXzqyByParentId
+      resultType: XZQY
+      fetches: []
+      statement:
+        "
+        from
+          XZQY
+        where
+          1=1
+        #if($level)
+          and level = :level
+        #end
+        #if($parentId)
+          and parentId = :parentId
+        #end
+        "
+
+    - name: listManagerCrew
+      resultType: ManagerCrew
+      fetches: []
+      statement:
+        "
+        from
+          ManagerCrew
+        where
+          1=1
+        #if($keywords)
+          and name like :keywords
+        #end
+        #if($unit)
+          and unit = :unit
+        #end
+        #if($xzqy)
+          and xzqy = :xzqy
+        #end
+        ORDER BY UNITSORT,POSITIONSORT
+        "
+    - name: getXzqyByBM
+      resultType: XZQY
+      fetches: []
+      statement:
+        "
+        from
+          XZQY
+        where
+          BM = :BM
+        "
+    - name: getManagerSpecialist
+      resultType: ManagerSpecialist
+      fetches: []
+      statement:
+        "
+        from
+          ManagerSpecialist
+        where
+          1=1
+        #if($name)
+          and name like :name
+        #end
+        #if($xzqy)
+          and xzqy like :xzqy
+        #end
+        "
+    - name: getProductInfoList
+      resultType: ProductInfo
+      fetches: []
+      statement:
+        "
+        from
+          ProductInfo
+        where
+          1=1
+        #if($companyId)
+          and companyId  =:companyId
+        #end
+        "
+    - name: getProductInfoList_ya
+      resultType: ProductInfo_ya
+      fetches: []
+      statement:
+        "
+        from
+          ProductInfo_ya
+        where
+          1=1
+        #if($yaid)
+          and yaid  =:yaid
+        #end
+        "
+    - name: getFileStorageList
+      resultType: FileStorage
+      fetches: []
+      statement:
+        "
+        from
+          FileStorage
+        where
+          1=1
+        #if($companyId)
+          and relationId  =:companyId
+        #end
+        "
+    - name: getRiskSourceUnitList
+      resultType: RiskSourceUnit
+      fetches: []
+      statement:
+        "
+        from
+          RiskSourceUnit
+        where
+          1=1
+        #if($companyId)
+          and companyId  =:companyId
+        #end
+        "

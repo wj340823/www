@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <script language="javascript" src="../ToolsCommon65.js"></script>
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body class="hideUntilTranslated" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body" onload="Init()">
+    <!--oncontextmenu="return false;"  onclick="bHide=true;HideOptionsNow()" > -->
+	<table border=0 width="100%" cellspacing=0 cellpadding=2 >
+		<tr>
+			<td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+				<table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+			</td>
+		</tr>
+	<tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        
+			<tr class="s8">
+            <td >
+	</table>
+    
+   
+    <table class = "PropertiesSheet">
+                        <tr>
+                        <td class="s8b">
+                            <label for="createAs"  class="i18n">Text70</label>
+                        </td>
+                        <td align="left">
+                            &nbsp;<select id="createAs" >
+                                <option class="i18n" value="Group">Text71</option>
+                                <option class="i18n" value="Layer">Text72</option>
+                                <option class="i18n" value="LayerStreaming" selected=selected>Text73</option>
+                            </select>
+                        </td>            
+                    </tr>   
+        <tr class='TableOtherLine'>
+        <td class="s8b">
+            <span  class="i18n">Text1</span>
+        </td>
+        <td align="left">
+            &nbsp;<input id="Radius" type="text" value="2" size="7">
+            <span id="Span1" class="i18n">Text2</span>
+        </td>
+        </tr>
+        <tr >
+                        <td align="top" class="s8b i18n">
+                            Text10
+                        </td>
+                        <td align="left">
+                            &nbsp;<select id="PipeColor" size="1" onchange="changeColor();" style="z-index: 1;">
+                                <option value="Gray" class="i18n" selected>Text11</option>
+                                <option value="Yellow" class="i18n" >Text12</option>
+                                <option value="Green" class="i18n">Text13</option>
+                                <option value="Blue" class="i18n">Text14</option>
+                                <option value="Purple" class="i18n">Text15</option>
+                                <option value="Red" class="i18n">Text16</option>
+                            </select>
+                            <img id="colorImg" src="pipeTextureGray.bmp" width="18px" align="absmiddle" alt="" />
+                        </td>
+                    </tr>
+        <tr class='TableOtherLine'>
+        <td class="s8b">
+            <span  class="i18n">Text23</span>
+        </td>
+        <td align="left">
+            &nbsp;<input id="visibilityDistance" type="text" value="5000" size="7">
+            <span id="Span2" class="i18n">Text2</span>
+        </td>
+        </tr>
+        <tr class="s8">
+            <td colspan="2" align="center" class="ToolButtonsArea">
+                <button id="lineButton" class="MenuButton" onclick="CreateObjects(1);"><img src="../CommonImg/polyline.png" /><br /><span class="i18n">Text5</span></button>
+                <button id="groupButton" class="MenuButton" onclick="SelectGroupObjects()"><img src="../CommonImg/group.png" /><br /><span class="i18n">Text6</span></button>
+                <button id="clipboardButton" class="MenuButton" onclick="SelectClipboardObjects()"><img src="../CommonImg/Clipboard.png" /><br /><span class="i18n">Text74</span></button>
+            </td>
+        </tr>
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="JavaScript">
+
+
+//** this is a global variables for the polyline/polygon drawings 
+var gPolyObj;
+var gPolyMethod;
+var gPolylineText = SGLang.i18n("Text21");
+var gDrawPolyClick = null;
+var gEndDrawPoly = DrawPoly;
+//
+//-- Limit the amount of points
+var g_KeepCounting = true;
+var g_MaxNumberOfPoints = 10000;
+var g_CurrentNumberOfPoints = 0;
+//**
+
+var bInEdit;
+var GroupID;
+var CylindresLayer;
+var currentLine;
+
+//--------------
+// Init
+function Init() {
+    gDrawPolyAltitudeType = 3; // draw lines and polygon as absolute lines
+    if (GetParamValue("inSG", "") == "1") {
+        $("#TopAreaTD").attr("height", "57");
+        $("#TitleTD").attr("align", "left");
+        $("#CloseHelpTd").attr("display", "none");
+    }
+    gPolyObj = null;
+    changeColor();
+    ResetCountingFlags();
+    Reset(1, 0);
+}
+//--------------
+// Reset
+function Reset(FirstTime, FromMouseInputMode) {
+    try {
+        if (gPolyObj != null)
+            SGWorld.Creator.DeleteObject(gPolyObj.ID);
+    } catch (e) { }
+
+
+    ResetCountingFlags();
+
+    gPolyMethod = "";
+    gPolyObj = null;
+    GroupID = null;
+    currentLine = 0;
+    $("#lineButton").removeClass("MenuButtonHighlight");
+    $("#areaButton").removeClass("MenuButtonHighlight");
+    $("#groupButton").removeClass("MenuButtonHighlight");
+    $("#clipboardButton").removeClass("MenuButtonHighlight");
+
+    SGWorld.ProjectTree.EnableRedraw(1);
+    SGWorld.Window.HideMessageBarText();
+
+    if (bInEdit) {
+        SGWorld.DetachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.DetachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.DetachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.DetachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+    }
+
+    bInEdit = false;
+
+    $("#SelectGroup").attr("value", SGLang.i18n("Text3a"));
+
+
+    if (FirstTime != 1 && FromMouseInputMode == 0)
+        SGWorld.Window.SetInputMode(0);
+
+    // if we just finished creating the shape files, save them
+    if (CylindresLayer != null) {
+        CylindresLayer.Save();
+        CylindresLayer = null;
+    }
+
+}
+//--------------
+// changeColor
+function changeColor() {
+    $("#colorImg").attr("src", "pipeTexture" + $("#PipeColor").attr("value") + ".bmp");
+}
+//--------------
+// CreateObjects
+function CreateObjects(method) {
+	if(!ValidInputParams())
+		return;
+    if (!bInEdit) {
+        bInEdit = true;
+        SGWorld.AttachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.AttachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.AttachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.AttachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+
+
+        gPolyMethod = method;
+        SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur");
+        SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text7"), -1);
+        $(event.srcElement).addClass("MenuButtonHighlight");
+
+    }
+    else {
+        DrawPolyRButtonUp(0, 0, 0, 0); 
+    }
+}
+
+//-----------
+// SelectGroupObjects
+function SelectGroupObjects() {
+	if(!ValidInputParams())
+	    return;
+
+	var node = SGWorld.ProjectTree.GetNextItem("", 10);
+	if (node == "" || !(SGWorld.ProjectTree.IsGroup(node) || SGWorld.ProjectTree.IsLayer(node))) {
+	    alert(SGLang.i18n("Text69"));
+	    return;
+	}
+
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text8"), -1);
+
+    searchGeometries2(node, DrawPoly);
+    
+    Reset(0, 0);
+}
+//-----------
+// SelectClipboardObjects
+function SelectClipboardObjects() {
+    if (!ValidInputParams())
+        return;
+
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text8"), -1);
+
+    searchGeometriesClipboard(DrawPoly);
+
+    Reset(0, 0);
+}
+function ValidInputParams()
+{
+	// not a number or 0 or empty
+	if(isNaN($("#visibilityDistance").val()) || $("#visibilityDistance").val() == "" || $("#visibilityDistance").val() == 0)
+	{
+		alert(SGLang.i18n("VisibilityDistanceInvalid"));
+		return false;
+	}
+	if(isNaN($("#Radius").val()) || $("#Radius").val() == "" || $("#Radius").val() == 0)
+	{
+		alert(SGLang.i18n("RadiusInvalid"));
+		return false;
+	}
+	return true;
+}
+//-------------
+// DrawPoly
+function DrawPoly(geometry, type, altitudeType) {
+    
+	if(!ValidInputParams())
+		return;
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text8"), -1);
+    SGWorld.ProjectTree.EnableRedraw(0);
+    var ret = true;
+    if (type == 1)
+        ret = DrawOnPolyline(geometry, altitudeType);
+
+    return ret;
+}
+
+function ResetCountingFlags() {
+    g_KeepCounting = true;
+    g_CurrentNumberOfPoints = 0;
+}
+
+function CheckAmountOfPoints() {
+    //
+    // First check if we need to count at all
+    //
+    if (!g_KeepCounting) {
+        //
+        // We don't care about counting anymore so let's return true
+        //
+        return true;
+    }
+    //
+    // If we are here then we do care about counting
+    //
+    g_CurrentNumberOfPoints++;
+    //
+    // Verify against the definition
+    //
+    if (g_CurrentNumberOfPoints >= g_MaxNumberOfPoints) {
+        //
+        // Raise a message box and ask the user
+        //
+        var doContinueWithNoAsking = confirm(SGLang.i18n("ERROR_TEXT_NumPointsPassedQuota"));
+        if (doContinueWithNoAsking) {
+            g_KeepCounting = false;
+            return true;
+        }
+        else {
+            //
+            // returning false to stop the loop
+            //
+            return false;
+        }
+    }
+    //
+    // If there are no special conditions just return true to continue the loop
+    //
+    return true;
+}
+//----
+// DrawOnPolyline
+function DrawOnPolyline(polylineGeometry, altitudeType) {
+    var currCoord = null;
+    var nextCoord = null;
+    var PrevYaw = 0;
+    var PrevPitch = 0;
+
+    if (altitudeType == null) {
+        altitudeType = AltitudeTypeCode.ATC_ON_TERRAIN;
+    }
+
+    var createAs = $("#createAs").val();
+    if (createAs == "Group") {
+        if (GroupID == null)
+            GroupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("Text3"), "");
+    }
+    else {
+        if (CylindresLayer == null) {
+            var postfix = new Date().getTime();
+            var group = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("Text3"), "");
+            CylindresLayer = SGWorld.Creator.CreateNewFeatureLayer(SGLang.i18n("Text3"), LayerGeometryType.LGT_POINT, "FileName=pipes" + postfix + ".shp;TEPlugName=OGR;", group);
+            CylindresLayer.Streaming = createAs == "LayerStreaming";
+            CylindresLayer.Refresh();
+            // the pipes are always created in absolute
+            CylindresLayer.FeatureGroups.Point.SetProperty("Altitude Method", TransformEnumAltitudeTypeToSetPropertyType(AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE));
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Yaw", AttributeTypeCode.AT_DOUBLE, 0, 20);
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Pitch", AttributeTypeCode.AT_DOUBLE, 0, 20);
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Roll", AttributeTypeCode.AT_DOUBLE, 0, 20);
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Texture", AttributeTypeCode.AT_TEXT, 1024, 20);
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Radius", AttributeTypeCode.AT_DOUBLE, 0, 20);
+            CylindresLayer.DataSourceInfo.Attributes.CreateAttribute("Length", AttributeTypeCode.AT_DOUBLE, 0, 20);
+            CylindresLayer.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+            // style the feature group
+            CylindresLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_MODEL;
+            CylindresLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+            CylindresLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+            CylindresLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+            CylindresLayer.FeatureGroups.Point.SetProperty("Scale X", "[Radius]");
+            CylindresLayer.FeatureGroups.Point.SetProperty("Scale Z", "[Radius]");
+            CylindresLayer.FeatureGroups.Point.SetProperty("Scale Y", "[Length]");
+            CylindresLayer.FeatureGroups.Point.SetClassification("File Name", BuildClassificationString());
+            CylindresLayer.FeatureGroups.Point.SetProperty("Ground Object", 0);
+        }
+    }
+
+    currentLine++;
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text22") + currentLine, -1);
+    var firstSegment = true;
+    // bug fix for #17321. Shape with line without points
+    if (polylineGeometry.Points == null)
+        return true;
+    for (var i = 0; i < polylineGeometry.Points.Count - 1; i++) {
+        //
+        // Check if we passed the limit of points as defined in the global variable g_MaxNumberOfPoints
+        //
+        if (!CheckAmountOfPoints()) {
+            //
+            // Returning false to stop the loop
+            //
+            return false;
+        }
+
+
+        if (nextCoord == null)
+            currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, polylineGeometry.Points.Item(i).Z, altitudeType);
+        else
+            currCoord = nextCoord;
+
+        nextCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i + 1).X, polylineGeometry.Points.Item(i + 1).Y, polylineGeometry.Points.Item(i + 1).Z, altitudeType);
+
+        // we must convert coordinates to Absolute
+        // otherwise if we calculate AimTo on point not in view (big shape)
+        // the heights are not right since terrain is not ready there
+        // converting to absolute forces TE to bring terrain and calculate accurate heights
+        var originalCartesian = currCoord.Cartesian;
+        currCoord.ChangeAltitudeType(AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE);
+        nextCoord.ChangeAltitudeType(AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE);
+
+        //navon from here
+        if (altitudeType == AltitudeTypeCode.ATC_ON_TERRAIN) {
+            wpi = SGWorld.Terrain.getGroundHeightInfo(currCoord.X, currCoord.Y, 0, true); 
+            currCoord.Altitude = wpi.Position.altitude; 
+
+            wpi1 = SGWorld.Terrain.getGroundHeightInfo(nextCoord.X, nextCoord.Y, 0, true); 
+            nextCoord.Altitude = wpi1.Position.altitude; 
+        } 
+
+        currCoord.Cartesian = true;
+        currCoord = currCoord.AimTo(nextCoord);
+        var SegmentLength = currCoord.DistanceTo(nextCoord);
+
+        // and restore the altitude type back to original
+        //currCoord.ChangeAltitudeType(altitudeType);
+        currCoord.Cartesian = originalCartesian;
+
+        DrawPipe(currCoord, SegmentLength);
+
+        if (i == 0)
+            DrawConnector(currCoord, PrevYaw, PrevPitch, 0);
+        else
+            DrawConnector(currCoord, PrevYaw, PrevPitch, 1);
+
+        if (i == (polylineGeometry.Points.count - 2)) {
+            //nextCoord.ChangeAltitudeType(altitudeType);
+            nextCoord.Yaw = currCoord.Yaw;
+            nextCoord.Pitch = currCoord.Pitch;
+            nextCoord.Roll = currCoord.Roll;
+            DrawConnector(nextCoord, PrevYaw, PrevPitch, 2);
+        }
+        PrevYaw = currCoord.Yaw;
+        PrevPitch = currCoord.Pitch;
+    }
+
+    return true;
+}
+
+//---------
+// DrawPipe
+function DrawPipe(position, SegmentLength)
+{
+	var texture = "pipe" + $("#PipeColor").attr("value");
+	var radius = validateNumber($("#Radius").attr("value")) * 2;
+	
+	if ($("#createAs").val() == "Group")
+        DrawPipeAsObject(position, SegmentLength, texture, radius)
+    else
+        DrawPipeAsFeature(position, SegmentLength, texture, radius);
+}
+
+function DrawPipeAsObject(position, SegmentLength, texture, radius)
+{
+	var TEObj;
+	TEObj = SGWorld.creator.CreateModel(position,abspath() + "/" + texture + ".dae", 1, ModelTypeCode.MT_NORMAL, GroupID, SGLang.i18n("Text4"));
+	TEObj.Position.Pitch = position.Pitch;
+	TEObj.ScaleX = radius;
+	TEObj.ScaleZ = radius;
+	TEObj.ScaleY = SegmentLength;
+	TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+	TEObj.Terrain.GroundObject = false;
+}
+
+function DrawPipeAsFeature(position, SegmentLength, texture, radius)
+{
+	CylindresLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], position.Yaw + ";" + position.Pitch + ";" + position.Roll + ";" + texture + ";" + radius + ";" + SegmentLength);
+}
+
+//---------
+// DrawConnector
+function DrawConnector(position, PrevYaw, PrevPitch, type) {
+
+    if ($("#createAs").val() == "Group")
+        DrawConnectorAsObject(position, PrevYaw, PrevPitch, type)
+    else
+        DrawConnectorAsFeature(position, PrevYaw, PrevPitch, type);
+}
+
+function DrawConnectorAsObject(position, PrevYaw, PrevPitch, type)
+{
+    var TEObj;
+    var radius = validateNumber($("#Radius").attr("value"));
+    var radius1 = radius * 1.1;
+    TEObj = SGWorld.creator.CreateModel(position, abspath() + "/connector.dae", radius1 * 2, ModelTypeCode.MT_NORMAL, GroupID, SGLang.i18n("Text9"));
+    TEObj.Position.Pitch = position.Pitch;
+	TEObj.ScaleY = radius1;
+    TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+	TEObj.Terrain.GroundObject = false;
+
+    if (type == 1) 
+    {
+        TEObj = SGWorld.creator.CreateModel(position, abspath() + "/connector.dae", radius1 * 2, ModelTypeCode.MT_NORMAL, GroupID, SGLang.i18n("Text9"));
+        TEObj.Position.Yaw = 180 + PrevYaw;
+        TEObj.Position.Pitch = (-PrevPitch);
+		TEObj.ScaleY = radius1;
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+		TEObj.Terrain.GroundObject = false;
+
+        TEObj = SGWorld.creator.CreateModel(position, abspath() + "/sphere.dae",radius * 2, ModelTypeCode.MT_NORMAL, GroupID, SGLang.i18n("Text9"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+		TEObj.Terrain.GroundObject = false;
+    }
+
+    return (true);
+
+}
+
+//---------
+// DrawConnector
+function DrawConnectorAsFeature(position, PrevYaw, PrevPitch, type, radius1)
+{
+    var radius = validateNumber($("#Radius").attr("value"));
+    var radius1 = radius * 1.1;
+
+    var pitch = position.Pitch
+    CylindresLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], position.Yaw + ";" + pitch + ";" + position.Roll + ";" + "connector" + ";" + radius1*2 + ";" + radius1);
+
+    if (type == 1)
+    {
+        CylindresLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], (180 + PrevYaw) + ";" + (- PrevPitch) + ";" + position.Roll + ";" + "connector" + ";" + radius1*2 + ";" + radius1);
+        CylindresLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], position.Yaw + ";" + position.Pitch + ";" + position.Roll + ";" + "sphere" + ";" + radius*2 + ";" + radius*2);
+    }
+
+    return (true);
+
+}
+
+function TransformEnumAltitudeTypeToSetPropertyType(altitudeType) {
+    var result;
+    switch (altitudeType) {
+        case AltitudeTypeCode.ATC_ON_TERRAIN:
+            result = 2;
+            break;
+        case AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE:
+            result = 1;
+            break;
+        case AltitudeTypeCode.ATC_TERRAIN_RELATIVE:
+            result = 0;
+            break;
+        default:
+            throw new Error(2000, "Unexpected altitude type");
+    }
+
+    return result;
+}
+
+function BuildClassificationString()
+{
+	var classification = "";
+	var textures = ["connector", "sphere", "pipeGray", "pipeYellow", "pipeGreen", "pipeBlue", "pipePurple", "pipeRed"];
+	for(var i = 0;i<textures.length;i++)
+	{
+		var textureName = textures[i];
+		var texturePath = abspath() + '/' + textureName + '.dae';
+		classification = classification
+		+ '<Class>'
+		+ '		<Condition>&lt;\"[Texture]"="' + textureName + '"&gt;</Condition>'
+		+ '		<Value>' + texturePath + '</Value>'
+		+ '</Class>';
+	}
+	return '<Classification FuncType="0">' + classification + '</Classification>';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+package com.sucsoft.gzhbyjwz.bean.constant;
+
+public class DangerConstant {
+
+
+
+
+    public enum DangerLevel{
+        General("一般隐患",1),Significant("重大隐患",2),Emergency("应急管理隐患",3);
+
+        private  String name;
+        private Integer level;
+
+        DangerLevel(String name, Integer level) {
+            this.name = name;
+            this.level = level;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getLevel() {
+            return level;
+        }
+
+        public void setLevel(Integer level) {
+            this.level = level;
+        }
+    }
+}

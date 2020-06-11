@@ -1,0 +1,156 @@
+package com.sucsoft.gzhbyjwz.controller.riskManage;
+
+
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterprisePreplan;
+import com.sucsoft.gzhbyjwz.bean.dc12.PlanAttachment;
+import com.sucsoft.gzhbyjwz.bean.param.riskManage.PreplanParam;
+import com.sucsoft.gzhbyjwz.service.XzqyService;
+import com.sucsoft.gzhbyjwz.service.riskmanage.EnterprisePreplanService;
+import com.sucsoft.gzhbyjwz.service.riskmanage.TaskCountService;
+import com.sucsoft.gzhbyjwz.util.PageBean;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/preplan")
+@Api(value="EnterprisePreplanController",description="预案管理")
+public class EnterprisePreplanController {
+
+    @Autowired
+    private EnterprisePreplanService enterprisePreplanService;
+
+    @Autowired
+    private TaskCountService countService;
+
+    @Autowired
+    private XzqyService xzqyService;
+
+    @RequestMapping(value="/getBycompanyId",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="根据企业id获取企业预案",notes="根据企业id获取企业预案",
+            response= Map.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public Map saveOrUpdatePreplan(String companyId) throws Exception{
+        return enterprisePreplanService.getBycompanyId(companyId);
+    }
+
+    @RequestMapping(value="/countPreplan",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="预案统计",notes="预案统计",
+            produces= MediaType.TEXT_PLAIN_VALUE)
+    public Object countPreplan(HttpSession session) throws Exception{
+        //param.setLevel(DangerConstant.DangerLevel.Significant.getLevel());
+        //return hiddenDangerService.echoHiddenDanger(param);
+        session.getAttribute("companyId");
+        String xzqyId = (String) session.getAttribute("xzqyId");
+        return countService.countPreplan(xzqyId);
+    }
+
+    @RequestMapping(value="/saveOrUpdatePreplan",method= RequestMethod.POST)
+    @ApiOperation(httpMethod="POST",value="新增或修改",notes="新增或修改",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public Integer saveOrUpdatePreplan(@RequestBody EnterprisePreplan preplan) throws Exception{
+        return enterprisePreplanService.saveOrUpdatePreplan(preplan);
+    }
+
+
+    @RequestMapping(value="/listEnterprisePreplan",method= RequestMethod.POST)
+    @ApiOperation(httpMethod="POST",value="预案管理列表",notes="预案管理列表,带分页",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public PageBean<Map> listEnterprisePreplan(@RequestBody() PreplanParam param,
+                                               @RequestParam(value = "pageNo", defaultValue = "1")   Integer pageNo,
+                                               @RequestParam(value = "pageSize", defaultValue = "15")Integer pageSize) throws Exception{
+
+        //按行政区域划分数据权限
+        param.setXzqyIdList(xzqyService.getChildrenAndSelfId(param.getXzqyId()));
+        return enterprisePreplanService.listEnterprisePreplan(param,pageNo,pageSize);
+    }
+
+    @ApiOperation(value = "导出应急预案", notes = "导出应急预案")
+    @RequestMapping(value = "/downModel", method = RequestMethod.POST)
+    public void model(HttpServletResponse response,@RequestBody PreplanParam param) throws Exception {
+        //按行政区域划分数据权限
+        param.setXzqyIdList(xzqyService.getChildrenAndSelfId(param.getXzqyId()));
+        enterprisePreplanService.writeToResponse(response, param);
+    }
+
+    @RequestMapping(value="/listAlarmPreplan",method= RequestMethod.POST)
+    @ApiOperation(httpMethod="POST",value="告警预案管理列表",notes="告警预案管理列表,带分页",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public PageBean<Map> listAlarmPreplan(@RequestBody() PreplanParam param,
+                                          @RequestParam(value = "pageNo", defaultValue = "1")   Integer pageNo,
+                                          @RequestParam(value = "pageSize", defaultValue = "15")Integer pageSize) throws Exception{
+
+        //按行政区域划分数据权限
+        param.setXzqyIdList(xzqyService.getChildrenAndSelfId(param.getXzqyId()));
+
+        return enterprisePreplanService.listAlarmPreplan(param,pageNo,pageSize);
+    }
+
+    @RequestMapping(value="/listAttachmentByPlan",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="预案相关的附件列表",notes="预案相关的附件列表,带分页",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public Page listAttachmentByPlan(String planId,Integer pageNo,Integer pageSize) throws Exception{
+        return enterprisePreplanService.listAttachmentByPlan(planId,pageNo,pageSize);
+    }
+
+    @RequestMapping(value="/addPlanAttachment",method= RequestMethod.POST)
+    @ApiOperation(httpMethod="POST",value="添加预案附件",notes="添加预案附件",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public void addPlanAttachment(@RequestParam MultipartFile file,PlanAttachment attachment) throws Exception{
+        enterprisePreplanService.addPlanAttachment(file,attachment);
+    }
+
+    @RequestMapping(value="/downPlanAttachment",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="下载预案附件",notes="下载预案附件",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public void downPlanAttachment(String attachmentId, HttpServletResponse response, HttpServletRequest request) throws Exception{
+        System.out.println(request.getSession().getMaxInactiveInterval());
+        enterprisePreplanService.downPlanAttachment(attachmentId,response);
+    }
+
+    @RequestMapping(value="/deletePlanAttachment",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="删除预案附件",notes="删除预案附件",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public String deletePlanAttachment(String attachmentId) throws Exception{
+        return enterprisePreplanService.deleteAttacment(attachmentId);
+    }
+
+    @RequestMapping(value="/setPreplan",method= RequestMethod.GET)
+    public Integer setPreplan(Integer num) throws Exception {
+        return enterprisePreplanService.setPreplan(num);
+    }
+
+    @RequestMapping(value="/getfjStatistics",method= RequestMethod.POST)
+    @ApiOperation(httpMethod="POST",value="统计附件企业数",notes="统计附件企业数",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public Object fjStatistics(@RequestBody() PreplanParam param) throws Exception{
+
+        return enterprisePreplanService.getfjStatistics(param);
+    }
+
+    @RequestMapping(value="/getFjTypeCompany",method= RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="查询有无上传该类型文件的企业",notes="查询有无上传该类型文件的企业",
+            response= Page.class,produces= MediaType.TEXT_PLAIN_VALUE)
+    public Object fjStatistics1(@RequestParam(value = "附件类型",required=false)String type,
+                                @RequestParam(value = "企业名称",required=false)String name,
+                                @RequestParam(value = "是否上传 （0为未，1 为 已上传）")String isUpload,
+                                @RequestParam(value = "区域id",required=false)String xzqy,
+                                @RequestParam(value = "风险源等级",required=false)String riskGrade) throws Exception{
+        return enterprisePreplanService.getFjTypeCompany(type, name, isUpload, xzqy, riskGrade);
+    }
+
+    @ApiOperation(value = "导出附件企业", notes = "导出附件企业")
+    @RequestMapping(value = "/downModelByqy", method = RequestMethod.POST)
+    public void model(HttpServletResponse response,String type,String name,String isUpload,String xzqy,String riskGrade) throws Exception {
+        enterprisePreplanService.writeToResponse1(response, type, name, isUpload, xzqy, riskGrade);
+    }
+
+}

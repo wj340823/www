@@ -1,0 +1,116 @@
+---
+  grammer: SQL
+  queries:
+    #根据条件查询任务列表
+    - name: listHiddenDanger
+      resultType: Map
+      statement:
+        "
+        SELECT
+          h.address as address,
+          h.level as level,
+          h.remark as remark,
+          h.isRectification as isRectification,
+          h.rectificationTime as rectificationTime,
+          h.result as result,
+          h.number as number,
+          h.hiddenDanger as hiddenDanger,
+          h.responsiblePerson as responsiblePerson,
+          h.isLimitRectification as isLimitRectification,
+          h.name as name,
+          h.inventoryId as inventoryId,
+          h.licensesToSupervise as licensesToSupervise,
+          h.id as id,
+          h.deadline as deadline,
+          h.updatetime as updatetime,
+          h.investigated as investigated,
+          h.isinvestigated as isinvestigated,
+          i.enterprisename as enterprisename,
+          i.time as time,
+          x.name as xzqyName
+        FROM hiddendanger h
+        left join riskinventory i on i.id = h.inventoryId
+        left join enterprisetask t on t.id = i.taskId
+        left join enterpriseinformation e on e.companyId = t.enterpriseId
+        LEFT JOIN xzqy x on x.ID = e.XZQYID
+        WHERE
+          1=1
+        #if($xzqyId)
+          and e.xzqyId =:xzqyId
+        #end
+        #if($xzqyIdList)
+          and e.xzqyId #qin($xzqyIdList 'xzqyIdList')
+        #end
+        #if($enterpriseId)
+          and e.companyId =:enterpriseId
+        #end
+        #if($status)
+          and t.status =:status
+        #end
+        #if($level)
+          and h.level =:level
+        #end
+        #if($isRectification)
+          and h.isRectification =:isRectification
+        #end
+        #if($notCommit)
+          and (h.isRectification is null or h.isRectification =:isRectification)
+        #end
+        #if($startTime)
+          and i.TIME >:startTime
+        #end
+        #if($endTime)
+          and i.TIME <:endTime
+        #end
+        #if($type)
+          and i.type =:type
+        #end
+        #if($inventoryId)
+          and i.id =:inventoryId
+        #end
+        #if($result)
+          and h.result =:result
+        #end
+        #if($keywords)
+          and (h.name like :keywords or e.companyName like :keywords)
+        #end
+        #if($orderBy)
+          order by :orderBy
+        #end
+        "
+    #重大、一般隐患单个详情
+    - name: getRiskDetailById
+      resultType: Map
+      statement:
+        "
+        SELECT
+          t.NAME as  tName,
+          e.companyName,
+          i.TIME,
+          i.RESPONSIBLEPERSON as iRESPONSIBLEPERSON,
+          h.*
+        FROM hiddendanger h
+        LEFT JOIN riskinventory i ON h.INVENTORYID = i.ID
+        LEFT JOIN enterprisetask t ON i.taskid = t.id
+        left join enterpriseinformation e on e.companyId = t.enterpriseId
+        WHERE
+          h.ID =:id
+        "
+    #根据条件查询任务列表
+    - name: getEmergencyDetailById
+      resultType: Map
+      statement:
+        "
+        SELECT
+          t.NAME as tName,
+          e.companyName,
+          i.TIME,
+          i.RESPONSIBLEPERSON as iRESPONSIBLEPERSON,
+          h.*
+        FROM hiddendanger h
+        LEFT JOIN riskinventory i ON h.INVENTORYID = i.ID
+        LEFT JOIN enterprisetask t ON i.taskid = t.id
+        left join enterpriseinformation e on e.companyId = t.enterpriseId
+        WHERE
+          h.ID =:id
+        "

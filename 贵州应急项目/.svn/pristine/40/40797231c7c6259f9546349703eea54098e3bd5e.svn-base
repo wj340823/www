@@ -1,0 +1,105 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class Supplier {
+
+    private String notes;
+    private String name;
+    /**
+     * 联系电话
+     * 
+     */
+    private String contactNumber;
+    /**
+     * 联系人
+     * 
+     */
+    private String contactPerson;
+    /**
+     * 联系地址
+     * 
+     */
+    private String contactAddress;
+    /**
+     * 邮编
+     * 
+     */
+    private String postCode;
+    private String id;
+    private String status;
+    private Integer isEnable;
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
+    }
+
+    public String getContactAddress() {
+        return contactAddress;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setIsEnable(Integer isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public Integer getIsEnable() {
+        return isEnable;
+    }
+
+}

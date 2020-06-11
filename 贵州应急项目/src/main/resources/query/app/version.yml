@@ -1,0 +1,13 @@
+---
+  grammer: HQL
+  queries:
+    #查询最新的appversion
+    - name: getLastVersion
+      resultType: AppVersion
+      fetches: []
+      statement:
+        "
+        FROM
+          AppVersion a
+        "
+

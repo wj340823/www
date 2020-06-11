@@ -1,0 +1,90 @@
+<div ng-controller="taskSCtrl">
+    <div style="background-color: rgba(0,0,0,.7);padding: 12px 20px 20px">
+        <div class="clearfix">
+            <div class="tb-title"> 任务统计</div>
+            <div class="fr">
+                <button class="searchBtn" onclick="history.go(-1)">
+                    <i class="iconfont icon-fanhui"></i>
+                    返回
+                </button>
+            </div>
+        </div>
+        <div class="item-title">基本信息</div>
+        <div class="item-content">
+            <p><span class="item-content-name">行政区划：</span>{{userList.xzqyName}}</p>
+            <p><span class="item-content-name">截止日期：</span>{{baseMsg.time | date:'yyyy-MM-dd'}}</p>
+            <p>
+                <span  class="item-content-name">任务名称：</span>{{baseMsg.taskName}}
+            </p>
+            <p>
+                <span  class="item-content-name">任务状态：</span>
+                <span ng-class="baseMsg.status=='10'?'finishColor':baseMsg.status=='1'?'warning':baseMsg.status=='2'?'dangerColor':''">
+                    {{baseMsg.status=='0'?'执行中':baseMsg.status=='1'?'预警':baseMsg.status=='2'?'超时':'已完成'}}
+                </span>
+
+            </p>
+            <p>
+                <span  class="item-content-name">任务详情：</span>{{baseMsg.info}}
+            </p>
+            <p>
+                <span  class="item-content-name">任务附件：</span>
+                <button class="searchBtn" ng-click="downTaskFile()" ng-show="baseMsg.list.length!=0">{{baseMsg.fileName}}</button>
+                <span class="dangerColor" ng-show = 'baseMsg.list.length==0'>无附件</span>
+            </p>
+        </div>
+        <div class="item-title">排查统计</div>
+        <div class="item-content">
+            <table>
+                <thead>
+                <tr >
+                    <th rowspan="2" style="border: 1px solid #000;">序号</th>
+                    <th rowspan="2" style="border: 1px solid #000;">行政区划</th>
+                    <th rowspan="2" style="border: 1px solid #000;">任务状态</th>
+                    <th rowspan="2" style="border: 1px solid #000;">企业总数</th>
+                    <th rowspan="2" style="border: 1px solid #000;">已完成企业</th>
+                    <th rowspan="2" style="border: 1px solid #000;">应急管理隐患</th>
+                    <th colspan="4" style="border: 1px solid #000;">重大隐患整改情况(个)</th>
+                    <th colspan="4" style="border: 1px solid #000">重大隐患督办情况</th>
+                </tr>
+                <tr>
+                    <th style="border: 1px solid #000;">总数</th>
+                    <th style="border: 1px solid #000;">已整改</th>
+                    <th style="border: 1px solid #000;">正在整改</th>
+                    <th style="border: 1px solid #000;">未整改</th>
+                    <th style="border: 1px solid #000;">限期整改(个)</th>
+                    <th style="border: 1px solid #000;">挂牌督办(个)</th>
+                    <th style="border: 1px solid #000;">追究责任(人)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in obj">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.xzqyName}}</td>
+                    <td ng-class="item.status==10?'finishColor':item.status==2?'dangerColor':
+                    item.status==1?'warning':''">
+                        {{item.status==10?'已完成':item.status==2?'超时':item.status==1?'预警':'执行中'}}
+                    </td>
+                    <td><span style="display: inline-block;width: 40px">{{item.num}}</span>
+                        <span class="fl"
+                              ng-click="showEnterList(item.xzqyId)">
+                            <i class="iconfont icon-shijianliebiao"></i>
+                        </span>
+                    </td>
+                    <td>{{item.cnum}}</td>
+                    <td>{{item.emergency}}</td>
+                    <td>{{item.significant}}</td>
+                    <td>{{item.rectificated}}</td>
+                    <td>{{item.rectificating}}</td>
+                    <td>{{item.notrectificated}}</td>
+                    <td>{{item.limitRectificate}}</td>
+                    <td>{{item.licensesToSupervise}}</td>
+                    <td>{{item.investigated}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

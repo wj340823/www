@@ -1,0 +1,43 @@
+
+body {  background-color: #ffffff;  background-repeat: no-repeat}
+.background {  background-color: #555555; background-image: url(img\background.gif); background-repeat: no-repeat}
+.s7 {font-family:  Arial, Helvetica, sans-serif; font-size: 7pt; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s7red {font-family:  Arial, Helvetica, sans-serif; font-size: 7pt; font-style: normal; font-weight: normal; color: #B90000; text-decoration: none;}
+.s8 {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s8b {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s8bu {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: bold; color: #000000; text-decoration: underline;}
+.s9 {font-family:  Arial, Helvetica, sans-serif; font-size: 9pt; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s9bred{font-family:   Arial,Helvetica, sans-serif;font-size: 13px;font-style: normal;line-height: normal;font-weight: bold;font-variant: normal;text-transform: none;color: #B90000;text-decoration: none;}
+.s10b {font-family:  Arial, Helvetica, sans-serif; font-size: 10pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s12b {font-family:  Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s14b {font-family:  Arial, Helvetica, sans-serif; font-size: 14pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s14bi {font-family:  Arial, Helvetica, sans-serif; font-size: 14pt; font-style: italic; font-weight: bold; color: #000000; text-decoration: none;}
+
+.SectionCaption{font-style:normal;  font-weight: bold;font-size:16px;font-family:  Arial, Helvetica, sans-serif; color:rgb(69,103,131)}
+.SectionText{font-style:normal;  font-weight: normal;font-size:11px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+.SectionTextWhite{font-style:normal;  font-weight: normal;font-size:10px;font-family:  Arial, Helvetica, sans-serif; color:black}
+
+.Footer{BORDER-top: rgb(198,207,214) 7px solid;BORDER-bottom:rgb(198,207,214) 2px solid;BACKGROUND-COLOR: rgb(239,243,247);font-style:normal;  font-weight: normal;font-size:13px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+
+li{margin: 0 0 0 9; list-style-type: square}
+
+A:link {COLOR: #000000; text-decoration: none;; font-weight: bold;}
+A:visited {color: #000000; text-decoration: none;; font-weight: bold;}
+A:hover {COLOR: #E2A21B; text-decoration: none;}
+
+td.ColorWin {  padding: 0 0 0 0;  margin:  0 0 0 0;  border:  0 0 0 0;  height: 16px;  width: 16px;}
+#PS.td {border-bottom: solid 1px #ffcc00;}
+Select {width:130px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT {width:130px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT.checkbox {width:20px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT.file {width:160px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT.ColorButton {width:50px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; text-decoration: none;}
+INPUT.button {width:125px;border-width:1;filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFAFAE2', endColorstr='#FFC0C18B')}
+INPUT.button2 {width:125px;border-width:1;filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFFEEE7', endColorstr='#FFDBA47B')}
+td{font-style:normal;  font-weight: normal;font-size:11px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+.TableOtherLine{background-color:rgb(239,243,247);height:5px}
+
+.SelectSymbol1 {height: 150px; overflow:auto}
+.SelectSymbol2 {height: 150px; overflow:auto; background-color: FFFFFF}
+.SelectedSymbol {font-style: italic; background-color: 00FFFF}
+.UnSelectedSymbol {font-style: normal; background-color: FFFFFF}

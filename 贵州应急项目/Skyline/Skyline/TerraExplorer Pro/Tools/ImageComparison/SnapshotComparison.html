@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+
+
+  <script language="javascript" src="../ToolsCommon65.js"></script>
+
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+        .MenuButton
+        {
+            height: 78px;
+            width: 65px;
+            margin: 5px;
+            white-space: normal;s
+        }
+        .MenuButtonHighlight
+        {
+            color: Red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0;
+    overflow: auto;" id="Body" onload="Init()" >
+		<table border=0 cellPadding=0 CELLSPACING=0 class="s9" width=100%>
+		<tr><td class="s12b" align=center>
+			<div id="LoadingDiv" style="display:inline"><span class="i18n" >Text32</span>
+            </div>
+
+            <div id="CompareDiv" style="display:none">
+			<span class="i18n" >Text33</span><br />
+            <br />
+            <button onclick="LoadSnapshotPopup();" class="i18n">Text14</button>
+            </div>
+		</td></tr>
+		<tr><td>
+		
+			</td></tr>
+		</table>
+
+     <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="JavaScript">
+var snapshotAImg;
+var gStartPosition;
+var gWidth;
+var gHeight;
+//--------------
+// Init
+function Init() {
+
+    gStartPosition = SGWorld.Navigate.GetPosition(3);
+
+    window.setTimeout("CaptureA();", 100);
+    SGWorld.AttachEvent("OnFrame", onFrame);
+
+ }
+//--------------
+// CaptureA
+ function CaptureA() {
+    // try {
+        var ratio = SGWorld.Window.Rect.Width / SGWorld.Window.Rect.Height;
+         gWidth = Math.min(SGWorld.Window.Rect.Width, 1499);
+         gHeight = Math.min(gWidth / ratio, 1499);
+         snapshotAImg = SGWorld.Window.GetSnapShot(true, gWidth, gHeight, "JPeg75", 1);
+   //  }
+   //  catch (err) { alert(err); }
+
+     document.getElementById("LoadingDiv").style.display = "none";
+     document.getElementById("CompareDiv").style.display = "inline";
+ }
+ //---------------
+//
+ function onFrame() {
+     try {
+         SGWorld.Navigate.SetPosition(gStartPosition);
+     }
+     catch (err) { }
+ }
+//--------------
+// LoadSnapshotPopup
+function LoadSnapshotPopup()
+{
+    snapshotAImg = snapshotAImg.replace(".jpg", "#jpg");
+    snapshotAImg = snapshotAImg.replace(".tif", "#tif");
+    var url = abspath() + "/SnapshotDetectionPopup.html?A=" + encodeURI(snapshotAImg) + "&lang=" + SGLang.getCode();
+
+    var popupMsg1 = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("Text7"), url, 15, 15, gWidth+18 , gHeight+65 , -1);
+
+    popupMsg1.Flags = 2 + 64 + 128;
+    SGWorld.Window.ShowPopup(popupMsg1);
+
+
+}
+</script>
+</body>
+
+
+
+
+</html>
+
+
+<!--Sig:000000409zXy3AcsxHUI6Rl8i1vp7dX6niz99OvHHCdMRjsOtFP.bP#n49h5NXYrvWcmC7u7sJrfGU6SNSQpVFtwrGUwM5JJ-->

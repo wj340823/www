@@ -1,0 +1,418 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.math.BigDecimal;
+
+public class Goods {
+
+    private String unitOfMaterial;
+    /**
+     * 去向
+     * 
+     */
+    private String dispositon;
+    private String notes;
+    /**
+     * 使用期限
+     * 
+     */
+    private java.util.Date lifetime;
+    /**
+     * 区
+     * 
+     */
+    private String storageArea;
+    private String meterUnitID;
+    private Integer limitNumber;
+    /**
+     * 生产日期
+     * 
+     */
+    private String factoryDate;
+    private String manufacturer;
+    /**
+     * 数量
+     * 
+     */
+    private Integer number;
+    /**
+     * 资产属性
+     * 
+     */
+    private Integer assetsAttribute;
+    /**
+     * 行
+     * 
+     */
+    private String storageRow;
+    /**
+     * 供应商
+     * 
+     */
+    private String supplier;
+    private String id;
+    /**
+     * 资产属性
+     * 
+     */
+    private String attribute;
+    /**
+     * 存放位置
+     * 
+     */
+    private String place;
+    private String SN;
+    private java.util.Date createDate;
+    private BigDecimal unitPrice;
+    private Integer checkType;
+    private String materialPurchasingUnit;
+    private String assetCode;
+    /**
+     * 物资设备编码
+     * 
+     */
+    private String equipCode;
+    /**
+     * 规格
+     * 
+     */
+    private String specification;
+    /**
+     * 采购时间
+     * 
+     */
+    private java.util.Date purchasetime;
+    /**
+     * 计量单位
+     * 
+     */
+    private String unit;
+    private Integer isCheck;
+    /**
+     * 库房ID
+     * 
+     */
+    private String warehouseId;
+    private Integer isMinWarning;
+    /**
+     * 物资设备名称
+     * 
+     */
+    private String name;
+    private Integer warningValue;
+    private String createUser;
+    /**
+     * 物资设备分类
+     * 
+     */
+    private String category;
+    /**
+     * 定期检查
+     * 
+     */
+    private String regularCheckup;
+    private String managePersonTel;
+    /**
+     * 状态
+     * 
+     */
+    private Integer status;
+    private String storageLayer;
+
+    public void setUnitOfMaterial(String unitOfMaterial) {
+        this.unitOfMaterial = unitOfMaterial;
+    }
+
+    public String getUnitOfMaterial() {
+        return unitOfMaterial;
+    }
+
+    public void setDispositon(String dispositon) {
+        this.dispositon = dispositon;
+    }
+
+    public String getDispositon() {
+        return dispositon;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setLifetime(java.util.Date lifetime) {
+        this.lifetime = lifetime;
+    }
+
+    public java.util.Date getLifetime() {
+        return lifetime;
+    }
+
+    public void setStorageArea(String storageArea) {
+        this.storageArea = storageArea;
+    }
+
+    public String getStorageArea() {
+        return storageArea;
+    }
+
+    public void setMeterUnitID(String meterUnitID) {
+        this.meterUnitID = meterUnitID;
+    }
+
+    public String getMeterUnitID() {
+        return meterUnitID;
+    }
+
+    public void setLimitNumber(Integer limitNumber) {
+        this.limitNumber = limitNumber;
+    }
+
+    public Integer getLimitNumber() {
+        return limitNumber;
+    }
+
+    public void setFactoryDate(String factoryDate) {
+        this.factoryDate = factoryDate;
+    }
+
+    public String getFactoryDate() {
+        return factoryDate;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setAssetsAttribute(Integer assetsAttribute) {
+        this.assetsAttribute = assetsAttribute;
+    }
+
+    public Integer getAssetsAttribute() {
+        return assetsAttribute;
+    }
+
+    public void setStorageRow(String storageRow) {
+        this.storageRow = storageRow;
+    }
+
+    public String getStorageRow() {
+        return storageRow;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setSN(String SN) {
+        this.SN = SN;
+    }
+
+    public String getSN() {
+        return SN;
+    }
+
+    public void setCreateDate(java.util.Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public java.util.Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setCheckType(Integer checkType) {
+        this.checkType = checkType;
+    }
+
+    public Integer getCheckType() {
+        return checkType;
+    }
+
+    public void setMaterialPurchasingUnit(String materialPurchasingUnit) {
+        this.materialPurchasingUnit = materialPurchasingUnit;
+    }
+
+    public String getMaterialPurchasingUnit() {
+        return materialPurchasingUnit;
+    }
+
+    public void setAssetCode(String assetCode) {
+        this.assetCode = assetCode;
+    }
+
+    public String getAssetCode() {
+        return assetCode;
+    }
+
+    public void setEquipCode(String equipCode) {
+        this.equipCode = equipCode;
+    }
+
+    public String getEquipCode() {
+        return equipCode;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setPurchasetime(java.util.Date purchasetime) {
+        this.purchasetime = purchasetime;
+    }
+
+    public java.util.Date getPurchasetime() {
+        return purchasetime;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setIsCheck(Integer isCheck) {
+        this.isCheck = isCheck;
+    }
+
+    public Integer getIsCheck() {
+        return isCheck;
+    }
+
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    public String getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setIsMinWarning(Integer isMinWarning) {
+        this.isMinWarning = isMinWarning;
+    }
+
+    public Integer getIsMinWarning() {
+        return isMinWarning;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setWarningValue(Integer warningValue) {
+        this.warningValue = warningValue;
+    }
+
+    public Integer getWarningValue() {
+        return warningValue;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setRegularCheckup(String regularCheckup) {
+        this.regularCheckup = regularCheckup;
+    }
+
+    public String getRegularCheckup() {
+        return regularCheckup;
+    }
+
+    public void setManagePersonTel(String managePersonTel) {
+        this.managePersonTel = managePersonTel;
+    }
+
+    public String getManagePersonTel() {
+        return managePersonTel;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStorageLayer(String storageLayer) {
+        this.storageLayer = storageLayer;
+    }
+
+    public String getStorageLayer() {
+        return storageLayer;
+    }
+
+}

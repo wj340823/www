@@ -1,0 +1,45 @@
+<div ng-controller="roleCtrl" style="width:100%;position:relative">
+    <!--    群组管理-->
+    <div class="content1">
+        <div class="user_toolTip">
+            <div class="user_toolTip_left">
+                <select class="form-control select_tool" ng-options="option.key as option.name for option in role.table.searchList" ng-model="role.table.searchName"></select>
+                <input type="text" class="form-control input_tool" ng-model="role.searchValue" placeholder="搜索..." />
+                <button type="button" class="btn btn-default btn-primary" ng-click="role.search()">搜索</button>
+            </div>
+            <div class="user_toolTip_right">
+                <button type="button"  class="btn btn-default btn-primary" ng-click="role.addRole('新建角色')">新建角色</button>
+                <button type="button" class="btn btn-default" ng-click="role.refresh()">刷新</button>
+            </div>
+        </div>
+        <div class="user_table">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th ng-repeat="thead in role.table.headList">{{thead}}</th>
+                        <th style="width:200px">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="content in role.table.content">
+                    	<td>{{content.role}}</td>
+                        <td>{{content.name}}</td>
+                        <td><span class="role-parent" ng-repeat="parent in content.parents">{{parent}}</span></td>
+                        <td>{{content.des}}</td>
+                        <td>{{content.createtimestamp|date:'yyyy-MM-dd'}}</td>
+                        <td style="width:200px" authox-unable-resource="authox | manage">
+							<a class="table_a" style="width:100%" ui-sref="system.user.select({key:content.uid})">查看</a></td>
+                        <td style="width:200px" authox-resource="authox | manage">
+                        	<a class="table_a border_right" ui-sref="system.role.select({key:content.role})">管理</a><a class="table_a" ng-click="role.delrole(content)">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page" style="margin-top: 3px;margin-right: 15px;">
+                <div class="page_left">共有{{role.pages.totalCount}}条，每页显示{{role.pages.pageSize}}条</div>
+                <uib-pagination ng-change="role.pageChanged(role.pages.currentPageNo)" total-items="role.pages.totalCount" ng-model="role.pages.currentPageNo" items-per-page="role.pages.pageSize" 
+                	boundary-links="true" direction-links="true" rotate="false" max-size="10" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

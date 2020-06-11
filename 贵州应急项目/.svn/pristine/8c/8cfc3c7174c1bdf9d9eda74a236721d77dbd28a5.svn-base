@@ -1,0 +1,51 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import javax.persistence.Transient;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "应急事故参考图", description = "应急事故参考图")
+public class ReferenceDrawing {
+
+	private String referenceDrawingId;
+	private String companyId;
+	@ApiModelProperty(value = "名称")
+	private String name;
+	@ApiModelProperty(value = "文件存储路径")
+	private String filePath;	
+	
+	@Transient
+	private String fileBase64;
+	
+	public String getReferenceDrawingId() {
+		return referenceDrawingId;
+	}
+	public void setReferenceDrawingId(String referenceDrawingId) {
+		this.referenceDrawingId = referenceDrawingId;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	public String getFileBase64() {
+		return fileBase64;
+	}
+	public void setFileBase64(String fileBase64) {
+		this.fileBase64 = fileBase64;
+	}
+}

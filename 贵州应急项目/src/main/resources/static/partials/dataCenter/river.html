@@ -1,0 +1,30 @@
+
+<div class="mainOuter" ng-controller="envirCtrl">
+    <ul class="homePage">
+        <li ui-sref="home.dataType1"><i class="iconfont icon-fengxianyuan"></i> 风险源状况</li>
+        <li ui-sref="home.emerStatus1"><i class="iconfont icon-yingjiwuzi"></i> 应急物资状况</li>
+        <li ui-sref="home.organise"><i class="iconfont icon-jigourenyuan"></i> 机构人员</li>
+        <li ui-sref="home.dealing"><i class="iconfont icon-chuli"></i> 处置方式状况</li>
+       <!-- <li class="active"  ui-sref="home.waterSource"><i class="iconfont icon-minganci"></i> 环境敏感点状况</li>-->
+    </ul>
+
+    <div class="msgBoard">
+        <div class="item-title" style="margin-top: 0" ng-bind="data1Title"></div>
+        <div style="width: 100%;height:calc(100% - 40px);" cgs-echarts options="fxyCount"></div>
+    </div>
+    <div class="prePage">
+        <div  ui-sref="home.waterSource" class="prePageBtn">
+            <i class="iconfont icon-next-page-copy"></i>
+        </div>
+    </div>
+    <div class="riskLevel">
+        <div class="riskLevelNum">
+            <span>0</span>
+            <span>20</span>
+            <span>50</span>
+        </div>
+        <div class="riskLevelNum">
+            <span class="riskLeveltuli" >&nbsp;</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,379 @@
+package com.sucsoft.gzhbyjwz.service.risksource;
+
+import com.cgs.dc.PojoDataset;
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import com.sucsoft.gzhbyjwz.bean.dc12.*;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
+/**
+ * @author wangy
+ */
+@Service
+public class RiskSourceTwoService {
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    @Autowired
+    private PojoDataset ds;
+
+    /**
+     * 增加生产工艺
+     * @param productionProcess
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addProductionProcess(ProductionProcess productionProcess) {
+        try{
+            ds.save(productionProcess, ProductionProcess.class.getName());
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 更新生产工艺
+     * @param productionProcess
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateProductionProcess(ProductionProcess productionProcess) {
+        try {
+            ds.update(productionProcess,ProductionProcess.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param qyId
+     * @param gylx
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    public Page getProductionProcess(String qyId, String gylx, Integer pageNo, Integer pageSize) throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotBlank(qyId)){
+            params.put("qyId", qyId);
+        }
+        if(StringUtils.isNotBlank(gylx)){
+            params.put("gylx", gylx);
+        }
+        return basicQueryService.queryForPage("getProductionProcess",params,ProductionProcess.class,pageNo,pageSize);
+        /*for (ProductionProcess productionProcess : page.getDataList()) {
+            String gylxs = productionProcess.getGylx(); //工艺类型
+            if(ScgyType.CJGY.getKey().equals(gylxs)){
+                productionProcess.setGylx(ScgyType.CJGY.getVal());
+            }else if(ScgyType.GWGY.getKey().equals(gylxs)){
+                productionProcess.setGylx(ScgyType.GWGY.getVal());
+            }else if(ScgyType.GJGD.getKey().equals(gylxs)){
+                productionProcess.setGylx(ScgyType.GJGD.getVal());
+            }else if(ScgyType.QT.getKey().equals(gylxs)){
+                productionProcess.setGylx(ScgyType.QT.getVal());
+            }
+        }*/
+//        return page;
+    }
+
+    /**
+     * 删除生产工艺
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteProductionProcess(String id) {
+        try {
+            ds.remove(id, ProductionProcess.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 增加环境风险物质
+     * @param hjRiskSubstances
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addHjRiskSubstances(HjRiskSubstances hjRiskSubstances){
+       try {
+           String fxlx = hjRiskSubstances.getFxlx();
+           if("1".equals(fxlx)){
+               hjRiskSubstances.setFxlx("水");
+           }else if("2".equals(fxlx)){
+               hjRiskSubstances.setFxlx("气");
+           }
+           ds.save(hjRiskSubstances,HjRiskSubstances.class.getName());
+       }catch (Exception e){
+           return false;
+       }
+        return  true;
+    }
+
+    /**
+     * 删除环境风险物质
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteHjRiskSubstances(String id) {
+        try {
+            ds.remove(id, HjRiskSubstances.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 更新环境风险物质
+     *
+     * @param hjRiskSubstances
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateHjRiskSubstances(HjRiskSubstances hjRiskSubstances) {
+        try {
+            ds.update(hjRiskSubstances,HjRiskSubstances.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 查询环境风险物质
+     * @param qyId
+     * @return
+     */
+    public Page getHjRiskSubstances(String qyId, String fxlx, Integer pageNo,Integer pageSize) throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotBlank(qyId)){
+            params.put("qyId", qyId);
+        }
+        if("1".equals(fxlx)){
+            params.put("fxlx", "水");
+        }else if("2".equals(fxlx)){
+            params.put("fxlx", "大气");
+        }
+        Page page = basicQueryService.queryForPage("getHjRiskSubstances",params,HjRiskSubstances.class,pageNo,pageSize);
+        return page;
+    }
+
+    /**
+     * 增加环境风险受体
+     * @param riskReceptor
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addRiskReceptor(RiskReceptor riskReceptor){
+        try {
+            ds.save(riskReceptor,RiskReceptor.class.getName());
+        }catch (Exception e){
+            return false;
+        }
+        return  true;
+    }
+
+    /**
+     * 删除环境风险受体
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteRiskReceptor(String id) {
+        try {
+            ds.remove(id, RiskReceptor.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 更新环境风险受体
+     *
+     * @param riskReceptor
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateRiskReceptor(RiskReceptor riskReceptor) {
+        try {
+            ds.update(riskReceptor,RiskReceptor.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 查询环境风险受体
+     * @param qyId
+     * @return
+     */
+    public Page getRiskReceptor(String qyId, String receptorType, Integer pageNo,Integer pageSize) throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotBlank(qyId)){
+            params.put("qyId", qyId);
+        }
+        if(StringUtils.isNotBlank(receptorType)){
+            params.put("receptorType", receptorType);
+        }
+        return basicQueryService.queryForPage("getRiskReceptor",params,RiskReceptor.class,pageNo,pageSize);
+    }
+
+    /**
+     * 增加突发环境事件情景分析
+     * @param qyScenarioAnalysis
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addQyScenarioAnalysis(QyScenarioAnalysis qyScenarioAnalysis){
+        try {
+            ds.save(qyScenarioAnalysis,QyScenarioAnalysis.class.getName());
+        }catch (Exception e){
+            return false;
+        }
+        return  true;
+    }
+
+    /**
+     * 删除突发环境事件情景分析
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteQyScenarioAnalysis(String id) {
+        try {
+            ds.remove(id, QyScenarioAnalysis.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 更新突发环境事件情景分析
+     *
+     * @param qyScenarioAnalysis
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateQyScenarioAnalysis(QyScenarioAnalysis qyScenarioAnalysis) {
+        try {
+            ds.update(qyScenarioAnalysis,QyScenarioAnalysis.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 查询突发环境事件情景分析
+     * @param qyId
+     * @return
+     */
+    public Page getQyScenarioAnalysis(String qyId,Integer pageNo,Integer pageSize) throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotBlank(qyId)){
+            params.put("qyId", qyId);
+        }
+        Page page = basicQueryService.queryForPage("getQyScenarioAnalysis",params,QyScenarioAnalysis.class,pageNo,pageSize);
+        return page;
+    }
+
+    /**
+     * 更新环境风险要素
+     *
+     * @param riskFactors
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateRiskFactors(RiskFactors riskFactors) {
+        try {
+            ds.update(riskFactors,RiskFactors.class.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 查询环境风险要素
+     * @param qyId
+     * @return
+     */
+    public List<RiskFactors> getRiskFactors(String qyId) throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        if(StringUtils.isNotBlank(qyId)){
+            params.put("qyId", qyId);
+        }
+        List<RiskFactors> list = basicQueryService.queryForList("getRiskFactors",params,RiskFactors.class,0,0);
+        return list;
+    }
+
+    /**
+     * 企业环境风险要素初始化
+     *
+     * @param
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean initRiskFactors() {
+        try {
+            List<Map> list = basicQueryService.queryForList("listRiskSouce", new HashMap<>(), Map.class, 0, 0);
+
+            for (Map map: list) {
+                RiskFactors riskFactors = new RiskFactors();
+                riskFactors.setRiskfactors_Id(UUID.randomUUID().toString().replaceAll("-", ""));
+                riskFactors.setQyId(map.get("COMPANYID").toString());
+                riskFactors.setIsJzsyysyd("0");
+                riskFactors.setIsTfsj("0");
+                riskFactors.setIsWkk("0");
+                riskFactors.setIsWxhxp("0");
+                riskFactors.setIsYdyhqt("0");
+                riskFactors.setIsYjyh("0");
+                riskFactors.setIsZjs("0");
+                riskFactors.setIsWxfw("0");
+                riskFactors.setTime(new Date());
+
+                ds.update(riskFactors,RiskFactors.class.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public List<RiskSourceLjz> getFxwzLjlByName() throws Exception {
+        Map<String,Object> params = new HashMap<>();
+        List<RiskSourceLjz> list = basicQueryService.queryForList("getRiskSourceLjz",params, RiskSourceLjz.class,0,0);
+        return list;
+    }
+}
+
+

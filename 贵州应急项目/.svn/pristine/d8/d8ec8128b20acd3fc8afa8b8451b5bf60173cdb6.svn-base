@@ -1,0 +1,100 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "环境风险受体")
+public class RiskReceptor {
+
+    @ApiModelProperty(value = "标准")
+    private String standard;
+    @ApiModelProperty(value = "距离")
+    private String distance;
+    @ApiModelProperty(value = "企业ID")
+    private String qyId;
+    private String riskreceptor_Id;
+    @ApiModelProperty(value = "保护目标")
+    private String protectionObjectives;
+    @ApiModelProperty(value = "方位")
+    private String position;
+    @ApiModelProperty(value = "人数/户数")
+    private String households;
+    @ApiModelProperty(value = "受体类型 1 为水 ，2 为 气")
+    private String receptorType;
+    @ApiModelProperty(value = "目的")
+    private String objective;
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setQyId(String qyId) {
+        this.qyId = qyId;
+    }
+
+    public String getQyId() {
+        return qyId;
+    }
+
+    public void setRiskreceptor_Id(String riskreceptor_Id) {
+        this.riskreceptor_Id = riskreceptor_Id;
+    }
+
+    public String getRiskreceptor_Id() {
+        return riskreceptor_Id;
+    }
+
+    public void setProtectionObjectives(String protectionObjectives) {
+        this.protectionObjectives = protectionObjectives;
+    }
+
+    public String getProtectionObjectives() {
+        return protectionObjectives;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setHouseholds(String households) {
+        this.households = households;
+    }
+
+    public String getHouseholds() {
+        return households;
+    }
+
+    public void setReceptorType(String receptorType) {
+        this.receptorType = receptorType;
+    }
+
+    public String getReceptorType() {
+        return receptorType;
+    }
+
+    public void setObjective(String objective) {
+        this.objective = objective;
+    }
+
+    public String getObjective() {
+        return objective;
+    }
+
+}

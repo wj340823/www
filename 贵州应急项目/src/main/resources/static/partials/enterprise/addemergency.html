@@ -1,0 +1,253 @@
+<div class="emergencyPlan emergencyDetail" ng-controller="emerPlanCtrl">
+    <section class="table-content">
+        <div class="clearfix">
+            <div class="tb-title"> 新增预案</div>
+            <div class="fr">
+                <button class="searchBtn" onclick="history.go(-1)">
+                    <i class="iconfont icon-fanhui"></i>
+                    返回
+                </button>
+            </div>
+        </div>
+        <div class="item-title">基本信息</div>
+        <div class="item-content">
+            <ul class="detail">
+                <li>
+                    <span class="check-result4">企业名称：</span><span ng-model="emergancy.company.FXY.companyName">{{ emergancy.company.FXY.companyName }}</span>
+                </li>
+                <li>
+                    <span class="check-result4">备案编号：</span>
+                    <input ng-model="emergancy.company.FXYS.beiAnNum" class="emergencyInputFirst">
+                    <span class="check-result4">备案单位：</span>
+                    <input ng-model="emergancy.company.FXYS.unit" type="text" class="emergencyInputSecond">
+                    <span class="check-result4">备案时间：</span><span class="qie">
+                        <input cgs-date-picker date-fmt='yyyy-MM-dd' ng-model="emergancy.company.FXYS.time" class="emergencyInputSecond">
+                    </span>
+                </li>
+                <li>
+                    <span class="check-result4">风险级别：</span>
+                    <input type="radio" ng-model="emergancy.company.FXY.riskGrade" value="一般" class="regular-radio" id="radioD"/>
+                    <label for="radioD" class="hander"></label>
+                    <span style="margin-right: 10px">一般风险源 </span>
+                    <input type="radio" ng-model="emergancy.company.FXY.riskGrade" value="较大" class="regular-radio" id="radioE"/>
+                    <label for="radioE" class="hander"></label>
+                    <span style="margin-right: 10px">较大风险源</span>
+                    <input type="radio" ng-model="emergancy.company.FXY.riskGrade" value="重大" class="regular-radio" id="radioF"/>
+                    <label for="radioF" class="hander"></label>
+                    <span style="margin-right: 10px">重大风险源</span>
+                    <span class="check-result4">行业代码：</span>
+                    <input ng-model="emergancy.company.FXY.industryCategoryCode" type="text" class="emergencyInputSecond">
+                    <span class="check-result4">行业名称：</span>
+                    <input ng-model="emergancy.company.FXY.industryCategoryName" type="text" class="emergencyInputSecond">
+                </li>
+                <li>
+                    <span class="check-result4">企业地址：</span>
+                    <input class="text-info-small" ng-model="emergancy.company.FXY.address">
+                </li>
+                <li>
+                    <span class="check-result4">企业中心经度：</span>
+                    <input ng-model="emergancy.company.FXY.longitude" class="emergencyInputFirst">
+                    <span class="check-result4">企业中心纬度：</span>
+                    <input ng-model="emergancy.company.FXY.latitude" type="text" class="emergencyInputSecond">
+                    <span class="check-result4">企业所属流域：</span>
+                    <input ng-model="emergancy.company.FXYS.ssly" class="emergencyInputSecond">
+                </li>
+                <li>
+                    <button class="searchBtn" style="margin-left: 20px;margin-bottom:5px;color: #68cb00;" ng-click="addpkinfosDiv()"><i class="iconfont icon-tianjia"></i> 添加排污口信息</button>
+                </li>
+                <li ng-repeat="item in emergancy.company.FXYS.pkinfos">
+                    <span class="check-result4">排污口经度：</span>
+                    <input ng-model="item.jd" class="emergencyInputFirst">
+                    <span class="check-result4">排污口纬度：</span>
+                    <input ng-model="item.wd" class="emergencyInputSecond">
+                    <span class="check-result4">受纳水体名称：</span>
+                    <input ng-model="item.snst" class="emergencyInputSecond">
+                    <br/>
+                    <span style="display: inline-block;line-height: 30px; margin-top: 12px;">排污口到受纳水体距离（米）：</span>
+                    <input ng-model="item.snstjl" style="width: 215px;">
+                    <button class="searchBtn" style="margin-left:10px;color: red;" ng-click="removepkinfosDiv($index,item)"><i class="iconfont icon-shanchu"></i> 删除排污口信息</button>
+                </li>
+                <li>
+                    <button class="searchBtn" style="margin-left: 20px;margin-bottom:5px;color: #68cb00;" ng-click="addproductInfosDiv()"><i class="iconfont icon-tianjia"></i> 添加产品信息</button>
+                </li>
+                <li ng-repeat="item in emergancy.company.FXY.productInfos">
+                    <span class="check-result4">主要产品：</span>
+                    <input ng-model="item.name" class="emergencyInputFirst">
+                    <span class="check-result4">产量：</span>
+                    <input ng-model="item.number" class="emergencyInputSecond">
+                    <button class="searchBtn" style="margin-left:10px;color: red;" ng-click="removeproductInfosDiv($index,item)"><i class="iconfont icon-shanchu"></i> 删除产品信息</button>
+                </li>
+                <li>
+                    <button class="searchBtn" style="margin-left: 20px;margin-bottom:5px;color: #68cb00;" ng-click="addrisksubstancesDiv()"><i class="iconfont icon-tianjia"></i> 添加环境风险物质信息</button>
+                </li>
+                <li ng-repeat="item in emergancy.company.FXWZ">
+                    <span class="check-result4">风险物质名称：</span>
+                    <input ng-model="item.name" class="emergencyInputFirst">
+                    <span class="check-result4">数量（吨）：</span>
+                    <input ng-model="item.storage" class="emergencyInputSecond">
+                    <button class="searchBtn" style="margin-left:10px;color: red;" ng-click="removerisksubstancesDiv($index,item)"><i class="iconfont icon-shanchu"></i> 删除环境风险物质信息</button>
+                </li>
+                <li>
+                    <span class="check-result3">是否涉危险化学品：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWxhxp" value="1" class="regular-radio" id="radio3"/>
+                    <label for="radio3" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWxhxp" value="0" class="regular-radio" id="radio4"/>
+                    <label for="radio4" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                    <span class="check-result3">是否涉重金属：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isZjs" value="1" class="regular-radio" id="radio5"/>
+                    <label for="radio5" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isZjs" value="0" class="regular-radio" id="radio6"/>
+                    <label for="radio6" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                    <span class="check-result3">是否涉危险废物：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWxfw" value="1" class="regular-radio" id="radio7"/>
+                    <label for="radio7" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWxfw" value="0" class="regular-radio" id="radio8"/>
+                    <label for="radio8" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                </li>
+                <li>
+                    <span class="check-result3">是否涉尾矿库：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWkk" value="1" class="regular-radio" id="radio9"/>
+                    <label for="radio9" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isWkk" value="0" class="regular-radio" id="radio10"/>
+                    <label for="radio10" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                    <span class="check-result3">是否涉及有毒有害气体：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isYdyhqt" value="1" class="regular-radio" id="radio11"/>
+                    <label for="radio11" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.isYdyhqt" value="0" class="regular-radio" id="radio12"/>
+                    <label for="radio12" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                    <span class="check-result3">下游5公里是否有集中式饮用水源：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfwyysy" value="1" class="regular-radio" id="radio13"/>
+                    <label for="radio13" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfwyysy" value="0" class="regular-radio" id="radio14"/>
+                    <label for="radio14" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                </li>
+                <li>
+                    <span class="check-result3">下游10公里是否有集中式饮用水源：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfsyysy" value="1" class="regular-radio" id="radio15"/>
+                    <label for="radio15" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfsyysy" value="0" class="regular-radio" id="radio16"/>
+                    <label for="radio16" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                    <span class="check-result3">下游20公里是否有集中式饮用水源：</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfeyysy" value="1" class="regular-radio" id="radio17"/>
+                    <label for="radio17" class="hander"></label>
+                    <span style="margin-right: 10px">是</span>
+                    <input type="radio" ng-model="emergancy.company.FXYS.sfeyysy" value="0" class="regular-radio" id="radio18"/>
+                    <label for="radio18" class="hander"></label>
+                    <span style="margin-right: 10px">否</span>
+                </li>
+                <li>
+                    <span class="check-result4">企业环保联系人：</span>
+                    <input ng-model="emergancy.company.FXY.custodian" class="emergencyInputFirst">
+                    <span class="check-result4">企业环保人电话：</span>
+                    <input ng-model="emergancy.company.FXY.custodianTelephone" type="text" class="emergencyInputSecond">
+                </li>
+                <li>
+                    <span class="check-result4">备注：</span>
+                    <input class="text-info-small" ng-model="emergancy.company.FXY.bz">
+                </li>
+<!--                <li>-->
+<!--                    <span>编制年份：</span>-->
+<!--                    <span class="qie">-->
+<!--                        <input cgs-date-picker date-fmt='yyyy' ng-show="page.type!='edit'" ng-model="emergancy.company.documentYear" style="margin-right: 50px;">-->
+<!--                    </span>-->
+<!--                </li>-->
+                <li  ng-show="page.type=='edit' && emergancy.company.YAINFOS.qxshsj != ''&& emergancy.company.YAINFOS.qxshsj != null">
+                    <span>区县审核人：</span><span ng-model="emergancy.company.YAINFOS.qxshr" style="display: inline-block; width: 200px;">{{ emergancy.company.YAINFOS.qxshr }}</span>
+                    <span style="margin-left:50px;">区县审核时间：</span><span ng-model="emergancy.company.YAINFOS.qxshsj">{{ emergancy.company.YAINFOS.qxshsj }}</span>
+                </li>
+                <li ng-show="page.type=='edit' && emergancy.company.YAINFOS.qxshsj != ''&& emergancy.company.YAINFOS.qxshsj != null">
+                    <span>区县审核意见：</span><span ng-model="emergancy.company.YAINFOS.qxshyj">{{ emergancy.company.YAINFOS.qxshyj }}</span>
+                </li>
+                <li ng-show="page.type=='edit' && emergancy.company.YAINFOS.szshsj != ''&& emergancy.company.YAINFOS.szshsj != null">
+                    <span>市州审核人：</span><span ng-model="emergancy.company.YAINFOS.szshr" style="display: inline-block; width: 200px;">{{ emergancy.company.YAINFOS.szshr }}</span>
+                    <span style="margin-left:50px;">市州审核时间：</span><span ng-model="emergancy.company.YAINFOS.szshsj">{{ emergancy.company.YAINFOS.szshsj }}</span>
+                </li>
+                <li ng-show="page.type=='edit' && emergancy.company.YAINFOS.szshsj != ''&& emergancy.company.YAINFOS.szshsj != null">
+                    <span>市州审核意见：</span><span ng-model="emergancy.company.YAINFOS.szshyj">{{ emergancy.company.YAINFOS.szshyj }}</span>
+                </li>
+                <li ng-show="page.type=='edit' && emergancy.company.YAINFOS.stshsj != ''&& emergancy.company.YAINFOS.stshsj != null">
+                    <span>省厅审核人：</span><span ng-model="emergancy.company.YAINFOS.stshr" style="display: inline-block; width: 200px;">{{ emergancy.company.YAINFOS.stshr }}</span>
+                    <span style="margin-left:50px;">省厅审核时间：</span><span ng-model="emergancy.company.YAINFOS.stshsj">{{ emergancy.company.YAINFOS.stshsj }}</span>
+                </li>
+                <li ng-show="page.type=='edit' && emergancy.company.YAINFOS.stshsj != ''&& emergancy.company.YAINFOS.stshsj != null">
+                    <span>省厅审核意见：</span><span ng-model="emergancy.company.YAINFOS.stshyj">{{ emergancy.company.YAINFOS.stshyj }}</span>
+                </li>
+                <br/>
+                <span id="ha" ng-click="saveEmergency()">保存</span>
+            </ul>
+        </div>
+        <div class="item-title" style="margin-bottom:10px;">预案附件
+            <button ng-show="page.type!='edit'" title="提示：请先保存基本信息再上传预案附件" ng-disabled="emergancy.company.id ==''" class="searchBtn" style="float: right;margin-right: 10px;margin-top: 4px"  ui-sref="enterpriseHead.emergencyFile({id:emergancy.company.id})">
+                <i class="iconfont icon-tianjia" style="font-size: 14px"></i>添加
+            </button>
+            <button ng-show="page.type=='edit'" class="searchBtn" style="float: right;margin-right: 10px;margin-top: 4px"  ui-sref="enterpriseHead.emergencyFile({id:emergancy.company.YAINFOS.id})">
+                <i class="iconfont icon-tianjia" style="font-size: 14px"></i>添加
+            </button>
+        </div>
+        <table class="detailTable">
+            <thead>
+            <tr>
+                <th>附件名称</th>
+                <th>附件类型</th>
+                <th>文件大小</th>
+                <th>上传日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="detail in file.list.dataList">
+                <td> {{ detail.URL }} </td>
+                <td> {{ detail.TYPE==1?'应急综合预案': detail.TYPE==2?'应急专项预案': detail.TYPE==3?'应急现场处置预案': detail.TYPE==4?'应急预案备案表': detail.TYPE==5?'应急预案编制说明': detail.TYPE==6?'环境风险评估报告': detail.TYPE==7?'环境应急资源调查报告': detail.TYPE==8?'环境应急预案评审意见': detail.TYPE==9?'其他':''}} </td>
+                <td> {{ input(detail.SIZE) }} </td>
+                <td> {{ detail.TIME | date: 'yyyy-MM-dd' }} </td>
+                <td>
+                    <a ng-href="{{detail.URLS}}"><span class="oper">下载</span></a>
+                    <span class="delete" ng-click="deleteTask(detail.ID)">删除</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <uib-pagination ng-change="getFileDetail()" total-items="file.totalCount" items-per-page="file.pageSize" ng-model="file.currentPage" class="pagination" boundary-link-numbers="true" direction-links="false" rotate="false" max-size="3" first-text="首页" last-text="末页">
+        </uib-pagination>
+        <div class="clearfix"></div>
+        <div id="haha" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .8); display: none; z-index:100;">
+        </div>
+        <div class="tasks-alert">
+            <div class="alert-title">操作提示</div>
+            <div class="alert-content">{{textContent}}</div>
+            <ul class="alert-button">
+                <li ng-click="yesAlert()" ng-if="textContent=='确定删除吗?删除记录不可恢复！'">确定</li>
+                <li ng-click="noAlert(textContent)">{{textContent=='确定删除吗?删除记录不可恢复！'?'取消':'关闭'}}</li>
+            </ul>
+        </div>
+        <div class="task-alert" style="z-index: 9999">
+            <div class="alert-title">操作提示</div>
+            <div class="alert-content">保存成功！</div>
+            <ul class="alert-button">
+                <li ng-click="sureAlert()">关闭</li>
+            </ul>
+        </div>
+        <div class="tasks-alerts" style="z-index: 9999">
+            <div class="alert-title">操作提示</div>
+            <div class="alert-content">删除成功！</div>
+            <ul class="alert-button">
+                <li ng-click="sureAlert()">关闭</li>
+            </ul>
+        </div>
+    </section>
+
+</div>

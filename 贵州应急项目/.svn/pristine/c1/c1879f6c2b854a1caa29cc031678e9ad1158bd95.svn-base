@@ -1,0 +1,216 @@
+package com.sucsoft.gzhbyjwz.bean.param.riskManage;
+
+import com.sucsoft.gzhbyjwz.bean.dc12.HiddenDanger;
+import com.sucsoft.gzhbyjwz.bean.param.Param;
+import com.sucsoft.gzhbyjwz.util.DateUtils;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.util.StringUtils;
+
+public class HiddenDangerParam extends HiddenDanger implements Param {
+
+    /**
+     * 整改时间区间
+     */
+    @ApiModelProperty(value = "整改开始时间")
+    private Long startRectificatTime;
+    @ApiModelProperty(value = "整改结束时间")
+    private Long endRectificatTime;
+
+    /**
+     * 排查时间区间
+     */
+    @ApiModelProperty(value = "排查开始时间")
+    private Long startTime;
+    @ApiModelProperty(value = "排查结束时间")
+    private Long endTime;
+
+    private Integer status;
+
+    @ApiModelProperty(value = "类型 1-| 应急管理隐患排查表。2-| 风险防控措施隐患排查表")
+    private Integer type;
+
+    /**
+     * 排序字段
+     */
+    private String ordeyBy;
+
+    @ApiModelProperty(value = "行政区域id")
+    private String xzqyId;
+
+    /**
+     * 该行政区域+该行政区域下的所有叶子节点
+     */
+    private List<String> xzqyIdList;
+
+    /**
+     * 企业ID
+     */
+    private String enterpriseId;
+
+
+    @ApiModelProperty(value = "关键字")
+    private String keywords;
+
+    /**
+     * 企业未提交
+     */
+    private boolean notCommit = false;
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public List<String> getXzqyIdList() {
+        return xzqyIdList;
+    }
+
+    public void setXzqyIdList(List<String> xzqyIdList) {
+        this.xzqyIdList = xzqyIdList;
+    }
+
+    public boolean isNotCommit() {
+        return notCommit;
+    }
+
+    public void setNotCommit(boolean notCommit) {
+        this.notCommit = notCommit;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getXzqyId() {
+        return xzqyId;
+    }
+
+    public void setXzqyId(String xzqyId) {
+        this.xzqyId = xzqyId;
+    }
+
+    public String getOrdeyBy() {
+        return ordeyBy;
+    }
+
+    public void setOrdeyBy(String ordeyBy) {
+        this.ordeyBy = ordeyBy;
+    }
+
+    public Integer getStatus() {
+      return status;
+    }
+
+    public void setStatus(Integer status) {
+      this.status = status;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Long getStartRectificatTime() {
+        return startRectificatTime;
+    }
+
+    public void setStartRectificatTime(Long startRectificatTime) {
+        this.startRectificatTime = startRectificatTime;
+    }
+
+    public Long getEndRectificatTime() {
+        return endRectificatTime;
+    }
+
+    public void setEndRectificatTime(Long endRectificatTime) {
+        this.endRectificatTime = endRectificatTime;
+    }
+
+    @Override
+    public void setIsRectification(Integer isRectification) {
+
+        if (isRectification.intValue() == 0){
+            this.notCommit = true;
+        }else {
+            this.notCommit = false;
+            super.setIsRectification(isRectification);
+        }
+    }
+
+    @Override
+    public Map toParam(){
+        Map<String, Object> param = new HashMap<>();
+        param.put("level", this.getLevel());
+        if (this.getIsRectification() != null && this.getIsRectification() != -1){
+            param.put("isRectification", this.getIsRectification());
+        }
+        //企业为提交
+        if (notCommit){
+            param.put("notCommit",new byte[1]);
+        }
+
+        if (this.getStartRectificatTime() != null){
+            param.put("startRectificatTime", DateUtils.toDayStart(new Date(this.getStartRectificatTime())));
+        }
+        if (this.getEndRectificatTime() != null){
+            param.put("endRectificatTime", DateUtils.toDayEnd(new Date(this.getEndRectificatTime())));
+        }
+        if (this.getStartTime() != null){
+            param.put("startTime", DateUtils.toDayStart(this.getStartTime()));
+        }
+        if (this.getEndTime() != null){
+            param.put("endTime", DateUtils.toDayEnd(this.getEndTime()));
+        }
+        param.put("inventoryId",this.getInventoryId());
+        
+        param.put("status", this.getStatus());
+        param.put("result", this.getResult());
+        //行政区域参数
+        if (this.xzqyIdList != null && this.xzqyIdList.size() >0){
+            param.put("xzqyIdList", this.xzqyIdList);
+        }
+        //企业数据权限
+        if (!StringUtils.isEmpty(this.enterpriseId)){
+            param.put("enterpriseId",this.enterpriseId);
+        }
+        if (!StringUtils.isEmpty(this.keywords)){
+            param.put("keywords","%"+this.keywords+"%");
+        }
+
+
+
+        return param;
+    }
+}

@@ -1,0 +1,201 @@
+<div class="mainOuter emergencyOuter" ng-controller="emergencyCtrl">
+  <div ng-include="'partials/leftMenu.html'"></div>
+  <div class="navigation">
+    <div class="navBtn" ng-class="{'active':materialSpread.navShow}"style="opacity: 0" >
+    1</div>
+    <div class="navBtn navBtn_new" ng-click="showPollutionChart()"><i class="iconfont icon-wuzijiansuo"></i>物资检索</div>
+    <!--<div class="navBtn navBtn_new" ng-click="toggleMenu(2)">
+      <i class="iconfont icon-tongjifenxi"></i>统计分析
+    </div>-->
+    <div class="navOptions" ng-show="materialSpread.navShow" style="position: absolute; right: -100px; width: 330px">
+    </div>
+
+  </div>
+  <div class="legend">
+    <div ng-if="status.isAreaOpen">
+      <!--            <div><i class="icon-square short"></i>资源库短缺</div>-->
+        <div><img src="images/storehouse2.png" height="20px"> 政府应急资源库</div>
+        <div><img src="images/storehouse.png" height="20px"> 企业应急资源库</div>
+    </div>
+  </div>
+  <div ng-include="'partials/pop/storeBtns.html'"></div>
+  <div class="materialCon"
+       ng-show="material.materialChart.consumption.show||
+       material.materialSearch.pollutionCtrl||material.materialChart.watch.show||material.materialChart.warn.show"></div>
+  <div class="materialPollution" ng-if="material.materialSearch.pollutionCtrl">
+    <div class="head">
+      物资检索
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="material.materialSearch.pollutionCtrl=false"></i>
+    </div>
+    <div class="searchBar">
+      <span>行政区划：</span>
+      <select ng-model="material.materialSearch.area">
+        <option value="">全部</option>
+        <option ng-repeat="area in material.materialSearch.areas" value="{{area.id}}">{{area.name}}</option>
+      </select>
+      <span style="margin-left: 20px">物资设备名称：</span>
+      <input type="text" ng-model="material.materialSearch.searchItem.name"
+              style="width:234px;" />
+      <button type="button" class="searchBtn" ng-click="searchMaterial()">
+        <i class="iconfont icon-sousuo"></i>&nbsp;搜索
+      </button>
+      <a type="submit" class="searchBtn" ng-href="goods/downloadlist?name={{material.materialSearch.searchItem.name}}" target="_blank">
+        <i class="iconfont icon-daochu"></i> 导出
+      </a>
+    </div>
+    <!--        <div cgs-echarts="xzqyBar" options="material.materialSearch.xzqyBar" style="width:1120px;height:183px;"></div>-->
+
+    <div style="height:calc(100% - 100px)">
+      <div cgs-slim options="{height:'100%',size:'3px'}" style="width: 100%;height: 100%">
+        <button ng-class="(materialDetail.yjwzk==true?'active tab-button':'tab-button')" ng-click="tabToggle(1)">
+          <span class="tableChange">应急物资库</span>
+        </button>
+        <button ng-class="(materialDetail.fxwzk==true?'active tab-button':'tab-button')" ng-click="tabToggle(2)">
+          <span class="tableChange" > 风险源物资库</span>
+        </button>
+        <div class="item-content" ng-show="materialDetail.yjwzk">
+          <table  class="scroll-table">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>物资设备名称</th>
+              <th>数量</th>
+              <th>负责人</th>
+              <th>联系方式</th>
+              <th>物资库</th>
+            </tr>
+          </thead>
+          <tbody ng-style="{height:'100%'}" self-perfect-scrollbar >
+            <tr ng-repeat="item in material.materialSearch.goods">
+              <td>{{(materialDetail.searchItem.pageNo-1)*materialDetail.searchItem.pageSize+$index+1}}</td>
+              <td>{{item.NAME}}</td>
+              <td>{{item.NUMBER}}</td>
+              <td>{{item.CONTACTS}}</td>
+              <td>{{item.CONTACTNUMBER}}</td>
+              <td>{{item.MANAGEMENTUNIT}}</td>
+            </tr>
+          </tbody>
+        </table>
+          <div ng-if="material.materialSearch.goods.length==0"
+               class="noDate dangerColor">无数据</div>
+            <uib-pagination ng-change="searchMaterial()" total-items="materialDetail.searchItem.totalCount" ng-model="materialDetail.searchItem.pageNo" items-per-page="materialDetail.searchItem.pageSize" first-text="first" class="pagination" boundary-link-numbers="true" force-ellipses="true" direction-links="false" max-size="3" rotate="true"></uib-pagination>
+            <div class="clearfix"></div>
+          </div>
+
+        <div class="item-content" ng-show="materialDetail.fxwzk">
+          <table class="scroll-table">
+                  <thead>
+                  <tr>
+                      <th>序号</th>
+                      <th>物资设备名称</th>
+                      <th>贮存地点</th>
+                      <th>用途</th>
+                      <th>数量</th>
+                      <th>计量单位</th>
+                      <th>规格型号</th>
+                      <th>风险源</th>
+                      <th>联系方式</th>
+                  </tr>
+                  </thead>
+                  <tbody ng-style="{height:'100%'}" self-perfect-scrollbar>
+                  <tr ng-repeat="item1 in material.materialSearch.emergencySubstance">
+                      <td>{{(material.materialSearch.pageNo-1)*material.materialSearch.pageSize+$index+1}}</td>
+                      <td>{{item1.name}}</td>
+                      <td>{{item1.address}}</td>
+                      <td>{{item1.function}}</td>
+                      <td>{{item1.number}}</td>
+                      <td>{{item1.numberUtil}}</td>
+                      <td>{{item1.typeNumber}}</td>
+                      <td class="omitted" style="width: 200px" title="{{item1.companyName}}">{{item1.companyName}}</td>
+                      <td ng-bind="item1.managerTelephone"></td>
+                  </tr>
+                  </tbody>
+              </table>
+          <div ng-if="material.materialSearch.emergencySubstance.length==0"
+               class="noDate dangerColor">无数据</div>
+          <uib-pagination ng-change="searchMaterial()" total-items="material.materialSearch.totalCount" ng-model="material.materialSearch.pageNo" items-per-page="material.materialSearch.pageSize " first-text="first" class="pagination" boundary-link-numbers="true" force-ellipses="true" direction-links="false" max-size="3" rotate="true"></uib-pagination>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="materialPollution materialConsum" ng-if="material.materialChart.consumption.show" style="width:600px">
+    <div class="head">
+      物资消耗榜
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="material.materialChart.consumption.show=false"></i>
+    </div>
+    <div class="searchBar">
+      <div class="inputDiv">
+        <span>起始时间：</span>
+        <input cgs-date-picker ng-model="material.materialChart.consumption.searchItem.start" date-fmt="yyyy-MM-dd" style="width:140px;" />
+      </div>
+      <div class="inputDiv">
+        <span>结束时间：</span>
+        <input cgs-date-picker ng-model="material.materialChart.consumption.searchItem.end" date-fmt="yyyy-MM-dd" style="width:140px;" />
+      </div>
+      <button type="button" class="searchBtn" ng-click="searchConsum()"><i class="iconfont icon-sousuo"></i>&nbsp;搜索</button>
+    </div>
+    <div class="curMonthCompare">
+      <div class="curMonth_title">重要应急物质消耗城市区域分布</div>
+      <div class="curMonth_chart" style="width:526px;height:230px;">
+        <openlayers id="map2" width="100%" height="100%" ol-center="partMap.center" ol-defaults="partMap.defaults" ol-view="partMap.view" custom-layers="false">
+          <ol-layer ol-layer-properties="partMap.gzLayer" on-layer-created="partMap.gzLayer.loadEnd(oSource)"></ol-layer>
+          <ol-overlay coord="overlay.coord" label="overlay.label" ng-repeat="overlay in partMap.districts" projection="EPSG:4326"></ol-overlay>
+        </openlayers>
+        <div class="mapLegend">
+          <div class="left">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="right">
+            <span>高</span>
+            <div class="dotLine"></div>
+            <span>低</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="curMonthCompare">
+      <div class="curMonth_title">重要应急物质消耗平均增长率TOP榜</div>
+      <div class="curMonth_chart">
+        <div cgs-echarts="consumBar" options="material.materialChart.consumption.consumBar" style="width:588px;height:170px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="materialPollution materialConsum" ng-if="material.materialChart.watch.show" style="height:488px;">
+    <div class="head">
+      物资关注榜
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="material.materialChart.watch.show=false"></i>
+    </div>
+    <div class="searchBar">
+      <div class="inputDiv">
+        <span>起始时间：</span>
+        <input cgs-date-picker ng-model="material.materialChart.consumption.searchItem.start" date-fmt="yyyy-MM-dd" style="width:140px;" />
+      </div>
+      <div class="inputDiv">
+        <span>结束时间：</span>
+        <input cgs-date-picker ng-model="material.materialChart.consumption.searchItem.end" date-fmt="yyyy-MM-dd" style="width:140px;" />
+      </div>
+      <button type="button" class="searchBtn" ng-click="javascript()"><i class="iconfont icon-sousuo"></i>&nbsp;搜索</button>
+    </div>
+    <div class="curMonthCompare">
+      <div class="curMonth_chart">
+        <div cgs-echarts="watchPie" options="material.materialChart.watch.watchPie" style="width:526px;height:375px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="materialPollution materialConsum" ng-if="material.materialChart.warn.show" style="height:420px;">
+    <div class="head">
+      物资警戒榜
+      <i class="iconfont icon-guanbi" title="关闭" ng-click="material.materialChart.warn.show=false"></i>
+    </div>
+    <div class="curMonthCompare">
+      <div class="curMonth_title">最低库存预警情况</div>
+      <div class="curMonth_chart">
+        <div cgs-echarts="warnBar" options="material.materialChart.warn.bar" style="width:526px;height:325px;"></div>
+      </div>
+    </div>
+  </div>-->
+</div>

@@ -1,0 +1,43 @@
+﻿SGLang.lang = $.extend(SGLang.lang,{
+    ToolTitle: "SkylineGlobe - Skyline Software Systems, Inc.",
+    ToolName: "Threat Dome",
+    help: "Help",
+    Text4: "Quality",
+    Text5: "Medium",
+    Text6: "High",
+    Text7: "Type",
+    Text8: "Dome",
+    Text9: "Dome base",
+    Text10: "Skyline",
+    Text11: "Viewer",
+    Text12: "Radius",
+    Text13: "meters",
+    Text14: "Selected<br>Group",
+    Text15: "From<br>Clipboard",
+    Text16: "Viewer Altitude",
+    Text18: "Show<br>Profile",
+    Text19: "DomeRingProfile",
+    Text20: "Set<br>Position",
+    Text21: "Ring",
+    Text22: "Elevation Angle",
+    Text23: "Left click to set center point. Right click to abort operation",
+    Text24: "ThreatDome",
+    Text25: "Viewshed",
+    Text26: "Calculating: ",
+    Text27: "Creating layer...",
+    Text28: "ThreatDome",
+    Text29: "Pitch",
+    Text30: "Radius",
+    Text31: "Preparing analysis data",
+    Text32: "Please select a group or a layer from the project tree",
+    Text33: "Yaw",
+    Text34: "Deg.",
+    Text35: "Threat Dome tool is going to create ",
+    Text36: "domes. This procedure might take some time. Do you wish to Continue?",
+    Text37: "Cannot find Dome objects for profile. Operation aborted.",
+
+
+
+
+    Text999: ""
+});

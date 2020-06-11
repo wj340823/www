@@ -1,0 +1,34 @@
+---
+  grammer: HQL
+  queries:
+    #根据条件查询任务列表
+    - name: listTaskXzqyStatus
+      resultType: TaskXzqyStatus
+      fetches: []
+      statement:
+        "
+        from
+          TaskXzqyStatus
+        where
+          1=1
+        #if($taskId)
+          and taskId = :taskId
+        #end
+        #if($xzqyId)
+          and xzqyId = :xzqyId
+        #end
+        "
+    - name: listAttachmentByTask
+      resultType: TaskAttachment
+      fetches: []
+      statement:
+        "
+        from
+          TaskAttachment
+        where
+          1=1
+        #if($taskId)
+          and taskId = :taskId
+        #end
+        "
+

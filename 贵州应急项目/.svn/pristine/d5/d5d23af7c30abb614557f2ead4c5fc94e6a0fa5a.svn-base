@@ -1,0 +1,95 @@
+<div  ng-controller="emerCaseCtrl">
+    <div class="table-content">
+        <div class="search-nav">
+            <span ng-hide="userList.role=='szrole'"><span>行政区划：</span>
+            <select ng-model="items.city" style="margin-right: 20px">
+                <option value="">全部</option>
+                <option ng-repeat="area in items.areas" value="{{area.bm}}">{{area.name}}</option>
+            </select></span>
+
+            <span >案例日期：</span>
+            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                   ng-model="items.strTime" /> ~
+            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                   ng-model="items.endTime"  style="margin-right: 20px"/>
+
+            <input type="text" ng-model="items.keywords" placeholder="案例名称">
+            <button class="searchBtn" style="margin-left: 20px" ng-click="searchMsg()">
+                <i class="iconfont icon-sousuo"></i>搜索
+            </button>
+            <button class="searchBtn" style="margin-left: 20px" ng-hide="userList.role=='szrole'" ui-sref="emergency.addCase">
+                <i class="iconfont icon-tianjia"></i> 新增
+            </button>
+            <button class="searchBtn" style="margin-left: 20px" ng-show="userList.role=='szrole'" ui-sref="cityEmerCase.addCase">
+                <i class="iconfont icon-tianjia"></i> 新增
+            </button>
+
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>行政区划</th>
+                <th>案例日期</th>
+                <th>案例名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in obj">
+                <td>{{items.pageSize*(items.pageNo-1)+$index+1}}</td>
+                <td>{{item.xzqyName}}</td>
+                <td>{{item.TIME | date : 'yyyy-MM-dd'}}</td>
+                <td>{{item.NAME}}</td>
+                <td>
+                    <span class="oper hander" ng-hide="userList.role=='szrole'" ui-sref="emergency.caseInfo({name:item.NAME,time:item.TIME,area:item.xzqyName,id:item.ID})">详情</span>
+                    <span class="oper hander" ng-hide="userList.role=='szrole'" ui-sref="emergency.editCase({name:item.NAME,area:item.XZQYNUM,id:item.ID,time:item.TIME})">修改</span>
+                    <span class="oper hander" ng-show="userList.role=='szrole'" ui-sref="cityEmerCase.caseInfo({name:item.NAME,time:item.TIME,area:item.xzqyName,id:item.ID})">详情</span>
+                    <span class="oper hander" ng-show="userList.role=='szrole'" ui-sref="cityEmerCase.editCase({name:item.NAME,area:item.XZQYNUM,id:item.ID,time:item.TIME})">修改</span>
+                    <span class="oper hander" ng-click="delCase(item)">删除</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="obj.length==0">无数据</p>
+        <uib-pagination
+                ng-change="searchMsg()"
+                total-items="items.totalCount"
+                ng-model="items.pageNo"
+                items-per-page="items.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定删除吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定删除吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+</div>
+<div class="loader">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		    <rect x="0" y="10" width="4" height="10" fill="#fc0" opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="8" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="16" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+	  	</svg>
+</div>

@@ -1,0 +1,26 @@
+package com.sucsoft.gzhbyjwz.controller;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "返回类")
+public class Result<T> {
+    @ApiModelProperty(value = "code")
+    private int code;
+    @ApiModelProperty(value = "描述")
+    private String msg;
+    @ApiModelProperty(value = "对象")
+    private T data;
+
+    public Result(){}
+
+    public Result(int code, String msg){
+        this(code, msg, null);
+    }
+
+    public Result(int code, String msg, T data){
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+}

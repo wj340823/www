@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+
+        <tr class='TableOtherLine'>
+            <td class="s8b">
+                <label for="Mode"  class="i18n">Text0</label>
+            </td>
+            <td align="left">
+                &nbsp;<select id="CompareMode" onchange="ChangeMode();">
+                    <option class="i18n" value="0" selected="selected">Text1</option>
+                    <option class="i18n" value="1" >Text2</option>
+                </select>
+            </td>     
+        </tr>
+        <tr >
+            <td class="s8b">
+                <label for="Mode"  class="i18n">Text10</label>
+            </td>
+            <td align="left">
+                &nbsp;<select id="DensityID" >
+                    <option class="i18n" value="1" selected="selected">Text11</option>
+                    <option class="i18n" value="2" >Text12</option>
+                </select>
+            </td>     
+        </tr>
+        <tr id="ListTR" class='TableOtherLine' style="display:none;"> <!--Select Elevation Layer -->
+            <td class="s8b">
+                <label for="createAs"  class="i18n">Text5</label>
+            </td>
+            <td align="left">
+<!--          DO NOT REMOVE THE FOCUS CALL IN THE LIST BELOW!!
+              This focus call  minimize the effect of a very strange bug. When you select an entry from the Viewshed list, click on the terrain and then ctrl-click on other list entry the HTML list control do not really recieve this additional selection (although you do see the new line highlighted).
+-->
+                &nbsp;<select id="ElevationsID" multiple="multiple" ondblclick="flyToElevation();" onmouseover="this.focus()"  >
+                </select><br />
+                <span  class="i18n" style="text-decoration:underline;cursor:pointer;" onclick="RefreshElevationList();">Text37</span>
+<!--                <span style="margin-left:40px;"></span>
+                <span  class="i18n" style="text-decoration:underline;cursor:pointer;" onclick="SelectInView();">Text42</span>
+-->            </td>     
+        </tr>
+        </table>
+        <tr class="s8">
+            <td colspan="2"  align="center" class="ToolButtonsArea">
+                <button id="lineButton" class="MenuButton" onclick="CreateObjects(1);">               <img src="../commonimg/polyline.png" /><br />         <span class="i18n">Text33</span></button>
+                <button id="groupButton" class="MenuButton" onclick="SelectGroupObjects()"><img src="../commonimg/group.png" /><br /><span class="i18n">Text35</span></button>
+                <button id="clipboardButton" class="MenuButton MenuButtonLast" onclick="SelectClipboardObjects()"><img src="../commonimg/Clipboard.png" /><br /><span class="i18n" style="fon:#2A4EA5">Text36</span></button>
+            </td>
+        </tr>
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+
+<script language="JavaScript">
+//** this is a global variables for the polyline/polygon drawings
+var gPolygonText = SGLang.i18n("Text35");
+var gPolylineText = SGLang.i18n("Text36");
+var gDrawPolyClick = null;
+var gEndDrawPoly = DrawPoly;
+var gPopupCaption = "";
+//**
+
+var bInEdit;
+var bFirstTime;
+var bDontAskme;
+///var gTotalHours;
+var rootId;
+
+Date.prototype.stdTimezoneOffset = function () {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+
+Date.prototype.dst = function () {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+}
+
+//--------------
+// Init
+function Init() {
+    if (GetParamValue("inSG", "") == "1") {
+        $("#TopAreaTD").attr("height", "57");
+        $("#TitleTD").attr("align", "left");
+        $("#CloseHelpTd").attr("display", "none");
+    }
+
+    gDrawPolyAltitudeType = 3; // draw lines and polygon as absolute lines
+    rootId = GetParamValue("rootId", SGWorld.ProjectTree.RootID);
+    RefreshElevationList();
+    Reset(1, 0);
+}
+//------------------
+// Reset
+//------------------
+function Reset(FirstTime, FromMouseInputMode) {
+
+    try {
+        if (gPolyObj != null)
+            SGWorld.Creator.DeleteObject(gPolyObj.ID);
+    } catch (e) { }
+
+    gPolyObj = null;
+    GroupID = null;
+
+    bDontAskme = false;
+
+    $("#lineButton").removeClass("MenuButtonHighlight");
+    $("#areaButton").removeClass("MenuButtonHighlight");
+    $("#groupButton").removeClass("MenuButtonHighlight");
+    $("#clipboardButton").removeClass("MenuButtonHighlight");
+
+    SGWorld.ProjectTree.EnableRedraw(1);
+    SGWorld.Window.HideMessageBarText();
+
+    if (bInEdit) {
+        SGWorld.DetachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.DetachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.DetachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.DetachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+    }
+    bInEdit = false;
+
+    if (FirstTime != 1 && FromMouseInputMode == 0)
+        SGWorld.Window.SetInputMode(0);
+}
+//-------------------
+// ChangeMode
+function ChangeMode() {
+    var CompareMode = $("#CompareMode").val();
+    if (CompareMode == "1") // Compare
+        $("#ListTR").show();
+    else
+        $("#ListTR").hide();
+
+}
+//-------------------
+// RefreshElevationList
+function RefreshElevationList() {
+    $("#ElevationsID").html("");
+    BuildElevationsList(SGWorld.ProjectTree.RootID);
+}
+//-------------------
+// BuildElevationsList
+function BuildElevationsList(parentNode) {
+
+    try {
+        var node = SGWorld.ProjectTree.GetNextItem(parentNode, 11);
+        while (node != "") {
+
+            if (SGWorld.ProjectTree.IsGroup(node))
+                BuildElevationsList(node);
+
+            else if (SGWorld.ProjectTree.IsLayer(node)) {
+            }
+            else {
+                var a = SGWorld.ProjectTree.GetItemName(node);
+                var Object = SGWorld.Creator.GetObject(node);
+                if (Object != null) {
+                    if (Object.ObjectType == 29)
+                        AddElevationToList(Object);
+                }
+            }
+            node = SGWorld.ProjectTree.GetNextItem(node, 13);
+        }
+    }
+    catch (err) { }
+}
+//---------------
+// AddElevationToList
+function AddElevationToList(Object) {
+    $("#ElevationsID").append("<option value=" + Object.ID + ">" + Object.TreeItem.Name + "</option>");
+}
+//---------------
+// flyToElevation
+function flyToElevation() {
+    $("#ElevationsID option:selected").each(function () {
+        var ElevationID = ($(this).val());
+        SGWorld.Navigate.FlyTo(ElevationID, 10);
+    });
+}
+
+//--------------
+// CreateObjects
+//--------------
+function CreateObjects(method) {
+    if (!bInEdit) {
+        bInEdit = true;
+        SGWorld.AttachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.AttachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.AttachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.AttachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+
+
+        gPolyMethod = method;
+        SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur");
+        SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text16"));
+        $(event.srcElement).addClass("MenuButtonHighlight");
+
+    }
+    else {
+        DrawPolyRButtonUp(0, 0, 0, 0);
+    }
+}
+//-----------
+// SelectGroupObjects
+function SelectGroupObjects() {
+
+    var node = SGWorld.ProjectTree.GetNextItem("", 10);
+    if (node == 0 || !(SGWorld.ProjectTree.IsGroup(node) || SGWorld.ProjectTree.IsLayer(node))) {
+        alert(SGLang.i18n("Text24"));
+        return;
+    }
+
+    ShowPopup(1,0);
+}
+//-----------
+// SelectClipboardObjects
+function SelectClipboardObjects() {
+
+    ShowPopup(2,0);
+}
+
+//-------------
+// DrawPoly
+function DrawPoly(geometry, type, altitudeType) {
+    // create a polyline, under the hidden group, using this geometry and send the objID to the popup
+    var lineGroup = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("Text28"), SGWorld.ProjectTree.RootID);
+    var line = SGWorld.Creator.CreatePolyline(geometry, "#FC8220", 3, lineGroup, "ProfileLine");
+    line.LineStyle.Width = -4;
+    line.SetParam(5440, 1);
+
+    ShowPopup(0, lineGroup);
+    return true;
+
+}
+//----------------
+//  ShowPopup 
+function ShowPopup(ProfileType, ObjID) {
+    if (!ValidateInput())
+        return false;
+    var CompareStr = "";
+    var CompareMode = $("#CompareMode").val();
+    var Density = $("#DensityID").val();
+
+    if (CompareMode == "1")
+    {
+        $("#ElevationsID option:selected").each(function () {
+            CompareStr = "&ElevationID="+$(this).val();
+        });
+        if (CompareStr == "") {
+            alert(SGLang.i18n("Text26"));
+            SGWorld.ProjectTree.DeleteItem(ObjID);
+            Reset(0, 0);
+            return;
+        }
+    }
+    // Remove previos popup
+    SGWorld.Window.RemovePopupByCaption(gPopupCaption);
+
+    var a = new Date();
+    gPopupCaption = SGLang.i18n("Text14") + Date().toString();
+    var url = abspath() + "/TerrainProfilePopup.html?Type=" + ProfileType + "&ObjID=" + ObjID + "&Density=" + Density + "&Compare=" + CompareMode + CompareStr + "&Caption=" + gPopupCaption;
+//    var popupMsg = SGWorld.Creator.CreatePopupMessage(gPopupCaption, url, 1, SGWorld.Window.Rect.Height * 2 / 3, SGWorld.Window.Rect.Width - 2, SGWorld.Window.Rect.Height / 3 - 55, -1);
+    var popupMsg = SGWorld.Creator.CreatePopupMessage(gPopupCaption, url, 1, -1000, 100, 100 , -1);
+
+    popupMsg.Flags = 2 + 32;
+    SGWorld.Window.ShowPopup(popupMsg);
+
+    Reset(0, 0);
+}
+
+
+//---------------
+// ValidateInput
+function ValidateInput() {
+    return true;
+}
+//--------------
+// CheckNumberEx
+function CheckNumberEx(field, defVal, MinNum, MaxNum) {
+    try {
+        field.value = validateNumber(field.value);
+
+        if (field.value < MinNum)
+            field.value = MinNum;
+        if (field.value > MaxNum)
+            field.value = MaxNum;
+    }
+    catch (e) { field.value = defVal }
+}
+
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:000000405WghgW4jqhYK188761kln3SNshcf7TRfl4l6FzW2GRwaA9gKaAZ3TUKNK1dikmgvXY3XtsTgLptcPp6hQBgrX9JJ-->

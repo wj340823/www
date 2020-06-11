@@ -1,0 +1,267 @@
+---
+  grammer: SQL
+  queries:
+    #区域风险源排行
+    - name: riskNumberRanking
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          count(*) as NUM,max(x.name) NAME,max(x.id) XZQYID,max(x.latitude) as LATITUDE,max(x.longitude) as LONGITUDE
+        from
+          EnterpriseInformation e
+        left join
+          xzqy x
+        on
+          e.xzqyId2 = x.id
+        where 1=1
+        #if($xzqyIdList)
+          and e.xzqyId #qin($xzqyIdList 'xzqyIdList')
+        #end
+        group by e.xzqyId2
+        order by num desc
+        "
+    #风险源等级数量分布
+    - name: riskgradeRanking
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          count(*) as NUM,e.riskgrade as RISKGRADE
+        from
+          EnterpriseInformation e
+        where 1=1
+        #if($xzqyIdList)
+          and e.xzqyId #qin($xzqyIdList 'xzqyIdList')
+        #end
+        group by e.riskgrade
+        "
+    #风险源等级数量分布
+    - name: countEnterprise
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          count(*) as number
+        from
+          EnterpriseInformation e
+        where 1=1
+        #if($xzqyIdList)
+          and e.xzqyId #qin($xzqyIdList 'xzqyIdList')
+        #end
+        "
+    #风险源区域分布
+    - name: countEnterpriseByXzqy
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        SELECT
+           x.ID,
+        	x. NAME,
+        	x.LATITUDE,
+        	x.LONGITUDE,
+        	t.number
+        FROM
+        	xzqy x
+        LEFT JOIN (
+        	SELECT
+        		x.ID,
+        		x. NAME,
+        		x.LATITUDE,
+        		x.LONGITUDE,
+        		count(e.COMPANYID) AS number
+        	FROM
+        		xzqy x
+        	LEFT JOIN enterpriseinformation e ON x.ID = e.XZQYID2
+        	WHERE
+        		1 = 1
+        	#if($riskGrade)
+               and e.riskGrade = :riskGrade
+           #end
+        	GROUP BY
+        		x.ID,
+        		x. NAME,
+        		x.LATITUDE,
+        		x.LONGITUDE
+        ) t ON x.ID = t.ID
+        WHERE
+        	x.LEVEL = 2
+        "
+    #根据行政区域,关键字查询风险源
+    - name: listRiskSouce
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          e.COMPANYID,e.COMPANYNAME,e.LONGITUDE,e.LATITUDE,e.RISKGRADE,e.CUSTODIAN,
+          e.CUSTODIANTELEPHONE,e.INDUSTRYINVOLVED,e.ENTRYTIME,e.address as ADDRESS,
+          e.COMPANYPROFILE,e.XZQYID as xzqyId,x.name as xzqyName,x2.name as xzqyName2,
+          e.INDUSTRYCATEGORYNAME,
+          p.DOCUMENTYEAR
+        from
+          EnterpriseInformation e
+        left join xzqy x on e.xzqyid = x.id
+        left join xzqy x2 on e.xzqyid2 = x2.id
+        LEFT JOIN enterpriseriver r on r.COMPANYID = e.COMPANYID
+        LEFT JOIN enterprisepreplan p on p.COMPANYID = e.COMPANYID
+        WHERE
+          1=1
+        #if($riverId)
+          and r.RIVERID = :riverId
+        #end
+        #if($riskGrade)
+          and e.riskGrade = :riskGrade
+        #end
+        #if($xzqyId)
+          and e.xzqyId = :xzqyId
+        #end
+        #if($xzqyIdList)
+          and e.xzqyId #qin($xzqyIdList 'xzqyIdList')
+        #end
+        #if($keyword)
+          and e.COMPANYNAME like :keyword
+        #end
+        #if($companyId)
+          and e.companyId = :companyId
+        #end
+        GROUP BY e.companyId
+        "
+    #查询周边风险源
+    - name: getAroundCompany
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          e.COMPANYID,e.COMPANYNAME,e.LONGITUDE,e.LATITUDE,e.RISKGRADE,e.CUSTODIAN,e.CUSTODIANTELEPHONE,e.INDUSTRYINVOLVED,e.ENTRYTIME
+        from
+          EnterpriseInformation e
+        where
+          longitude <= :maxlng
+         and longitude >= :minlng
+         and latitude <= :maxlat
+         and latitude >= :minlat
+         order by (POWER(MOD(ABS(longitude - :lng),360),2) + POWER(ABS(latitude - :lat),2))
+        "
+    #根据物资名称查询风险物资说明是否已经存在
+    - name: findExplainByName
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          *
+        from
+          RiskMaterialExplain r
+        where
+          r.materiaName = :explainName
+        "
+    #根据风险源名称查询风险源是否已经存在
+    - name: findCompanyByName
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          *
+        from
+          EnterpriseInformation e
+        where
+          e.companyId = :companyId
+        "
+    #企业应急物资查询
+    #"name","address","function","number","numberutil","typenumber","companyName"
+    - name: getEmergencySubstanceMap
+      resultType: Map
+      statement:
+        "
+        select
+          s.emergencySubstanceId,
+          s.NAME as name,
+          s.ADDRESS as address,
+          s.FUNCTION as function,
+          s.NUMBER as number,
+          s.NUMBERUTIL as numberUtil,
+          s.TYPENUMBER as typeNumber,
+          s.managerTelephone as managerTelephone,
+          e.COMPANYNAME as companyName,
+          e.custodian,
+          s.lo,
+          s.la
+        from
+          EmergencySubstance s
+        LEFT JOIN enterpriseinformation e ON e.COMPANYID = s.COMPANYID
+        where
+          1=1
+        #if($companyId)
+          and s.companyId = :companyId
+        #end
+        #if($XZQY)
+          and e.XZQYID2 = :XZQY
+        #end
+        #if($keywords)
+          and s.name like :keywords
+        #end
+        order by s.name
+        "
+    - name: getDepartmentFromCrew
+      resultType: Map
+      statement:
+        "
+        SELECT
+            DEPARTMENT,
+        	LA,
+        	LO
+        FROM
+        	emergencycrew
+        where
+          1=1
+        #if($companyId)
+          and companyId = :companyId
+        #end
+        GROUP BY
+        	DEPARTMENT
+        "
+    #搜索应急物资分布在哪些厂
+    - name: findSubstance
+      resultType: Map
+      statement:
+        "
+        SELECT
+        	e.COMPANYID AS COMPANYID,
+        	e.COMPANYNAME AS COMPANYNAME,
+        	e.LATITUDE AS LATITUDE,
+        	e.LONGITUDE AS LONGITUDE,
+        	e.ADDRESS AS ADDRESS,
+           e.CUSTODIAN AS CUSTODIAN,
+        	e.CUSTODIANTELEPHONE AS CUSTODIANTELEPHONE,
+           e.INDUSTRYINVOLVED AS INDUSTRYINVOLVED,
+        	e.RISKGRADE AS RISKGRADE,
+        	s. NAME  AS NAME,
+        	x. NAME AS xzqyName,
+        	x2.NAME AS xzqyName2
+        FROM
+        	emergencysubstance s
+        LEFT JOIN enterpriseinformation e ON s.COMPANYID = e.COMPANYID
+        LEFT JOIN xzqy x ON e.XZQYID = x.ID
+        LEFT JOIN xzqy x2 ON e.XZQYID2 = x2.ID
+        where
+          1=1
+        #if($keyword)
+          and s.NAME like :keyword
+        #end
+        "
+    - name: enterpriseCount1
+      resultType: Map
+      statement:
+        "
+         select
+           count(*) as allCount
+         from
+           enterpriseinformation
+         "

@@ -1,0 +1,187 @@
+<html>
+<HEAD>
+<TITLE>TerraExplorer Pro - Skyline Software Systems, Inc.</TITLE>
+<LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+</head>
+<body>
+              <table border=0 cellPadding=0 CELLSPACING=0 class="s9" width=100%>
+              <tr><td class="s12b" align=center>
+                     3D Viewshed Query tool
+              </tD></tr>
+              <tr><td>
+              <br>
+
+<div class=WordSection1>
+
+<p class=MsoNormal> The Viewshed Query tool enables you to analyze the visibility from multiple viewshed observer viewpoints to a selected area.</p>
+
+<p class=MsoNormal> Based on the 3D viewshed analysis object, the tool computes the overall visibility of different points in the designated area. </p>
+<p> The output of the analysis is exported to a point feature layer that graphically represents the visibility of the different points. Two color schemes are available; one scheme only distinguishes between visible (green) and invisible (red), while the other one color codes the points according to their visibility percentage: </P>
+<p class=MsoNormal>
+<li>Green = More than 80% of the selected viewsheds’ observer viewpoints are visible from this point.</li>
+<li>Yellow = 50 - 80% of the selected viewsheds’ observer viewpoints are visible from this point. </li>
+<li>Orange = 0-50% of the selected viewsheds’ observer viewpoints are visible from this point.</li>
+<li>Red = 0% of the selected viewsheds’ observer viewpoints are visible from this point. </li>
+</p>
+
+<p class=ProcedureHeader style='margin-left:0in;text-indent:0in'><span dir=LTR></span>To use the 3D Viewshed Query tool:</p>
+
+<p class=ListFirstLevel>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>Select one of the <b>Create as</b> options:</p>
+
+<table class=SkyTable border=1 cellspacing=0 cellpadding=0 width=535
+style='width:401.0pt;margin-left:.35in;border-collapse:collapse;border:none'>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Layer (Entire)</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border:solid #4BACC6 1.0pt;
+  border-left:none;background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Create
+  a feature layer under the application’s AppData.</p>
+  </td>
+</tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Layer
+  (Streaming)</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Create a
+  streaming feature layer under the application’s AppData.</p>
+  </td>
+</tr>
+
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=ListFirstLevel>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>Enter the following parameters:</p>
+
+<table class=SkyTable border=1 cellspacing=0 cellpadding=0 width=535
+style='width:401.0pt;margin-left:.35in;border-collapse:collapse;border:none'>
+
+  <tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Query </p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p> The list displays all 3D viewsheds in the project. Only selected 3D viewsheds are taken into account when calculating the ratio between visible and invisible viewsheds. Click the required viewshed(s). Use CTRL-click or SHIFT-click to multi-select. </p>
+  <p>  Click <b>refresh list</b> to update this list to the current project status. 
+</p>
+  </td>
+</tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Out of range</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal >Defines how to handle query points that are outside of the calculated areas of all selected 3D viewsheds. Select either:</p>
+  <ul>
+  <li>Ignore Point - Do not add points outside of the range of any selected 3D viewshed.</li>
+  <li>Add Point - Add points outside of the range of any selected 3D viewshed. These query points are considered to have 0% visibility and color coded in red.</li>
+  </ul>
+  </td>
+</tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Color Scheme</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p> Defines the color coding scheme of the output points. Select either <b>red | green</b> or <b>red | orange | yellow | green</b>.</p>
+</tr>
+<tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Spacing</p>
+  </td>
+ <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal > Determines the horizontal and vertical spacing (in meters) between query points in the area for which the viewshed query is being calculated. The spacing property also defines the scale of the output points. </p>
+  </td>
+</tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:.25in;text-indent:-.25in'>Min Altitude</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:white;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p> Defines the altitude above ground level of the closest point to the ground. </p>
+  <p><b>Note:</b> When selecting points from a group, layer or the clipboard, the query points are created according to the altitude of the selected points and not according to the Min/Max altitude parameters. </p>
+  </td>
+</tr>
+<tr>
+  <td width=115 valign=top style='width:86.05pt;border:solid #4BACC6 1.0pt;
+  border-top:none;background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p class=MsoNormal style='margin-left:0in;text-indent:0in'>Max Altitude</p>
+  </td>
+  <td width=420 valign=top style='width:314.95pt;border-top:none;border-left:
+  none;border-bottom:solid #4BACC6 1.0pt;border-right:solid #4BACC6 1.0pt;
+  background:#D2EAF1;padding:1.45pt 5.75pt 4.3pt 5.75pt'>
+  <p >Defines the maximum altitude above ground level. If the Max Altitude is higher than the Min Altitude, the 3D Viewshed Query tool generates a matrix of points according to the Spacing value.</p>
+  </td>
+</tr>
+
+</table>
+
+<p class=ListFirstLevel>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span> Select one of the following methods of designating the area for which the viewshed visibility should be calculated:
+</p>
+
+  <p class='Bullet2'>
+    <span style='font-family:Symbol'>
+      •<span style='font:7.0pt "Times New Roman"'>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+    </span><span dir='LTR'></span><b>Follow Line</b> - Query points are created along the drawn line.
+  </p>
+
+  <p class='Bullet2'>
+    <span style='font-family:Symbol'>
+      •<span style='font:7.0pt "Times New Roman"'>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+    </span><span dir='LTR'></span><b>Fill Area</b> - Query points are created inside the drawn polygon.
+  </p>
+
+<p class=Bullet2><span style='font-family:Symbol'>•<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=LTR></span><b>Selected Group</b> - Query points are created at all points, along all lines, or inside all polygons, in the selected group or layer. Select the required group or layer from the Project Tree, and then click <b>Selected Group</b>.
+</p>
+
+<p class=Bullet2><span style='font-family:Symbol'>•<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=LTR></span><b>From Clipboard</b> - Query points are created for all clipboard objects. Copy the required objects to the clipboard, and click <b>From Clipboard</b>.
+</p>
+
+
+<p class=Bullet2><span style='font-family:Symbol'>•<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=LTR></span><b>Viewshed Area</b> - If you want to query points exactly in the area of the selected 3D viewsheds click <b> Viewshed Area</b>
+</p>
+
+
+</div>
+                     </td></tr>
+              </table>
+</body>
+</html>
+
+
+
+<!--Sig:00000040jGa8vKFa5iiuNb4CMKO8jnzSHyb3f82SoS096VXbsGEFhnkQNs7y2.TA.pByp1nFHB#PGvzGfwXXks8Tk0AIJwJJ-->

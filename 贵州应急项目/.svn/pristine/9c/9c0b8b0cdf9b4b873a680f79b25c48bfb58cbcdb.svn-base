@@ -1,0 +1,44 @@
+package com.sucsoft.gzhbyjwz.bean.param;
+
+import com.sucsoft.gzhbyjwz.bean.dc12.WXHXP;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class WeixianParam implements Param{
+
+    /**
+     * 类型
+     */
+    private String HXPLX;
+
+    /**
+     * 中文名称
+     */
+    private String ZWMC;
+
+    public String getHXPLX() {
+        return HXPLX;
+    }
+
+    public void setHXPLX(String HXPLX) {
+        this.HXPLX = HXPLX;
+    }
+
+    public String getZWMC() {
+        return ZWMC;
+    }
+
+    public void setZWMC(String ZWMC) {
+        this.ZWMC = ZWMC;
+    }
+
+    @Override
+    public Map toParam() {
+        Map param = new HashMap();
+        param.put("ZWMC",this.getZWMC());
+        param.put("HXPLX",this.getHXPLX());
+
+        return param;
+    }
+}

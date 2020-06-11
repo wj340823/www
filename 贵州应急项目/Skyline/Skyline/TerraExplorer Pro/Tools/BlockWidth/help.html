@@ -1,0 +1,39 @@
+﻿<html>
+<HEAD>
+<TITLE>TerraExplorer Pro - Skyline Software Systems, Inc.</TITLE>
+<LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+<style>
+.number {margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;margin-left:.25in;text-align:left;direction:ltr;unicode-bidi:embed}
+</style>
+</head>
+<body>
+		<table border=0 cellPadding=0 CELLSPACING=0 class="s9" width=100%>
+		<tr><td class="s12b" align=center>
+			Block Width tool
+		</tD></tr>
+		<tr><td>
+
+<br>
+
+<p class=MsoNormal>How to determine an appropriate layer Block Width.</p>
+
+<p class=MsoNormal> An appropriate Block Width is one of the most critical parameter used to stream a layer efficiently. In some cases, setting the best Block Width for a layer is an iterative process. Two major factors influence the selection of the Block Width for a layer:</p>
+<ul>
+<li><b> Layer's Maximum Visibility Distance </b> - The higher you want to view the data, the bigger the Block Width should be.</li>
+<li><b> Density and Precision Level</b> - The denser and precise the data, i.e., the mean points or vertices per area, the smaller the Block Width should be.</li>
+</ul>
+<p class=MsoNormal> Sometimes, although the data is very dense and precise, you might want to view it from a high visibility distance. In this situation, it is advised to simplify the layer.</p>
+<p class=MsoNormal> If the block width is too big, it will take time to request for the data from the data source and it could take a lot longer to render it. If the block width is too small, TerraExplorer "wastes" many requests transmitting data it could have easily transmitted in one request. This also results in "bothering" the data source with many small requests. </p>
+
+Select the Layer's type, position the camera at the layer's planned maximum altitude and click the Calculate button. The result is the recommended block width according to the data type and the visibility distance you set.
+
+<h3>Using the Block Width tool</h3>
+<p class="number">1. Select the Layer's type</p>
+<p class="number">2. Position the camera at the layer's planned maximum altitude</p>
+<p class="number">3. Click the Calculate button. </p> 
+<p class=MsoNormal>The result is the recommended block width according to the data type and the visibility distance you set.</p>
+
+		</td></tr>
+		</table>
+</body>
+</html>

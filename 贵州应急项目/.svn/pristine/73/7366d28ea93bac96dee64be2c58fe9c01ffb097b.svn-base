@@ -1,0 +1,37 @@
+<div class="materialDetail" style="width:450px;" ng-controller="resouceFxyPop">
+    <div class="popClose" ng-click="closeModel()" title="关闭"><i class="iconfont icon-guanbi cursor-pointer"></i></div>
+    <div ng-hide="videoShow">
+        <div class="itemLine">
+            <span>风险等级：</span>
+            <span><span ng-bind="riskDetail.RISKGRADE"></span>风险源</span>
+        </div>
+        <!-- <div class="itemLine" ng-show="riskDetail.INDUSTRYINVOLVED">
+            <span>所属行业：</span>
+            <span ng-bind="riskDetail.INDUSTRYINVOLVED"></span>
+        </div> -->
+        <div class="itemLine">
+            <span>管理人：</span>
+            <span ng-bind="riskDetail.CUSTODIAN || '--'"></span>
+            <div class="telphone">
+                <img src="images/tel.png" />
+                <span ng-bind="riskDetail.CUSTODIANTELEPHONE || '--'"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-pannel" style="height:200px;" ng-if="videoShow" style="position: relative;">
+        <!-- <video style="width:100%;height: 100%;" src="video/贵州开磷集团矿肥有限责任公司/1.mp4" controls="controls" autoplay></video> -->
+        <div id="videoPlayer" style="width:100%;height:100%"></div>
+    </div>
+
+    <div style="margin-top:10px;" ng-show="risk.state && !videoShow">
+        <button type="button" class="layBtn" ng-click="openOverview()">企业详情</button>
+        <button ng-click="sw()" type="button" class="layBtn" >三维建模</button>
+        <span ng-cloak ng-show="modalShow2[riskDetail.COMPANYID]">
+            <button type="button" class="layBtn" ng-click="videoShow=true">无人机航拍</button>
+        </span>
+        <span ng-cloak ng-hide="true">
+            <button type="button" class="layBtn" ng-click="emergencyMoni(riskDetail.COMPANYID)">应急模拟</button>
+        </span>
+    </div>
+</div>

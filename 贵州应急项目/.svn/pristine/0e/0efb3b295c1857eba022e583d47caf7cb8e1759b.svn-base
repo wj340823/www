@@ -1,0 +1,239 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("环境风险防控设施")
+public class RiskControlMeasures {
+
+    @ApiModelProperty("是否设置总排放阀")
+    private String sfszfszpff;
+    @ApiModelProperty("能否自动流入应急池")
+    private String sfzclr;
+    @ApiModelProperty("风险源id")
+    private String companyId;
+    @ApiModelProperty("是否能全部手机")
+    private String sfqbsj;
+    @ApiModelProperty("是否设置去收收集池")
+    private String sfsjys;
+    @ApiModelProperty("是否雨污分离")
+    private String sffywfl;
+    @ApiModelProperty("是否空置")
+    private String sfkz;
+    private String id;
+    @ApiModelProperty("容量")
+    private String poolNumber;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String sfszyspff;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String sfdxqtxljkyjcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String fhfhjlqk;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String jsntfdqhjsj;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String jlcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String sgfssjcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String qjfsxtfxfkcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String qjfsxtcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String yspsxtfxfkcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String scfsckxtfxfk;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String scfswpcs;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String fspfqx;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String cnwxwhjgl;
+    @ApiModelProperty("是否设置雨水总排放阀")
+    private String jsntfshjsj;
+
+    public void setSfszfszpff(String sfszfszpff) {
+        this.sfszfszpff = sfszfszpff;
+    }
+
+    public String getSfszfszpff() {
+        return sfszfszpff;
+    }
+
+    public void setSfzclr(String sfzclr) {
+        this.sfzclr = sfzclr;
+    }
+
+    public String getSfzclr() {
+        return sfzclr;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setSfqbsj(String sfqbsj) {
+        this.sfqbsj = sfqbsj;
+    }
+
+    public String getSfqbsj() {
+        return sfqbsj;
+    }
+
+    public void setSfsjys(String sfsjys) {
+        this.sfsjys = sfsjys;
+    }
+
+    public String getSfsjys() {
+        return sfsjys;
+    }
+
+    public void setSffywfl(String sffywfl) {
+        this.sffywfl = sffywfl;
+    }
+
+    public String getSffywfl() {
+        return sffywfl;
+    }
+
+    public void setSfkz(String sfkz) {
+        this.sfkz = sfkz;
+    }
+
+    public String getSfkz() {
+        return sfkz;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setPoolNumber(String poolNumber) {
+        this.poolNumber = poolNumber;
+    }
+
+    public String getPoolNumber() {
+        return poolNumber;
+    }
+
+    public void setSfszyspff(String sfszyspff) {
+        this.sfszyspff = sfszyspff;
+    }
+
+    public String getSfszyspff() {
+        return sfszyspff;
+    }
+
+    public String getSfdxqtxljkyjcs() {
+        return sfdxqtxljkyjcs;
+    }
+
+    public void setSfdxqtxljkyjcs(String sfdxqtxljkyjcs) {
+        this.sfdxqtxljkyjcs = sfdxqtxljkyjcs;
+    }
+
+    public String getFhfhjlqk() {
+        return fhfhjlqk;
+    }
+
+    public void setFhfhjlqk(String fhfhjlqk) {
+        this.fhfhjlqk = fhfhjlqk;
+    }
+
+    public String getJsntfdqhjsj() {
+        return jsntfdqhjsj;
+    }
+
+    public void setJsntfdqhjsj(String jsntfdqhjsj) {
+        this.jsntfdqhjsj = jsntfdqhjsj;
+    }
+
+    public String getJlcs() {
+        return jlcs;
+    }
+
+    public void setJlcs(String jlcs) {
+        this.jlcs = jlcs;
+    }
+
+    public String getSgfssjcs() {
+        return sgfssjcs;
+    }
+
+    public void setSgfssjcs(String sgfssjcs) {
+        this.sgfssjcs = sgfssjcs;
+    }
+
+    public String getQjfsxtfxfkcs() {
+        return qjfsxtfxfkcs;
+    }
+
+    public void setQjfsxtfxfkcs(String qjfsxtfxfkcs) {
+        this.qjfsxtfxfkcs = qjfsxtfxfkcs;
+    }
+
+    public String getQjfsxtcs() {
+        return qjfsxtcs;
+    }
+
+    public void setQjfsxtcs(String qjfsxtcs) {
+        this.qjfsxtcs = qjfsxtcs;
+    }
+
+    public String getYspsxtfxfkcs() {
+        return yspsxtfxfkcs;
+    }
+
+    public void setYspsxtfxfkcs(String yspsxtfxfkcs) {
+        this.yspsxtfxfkcs = yspsxtfxfkcs;
+    }
+
+    public String getScfsckxtfxfk() {
+        return scfsckxtfxfk;
+    }
+
+    public void setScfsckxtfxfk(String scfsckxtfxfk) {
+        this.scfsckxtfxfk = scfsckxtfxfk;
+    }
+
+    public String getScfswpcs() {
+        return scfswpcs;
+    }
+
+    public void setScfswpcs(String scfswpcs) {
+        this.scfswpcs = scfswpcs;
+    }
+
+    public String getFspfqx() {
+        return fspfqx;
+    }
+
+    public void setFspfqx(String fspfqx) {
+        this.fspfqx = fspfqx;
+    }
+
+    public String getCnwxwhjgl() {
+        return cnwxwhjgl;
+    }
+
+    public void setCnwxwhjgl(String cnwxwhjgl) {
+        this.cnwxwhjgl = cnwxwhjgl;
+    }
+
+    public String getJsntfshjsj() {
+        return jsntfshjsj;
+    }
+
+    public void setJsntfshjsj(String jsntfshjsj) {
+        this.jsntfshjsj = jsntfshjsj;
+    }
+}

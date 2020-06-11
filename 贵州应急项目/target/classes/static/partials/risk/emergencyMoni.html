@@ -1,0 +1,327 @@
+<div class="emergencyMng" ng-controller="emergencyMoni">
+    <!-- 事件列表 -->
+    <div ng-show="emergencyMoni.events.length>1 && !emergencyMoni.eventShow" class="event-bar">
+        <span class="text" ng-bind="emergencyMoni.event.name"></span>
+        <span class="icon-btn" ng-click="emergencyMoni.eventToggle()"><i class="iconfont icon-shijianliebiao"></i></span>
+    </div>
+    <div class="event-body" ng-show="emergencyMoni.eventShow && emergencyMoni.events.length>1">
+        <div class="_title">事件列表</div>
+        <div style="height:400px">
+            <div cgs-slim options="{'height':'100%','size':'5px'}">
+                <div class="part">
+                    <div class="part-item" ng-click="emergencyMoni.eventClick(event)" ng-class="{true:'active'}[event.checked]" ng-repeat="event in emergencyMoni.events">
+                        <span title="{{event.name}}" class="_label" ng-bind="event.name | ellipsis:18"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <!-- 水模型 -->
+    <div ng-if="emergencyMoni.type=='water'">
+        <div class="infoBoard" ng-show="waterPlayer.infoBoard.show && !emergencyMoni.eventShow" mydraggable>
+            <div class="infoLeft">
+                <div class="infoImportant layHead" ng-bind-html="waterPlayer.moniText"></div>
+                <div class="infoStart">
+                    <div>
+                        <div>
+                            <span style="margin:0" ng-bind="emergencyMoni.event.time | date:'yyyy-MM-dd HH:mm'"></span> 
+                            <span style="margin-left:10px" ng-show="emergencyMoni.event.args.lg && emergencyMoni.event.args.lt">北纬 {{emergencyMoni.event.args.lg || '--' | number:2}}°&nbsp; 东经 {{emergencyMoni.event.args.lt | number:2 || '--'}}°</span>
+                        </div>
+                        <div ng-bind="emergencyMoni.event.args.attr || '贵州省黔南州福泉市'"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="infoTime">事故发生<span ng-bind="waterPlayer.infoBoard.time"></span>分钟后</div>
+                    <div class="concOuter">
+                        <div>
+                            <label ng-bind-template="{{emergencyMoni.eventFactory+'浓度'}}"></label>
+                            <div ng-style="waterPlayer.infoBoard.wrwColor"><span ng-bind="waterPlayer.infoBoard.wrwData | number:4"></span><span style="font-size:14px;"> mg/L</span></div>
+                        </div>
+                        <!-- <div>
+                            <label>石油类</label>
+                            <div ng-style="waterPlayer.infoBoard.wrwColor"><span ng-bind="waterPlayer.infoBoard.wrwData1 | number:4"></span><span style="font-size:14px;"> mg/L</span></div>
+                        </div>
+                        <div>
+                            <label>总磷</label>
+                            <div ng-style="waterPlayer.infoBoard.wrwColor"><span ng-bind="waterPlayer.infoBoard.wrwData2 | number:4"></span><span style="font-size:14px;"> mg/L</span></div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="infoRight">
+                <div class="areaTitle">
+                    <span>影响区域（<a ng-bind="waterPlayer.infoBoard.mgd.length"></a>）</span>
+                </div>
+                <div class="areaList" cgs-slim options="{height:'155px',size:'2px',color:'#2687FA'}">
+                    <div ng-repeat="item in waterPlayer.infoBoard.mgd">
+                        <i class="square"></i><span>{{item}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chartShow" style="position:static;margin-top:2px">
+                <div class="layHead">
+                    <span>污染团浓度峰值变化趋势</span>
+                </div>
+                <div class="layMain">
+                    <div cgs-echarts options="waterPlayer.echarts" style="width:482px;height:260px;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 曲线图 -->
+        <!-- <div class="chartShow" ng-show="waterPlayer.infoBoard.show && !emergencyMoni.eventShow" mydraggable>
+            <div class="layHead">
+                <span>污染团浓度峰值变化趋势</span>
+            </div>
+            <div class="layMain">
+                <div cgs-echarts options="waterPlayer.echarts" style="width:482px;height:260px;"></div>
+            </div>
+        </div> -->
+         <!-- 计算中 -->
+        <div class="calcOuter" ng-show="waterPlayer.loading && !emergencyMoni.eventShow">
+            <img src="images/loading.gif" />
+            <span>&nbsp;建 模 中……</span>
+        </div>
+
+        <!-- 时间轴 -->
+        <div class="timeAxis" style="left:212px" ng-show="waterPlayer.timeLineShow && !emergencyMoni.eventShow">
+            <a ng-click="waterPlayer.playPause()">
+                <i class="fa" ng-class="{true:'fa-pause',false:'fa-play'}[waterPlayer.playing]"></i>
+            </a>
+            <div>
+                <i class="fa fa-chevron-left " ng-click="waterPlayer.prev()"></i>
+                <ul class="monthSel">
+                    <li ng-repeat="time in waterPlayer.times track by $index" ng-class="{'selected':time.processed,'active':time.selected}" ng-click="waterPlayer.toggle($index)">
+                        <div class="linePoint">
+                            <div></div>
+                            <a></a>
+                        </div>
+                        <div ng-if="$index%2==0"><span ng-bind="time.name"></span></div>
+                    </li>
+                </ul>
+                <i class="fa fa-chevron-right " ng-click="waterPlayer.next()"></i>
+            </div>
+        </div>
+
+        <!-- 图例 -->
+        <div class="legend" ng-hide="emergencyMoni.eventShow" style="left:12px;right:auto;">
+            <div>
+                <div ng-repeat="level in waterPlayer.numLevel | filter:levelFun">
+                    <span style="display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:middle" ng-style="{background:waterPlayer.color[$index]}"></span>
+                    <span style="vertical-align:middle" ng-bind-template="{{'<'+level}}"></span>
+                </div>
+                <div>
+                    <span style="display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:middle" ng-style="{background:waterPlayer.color[waterPlayer.color.length-1]}"></span>
+                    <span style="vertical-align:middle" ng-bind-template="{{'>='+waterPlayer.numLevel[waterPlayer.numLevel.length-1]}}"></span>
+                </div>
+            </div>
+            <div>
+                <div><div style="height:18px"><img style="width:16px" src="images/dq.png "></div>大气环境保护目标</div>
+                <div><div style="height:18px"><img style="width:16px" src="images/water.png "></div>地下水监测点</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 气模型 -->
+    <div ng-if="emergencyMoni.type=='air'">
+        <!-- 时间轴 -->
+        <div class="timeAxis" style="left:212px" ng-if="moniPlayer.timeLineShow && !emergencyMoni.eventShow">
+            <a ng-click="moniPlayer.playPause()">
+                <i class="fa" ng-class="{true:'fa-pause',false:'fa-play'}[moniPlayer.playing]"></i>
+            </a>
+            <div>
+                <i class="fa fa-chevron-left " ng-click="moniPlayer.prev()"></i>
+                <ul class="monthSel">
+                    <li ng-repeat="time in moniPlayer.times track by $index" ng-class="{'selected':time.processed,'active':time.selected}" ng-click="moniPlayer.toggle($index)">
+                        <div class="linePoint">
+                            <div></div>
+                            <a></a>
+                        </div>
+                        <div ng-if="$index%2==0"><span ng-bind="time.name"></span></div>
+                    </li>
+                </ul>
+                <i class="fa fa-chevron-right " ng-click="moniPlayer.next()"></i>
+            </div>
+        </div>
+
+        <!-- 计算中 -->
+        <div class="calcOuter" ng-if="moniPlayer.loading && !emergencyMoni.eventShow">
+            <img src="images/loading.gif" />
+            <span>&nbsp;建 模 中……</span>
+        </div>
+
+        <div class="airTimeLong" ng-if="moniPlayer.infoBoard.show && !emergencyMoni.eventShow">
+            <div><span ng-bind="moniPlayer.infoBoard.time"></span></div>
+            <div style="color:#ffcc01" ng-bind-template="{{emergencyMoni.eventFactory+(moniPlayer.fileIndex<2?'持续泄露':'持续扩散')}}"></div>
+        </div>
+
+        <!-- 图例 -->
+        <div class="legend" ng-hide="emergencyMoni.eventShow" style="left:12px;right:auto;">
+            <div class="ldbz">
+                <div class="item">
+                    <span style="background:#FF2925" class="bar"></span>
+                    <!-- <span>70 mg/m<sup>3</sup></span> -->
+                </div>
+                <div class="item">
+                    <span style="background:#FFAD2F" class="bar"></span>
+                    <span class="text">60 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item">
+                    <span style="background:#FFEE34" class="bar"></span>
+                    <span class="text">37 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item">
+                    <span style="background:#309A30" class="bar"></span>
+                    <span class="text">20 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item" style="height:0">
+                    <span style="top:-16px;margin-left:10px" class="text">0</span>
+                </div>
+            </div>
+            <div>
+                <div><div><img style="width:16px" src="images/dq.png "></div>大气环境保护目标</div>
+                <div><div><img style="width:16px" src="images/water.png "></div>地下水监测点</div>
+            </div>
+        </div>
+
+        <!-- 风向风速 -->
+        <div class="windLengend" ng-hide="emergencyMoni.moniInfoShow || emergencyMoni.eventShow">
+            <span>风向：{{emergencyMoni.event.args.anglems}}</span><br/>
+            <span>风速：{{emergencyMoni.event.args.u}}m/s</span>
+        </div>
+    </div>
+
+     <!-- 气模型左侧信息面板 -->
+    <div ng-style="{height:emergencyMoni.bodyH}" class="info-container left" ng-show="emergencyMoni.moniInfoShow && !emergencyMoni.eventShow">
+        <div class="info-pannel" style="margin-top:48px">
+            <span class="_title">敏感点位</span>
+            <div style="height:calc(100% - 20px)">
+                <div cgs-slim options="{'height':'100%','size':'5px'}">
+                    <div class="part">
+                        <span class="font-icon" ng-repeat="item in emergencyMoni.moniInfo.mgd">
+                            <a ng-bind="item.COMPANYNAME" title="{{item.COMPANYNAME}}" ng-click="emergencyMoni.getDetail(item,'mgd')"></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info-pannel">
+            <span class="_title">贮存情况</span>
+            <div style="height:calc(100% - 20px)">
+                <div cgs-slim options="{'height':'100%','size':'5px'}">
+                    <div class="part">
+                        <span class="font-icon" ng-repeat="item in emergencyMoni.moniInfo.factory">
+                            <a ng-bind="item.pm" title="{{item.pm}}" ng-click="emergencyMoni.getDetail(item,'zcqk')"></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 详情 -->
+        <div class="info-pannel detail" ng-class="emergencyMoni.detail.type" ng-show="emergencyMoni.detail.show" >
+            <span class="_title" ng-bind="emergencyMoni.detail.title"></span>
+            <span class="_close" ng-click="emergencyMoni.detail.show=false">
+                <i style="font-size:12px" class="iconfont icon-guanbi cursor-pointer"></i>
+            </span>
+            <div class="part" ng-show="emergencyMoni.detail.type=='mgd'" >
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="_label">环保目标:</td>
+                            <td ng-bind="emergencyMoni.detail.info.hbmb"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">方位:</td>
+                            <td ng-bind="emergencyMoni.detail.info.fw"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">距离:</td>
+                            <td ng-bind="emergencyMoni.detail.info.jl"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">人数:</td>
+                            <td ng-bind="emergencyMoni.detail.info.rs"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="part" ng-show="emergencyMoni.detail.type=='zcqk'">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="_label">化学品名:</td>
+                            <td ng-bind="emergencyMoni.detail.info.pm"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">CAS号:</td>
+                            <td ng-bind="emergencyMoni.detail.info.cas"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">最大储存量(t):</td>
+                            <td ng-bind="emergencyMoni.detail.info.zdcc"></td>
+                        </tr>
+                        <tr>
+                            <td class="_label">临界量(t):</td>
+                            <td ng-bind="emergencyMoni.detail.info.ljl"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 气模型右侧信息面板 -->
+    <div ng-style="{height:emergencyMoni.bodyH}" class="info-container right" ng-show="emergencyMoni.moniInfoShow && !emergencyMoni.eventShow">
+        <div class="info-pannel" style="height:35%;width:428px">
+            <span class="_title">理化特性</span>
+            <div style="height:calc(100% - 20px)">
+                <div cgs-slim options="{'height':'100%','size':'5px'}">
+                    <div class="part">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="_label">外观与特性:</td>
+                                    <td colspan="3" ng-bind="emergencyMoni.moniInfo.lhtx.WGTX"></td>
+                                </tr>
+                                <tr>
+                                    <td class="_label">熔点(℃):</td>
+                                    <td ng-bind="emergencyMoni.moniInfo.lhtx.RD"></td>
+                                    <td class="_label">沸点(℃):</td>
+                                    <td ng-bind="emergencyMoni.moniInfo.lhtx.FD"></td>
+                                </tr>
+                                <tr>
+                                    <td class="_label">相对密度(水=1):</td>
+                                    <td ng-bind="emergencyMoni.moniInfo.lhtx.SMD"></td>
+                                    <td class="_label">相对密度(空气=1):</td>
+                                    <td ng-bind="emergencyMoni.moniInfo.lhtx.QMD"></td>
+                                </tr>
+                                <tr>
+                                    <td class="_label">饱和蒸气压(KPa):</td>
+                                    <td ng-bind="emergencyMoni.moniInfo.lhtx.BHZQY"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="_label">溶解性:</td>
+                                    <td colspan="3" ng-bind="emergencyMoni.moniInfo.lhtx.RJX"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info-pannel" style="height:20%;width:428px">
+            <span class="_title">危险性分析</span>
+            <div style="height:calc(100% - 20px)">
+                <div cgs-slim options="{'height':'100%','size':'5px'}">
+                    <div class="part">
+                        <p ng-bind="emergencyMoni.moniInfo.wxfx.DETAIL"></p>
+                        <p>燃烧分解物：{{emergencyMoni.moniInfo.wxfx.RSFJW}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

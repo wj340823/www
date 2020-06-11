@@ -1,0 +1,69 @@
+<div  ng-controller="yilanbiao">
+    <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button" ui-sref="msgManage.sczzq" ui-sref-active="active">
+                生产装置区
+            </button>
+            <button class="tab-button" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境保护目标
+            </button>
+            <button class="tab-button" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >
+                环境污染事故源
+            </button>
+            <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active">
+                应急物资
+            </button>
+            <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active">
+                应急指挥通讯录
+            </button>
+            <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active">
+                应急外部联络表
+            </button>
+            <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active">
+                应急专家
+            </button>
+        </div>
+    </div>
+
+    <div class="table-content">
+        <div class="search-nav">
+            <button class="searchBtn" style="margin-left: 20px" ui-sref="msgManage.addtr3">
+                <i class="iconfont icon-tianjia"></i> 新增
+            </button>
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th ng-repeat="i in ylb.th3">{{i}}</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in ylb.accidents">
+                <td style="width: 10%" ng-bind="$index+1"></td>
+                <td style="width: 15%" ng-bind="item.accidentSource"></td>
+                <td style="width: 10%" ng-bind="item.level"></td>
+                <td ng-bind="item.hazardousCharacteristics"></td>
+                <td ng-bind="item.emergencyMeasure"></td>
+                <td>
+                    <span class="oper hander" ui-sref="msgManage.addtr3({opType:'edit',index:$index,id:item.accidentsource_Id})">修改</span>
+                    <span class="oper hander" ng-click="deltr(item,3)">删除</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="ylb.accidents==0">无数据</p>
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定提交吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定提交吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+</div>

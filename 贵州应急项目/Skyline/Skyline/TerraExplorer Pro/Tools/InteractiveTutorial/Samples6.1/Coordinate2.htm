@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Coordinates 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var popup = null;
+        
+        function Init()
+        {
+            // defining two coordinates
+            var coord1 = SGWorld.Creator.CreatePosition(-71.07542, 42.34930, 232.0);
+            var coord2 = SGWorld.Creator.CreatePosition(-71.05507, 42.35561, 105.0);
+            
+            // Placing some annotation on the terrain
+            SGWorld.Creator.CreateTextLabel(coord1, "Hancock Building",SGWorld.Creator.CreateLabelStyle());
+            SGWorld.Creator.CreateTextLabel(coord2, "Building 2",SGWorld.Creator.CreateLabelStyle());
+
+            var pos = coord1.AimTo(coord2);
+
+            SGWorld.Navigate.SetPosition(pos);            
+            
+            // Display a message to the user
+            popup = SGWorld.Creator.CreatePopupMessage("Coordinate sample");
+            popup.innerText = "This sample shows how to place the camera at a specific position\r\nwhile aiming it to a desired point of interest";
+            popup.align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);
+        }
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:00000040Fzl5tdRrBb5XHhEyE2Hp1N26nvYYVHQv17iaG8959yIAf1KeSfBSjwKbfBicwOpovjYV1a#NfSKZ8awlsxXuGDJJ-->

@@ -1,0 +1,51 @@
+<div  ng-controller="cityMaterial">
+    <div class="table-content">
+        <div class="search-nav">
+            <input type="text" placeholder="关键字" ng-model="obj.keyword">
+            <button class="searchBtn" style="margin-left: 20px" ng-click="getMsg()">
+                <i class="iconfont icon-sousuo"></i>搜索
+            </button>
+        </div>
+        <div class="item-content">
+            <table >
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>物资设备名称</th>
+                    <th>数量</th>
+                    <th>资产状态</th>
+                    <th>负责人</th>
+                    <th>联系方式</th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr ng-repeat="item in obj.material">
+                    <td>{{materialDetail.pageSize*(materialDetail.pageNo-1)+$index+1}}</td>
+                    <td>{{item.NAME}}</td>
+                    <td>{{item.NUMBER}}</td>
+                    <td>{{item.STATUS==1?'出库':item.STATUS==2?'报废':'在库'}}</td>
+                    <td>{{item.CONTACTS}}</td>
+                    <td>{{item.CONTACTNUMBER}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="dangerColor noDate" ng-if="obj.material.length==0">无数据</p>
+
+        </div>
+        <uib-pagination
+                ng-change="getMsg()"
+                total-items="obj.total"
+                ng-model="obj.pageNo"
+                items-per-page="obj.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                max-size= "4"
+                rotate="false">
+        </uib-pagination>
+
+        <div class="clearfix"></div>
+    </div>
+
+</div>

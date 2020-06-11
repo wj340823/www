@@ -1,0 +1,175 @@
+<div class="emergencyMng" ng-controller="airCtrl">
+    <!-- <div class="menuTab">
+        <div ng-click="changeTab(1)" ng-class="{true:'active'}[airModel.tab==1]">模型分析</div>
+        <div ng-click="changeTab(2)" ng-class="{true:'active'}[airModel.tab==2]">电子沙盘</div>
+    </div> -->
+    <div ng-if="modal.tab==1">
+        <!-- 扩散分析 -->
+        <div class="simulationOuter">
+            <div class="layHead">
+                <span>模型参数</span>
+            </div>
+            <div class="layMain">
+                <div class="paramTitle">
+                    <i class="posArrow"></i>
+                    <span>选择事故发生地点</span>
+                    <img src="images/source2.png" />
+                </div>
+                <!-- <div ng-click="changePlot()">
+                    <i class="posIcon"></i>
+                    <span title="贵州省遵义市赤水市工业大道五桂河中桥附近" ng-if="airModel.plot40l3.start" class="nowrap" style="width:200px;">贵州省遵义市赤水市工业大道五桂河中桥附近</span>
+                </div> -->
+                <div class="paramTitle">
+                    <i class="posArrow"></i>
+                    <span>模型参数设置</span>
+                </div>
+                <div class="paramDeatail">
+                    <div>
+                        <span style="width:70px;display:inline-block">泄漏物</span>
+                        <!--<select style="width:70px" ng-model="moniPlayer.config.pollutant">
+	                         <option></option>
+	                         <option>甲苯</option>
+                             <option>液氨</option>
+                             <option>磷酸</option>
+                         </select>-->
+                        <input type="text" style="width:90px;" ng-model="moniPlayer.config.pollutant">
+                         <br/>
+                        <span style="width:70px;display:inline-block">排放强度</span>
+                        <input style="width:90px;" ng-model="moniPlayer.config.q" type="number" />&nbsp;千克/秒
+                    </div>
+                    <!-- <div ng-if="airModel.plot40l3.start" style="overflow:hidden;">
+                        <div class="chemicalSel">
+                            <span>&nbsp;&nbsp;甲苯</span>
+                            <span>&nbsp;32t</span>
+                            <i class="delIcon"></i>
+                        </div>
+                        <div class="chemicalSel">
+                            <span>&nbsp;&nbsp;液氨</span>
+                            <span>&nbsp;25t</span>
+                            <i class="delIcon"></i>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="paramDeatail2">
+                    <div>
+                        <span style="width:70px;display:inline-block">风向</span>
+                        <input style="width:90px;" ng-model="moniPlayer.config.angle" type="number" /> 度
+                    </div>
+                    <div>
+                        <span style="width:70px;">风速</span>
+                        <input style="width:90px;" ng-model="moniPlayer.config.u" type="number" /> 米/秒
+                    </div>
+                    <div>
+                        <span>离地高度</span>
+                        <input ng-model="moniPlayer.config.height" type="number" min="0" /> 米
+                    </div>
+                    <div>
+                        <span>扩散时长</span>
+                        <input ng-model="moniPlayer.config.kssc" type="number" min="0" /> 秒
+                    </div>
+                    <div>
+                        <span>大气稳定</span>
+                        <select ng-model="moniPlayer.config.airStability" style="width: 70px">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select> <i class="iconfont icon-minganci" style="cursor: pointer" ng-click="openDes(1)"></i>
+                    </div>
+                    <div>
+                        <span>地面粗糙度</span>
+                        <input ng-model="moniPlayer.config.roughness" type="number" max="4" min="0" step="0.1"/>
+                        <i class="iconfont icon-minganci" style="cursor: pointer" ng-click="openDes(2)"></i>
+                    </div>
+                    <!--<div>
+                        <span>伤害范围</span>
+                        <input ng-model="moniPlayer.config.harmRange" type="number" /> 米
+                    </div>-->
+                    <!-- <div>
+                        <span>泄漏时长</span>
+                        <input ng-model="moniPlayer.config.gl" type="number" />
+                    </div> -->
+                    <div>
+                        <span style="width:70px;">经度</span>
+                        <input style="width:90px;" ng-model="moniPlayer.config.lg" type="number" /> 度
+                    </div>
+                    <div>
+                        <span style="width:70px;">纬度</span>
+                        <input style="width:90px;" ng-model="moniPlayer.config.lt" type="number" /> 度
+                    </div>
+                    <!-- <div>
+                        <span style="letter-spacing:-1px;">排放强度</span>
+                        <input ng-model="param.strength" type="number" />毫克/秒
+                    </div> -->
+                    <!-- <div>
+                        <span>烟囱有效高度</span>
+                        <input ng-model="param.height" type="number" />米
+                    </div> -->
+                </div>
+            </div>
+            <div class="layFooter" ng-click="startSimulate()">
+                <button class="btn-start">开始分析</button>
+            </div>
+            <div class="loadLay" ng-if="airModel.calculating"></div>
+        </div>
+
+        <!-- 时间轴 -->
+        <div class="timeAxis" ng-if="moniPlayer.timeLineShow">
+            <a ng-click="moniPlayer.playPause()">
+                <i class="fa" ng-class="{true:'fa-pause',false:'fa-play'}[moniPlayer.playing]"></i>
+            </a>
+            <div>
+                <i class="fa fa-chevron-left " ng-click="moniPlayer.prev()"></i>
+                <ul class="monthSel">
+                    <li ng-repeat="time in moniPlayer.times track by $index" ng-class="{'selected':time.processed,'active':time.selected}" ng-click="moniPlayer.toggle($index)">
+                        <div class="linePoint">
+                            <div></div>
+                            <a></a>
+                        </div>
+                        <div ng-if="$index%2==0"><span ng-bind="time.name"></span></div>
+                    </li>
+                </ul>
+                <i class="fa fa-chevron-right " ng-click="moniPlayer.next()"></i>
+            </div>
+        </div>
+
+        <!-- 计算中 -->
+        <div class="calcOuter" ng-if="moniPlayer.loading">
+            <img src="images/loading.gif" />
+            <span>&nbsp;建 模 中……</span>
+        </div>
+        <div class="legend">
+            <!-- <img src="images/airLegend.png" /> -->
+            <div class="ldbz">
+                <div class="item">
+                    <span style="background:#FF2925" class="bar"></span>
+                    <!-- <span>70 mg/m<sup>3</sup></span> -->
+                </div>
+                <div class="item">
+                    <span style="background:#FFAD2F" class="bar"></span>
+                    <span class="text">60 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item">
+                    <span style="background:#FFEE34" class="bar"></span>
+                    <span class="text">37 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item">
+                    <span style="background:#309A30" class="bar"></span>
+                    <span class="text">20 mg/m<sup>3</sup></span>
+                </div>
+                <div class="item" style="height:0">
+                    <span style="top:-16px;margin-left:10px" class="text">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="airTimeLong" ng-if="moniPlayer.infoBoard.show">
+        	<div><span ng-bind="infoBoard.time"></span></div>
+        	<div style="color:#ffcc01" ng-bind-template="{{moniPlayer.config.pollutant+(moniPlayer.fileIndex<2?'持续泄露':'持续扩散')}}"></div>
+        </div>
+    </div>
+    <!-- <div ng-if="airModel.tab==2" style="width:100%;height:100%;">
+        <div ng-include="'partials/risk/airModel.html'" style="width:100%;height:100%;"></div>
+    </div> -->
+</div>

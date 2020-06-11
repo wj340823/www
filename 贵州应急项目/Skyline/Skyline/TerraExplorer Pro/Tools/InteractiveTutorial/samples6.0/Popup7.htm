@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Popup7</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        
+        function Init()
+        {
+            var popup = SGWorld.Creator.CreatePopupMessage();
+            
+            popup.InnerText = "This sample shows how to programmatically remove the popup";
+
+            popup.Align = "Top";
+
+            SGWorld.Window.ShowPopup(popup);
+            
+            alert("Click OK to remove the popup");
+
+            SGWorld.Window.RemovePopup(popup);
+        }               
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040gTlpvmLaTnc#vjwgACN50TaB2nCJ8X9i3t.SKHqTooWPsec.wK6roQhvTa#h8SFIqoTYfAGUkpTqgJneT3zoXNJJ-->

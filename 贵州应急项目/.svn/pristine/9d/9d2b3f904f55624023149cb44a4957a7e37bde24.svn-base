@@ -1,0 +1,15 @@
+package com.sucsoft.gzhbyjwz.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+
+@Service
+public class YJWZservice {
+
+	@Autowired
+	private BasicQueryService queryService;
+	
+	
+}

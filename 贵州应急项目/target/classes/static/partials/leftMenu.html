@@ -1,0 +1,52 @@
+<div class="leftOuter" ng-class="{true:'scrub'}[scrubEffect]" style="height: 50%">
+    <div class="part" style="height: 100%">
+        <div class="title cursor-pointer" ng-click="toggleOpen(0)" ng-class="{'active':status.isAreaOpen}">
+            <i class="iconfont icon-hangzhengquyu"></i>
+            <span class="text" >{{route == 'emergency.emergencyMaterial'?'政府物资库':'行政区划'}}</span>
+            <i class="iconfont icon-open" ng-class="{true:'icon-uparrow',false:'icon-webicon215'}[status.isAreaOpen]"></i>
+        </div>
+        <div ng-show="status.isAreaOpen"  style="height: calc(100% - 40px)">
+            <div class="content"cgs-slim options="{'height':'100%','size':'5px'}">
+                <div class="listLi cursor-pointer" ng-repeat="item in districts" ng-click="locate(item,1)" ng-class="{'active':item.active}">
+                    <span>{{item.name}}</span>
+                    <span class="leftNumber" ng-show="route!='riskPrevention.riskSource'">{{item.sum}}</span>
+                    <span class="leftNumber" ng-show="route=='riskPrevention.riskSource'">{{item.risksum}}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="part" ng-show = 'route == "emergency.emergencyMaterial"'>
+        <div class="title cursor-pointer" ng-click = 'showEnterMaterial()'>
+            <i class="iconfont icon-hangzhengquyu"></i>
+            <span class="text">企业物资库</span>
+            <i class="iconfont icon-open"></i>
+        </div>
+    </div>
+    <!--<div class="part">
+        <div class="title cursor-pointer" ng-click="toggleOpen(1)" ng-class="{'active':status.isWaterOpen}">
+            <i class="iconfont icon-yinyongshuiyuandi"></i>
+            <span class="text">饮用水源地（一级）</span>
+            <i class="iconfont icon-open" ng-class="{true:'icon-uparrow',false:'icon-webicon215'}[status.isWaterOpen]"></i>
+        </div>
+        <div class="content" ng-show="status.isWaterOpen">
+            <div class="listLi cursor-pointer" ng-repeat="item in waterSource" ng-click="locate(item)" ng-class="{'active':item.active}">
+                <span>{{item.name}}</span>
+                &lt;!&ndash;<span class="leftNumber">{{item.id}}</span>&ndash;&gt;
+            </div>
+        </div>
+    </div>
+    <div class="part">
+        <div class="title cursor-pointer" ng-click="toggleOpen(2)" ng-class="{'active':status.isNaturalOpen}">
+            <i class="iconfont icon-ziranbaohuqu"></i>
+            <span class="text">自然保护区</span>
+            <i class="iconfont icon-open" ng-class="{true:'icon-uparrow',false:'icon-webicon215'}[status.isNaturalOpen]"></i>
+        </div>
+        <div class="content" ng-show="status.isNaturalOpen">
+            <div class="listLi cursor-pointer" ng-repeat="item in natural" ng-click="locate(item)" ng-class="{'active':item.active}">
+                <span>{{item.name}}</span>
+                &lt;!&ndash;<span class="leftNumber">{{item.id}}</span>&ndash;&gt;
+            </div>
+        </div>
+    </div>-->
+</div>

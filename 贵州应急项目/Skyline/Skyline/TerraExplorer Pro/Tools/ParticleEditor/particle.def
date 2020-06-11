@@ -1,0 +1,156 @@
+/***
+var  smokeHigh =
+{ Emitter = {Rate = 40, Shape="Spehre"}.
+Cycle=1
+};
+
+
+var smokeLow =
+{ Emitter = {Rate = 40, Shape="Spehre"}.
+Cycle=1
+};
+var smoke = [smokeHigh,smokeLow];
+
+effects["smoke"] = smoke;
+
+bluesteam["Cycle"] = 1
+
+
+
+var ParticleArray = [];
+ParticleArray["BlueSteam"] = bluesteam;
+
+ParticleArray = {};
+ParticleArray ["BlueSteam"] = {}
+ParticleArray ["BlueSteam"]
+ParticleArray ["BlueSteam"][0]["Cycle"] = "<Cycle Value="1" />"
+
+****/
+
+
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+<ParticleLib>
+  <Particle ID="Smoke">
+    <ParticleEmitter ID="SmokeHigh" NumParticles="40" Texture="smoke.png">
+      <Emitter Rate="40" Shape="Sphere" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 5, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="0.65" />
+      <Speed Value="0.5" />
+      <Color Value="100, 130, 130, 130" />
+      <Size Value="0.5" />
+      <Drag Value="0.4" />
+      <Fade FadeIn=".1" FadeOut=".6" MaxFade=".2" />
+    </ParticleEmitter>
+    <ParticleEmitter ID="SmokeLow" NumParticles="20" Texture="smoke.png">
+      <Emitter Rate="20" Shape="Sphere" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, -1, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="1" />
+      <Speed Value="3" />
+      <Color Value="30, 90, 70, 60" />
+      <Size Value="1" />
+      <Drag Value="1.6" />
+      <Fade FadeIn="0" FadeOut=".2" MaxFade="0.1" />
+    </ParticleEmitter>
+  </Particle>
+  <ParticleEmitter ID="Steam" NumParticles="40" Texture="drop02.png">
+      <Emitter Rate="40" Shape="Sphere" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 5, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="0.65" />
+      <Speed Value="0.5" />
+      <Color Value="20, 255,255, 255" />
+      <Size Value="0.5" />
+      <Drag Value="0.4" />
+      <Fade FadeIn=".1" FadeOut=".6" MaxFade=".2" />
+    </ParticleEmitter>
+  </Particle>
+  
+  
+  
+  <Particle ID="FirePoof">
+    <ParticleEmitter ID="Circle" NumParticles="100" Texture="fire.png">
+      <Emitter Rate="4000" Shape="Ring" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 0, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="0.65" />
+      <Speed Value="5" />
+      <Color Value="20, 255,255, 255" />
+      <Size Value="0.5" />
+      <Drag Value="5" />
+      <Rotation Speed="3" Time="1.7" />
+      <Fade FadeIn=".1" FadeOut=".6" MaxFade=".2" />
+    </ParticleEmitter>
+  </Particle>
+  <Particle ID="SmokePoof">
+    <ParticleEmitter ID="Circle" NumParticles="100" Texture="smoke.png">
+      <Emitter Rate="4000" Shape="Ring" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 0, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="0.65" />
+      <Speed Value="5" />
+      <Color Value="20, 255,255, 255" />
+      <Size Value="0.5" />
+      <Drag Value="5" />
+      <Rotation Speed="3" Time="1.7" />
+      <Fade FadeIn=".1" FadeOut=".6" MaxFade=".2" />
+    </ParticleEmitter>
+  </Particle>
+  <Particle ID="Bubbles">
+    <ParticleEmitter ID="SlowUp" NumParticles="40" Texture="bubbles.png">
+      <Emitter Rate="10" Shape="Sphere" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 5, 0" />
+      <Position Value="0, 0, 0" />
+      <Life Value="0.65" />
+      <Speed Value="1" />
+      <Color Value="255, 255,255, 255" />
+      <Size Value="0.3" />
+      <Drag Value="5" />
+      <Fade FadeIn=".1" FadeOut=".6" MaxFade="0.5" />
+    </ParticleEmitter>
+  </Particle>
+  <Particle ID="Fire">
+    <ParticleEmitter ID="smoke" NumParticles="40" Texture="smoke.png">
+      <Emitter Rate="10" Shape="Disc" />
+      <Cycle Value="3" />
+      <Sort Value="1" />
+      <Gravity Value="0, 5, 0" />
+      <Position Value="0, 5, 0" />
+      <Life Value="1.65" />
+      <Speed Value="3" />
+      <Color Value="255, 255, 255, 255" />
+      <Size Value="2.5" />
+      <Drag Value=".4" />
+      <Fade FadeIn=".1" FadeOut=".4" MaxFade=".2" />
+    </ParticleEmitter>
+    <ParticleEmitter ID="fire" NumParticles="90" Texture="fire.png">
+      <Emitter Rate="40" Shape="Sphere" />
+      <Cycle Value="1" />
+      <Sort Value="1" />
+      <Gravity Value="0, 2, 0" />
+      <Position Value="0, 5, 0" />
+      <Life Value="3.5" />
+      <Speed Value="2" />
+      <Color Value="255, 255, 255, 0" />
+      <Size Value="2.0" />
+      <Drag Value=".1" />
+      <Fade FadeIn=".1" FadeOut=".1" MaxFade=".2" />
+      <Rotation Speed="10" Time="1.7" />
+    </ParticleEmitter>
+  </Particle>
+</ParticleLib>

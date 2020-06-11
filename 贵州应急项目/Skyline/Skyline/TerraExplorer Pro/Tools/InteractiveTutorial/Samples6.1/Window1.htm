@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>Coordinates 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var popup = null;
+        
+        
+        function Init()
+        {
+
+            SGWorld.AttachEvent("onLButtonUp", onLButtonUp);
+            SGWorld.Window.ShowMessageBarText("Click on terrain to get information", 2);
+            popup = SGWorld.Creator.CreatePopupMessage("3D Window sample");            
+        }
+
+
+        function onLButtonUp(flags, x,y)
+        {
+
+            var ret = SGWorld.Window.PixelToWorld(x, y);
+
+            if ((ret.Type & 0x00000020) == 0)
+            {
+                popup.InnerHTML = "x: " + ret.Position.X.toFixed(5) + "<br>";
+                popup.InnerHTML += "y: " + ret.Position.Y.toFixed(5) + "<br>";
+
+                if (ret.ObjectID)
+                {
+                    var object = SGWorld.Creator.GetObject(ret.ObjectID);
+                    popup.InnerHTML += "<br><u>Object detected:</u><br>";
+                    if(object.TreeItem)
+                        popup.InnerHTML += "Name: \"" + object.TreeItem.Name + "\"<br>";
+                    else
+                        popup.InnerHTML += "Object is not in project tree<br>";
+                    popup.InnerHTML += "Type: " + object.ObjectType + "<br>";
+                }
+            }
+            else
+            {
+                popup.InnerHTML = "Hit the sky";
+            }
+                
+            popup.Width = 250;
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);  
+                
+            return false; // let the system continue processing the event
+        }
+        
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+            SGWorld.Window.HideMessageBarText();
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);      
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:00000040RbjhLLRhAWdo71LdmDayuHXVq6hFP.Ww3d4Zom8Ha4ag6QI4YeJQy6JE1Cje0qJcQ0rOe5fUm3OoBrgRZsjlGaJJ-->

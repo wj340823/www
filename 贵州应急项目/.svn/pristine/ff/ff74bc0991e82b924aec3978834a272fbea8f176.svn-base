@@ -1,0 +1,75 @@
+---
+  grammer: SQL
+  queries:
+    - name: getReverName
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          r.name
+        from
+          enterpriseriver a
+        left join river r on r.id =a.RIVERID
+        where
+          1=1
+        #if($COMPANYID)
+          and a.COMPANYID = :COMPANYID
+        #end
+        "
+    - name: getRiskSubstance
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          a.*
+        from
+          riskSubstance a
+        where
+          1=1
+        #if($name)
+          and a.name = :name
+        #end
+        "
+    - name: getZcqk
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          c.pm,
+          c.cas,
+          f.zdcc,
+          c.ljl
+        from
+          factory f
+        left join chemicalproducts c on f.pm =c.PM
+        where
+          1=1
+        #if($COMPANYID)
+          and f.COMPANYID = :COMPANYID
+        #end
+        "
+    - name: getPoint
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          c.LONGITUDE,
+          c.LATITUDE,
+          c.COMPANYNAME,
+          c.TYPE,
+          c.fw,
+          c.jl,
+          c.rs
+        from
+          mgdmarkers f
+        left join sensitivepoint c on f.COMPANYNAME =c.COMPANYNAME
+        where
+          1=1
+        #if($COMPANYID)
+          and f.COMPANYID = :COMPANYID
+        #end
+        "

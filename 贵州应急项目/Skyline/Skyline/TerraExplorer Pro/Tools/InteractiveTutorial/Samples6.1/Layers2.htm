@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Layers 2</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript" src="abspath.js"></script>
+        <script type="text/javascript">
+        
+        var popup = null;        
+        
+        function Init()
+        {
+
+            SGWorld.Navigate.SetPosition(SGWorld.Creator.CreatePosition(-111.96805, 24.39885, 1500000, 0,0, -48));
+
+            popup = SGWorld.Creator.CreatePopupMessage("Layers sample");
+            popup.InnerText = "This sample shows how to create a layer from a fly file.";            
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);
+
+            var id = SGWorld.ProjectTree.LoadFlyLayer(toAbspath("data/park.fly"));
+            SGWorld.ProjectTree.RenameGroup(id, "Parks");
+        }
+        
+        
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:00000040QNTywHwSoWL9RW8H9m9OkiMwUk.V0WzvCBpIKdCW3.e8c2.uuGjIE.1r7Ext0fraMiFbqYbAxnKWwZ5uggAtGmJJ-->

@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Create Basic Labels</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+                
+        function Init()
+        {
+
+            var labelPos = SGWorld.Creator.CreatePosition(-122.41519, 37.74346, 100, 2);
+
+            // Default label
+            var label1 = SGWorld.Creator.CreateTextLabel(labelPos, "Default label",SGWorld.Creator.CreateLabelStyle());
+
+
+            var labelStyle = SGWorld.Creator.CreateLabelStyle();
+
+            labelStyle.Bold = true;
+            labelStyle.LineToGround = true;
+            labelStyle.TextColor = SGWorld.Creator.CreateColor(255, 0, 0);
+
+            // Label 2
+            labelPos.X += 0.001;
+            var label2 = SGWorld.Creator.CreateTextLabel(labelPos, "Bold Red label\r\nwith line to ground", labelStyle);
+            
+            // Labe 3 
+            labelStyle.BackgroundColor = SGWorld.Creator.CreateColor(255, 255, 255);
+            labelStyle.Italic           = true;
+            labelStyle.LineToGround     = false;
+            
+            labelPos.x += 0.001;            
+            var label3 = SGWorld.Creator.CreateTextLabel(labelPos, "Red bold italic label\r\nwith white background", labelStyle);
+
+            // Labe 4 
+            labelStyle.BackgroundColor = SGWorld.Creator.CreateColor(255, 255, 255, 0.5);
+            labelStyle.Underline       = true;
+            
+            labelPos.y += 0.001;            
+            var label4 = SGWorld.Creator.CreateTextLabel(labelPos, "Underlined italic with\r\nsemi transparent background", labelStyle);
+
+            // Labe 5 
+            labelStyle.FontSize = 24;
+            labelStyle.FontName = "Times New Roman";
+            
+            labelStyle.Bold      = false;
+            labelStyle.Italic    = false;
+            labelStyle.Underline = false;
+
+            labelPos.x -= 0.002;            
+            var label5 = SGWorld.Creator.CreateTextLabel(labelPos, "Font:Times New Roman\r\nSize:24px", labelStyle);
+
+            SGWorld.Navigate.FlyTo(label1);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040GMCLJfYhEFhk0uIhfxvwIVq3WSyvuk.1skyh8LybSnHoBNjD00T5dyVkuojtb38y5TqYzAUVsj6539RPvHZvJNJJ-->

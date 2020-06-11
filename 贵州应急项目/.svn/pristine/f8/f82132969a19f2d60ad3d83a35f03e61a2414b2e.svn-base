@@ -1,0 +1,110 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+import java.util.Date;
+
+public class EnterprisePreplan {
+
+    private String companyId;
+    /**
+     * 备案时间
+     *
+     */
+    private Date recordtime;
+    /**
+     * 备案状态：0-未备案,1-已备案，2-即将到期，3-备案超期
+     *
+     */
+    private Integer recordStatus;
+    /**
+     * 签署人
+     *
+     */
+    private String underSigned;
+    /**
+     * 预案风险级别：1-一般，2-较大，3-重大
+     *
+     */
+    private Integer level;
+
+    private Date documentYear;
+
+    private String id;
+
+    private String preplanTel;
+
+    private Date updateDate;
+
+    public Date getDocumentYear() {
+        return documentYear;
+    }
+
+    public void setDocumentYear(Date documentYear) {
+        this.documentYear = documentYear;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setRecordtime(Date recordtime) {
+        this.recordtime = recordtime;
+    }
+
+    public Date getRecordtime() {
+        return recordtime;
+    }
+
+    public void setRecordStatus(Integer recordStatus) {
+        this.recordStatus = recordStatus;
+    }
+
+    public Integer getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setUnderSigned(String underSigned) {
+        this.underSigned = underSigned;
+    }
+
+    public String getUnderSigned() {
+        return underSigned;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPreplanTel() {
+        return preplanTel;
+    }
+
+    public void setPreplanTel(String preplanTel) {
+        this.preplanTel = preplanTel;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+}

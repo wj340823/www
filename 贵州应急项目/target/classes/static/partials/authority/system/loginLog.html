@@ -1,0 +1,36 @@
+<div ng-controller="logCtrl" style="width:100%;position:relative">
+    <!--    用户管理-->
+    <div class="content1">
+        <div class="user_table">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用户名</th>
+                        <th>姓名</th>
+                        <th>登录时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in log.data">
+                        <td>{{(log.pageNo-1)*log.pageSize+$index+1}}</td>
+                    	<td>{{item.ACCOUNT}}</td>
+                        <td>{{item.DISPLAYNAME}}</td>
+                        <td>{{item.LOGTIME | date:'yyyy-MM-dd'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <uib-pagination
+                    ng-change="getMsg()"
+                    total-items="log.totalCount"
+                    ng-model="log.pageNo"
+                    items-per-page="log.pageSize"
+                    first-text="first"
+                    class="pagination"
+                    boundary-link-numbers="true"
+                    direction-links="false"
+                    rotate="false">
+            </uib-pagination>
+        </div>
+    </div>
+</div>

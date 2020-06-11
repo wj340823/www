@@ -1,0 +1,92 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+/**
+ * 参数增加
+ * @author shenlq
+ *
+ */
+public class ParamsUtils {
+	
+	/**
+	 * 增加单个
+	 * @param params
+	 * @param obj
+	 * @param condition
+	 */
+	public static void addParams(Map<String,Object> params, Object obj, String condition){
+		if(obj!=null)
+			params.put(condition, obj);
+	}
+	
+	/**
+	 * 增加多个
+	 * @param params
+	 * @param obj
+	 * @param condition
+	 */
+	public static void addParamsArr(Map<String,Object> params,Object[] objs, String[] conditions){
+		if(objs.length>0&&conditions.length>0&&objs.length==conditions.length){
+			for(int i=0;i<objs.length;i++){
+				if(isParams(objs[i]))
+					params.put(conditions[i], objs[i]);
+			}
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static boolean isParams(Object obj){
+		if(obj!=null&&obj.getClass().getName().equals(ArrayList.class.getName())){
+			List list = (List) obj;
+			if(list.size()==0)
+				return false;
+			else{
+				Boolean isEmypt = false;
+				for(Object obji : list){
+					if(StringUtils.isNotBlank(obji.toString()))
+						isEmypt = true;
+				}
+				return isEmypt;
+			}
+		}
+		if(obj!=null&&StringUtils.isNotBlank(obj.toString())&&!"null".equals(obj.toString().trim()))
+			return true;
+		return false;
+	}
+	
+	public static String isLikePara(Object obj){
+		if(obj!=null&&StringUtils.isNotBlank(obj.toString()))
+			return "%"+obj.toString().trim()+"%";
+		else
+			return null;
+	}
+	
+	public static List<String> isLikeArr(List<String> arr){
+		List<String> result = new ArrayList<>();
+		if(arr!=null){
+			for (int i = 0; i < arr.size(); i++) {
+				result.add(isLikePara(arr.get(i)));
+			}
+		}
+		if(result.isEmpty())
+			result = null;
+		return result;
+	}
+	
+	public static List<String> isArr(List<String> arr){
+		if(arr!=null&&arr.size()==0)
+			arr =null;
+		return arr;
+	}
+	
+	public static <R>  Collection<R> isArr(Collection<R> arr){
+		if(arr!=null&&arr.size()==0)
+			arr =null;
+		return arr;
+	}
+}

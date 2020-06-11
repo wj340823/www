@@ -1,0 +1,123 @@
+<div class="emergencyModal">
+    <div class="_title">
+        <span>{{modal.title}}</span>
+        <span class="close" ng-click="modal.cancel()" title="关闭"><i style="color:#fff" class="iconfont icon-guanbi cursor-pointer"></i></span>
+    </div>
+    <div class="body">
+        <table ng-if="modal.type!='detail'">
+            <tbody>
+                <tr>
+                    <td class="_label">应急事件:</td>
+                    <td>
+                        <input style="width:80%" type="text" ng-model="modal.form.name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">模拟时间:</td>
+                    <td>
+                        <input style="width:80%" type="text" cgs-date-picker date-fmt="yyyy-MM-dd HH:mm" ng-model="modal.form.time">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">模型类别:</td>
+                    <td>
+                        <select style="width:80%" ng-model="modal.form.eventType">
+                            <option ng-value="1">气模型</option>
+                            <option ng-value="2">水模型</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">关联企业:</td>
+                    <td>
+                        <span style="width:80%" self-select select-list="modal.company.list" bind-data="modal.form.companyId" formatter="modal.company.formatter" changed="modal.company.changed"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">模型配置:</td>
+                    <td colspan="2">
+                        <input type="file" id="modal-file" file-ctrl file-change="modal.fileChange(file)" class="ng-hide">
+                        <button style="background:#000" class="searchBtn" style="margin-left: 20px" ng-click="modal.start($event)">
+                            加载配置文件
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div>
+                            <ul class="monthSel">
+                                <li style="width:25%" ng-repeat="point in progress.list track by $index" ng-class="{'selected':point.processed,'active':point.selected}">
+                                    <div class="linePoint">
+                                        <div ng-show="!!$index"></div>
+                                        <a></a>
+                                    </div>
+                                    <div style="margin-right: -10px"><span ng-bind="point.name"></span></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <!-- <tr ng-show="modal.uploading">
+                    <td colspan="2" class="text-center">
+                        <span ng-bind-template="{{modal.status=='1'?'加载中':'计算中'}}"></span>
+                        <img src="images/loading.gif" />
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+        <table ng-if="modal.type=='detail'">
+            <tbody>
+                <tr>
+                    <td class="_label">应急事件:</td>
+                    <td>
+                        <span ng-bind="modal.form.name"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">模拟时间:</td>
+                    <td>
+                        <span>{{modal.form.time | date:'yyyy-MM-dd HH:mm'}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">关联企业:</td>
+                    <td>
+                        <span ng-bind="modal.form.companyName"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_label">模型类别:</td>
+                    <td>
+                        <select style="width:60%" ng-model="modal.form.eventType" readonly>
+                            <option ng-value="1">气模型</option>
+                            <option ng-value="2">水模型</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-group text-right" ng-if="modal.type!='detail'">
+            <!-- <span ng-show="modal.step.index==1">
+                 <button ng-click="modal.upload()" class="searchBtn" style="margin-left: 20px">
+                    模型配置
+                </button>
+            </span> -->
+            <!-- <span ng-show="modal.step.index==2">
+                <button ng-click="modal.calculate()" class="searchBtn" style="margin-left: 20px">计算</button>
+            </span> -->
+            <span ng-show="modal.step.index==3">
+                <button ng-click="modal.send()" class="searchBtn" style="margin-left: 20px">发布</button>
+            </span>
+            <!-- <span ng-hide="modal.step.index==1">
+                <button ng-click="modal.changeStep('prev')" class="searchBtn" style="margin-left: 20px">上一步</button>
+            </span> -->
+            <!-- <span ng-hide="modal.step.index==3">
+                <button ng-click="modal.changeStep('next')" class="searchBtn" style="margin-left: 20px">下一步</button>
+            </span> -->
+            <button ng-click="modal.cancel()" class="searchBtn" style="margin-left: 20px">取消</button>
+        </div>
+        <div class="button-group text-right" ng-if="modal.type=='detail'">
+            <button ng-click="modal.cancel()" class="searchBtn" style="margin-left: 20px">取消</button>
+        </div>
+    </div>
+</div>

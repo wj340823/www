@@ -1,0 +1,108 @@
+  <div ng-controller="storeBtns">
+    <div class="materialCon" ng-show="materialDetail.reserveShow">
+        <div class="reserveStatus" ng-show="materialDetail.reserveShow ">
+            <div class="head">
+                <span ng-bind="materialDetail.name"></span>储备现状
+                <i class="iconfont icon-guanbi" title="关闭" ng-click="closeStroage()"></i>
+            </div>
+            <div class="searchBar">
+                <span>物资设备名称:</span>
+                <input type="text" ng-model="materialDetail.searchItem.name"  />
+                <button type="button" class="searchBtn" ng-click="searchReserve()"><i class="iconfont icon-sousuo"></i>&nbsp;搜索</button>
+            </div>
+            <table >
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>物资设备名称</th>
+                        <th>数量</th>
+                        <th>资产状态</th>
+                        <th>负责人</th>
+                        <th>联系方式</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr ng-repeat="item in materialDetail.goods">
+                        <td>{{materialDetail.pageSize*(materialDetail.pageNo-1)+$index+1}}</td>
+                        <td>{{item.NAME}}</td>
+                        <td>{{item.NUMBER}}</td>
+                        <td>{{item.STATUS==1?'出库':item.STATUS==2?'报废':'在库'}}</td>
+                        <td>{{item.CONTACTS}}</td>
+                        <td>{{item.CONTACTNUMBER}}</td>
+                    </tr>
+                    <tr ng-if="materialDetail.goods.length==0">
+                        <td colspan="15" class="nodata">无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            <uib-pagination
+              ng-change="searchReserve()"
+              total-items="materialDetail.totalCount"
+              ng-model="materialDetail.pageNo"
+              items-per-page="materialDetail.pageSize"
+              first-text="first"
+              class="pagination"
+              boundary-link-numbers="true"
+              force-ellipses="true"
+              direction-links="false"
+              max-size= "3"
+              rotate="true">
+            </uib-pagination>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+    <!--<div class="popContainer" ng-if="materialDetail.anaShow ">
+        <div class="materialAna" ng-if="materialDetail.anaShow ">
+            <div class="head">
+                <span ng-bind="materialDetail.name"></span>物资储备分析
+                <i class="iconfont icon-guanbi" title="关闭" ng-click="closeStroage()"></i>
+            </div>
+            <div class="curMonthCompare">
+                <div class="curMonth_title">2018年应急物资储备与2017年同期对比（<span ng-bind="materialDetail.anaData.curMonth"></span>月）</div>
+                <div class="curMonth_chart">
+                    <div cgs-echarts="curBar" options="materialDetail.anaData.curBar" style="width:800px;height:210px;"></div>
+                </div>
+            </div>
+            <div class="anaMaterials">
+                <div class="material_list">
+                    <div ng-repeat="item in materialDetail.goods" ng-click="changeAnaGoods(item)" ng-class="{true:'active'}[materialDetail.anaData.activeGoods==item.NAME]">
+                        <span ng-bind="item.NAME"></span>
+                    </div>
+                </div>
+                <div class="anaMaterial_chart">
+                    <div cgs-echarts="materialLine" options="materialDetail.anaData.materialLine" style="width:800px;height:190px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <!--<div class="materialVideo" ng-if="materialDetail.videoShow ">
+        <div class="head">
+            <span ng-bind="materialDetail.name"></span>视频监控
+            <i class="iconfont icon-guanbi" title="关闭" ng-click="closeStroage()"></i>
+        </div>
+        <div class="videoOuter">
+            <div class="videoContainer"><img src="images/videoImg.png" /></div>
+            <div class="videoOperator">
+                <div>选择摄像头</div>
+                <div>
+                    <select></select>
+                </div>
+                <div>调整摄像头</div>
+                <div class="cameraDirection">
+                    <div><i class="iconfont icon-zhankai4" title="镜头上转"></i></div>
+                    <div><i class="iconfont icon-zhankai3" title="镜头左转"></i><i class="iconfont icon-zhankai2" title="镜头右转"></i></div>
+                    <div><i class="iconfont icon-zhankai1" title="镜头下转"></i></div>
+                </div>
+                <div class="cameraFp">
+                    <div><img src="images/video_one2.png" /></div>
+                    <div><img src="images/video_four.png" /></div>
+                    <div><img src="images/video_nine.png" /></div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+</div>

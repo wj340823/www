@@ -1,0 +1,162 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
+
+@ApiModel(value = "环境风险要素")
+public class RiskFactors {
+
+    @ApiModelProperty(value = "是否沿江沿河 1为是，0为否")
+    private String isYjyh;
+    @ApiModelProperty(value = "排水方向")
+    private String psDirection;
+    @ApiModelProperty(value = "环境风险等级"  )
+    private String riskLevel;
+    @ApiModelProperty(value = "是否涉重金属  1为是，0为否")
+    private String isZjs;
+    private String riskfactors_Id;
+    @ApiModelProperty(value = "是否涉及有毒有害气体 1为是，0为否")
+    private String isYdyhqt;
+    @ApiModelProperty(value = "是否涉集中式饮用水源上游补给水区域 1为是，0为否")
+    private String isJzsyysyd;
+    @ApiModelProperty(value = "备案号")
+    private String beiAnNum;
+    @ApiModelProperty(value = "是否涉尾矿库 1为是，0为否")
+    private String isWkk;
+    @ApiModelProperty(value = "是否涉危险废物 1为是，0为否")
+    private String isWxfw;
+    @ApiModelProperty(value = "企业id")
+    private String qyId;
+    @ApiModelProperty(value = "是否涉危险危化品 1为是，0为否")
+    private String isWxhxp;
+    @ApiModelProperty(value = "是否发生过突发环境事件 1为是，0为否")
+    private String isTfsj;
+    @ApiModelProperty(value = "备案时间")
+    private Date time;
+    @ApiModelProperty(value = "所属流域")
+    private String ssly;
+
+    public void setIsYjyh(String isYjyh) {
+        this.isYjyh = isYjyh;
+    }
+
+    public String getIsYjyh() {
+        return isYjyh;
+    }
+
+    public void setPsDirection(String psDirection) {
+        this.psDirection = psDirection;
+    }
+
+    public String getPsDirection() {
+        return psDirection;
+    }
+
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
+    }
+
+    public String getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setIsZjs(String isZjs) {
+        this.isZjs = isZjs;
+    }
+
+    public String getIsZjs() {
+        return isZjs;
+    }
+
+    public void setRiskfactors_Id(String riskfactors_Id) {
+        this.riskfactors_Id = riskfactors_Id;
+    }
+
+    public String getRiskfactors_Id() {
+        return riskfactors_Id;
+    }
+
+    public void setIsYdyhqt(String isYdyhqt) {
+        this.isYdyhqt = isYdyhqt;
+    }
+
+    public String getIsYdyhqt() {
+        return isYdyhqt;
+    }
+
+    public void setIsJzsyysyd(String isJzsyysyd) {
+        this.isJzsyysyd = isJzsyysyd;
+    }
+
+    public String getIsJzsyysyd() {
+        return isJzsyysyd;
+    }
+
+    public void setBeiAnNum(String beiAnNum) {
+        this.beiAnNum = beiAnNum;
+    }
+
+    public String getBeiAnNum() {
+        return beiAnNum;
+    }
+
+    public void setIsWkk(String isWkk) {
+        this.isWkk = isWkk;
+    }
+
+    public String getIsWkk() {
+        return isWkk;
+    }
+
+    public void setIsWxfw(String isWxfw) {
+        this.isWxfw = isWxfw;
+    }
+
+    public String getIsWxfw() {
+        return isWxfw;
+    }
+
+    public void setQyId(String qyId) {
+        this.qyId = qyId;
+    }
+
+    public String getQyId() {
+        return qyId;
+    }
+
+    public void setIsWxhxp(String isWxhxp) {
+        this.isWxhxp = isWxhxp;
+    }
+
+    public String getIsWxhxp() {
+        return isWxhxp;
+    }
+
+    public void setIsTfsj(String isTfsj) {
+        this.isTfsj = isTfsj;
+    }
+
+    public String getIsTfsj() {
+        return isTfsj;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setSsly(String ssly) {
+        this.ssly = ssly;
+    }
+
+    public String getSsly() {
+        return ssly;
+    }
+
+}

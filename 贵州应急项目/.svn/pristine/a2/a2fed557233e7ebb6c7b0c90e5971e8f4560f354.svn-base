@@ -1,0 +1,84 @@
+<div>
+    <div style="background-color: #000;color: #fff;width: 450px; position: fixed;top: 40%;left:calc(50% - 225px)" class="ng-scope">
+        <div class="head modal-header" style="border-bottom: 1px solid #222">
+            用户信息
+        </div>
+        <form role="form" novalidate>
+            <div>
+                <div class="text-center changePwd">
+                    <table>
+                        <tbody>
+                            <tr  ng-hide="modal.info == 'enter'">
+                                <td class="item-content-name text-right">企业名<span class="dangerColor">*</span>:</td>
+                                <td class="text-left">
+                                    <select  style="width:178px" self-readonly="{{modal.readonly}}" ng-model="modal.form.enter">
+                                        <option value="">请选择</option>
+                                        <option ng-repeat="item in modal.form.enterList" value="{{item.COMPANYID}}">{{item.COMPANYNAME}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr ng-show="modal.info == 'enter'">
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">企业名<span class="dangerColor">*</span>:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); ">
+                                    <input type="text" ng-model="modal.form.enter" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr >
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">用户名<span class="dangerColor">*</span>:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); ">
+                                    <input type="text" ng-model="modal.form.username" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="item-content-name text-right" style="background-color: #000">密码<span class="dangerColor">*</span>:</td>
+                                <td class="text-left" style="background-color: #000">
+                                    <input type="password" ng-model="modal.form.pwd" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="item-content-name text-right" style="background-color: #000">企业负责人:</td>
+                                <td class="text-left" style="background-color: #000">
+                                    <input type="text" ng-model="modal.form.name" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">负责人手机号:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); "><input type="text" ng-model="modal.form.phone" self-readonly="{{modal.readonly}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="item-content-name text-right" style="background-color: #000">角色:</td>
+                                <td class="text-left" style="background-color: #000">
+                                    企业账户
+                                </td>
+                            </tr>
+                            <tr ng-show="modal.info == 'enter'">
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">企业经度<span class="dangerColor">*</span>:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); ">
+                                    <input type="text" placeholder="例：107.4536" ng-model="modal.form.lon" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr ng-show="modal.info == 'enter'">
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">企业纬度<span class="dangerColor">*</span>:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); ">
+                                    <input type="text" placeholder="例：26.5844" ng-model="modal.form.lat" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                            <tr ng-show="modal.info == 'enter'">
+                                <td class="item-content-name text-right" style="background: rgba(0,0,0,1); ">企业法人代表:</td>
+                                <td class="text-left" style="background: rgba(0,0,0,1); ">
+                                    <input type="text" ng-model="modal.form.legalPerson" self-readonly="{{modal.readonly}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #222">
+                <button class="searchBtn" ng-click="modal.confirm()" ng-bind-template="{{modal.oparate=='detail'?'编辑':'确认'}}"></button>
+                <button class="searchBtn" ng-click="modal.cancel()">取消</button>
+            </div>
+        </form>
+
+    </div>
+</div>

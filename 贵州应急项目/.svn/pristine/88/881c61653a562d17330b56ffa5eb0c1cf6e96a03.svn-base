@@ -1,0 +1,339 @@
+package com.sucsoft.gzhbyjwz.service;
+
+import com.cgs.sscf.commons.exception.Forbidden;
+import com.sucsoft.gzhbyjwz.bean.dc12.XZQY;
+import com.sucsoft.gzhbyjwz.builder.XzqyTreeBuilder;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.service.user.UserService;
+import com.sucsoft.gzhbyjwz.util.collect.BaseTreeGrid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
+import java.util.*;
+
+@Service
+public class XzqyService {
+
+    private final BasicQueryService queryService;
+
+    private final UserService userService;
+
+    /**
+     * 行政区域组织树
+     */
+    private BaseTreeGrid<XZQY> tree;
+
+    /**
+     * key：行政区域的id，value：行政区域对象
+     */
+    private Map<String,BaseTreeGrid<XZQY>> xzqyMap;
+
+    @Autowired
+    public XzqyService(BasicQueryService queryService, UserService userService) {
+        this.queryService = queryService;
+        this.userService = userService;
+    }
+
+    @PostConstruct
+    private void initTree() throws Exception {
+        tree = new XzqyTreeBuilder(queryService).build();
+        initMap(tree);
+        return;
+    }
+
+    /**
+     * 初始化map:id,node
+     * @param tree
+     */
+    private void initMap(BaseTreeGrid<XZQY> tree){
+        if (xzqyMap == null){
+            xzqyMap = new HashMap();
+        }
+
+        xzqyMap.put(tree.getId(),tree);
+        if (tree.getChildren() != null){
+            for (BaseTreeGrid<XZQY> treenode : tree.getChildren()) {
+                initMap(treenode);
+            }
+        }
+    }
+
+    /**
+     * 获取某行政区域的下级行政区域
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<XZQY> getchildren(String id) throws Exception {
+        if (StringUtils.isEmpty(id) || id.equals("-1")){
+            id=userService.getCurXzqyId();
+        }
+
+        if (!validate(id)){
+            throw new Forbidden("无查询权限：xzqy="+id+",行政区域："+xzqyMap.get(id).getNode().getName());
+        }
+
+        List<XZQY> xzqies = new ArrayList<>();
+        List<BaseTreeGrid<XZQY>> children =  xzqyMap.get(id).getChildren();
+        for (BaseTreeGrid<XZQY> treeGrid : children) {
+            xzqies.add(treeGrid.getNode());
+        }
+
+        if (xzqyMap.get(id).getLeaf()){
+            xzqies.add(xzqyMap.get(id).getNode());
+        }
+
+        Collections.sort(xzqies,new Comparator<XZQY>() {
+            @Override
+            public int compare(XZQY o1, XZQY o2) {
+                return o1.getSort()-o2.getSort();
+            }
+        });
+
+        return xzqies;
+    }
+
+    /**
+     * 获取某行政区域的下级行政区域,包括自己
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<XZQY> getchildrenAndSelf(String id) throws Exception {
+        List<XZQY> xzqies = getchildren(id);
+        //加上自己
+        if (StringUtils.isEmpty(id) || id.equals("-1")){
+            id=userService.getCurXzqyId();
+        }
+        if (xzqyMap.containsKey(id)){
+            xzqies.add(xzqyMap.get(id).getNode());
+        }
+
+        return xzqies;
+    }
+
+    /**
+     * 获取某行政区域的下级行政区域
+     * @return
+     */
+    public List<String> getchildrenId(String id) throws Exception {
+        if (StringUtils.isEmpty(id) || id.equals("-1")){
+            id=userService.getCurXzqyId();
+        }
+
+        if (!validate(id)){
+            throw new Forbidden("无查询权限：xzqy="+id+",行政区域："+xzqyMap.get(id).getNode().getName());
+        }
+
+        List<String> xzqies = new ArrayList<>();
+        List<BaseTreeGrid<XZQY>> children =  xzqyMap.get(id).getChildren();
+        for (BaseTreeGrid<XZQY> treeGrid : children) {
+            xzqies.add(treeGrid.getNode().getId());
+        }
+        if (xzqyMap.get(id).getLeaf()){
+            xzqies.add(id);
+        }
+
+        return xzqies;
+    }
+
+    /**
+     * 获取该行政区域下的所有叶子节点的id
+     * @param id
+     * @return
+     */
+    public List<String> getChildrenLeafId(String id) throws Exception {
+        if (StringUtils.isEmpty(id) || id.equals("-1")){
+            id=userService.getCurXzqyId();
+        }
+
+        List<String> xzqies = new ArrayList<>();
+        BaseTreeGrid<XZQY> tree = xzqyMap.get(id);
+
+        if (!validate(id)){
+            throw new Forbidden("无查询权限：xzqy="+id+",行政区域："+xzqyMap.get(id).getNode().getName());
+        }
+        getChildrenLeaf(tree,xzqies);
+
+        return xzqies;
+    }
+
+    /**
+     * 获取该行政区域下的所有叶子节点的id
+     * @param id
+     * @return
+     */
+    public List<String> getChildrenAndSelfId(String id) throws Exception {
+        if (StringUtils.isEmpty(id) || id.equals("-1")){
+            id=userService.getCurXzqyId();
+        }
+
+        List<String> xzqies = new ArrayList<>();
+        BaseTreeGrid<XZQY> tree = xzqyMap.get(id);
+
+        if (!validate(id)){
+            throw new Forbidden("无查询权限：xzqy="+id+",行政区域："+xzqyMap.get(id).getNode().getName());
+        }
+        getChildrenAndSelfId(tree,xzqies);
+
+        return xzqies;
+    }
+
+    public void getChildrenAndSelfId(BaseTreeGrid<XZQY> tree,@NotNull List<String> xzqyIdList){
+        xzqyIdList.add(tree.getNode().getId());
+        if (!tree.getLeaf()){
+            for (BaseTreeGrid<XZQY> node:tree.getChildren()){
+                getChildrenAndSelfId(node,xzqyIdList);
+            }
+        }
+    }
+
+    /**
+     * 检查该用户是否有该行政区域的数据权限
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean validate(String id) throws Exception {
+        List<String> xzqies = new ArrayList<>();
+        getDescendant(xzqyMap.get(userService.getCurXzqyId()),xzqies);
+        return xzqies.contains(id);
+    }
+
+    /**
+     * 获取该行政区域下的所有叶子节点
+     * @param tree
+     * @param xzqyIdList
+     * @return
+     */
+    private void getChildrenLeaf(BaseTreeGrid<XZQY> tree,@NotNull List<String> xzqyIdList){
+
+        if (!tree.getLeaf()){
+            for (BaseTreeGrid<XZQY> node:tree.getChildren()){
+                getChildrenLeaf(node,xzqyIdList);
+            }
+        }else {
+            xzqyIdList.add(tree.getNode().getId());
+        }
+    }
+
+    /**
+     * 获取该节点的所有后代
+     * @param tree
+     * @param xzqyIdList
+     */
+    private void getDescendant(BaseTreeGrid<XZQY> tree,List<String> xzqyIdList){
+        for (BaseTreeGrid<XZQY> node:tree.getChildren()){
+            getDescendant(node,xzqyIdList);
+        }
+        xzqyIdList.add(tree.getNode().getId());
+    }
+
+    /**
+     * 根据id单个获取行政区域对象
+     * @param id
+     * @return
+     */
+    private XZQY getXzqy(String id){
+        if (xzqyMap.containsKey(id)){
+            return xzqyMap.get(id).getNode();
+        }else {
+            return queryService.get(id,XZQY.class);
+        }
+    }
+
+    /**
+     * 判断当前用户所在行政区域是否为叶子节点
+     * @return
+     * @throws Exception
+     */
+    public boolean isLeaf() throws Exception {
+        return xzqyMap.get(userService.getCurXzqyId()).leaf;
+    }
+
+    /**
+     * 获取当前用户的缓存行政区域map。key：该行政区域的所有子行政区域的name，value：该key属于哪个下级行政区域
+     * @return
+     */
+    public Map<String,String> getCachedNameMap() throws Exception {
+        Map<String,String> cachedNameMap = new HashMap<>();
+
+        String curId=userService.getCurXzqyId();
+        List<String> children = getchildrenId(curId);
+
+        for (String id :children) {
+            List<String> xzqies = new ArrayList<>();
+            getDescendant(xzqyMap.get(id),xzqies);
+            for (String xzqyId :xzqies) {
+                cachedNameMap.put(xzqyMap.get(xzqyId).getNode().getName(),xzqyMap.get(id).getNode().getName());
+            }
+        }
+        cachedNameMap.put(xzqyMap.get(curId).getNode().getName(),xzqyMap.get(curId).getNode().getName());
+
+        return cachedNameMap;
+
+    }
+
+    /**
+     * 当前用户的缓存行政区域map。key：该行政区域的所有子行政区域，value：该key属于哪个下级行政区域
+     */
+    private static final String CachedNameMap = "CachedNameMap";
+
+    public Map<String,String> getCachedMap() throws Exception {
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if (request.getSession().getAttribute(CachedNameMap) == null){
+            request.getSession().setAttribute(CachedNameMap,getCachedNameMap());
+        }
+
+        return (Map<String, String>) request.getSession().getAttribute(CachedNameMap);
+    }
+
+
+    /**
+     * 根据xzqyid往上查自己的level=2的父节点
+     * @param xzqyId
+     * @return
+     */
+    public XZQY get2levelParent(String xzqyId){
+
+        BaseTreeGrid<XZQY> cur = xzqyMap.get(xzqyId);
+        if (cur.getNode().getLevel().equals("1")){
+            return null;
+        }
+        if (cur.getNode().getLevel().equals("2")){
+            return cur.getNode();
+        }else {
+            return get2levelParent(cur.getNode().getParentId());
+        }
+    }
+
+    /**
+     *  根据两点经纬度 得到两点之间的距离
+     * @return
+     */
+    public  double getDistance(String longOne, String latOne, String longTwo,String latTwo) {
+        double lat1 = Double.valueOf(latOne);
+        double lat2 = Double.valueOf(latTwo);
+        double long1 = Double.valueOf(longOne);
+        double long2 = Double.valueOf(longTwo);
+        double a, b, R;
+        R = 6378137; // 地球半径  米
+        lat1 = lat1 * Math.PI / 180.0;
+        lat2 = lat2 * Math.PI / 180.0;
+        a = lat1 - lat2;
+        b = (long1 - long2) * Math.PI / 180.0;
+        double d;
+        double sa2, sb2;
+        sa2 = Math.sin(a / 2.0);
+        sb2 = Math.sin(b / 2.0);
+        d = 2 * R * Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(lat1) * Math.cos(lat2) * sb2 * sb2));
+        return d;
+    }
+}

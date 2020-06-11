@@ -1,0 +1,176 @@
+<div  ng-controller="yilanbiao">
+   <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button tab-left" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hgsjt" ui-sref-active="active">
+                宏观数据图
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxys" ui-sref-active="active">
+                环境风险要素
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxwz" ui-sref-active="active">
+                环境风险物质
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxdy" ui-sref-active="active">
+                环境风险单元
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxfkss" ui-sref-active="active">
+                环境风险防控设施
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.sczzq" ui-sref-active="active">-->
+<!--                生产装置区-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.scgy" ui-sref-active="active">
+                生产工艺
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境风险受体
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >
+                环境污染事故源
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.tfhjsjqjfx" ui-sref-active="active" >
+                突发环境事件情景分析
+            </button>
+            <div class="tab-button tab-left">
+                <span>应急物资及人员联络方式</span>
+                <i class="iconfont icon-webicon215"></i>
+                <div>
+                    <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active" style="width:185px;">
+                        应急物资
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active" style="width:185px;">
+                        应急指挥通讯录
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active" style="width:185px;">
+                        应急外部联络表
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active" style="width:185px;">
+                        应急专家
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <div class="item-content" style="background-color: rgba(0,0,0,.7)">
+        <div>
+            <span class="check-result2">环境风险等级：</span>
+            <input class="text-info-input" ng-model="ylb.riskfactors.riskLevel">
+            <span class="check-result2">备案号：</span>
+            <input class="text-info-input" ng-model="ylb.riskfactors.beiAnNum">
+            <span class="check-result2">备案时间：</span>
+            <input cgs-date-picker date-fmt="yyyy-MM-dd" class="text-info-input" ng-model="ylb.riskfactors.time" />
+        </div>
+        <br>
+        <div>
+            <span class="check-result2">所属流域：</span>
+            <input class="text-info-input" ng-model="ylb.riskfactors.ssly">
+            <span class="check-result2">排水去向：</span>
+            <input class="text-info-input" ng-model="ylb.riskfactors.psDirection">
+        </div>
+        <br>
+        <div>
+            <span class="check-result2">排水点位位置：</span>
+            <span class="check-result1" style="width: 30px">经度</span>
+            <input class="text-info-input"  style="width: 200px"  ng-model="ylb.riskfactors.jd">
+            <span class="check-result2">纬度</span>
+            <input class="text-info-input"  ng-model="ylb.riskfactors.wd">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result2">是否发生过突发环境事件：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isTfsj" value="1" class="regular-radio" id="radio1"/>
+            <label for="radio1" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isTfsj" value="0" class="regular-radio" id="radio2"/>
+            <label for="radio2" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <span class="check-result2">是否涉危险化学品：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWxhxp" value="1" class="regular-radio" id="radio3"/>
+            <label for="radio3" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWxhxp" value="0" class="regular-radio" id="radio4"/>
+            <label for="radio4" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result2">是否涉重金属：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isZjs" value="1" class="regular-radio" id="radio5"/>
+            <label for="radio5" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isZjs" value="0" class="regular-radio" id="radio6"/>
+            <label for="radio6" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <span class="check-result2">是否涉危险废物：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWxfw" value="1" class="regular-radio" id="radio7"/>
+            <label for="radio7" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWxfw" value="0" class="regular-radio" id="radio8"/>
+            <label for="radio8" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result2">是否涉尾矿库：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWkk" value="1" class="regular-radio" id="radio9"/>
+            <label for="radio9" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isWkk" value="0" class="regular-radio" id="radio10"/>
+            <label for="radio10" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <span class="check-result2" style="width:295px;">是否涉集中式饮用水源上游补给水区域：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isJzsyysyd" value="1" class="regular-radio" id="radio11"/>
+            <label for="radio11" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isJzsyysyd" value="0" class="regular-radio" id="radio12"/>
+            <label for="radio12" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result2">是否沿江沿河：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isYjyh" value="1" class="regular-radio" id="radio13"/>
+            <label for="radio13" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isYjyh" value="0" class="regular-radio" id="radio14"/>
+            <label for="radio14" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+            <span class="check-result2" style="width:196px;">是否涉及有毒有害气体：</span>
+            <input type="radio" ng-model="ylb.riskfactors.isYdyhqt" value="1" class="regular-radio" id="radio15"/>
+            <label for="radio15" class="hander"></label>
+            <span style="margin-right: 10px">是</span>
+            <input type="radio" ng-model="ylb.riskfactors.isYdyhqt" value="0" class="regular-radio" id="radio16"/>
+            <label for="radio16" class="hander"></label>
+            <span style="margin-right: 10px">否</span>
+        </div>
+        <br/>
+        <div class="operate" >
+            <button class="searchBtn" ng-click="alertTask()">保存</button>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div id="comInfo" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .8); display: none; z-index:100;">
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="saveRiskFactors()" ng-if="textContent=='确定保存吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定保存吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+    <div class="tasks-alert" style="z-index: 9999">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">保存成功！</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()">关闭</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+@ApiModel(value = "风险物质临界量", description = "风险物质临界量")
+public class RiskSourceLjz {
+
+	@ApiModelProperty(value = "物质名称")
+	private String wzmc;
+	private String objectId;
+	@ApiModelProperty(value = "cas")
+	private String cas;
+	@ApiModelProperty(value = "临界量")
+	private String ljl;
+
+	public String getWzmc() {
+		return wzmc;
+	}
+
+	public void setWzmc(String wzmc) {
+		this.wzmc = wzmc;
+	}
+
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+
+	public String getCas() {
+		return cas;
+	}
+
+	public void setCas(String cas) {
+		this.cas = cas;
+	}
+
+	public String getLjl() {
+		return ljl;
+	}
+
+	public void setLjl(String ljl) {
+		this.ljl = ljl;
+	}
+}

@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Coordinates 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var popup = null;
+        
+        function Init()
+        {
+            
+            // defining two coordinates
+            var coord1 = SGWorld.Creator.CreatePosition(-71.07542, 42.34930, 232.0); // The Hancock building            
+            var coord2 = SGWorld.Creator.CreatePosition(-71.05507, 42.35561, 105.0); // Target building
+            
+            // Placing some annotation on the terrain
+            SGWorld.Creator.CreateTextLabel(coord1, "Hancock Building",SGWorld.Creator.CreateLabelStyle());
+            SGWorld.Creator.CreateTextLabel(coord2, "Building 2",SGWorld.Creator.CreateLabelStyle());
+            SGWorld.Creator.CreatePolyline(SGWorld.Creator.GeometryCreator.CreateLineStringGeometry([coord1, coord2]), SGWorld.Creator.CreateColor(255, 255, 0), 0, 0, "line");
+
+            // Set a good view point for the scene 
+            SGWorld.Navigate.SetPosition(SGWorld.Creator.CreatePosition(-71.07802, 42.33974, 550.0,0, 34, -13));           
+            
+            // Calculating the distance and angles from the Hancock building to building #2
+            var distance = coord1.DistanceTo(coord2);
+
+            var angles = coord1.AimTo(coord2);
+                        
+            // Display a message to the user
+            popup = SGWorld.Creator.CreatePopupMessage("Coordinate sample","",0,0,450,120);            
+            popup.InnerText = "The aerial distance between the roofs of the\r\nHancock building and building #2 is " + Math.floor(distance) + " Meters\r\n\r\n" +
+                              "The aiming angles from the Hancock building to building #2 are:\r\nyaw: " + angles.Yaw.toFixed(5) + "  pitch: " + angles.Pitch.toFixed(5);                        
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);                        
+        }
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:00000040CHNMrrqB27EjryYbYcWxISdZho0#IHUZR5J4vLgFsV7xmpRpNy2BHnOxz8rqwnaILj#Ef2VIyi.OjhEGEpxbJKJJ-->

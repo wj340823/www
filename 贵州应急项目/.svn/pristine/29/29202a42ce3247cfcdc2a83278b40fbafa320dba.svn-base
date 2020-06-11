@@ -1,0 +1,40 @@
+---
+  grammer: SQL
+  queries:
+    #根据条件查询物资现状
+    - name: listweixian
+      resultType: Map
+      statement:
+        "
+        select
+          w.*
+        from
+          WXHXP w
+        where
+          1=1
+        #if($ZWMC)
+          and w.ZWMC like:ZWMC
+        #end
+        #if($HXPLX)
+          and w.HXPLX =:HXPLX
+        #end
+        "
+    #根据条件查询物资现状
+    - name: listweixianType
+      resultType: Map
+      statement:
+        "
+        SELECT
+        	w.HXPLX,
+        	COUNT(*)
+        FROM
+        	dangertypeinfo t
+        LEFT JOIN wxhxp w ON w.HXPLX = t.DANGERNAME
+        WHERE
+        	w.HXPLX IS NOT NULL
+        #if($key)
+            and w.HXPLX like:key
+        #end
+        GROUP BY
+        	w.HXPLX
+        "

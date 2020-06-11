@@ -1,0 +1,34 @@
+
+<div class="mainOuter" ng-controller="dataCtrl">
+    <ul class="homePage">
+        <li ui-sref="home.dataType1" class="active"><i class="iconfont icon-fengxianyuan"></i> 风险源状况</li>
+        <li ui-sref="home.emerStatus1"><i class="iconfont icon-yingjiwuzi"></i> 应急物资状况</li>
+        <li ui-sref="home.organise"><i class="iconfont icon-jigourenyuan"></i> 机构人员</li>
+        <li ui-sref="home.dealing"><i class="iconfont icon-chuli"></i> 处置方式状况</li>
+        <!--<li ui-sref="home.waterSource"><i class="iconfont icon-minganci"></i> 环境敏感点状况</li>-->
+    </ul>
+
+    <div class="msgBoard">
+        <div class="item-title" style="margin-top: 0" ng-bind="data1Title"></div>
+        <div style="width: 100%;height:calc(100% - 40px);" cgs-echarts options="fxyCount"></div>
+    </div>
+    <div style="position: absolute;top: 530px;right: 50px;width: 360px;background-color: #000;height:250px">
+        <div class="item-title" style="margin-top: 0" >风险源统计(总数{{account}})</div>
+        <div cgs-echarts="warnBars" options="ccc" style="width:270px;height:200px; margin-left:10px; "></div>
+    </div>
+    <div class="nextPage">
+        <div  ui-sref="home.dataType2" class="nextPageBtn">
+            <i class="iconfont icon-next-page"></i>
+        </div>
+    </div>
+    <div class="riskLevel">
+        <div class="riskLevelNum">
+            <span>0</span>
+            <span>20</span>
+            <span>50</span>
+        </div>
+        <div class="riskLevelNum">
+            <span class="riskLeveltuli" >&nbsp;</span>
+        </div>
+    </div>
+</div>

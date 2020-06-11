@@ -1,0 +1,27 @@
+package com.sucsoft.gzhbyjwz.util;
+
+/**
+ * 经纬度转换成小数
+ */
+public class JwdFormat {
+
+    public static Double tranformPos(String lng){
+        Double result = 0d;
+        String[] lntArr = lng.trim()
+                .replace("°", ";")
+                .replace("′", ";")
+                .replace("'", ";")
+                .replace("\"", "")
+                .split(";");
+        for(int i = lntArr.length; i > 0; i--){
+            double v = Double.parseDouble(lntArr[i-1]);
+            if(i == 1){
+                result = v + result;
+            }else{
+                result = (result + v) / 60;
+            }
+        }
+        return result;
+    }
+
+}

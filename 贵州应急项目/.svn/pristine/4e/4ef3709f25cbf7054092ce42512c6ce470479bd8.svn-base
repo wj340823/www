@@ -1,0 +1,164 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class RiskInventory {
+
+    /**
+     *  1-| 应急管理隐患排查表。2-| 风险防控措施隐患排查表
+     * 
+     */
+    private Integer type;
+    /**
+     * 排查负责人
+     * 
+     */
+    private String responsiblePerson;
+    /**
+     * 表名称
+     * 
+     */
+    private String name;
+
+    private Integer id;
+    /**
+     * 企业id
+     * 
+     */
+    private String enterpriseId;
+    /**
+     * 排查时间
+     * 
+     */
+    private Date time;
+    /**
+     * 企业名称(冗余字段)
+     * 
+     */
+    private String enterpriseName;
+    /**
+     * 属于哪个任务
+     * 
+     */
+    private Integer taskId;
+    /**
+     * 应急管理表隐患数量
+     *
+     */
+    private Integer num1;
+    /**
+     * 风险防控重大隐患数量
+     *
+     */
+    private Integer num2;
+    /**
+     * 风险防控一般隐患数量
+     * 
+     */
+
+    private Integer num3;
+    /**
+     * 状态位：0-未完成，1-已完成
+     * 
+     */
+    private Integer status;
+
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setResponsiblePerson(String responsiblePerson) {
+        this.responsiblePerson = responsiblePerson;
+    }
+
+    public String getResponsiblePerson() {
+        return responsiblePerson;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setNum1(Integer num1) {
+        this.num1 = num1;
+    }
+
+    public Integer getNum1() {
+        return num1;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setNum3(Integer num3) {
+        this.num3 = num3;
+    }
+
+    public Integer getNum3() {
+        return num3;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setNum2(Integer num2) {
+        this.num2 = num2;
+    }
+
+    public Integer getNum2() {
+        return num2;
+    }
+
+}

@@ -1,0 +1,81 @@
+<div  ng-controller="tbFinishCtrl" style="height: 100%">
+    <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button" ui-sref="riskInvest.tabTodo" ui-sref-active="active">
+                待办任务
+            </button>
+            <button class="tab-button" ui-sref="riskInvest.tabFinish" ui-sref-active="active">
+                已办任务
+            </button>
+            <button class="tab-button" ui-sref="riskInvest.majorDanger" ui-sref-active="active">
+                重大隐患
+            </button>
+            <button class="tab-button" ui-sref="riskInvest.generalDanger" ui-sref-active="active" >
+                一般隐患
+            </button>
+            <button class="tab-button" ui-sref="riskInvest.manageDanger" ui-sref-active="active">
+                应急管理隐患
+            </button>
+        </div>
+    </div>
+    <div class="table-content">
+        <div class="search-nav">
+            审核结果：
+            <select style="margin-right: 20px" ng-model="items.result">
+                <option value="-1">全部</option>
+                <option value="10">待审核</option>
+                <option value="100">通过</option>
+                <option value="20">驳回</option>
+            </select>
+            完成日期：<input cgs-date-picker date-fmt="yyyy-MM-dd"
+                        ng-model="items.strTime" /> ~
+            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                   ng-model="items.endTime"  style="margin-right: 20px"/>
+            任务名称：<input type="text" placeholder="任务名称" ng-model="items.keywords">
+            <button class="searchBtn" style="margin-left: 20px" ng-click="searchMsg()">
+                <i class="iconfont icon-sousuo"></i>搜索
+            </button>
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>任务名称</th>
+                <th>完成日期</th>
+                <th>审核结果</th>
+                <th>应急管理隐患排查表</th>
+                <th>风险防控措施隐患排查表</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in obj">
+                <td>{{items.pageSize*(items.pageNo-1)+$index+1}}</td>
+                <td>{{item.NAME}}</td>
+                <td ng-style="">{{item.COMPLETETIME | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.STATUS==20?'驳回':item.STATUS==10?'待审核':'通过'}}</td>
+                <td >
+                    <span class="oper hander"
+                          ui-sref="riskInvest.tbRiskCheck({id:item.EMERGENCYMANAGEMENTID,operate:'no'})">
+                        详情
+                    </span>
+                </td>
+                <td class="hander "  ui-sref="riskInvest.tbRiskPrevent({id:item.RISKMANAGEMENTID,operate:'no'})">
+                    <span class="oper">详情</span>
+                </td>
+                <td ui-sref="riskInvest.tabFinishInfo({itemNum:item.ID})" class="hander">
+                    <span class="oper">详情</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="noData==true">无数据</p>
+        <div class="page">
+            <uib-pagination ng-change="getMsg()" total-items="items.total" items-per-page="items.pageSize" ng-model="items.pageNo"
+                    class="pagination" boundary-links="false" direction-links="false">
+            </uib-pagination>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+</div>

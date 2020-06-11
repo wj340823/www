@@ -1,0 +1,5 @@
+package com.sucsoft.gzhbyjwz.bean.constant;
+
+public class ApplicationEnv {
+    public static final String encoding = "UTF-8";
+}

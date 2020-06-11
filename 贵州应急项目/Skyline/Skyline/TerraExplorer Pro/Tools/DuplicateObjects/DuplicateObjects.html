@@ -1,0 +1,1011 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+     
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()" style = "overflow: hidden">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+                    <tr >
+                        <td class="s8b" >
+                            <label for="createAs" class="i18n">Text70</label>
+                        </td>
+                        <td align="left">
+                            &nbsp;<select id="createAs" >
+                                <option class="i18n" value="Group">Text71</option>
+                                <option class="i18n" value="Layer">Text72</option> 
+                                <option class="i18n" value="LayerStreaming" selected =selected >Text73</option>
+                            </select>
+                        </td>            
+                    </tr>                
+                    <tr class='TableOtherLine'>
+                        <td align="top" class="s8b i18n">
+                            Text4
+                        </td>
+                        <td align="left">
+                            &nbsp;<select id="ObjectType" size="1" onchange="TypeChanged()" style="z-index: 1;">
+                                <option value="TextLabel" class="i18n">Text5</option>
+                                <option value="ImageLabel" class="i18n" selected>Text6</option>
+                                <option value="RegularPolygon" class="i18n">Text7</option>
+                                <option value="Arrow" class="i18n">Text8</option>
+                                <option value="Circle" class="i18n">Text9</option>
+                                <option value="Ellipse" class="i18n">Text10</option>
+                                <option value="3DModel" class="i18n">Text11 </option>
+                                <option value="Box" class="i18n">Text12</option>
+                                <option value="Cylinder" class="i18n">Text13</option>
+                                <option value="Sphere" class="i18n">Text14</option>
+                                <option value="Cone" class="i18n">Text15</option>
+                                <option value="Pyramid" class="i18n">Text16</option>
+                                <option value="3DArrow" class="i18n">Text17</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s8b">
+                            <span id="SizeText" class="i18n">Text18</span>
+                        </td>
+                        <td align="left">
+                            &nbsp;<input id="Size" type="text" value="2" size="7">
+                            <span id="SizeText2"></span>
+                        </td>
+                    </tr>
+                    <tr class='TableOtherLine'>
+                        <td class="s8b">
+                            <span id="paramText" class="i18n">Text19</span>
+                        </td>
+                        <td align="left" valign="top">                            
+                            <div style="display: none; height: 20;">
+                                &nbsp;<input id="file" class="file" type="file" value="3" size="20" style=""
+                                    onchange="document.all['fileText'].value=this.value;"/>
+                            </div>
+                            <div id="filediv">
+                                &nbsp;<input id="fileText" type="text" value="" size="5" style=""/>
+                                <div style="display :inline;"><img style="cursor:pointer" class="i18n" src="img/Browse.png" onclick="document.all['file'].click();" alt="Text20" /><span id="selectResource"  > <img  class="i18n" style="cursor:pointer" alt="Text21" src="img/List.png" onclick="OpenLibrary();" \></span></div>
+                            </div>
+                            <div id="paramdiv" style="display: none;">
+                                &nbsp;<input id="Param" type="text" value="text" size="20" style="">&nbsp;<span id="paramText2"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s8b i18n">
+                            Text22
+                        </td>
+                        <td align="left">
+                            &nbsp;<input id="distance" type="text" value="10" size="5" style="">&nbsp;
+                            <span class="i18n">Text24</span>
+                        </td>
+                    </tr>
+                    <tr class='TableOtherLine'>
+                        <td class="s8b i18n">
+                            Text23
+                        </td>
+                        <td align="left">
+                            &nbsp;<input id="noise" type="text" value="0" size="5" style="">&nbsp;
+                            <span class="i18n">Text24</span>
+                        </td>
+                    </tr>
+            <tr >
+            <td class="s8b">
+                <span  class="i18n">Text68</span>
+            </td>
+            <td align="left">
+                &nbsp;<input id="visibilityDistance" type="text" value="5000" size="7">&nbsp;
+                <span id="Span2" class="i18n">Text24</span>
+            </td>
+            </tr>
+        </table>
+            </td>
+        </tr>
+        <tr >
+            <td colspan="2" align="center" class="ToolButtonsArea">
+                <button id="lineButton" class="MenuButton" onclick="CreateObjects(1);">               <img src="../commonImg/polyline.png" /><br />         <span class="i18n">Text2</span></button>
+                <button id="areaButton" class="MenuButton" onclick="CreateObjects(2);">               <img src="../commonImg/polygon.png" /><br />         <span class="i18n">Text3</span></button>
+                <button id="groupButton" class="MenuButton" onclick="SelectGroupObjects()">           <img src="../commonImg/group.png" /><br />    <span class="i18n">Text3a</span></button>
+                <button id="clipboardButton" class="MenuButton MenuButtonLast" onclick="SelectClipboardObjects()">    <img src="../commonImg/Clipboard.png" /><br />   <span class="i18n">Text74</span></button>
+            </td>
+        </tr>
+    </table>
+    <object id="SGWorld" style="display:none" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+<script language="javascript" src="../ToolsCommon65.js"></script>
+<script language="JavaScript">
+//var SGWorld;
+
+//** this is a global variables for the polyline/polygon drawings 
+var gPolyObj;
+var gPolyMethod;
+var gPolygonText = SGLang.i18n("Text35");
+var gPolylineText = SGLang.i18n("Text36");
+var gDrawPolyClick = null;
+var gEndDrawPoly = DrawPoly;
+var gFirstPositionAltitudeType = 0;
+var gSupportOnTerrain = false;
+
+//**
+
+var bInEdit;
+var LeftOver;
+var bDontAskme;
+var GroupID;
+var PointLayer;
+var currentObject;
+
+
+//--------------
+// Init
+function Init() {
+    gDrawPolyAltitudeType = 3;
+    if (GetParamValue("inSG", "") == "1") {
+        $("#TopAreaTD").attr("height", "57");
+        $("#TitleTD").attr("align", "left");
+        $("#CloseHelpTd").attr("display", "none");
+    }
+
+    SGWorld.AttachEvent("OnSGWorldMessage", OnSGWorldMessage);
+    TypeChanged();
+    gPolyObj = null;
+    
+    Reset(1, 0);
+}
+//--------------
+// Reset
+function Reset(FirstTime, FromMouseInputMode) {
+    try {
+        if (gPolyObj != null)
+            SGWorld.Creator.DeleteObject(gPolyObj.ID);
+    } catch (e) { }
+
+    // if we just finished creating shape file, save it
+    if (PointLayer != null)
+    {
+        PointLayer.Save();
+    }
+    gPolyMethod = "";
+    gPolyObj = null;
+    gFirstPositionAltitudeType = 0;
+    GroupID = null;
+    PointLayer = null;
+    bDontAskme = false;
+    currentObject = 0;
+    $("#lineButton").removeClass("MenuButtonHighlight");
+    $("#areaButton").removeClass("MenuButtonHighlight");
+    $("#groupButton").removeClass("MenuButtonHighlight");
+    $("#clipboardButton").removeClass("MenuButtonHighlight");
+
+    //SGWorld.ProjectTree.EnableRedraw(1);
+    SGWorld.Window.HideMessageBarText();
+
+    if (bInEdit) {
+        SGWorld.DetachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.DetachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.DetachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.DetachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+    } 
+
+    bInEdit = false;
+
+    LeftOver = 0;
+    $("#SelectGroup").attr("value", SGLang.i18n("Text3a"));
+
+
+    if (FirstTime != 1 && FromMouseInputMode == 0)
+        SGWorld.Window.SetInputMode(0);
+
+}
+//--------------
+// CreateObjects
+function CreateObjects(method) {
+    if (!bInEdit) {
+        bInEdit = true;
+        SGWorld.AttachEvent("OnLButtonDown", DrawPolyLButtonDown);
+        SGWorld.AttachEvent("OnRButtonUp", DrawPolyRButtonUp);
+        SGWorld.AttachEvent("OnFrame", DrawPolyOnFrame);
+        SGWorld.AttachEvent("OnInputModeChanged", DrawPolyInputModeChanged);
+
+
+        gPolyMethod = method;
+        SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur");
+        SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text29"),-1);
+        $(event.srcElement).addClass("MenuButtonHighlight");
+
+    }
+    else {
+        DrawPolyRButtonUp(0, 0, 0, 0);
+    }
+}
+
+//----------------
+// OpenLibrary
+function OpenLibrary() {
+    if ($("#ObjectType").attr("value") == "ImageLabel") {
+        var popup = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("Text26"), abspath() + "\\ImageSelection.html?lang=" + SGLang.getCode(), 50, 50, 320, 400);
+        popup.AllowDrag = true;
+        popup.AllowResize = true;
+        SGWorld.Window.ShowPopup(popup);
+    }
+}
+//----------------
+// CloseLibrary
+function CloseLibrary() {
+    try {
+        SGWorld.Window.RemovePopupByCaption(SGLang.i18n("Text26"));
+    }
+    catch (e) { }
+}
+//
+function OnSGWorldMessage(TEMessageID, SourceObjectID) {
+    //Mesasge format:   "#DuplicateObjects#" + iconName + "#" + scale + "#";
+    var messageArray = TEMessageID.split("#");
+    if (messageArray[1] != "DuplicateObjects")
+        return false;
+
+    document.all["fileText"].value = abspath() + "/icons/" + messageArray[2];
+    document.all["Size"].value = messageArray[3];
+
+    return true;
+}
+//----------------
+// SelectIcon
+function SelectIcon(iconName, scale) {
+    document.all["fileText"].value = iconName;
+    document.all["Size"].value = scale;
+}
+//-----------
+// SelectGroupObjects
+function SelectGroupObjects() {
+    var node = SGWorld.ProjectTree.GetNextItem("", 10);
+    if (node == 0 || !(SGWorld.ProjectTree.IsGroup(node) || SGWorld.ProjectTree.IsLayer(node))) {
+        alert(SGLang.i18n("Text69"));
+        return;
+    }
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text31") ,-1);
+
+    searchGeometries2(node, DrawPoly);
+
+    Reset(0, 0);
+}
+
+//-----------
+// SelectClipboardObjects
+function SelectClipboardObjects() {
+
+    $(event.srcElement).addClass("MenuButtonHighlight");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text31"), -1);
+
+    searchGeometriesClipboard(DrawPoly);
+
+    Reset(0, 0);
+}
+
+var objectTypesValidators = {
+    "ImageLabel": function()
+    {
+        var image = $("#fileText").attr("value");
+        if (image == "")
+        {
+            return SGLang.i18n("Text39");
+        }
+
+        TEObj = SGWorld.Creator.CreateImageLabel(SGWorld.Creator.CreatePosition(0, 0, 0), image, SGWorld.Creator.CreateLabelStyle(), "", SGLang.i18n("Text40"));
+        image = TEObj.ImageFileName;
+        SGWorld.Creator.DeleteObject(TEObj.ID);
+        if (image == "")
+        {
+            return SGLang.i18n("Text41");
+        }
+    },
+    "3DModel": function()
+    {
+        var model = $("#fileText").attr("value");
+        if (model == "")
+        {
+            return SGLang.i18n("Text46");
+        }
+        try
+        {
+            TEObj = SGWorld.Creator.CreateModel(SGWorld.Creator.CreatePosition(0, 0, 0), model, 1, 0, "", SGLang.i18n("Text54"));
+            model = TEObj.ModelFileName;
+            SGWorld.Creator.DeleteObject(TEObj.ID);
+            if (model == "")
+            {
+                return SGLang.i18n("Text47");
+            }
+        }
+        catch (e)
+        {
+            return SGLang.i18n("Text47");
+        }
+    }
+}
+function ValidateParameters()
+{
+    var TEObj;
+    var ObjType = $("#ObjectType").attr("value");
+    var errorMessage;
+    if(objectTypesValidators[ObjType])
+    {
+        errorMessage = objectTypesValidators[ObjType]();
+    }
+    if(errorMessage)
+    {
+        alert(errorMessage);
+        Reset(0, 0);
+        return (false);    
+    }
+    return true;
+}
+
+//-------------
+// DrawPoly
+function DrawPoly(geometry, type, altitudeType) {
+    //altitudeType = 3; //navon added this//
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text31") ,-1);
+    //SGWorld.ProjectTree.EnableRedraw(0);
+    var retVal = ValidateParameters();
+    if (retVal)
+    {
+        if (type == 1)
+            retVal = DrawOnPolyline(geometry, type, altitudeType);
+        else if (type == 2)
+            retVal = DrawOnPolygon(geometry, type, altitudeType);
+    }
+
+    return retVal;
+}
+//----
+// DrawOnPolyline
+function DrawOnPolyline(polylineGeometry, type, altitudeType) {
+    var lastCoord ;
+    var currCoord;
+    var tmpCoord;
+    var SegmentLength;
+    var lastSegmentLenght;
+    var distance = validateNumber($("#distance").attr("value"));
+    var LeftOver = 0;
+    var totlaDistance = 0;
+
+   
+
+    for (var k = 1; k < polylineGeometry.Points.count; k++)   // calculate total distance
+    {
+
+        lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(k - 1).X, polylineGeometry.Points.Item(k - 1).Y, polylineGeometry.Points.Item(k - 1).Z, altitudeType);
+        currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(k).X, polylineGeometry.Points.Item(k).Y, polylineGeometry.Points.Item(k).Z, altitudeType);
+        totlaDistance += lastCoord.DistanceTo(currCoord);
+       
+        
+    }
+    CreateTheObjects = true;
+    if (!bDontAskme && (totlaDistance / distance) > 2000)
+        CreateTheObjects = confirm(SGLang.i18n("Text32") + NumBreaks + SGLang.i18n("Text33"));
+    if (CreateTheObjects) {
+ 
+ 
+        bDontAskme = true;
+        var firstSegment = true;
+        for (var i = 1; i < polylineGeometry.Points.count; i++)  
+        {
+            lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i - 1).X, polylineGeometry.Points.Item(i - 1).Y, polylineGeometry.Points.Item(i - 1).Z, altitudeType);
+            currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, polylineGeometry.Points.Item(i).Z, altitudeType);
+
+            lastCoord.yaw = lastCoord.AimTo(currCoord).yaw;
+            lastCoord = lastCoord.MoveToward(currCoord, -LeftOver);
+
+            if (firstSegment) {
+                tmpCoord = lastCoord.Copy();
+                if (DrawObject(tmpCoord) == false)
+                    return false;
+            }
+            SegmentLength = lastCoord.DistanceTo(currCoord);
+            lastSegmentLenght = SegmentLength;
+
+            while (SegmentLength >= distance && lastSegmentLenght >= SegmentLength) {
+                lastSegmentLenght = SegmentLength;
+                lastCoord = lastCoord.MoveToward(currCoord, distance);
+                tmpCoord = lastCoord.Copy();
+                if (DrawObject(tmpCoord) == false)
+                    return false;
+                SegmentLength = lastCoord.DistanceTo(currCoord);
+            }
+
+            LeftOver = SegmentLength;
+/***
+            var SegmentLength = lastCoord.DistanceTo(currCoord);
+            var NumBreaks = Math.floor(SegmentLength / distance);
+            LeftOver = SegmentLength - (NumBreaks * $("#distance").attr("value"));
+
+            if (firstSegment)
+                if (DrawObject(lastCoord) == false)
+                    return false;
+            for (var j = 0; j < NumBreaks; j++) {
+                lastCoord = lastCoord.MoveToward(currCoord, distance);
+                if (DrawObject(lastCoord) == false)
+                    return false;
+            }
+****/
+            firstSegment = false;
+        }
+    }
+    // fix for bug #14439
+    Restore3DModelToGroundObject();
+    return true;
+}
+
+//-----------
+// DrawOnPolygon
+function DrawOnPolygon(polygonGeometry, type, altitudeType) {
+    var envelope = polygonGeometry.Envelope; // Multi polygon evnelope (min/max)
+
+   //// var pos = SGWorld.Navigate.GetPosition();
+    CreateTheObjects = true;
+    var MinX = Math.min(envelope.Rings(0).Points(0).x, envelope.Rings(0).Points(2).x);
+    var MaxX = Math.max(envelope.Rings(0).Points(0).x, envelope.Rings(0).Points(2).x);
+    var MinY = Math.min(envelope.Rings(0).Points(0).y, envelope.Rings(0).Points(2).y);
+    var MaxY = Math.max(envelope.Rings(0).Points(0).y, envelope.Rings(0).Points(2).y);
+
+    XDist = SGWorld.CoordServices.GetDistance(MinX, MinY, MaxX, MinY);
+    YDist = SGWorld.CoordServices.GetDistance(MinX, MinY, MinX, MaxY);
+    distanceVal = validateNumber($("#distance").attr("value"));
+    if (!bDontAskme && (XDist / distanceVal) > 50 && (YDist / distanceVal) > 50) {
+        var EstimatedNumObjects = Math.floor(((XDist / distanceVal * YDist / distanceVal) / 1000) * 1000);
+        CreateTheObjects = confirm(SGLang.i18n("Text32") + EstimatedNumObjects + SGLang.i18n("Text33"));
+    }
+    if (CreateTheObjects) {
+        bDontAskme = true;
+
+        ////        var currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, 0, 0, pos.yaw);
+        // Find the first point altitude
+        var currCoord ;
+        switch (polygonGeometry.GeometryType)
+        {
+            case 3: // ipolygon
+            currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, polygonGeometry.Rings(0).Points.Item(0).Z, altitudeType, 0);
+            break;
+            case 6: // imultipolygon
+            currCoord = SGWorld.Creator.CreatePosition(MinX, MinY, polygonGeometry.Item(0).Rings(0).Points.Item(0).Z, altitudeType, 0);
+            break;
+        }
+
+        var currCoordAlt = currCoord.Altitude;
+        while (currCoord.x < MaxX) {
+            currCoord.y = MinY;
+            while (currCoord.y < MaxY) {
+                var pointGeometry = SGWorld.Creator.GeometryCreator.CreatePointGeometry([currCoord.x, currCoord.y, 0]);
+                if (polygonGeometry.SpatialRelation.Intersects(pointGeometry)) {
+                    var tmpCoord = currCoord.Copy(); // to avoid changes in the CurrCoord value in the DrawObject function
+                    if (DrawObject(tmpCoord) == false)
+                        return false;
+                }
+                currCoord = currCoord.Move(distanceVal, 0, 0);
+              currCoord.Altitude = currCoordAlt;
+            }
+            currCoord = currCoord.Move(distanceVal, 90, 0);
+            currCoord.Altitude = currCoordAlt;
+        }
+    }
+    // fix for bug #14439
+ ///   Restore3DModelToGroundObject();
+    return true;
+}
+
+//---------
+// DrawObject
+function DrawObject(position) {
+    var node;
+    var TEObj;
+    var ObjType = $("#ObjectType").attr("value");
+    var size = validateNumber($("#Size").attr("value"));
+    var param = $("#Param").attr("value");
+    var noiseVal = validateNumber($("#noise").attr("value"));
+    var createAs = $("#createAs").val();
+    
+    currentObject++;
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text31") + " " + currentObject, -1);
+
+    if (noiseVal != 0)
+        position = position.Move(noiseVal * Math.random(), 360 * Math.random(), 0);
+
+    if (position.AltitudeType == 2)   // OnTerrain, fix altitude (set to 0) and pitch (according to terrain pitch)
+    {
+        var currAltTerrain = SGWorld.Terrain.GetGroundHeightInfo(position.X, position.Y, 0, false);
+        var currAltObjects = SGWorld.Terrain.GetGroundHeightInfo(position.X, position.Y, 0, true);
+        position.Altitude = currAltObjects.Position.Altitude - currAltTerrain.Position.Altitude;
+
+        // try to fix the pitch of line according to terrain pitch, by moving the current point 1/5 of spacing backward and forward and finding the pitch between those points
+        var offset = $("#distance").val() / 5;
+        var backPos = position.Move(-offset, position.Yaw, 0);
+        backPos.AltitudeType = AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE;
+
+
+        var forwardPos = position.Move(offset, position.Yaw, 0);
+        forwardPos.AltitudeType = AltitudeTypeCode.ATC_TERRAIN_ABSOLUTE;
+
+        var backPosInfo = SGWorld.Terrain.GetGroundHeightInfo(backPos.X, backPos.Y, 0);
+        var forwardPosInfo = SGWorld.Terrain.GetGroundHeightInfo(forwardPos.X, forwardPos.Y, 0);
+        backPos.Altitude = backPosInfo.Position.Altitude;
+        forwardPos.Altitude = forwardPosInfo.Position.Altitude;
+
+        position.Pitch = backPos.AimTo(forwardPos).Pitch;
+      //  position.AltitudeType = 0;
+    }
+
+    if (position.AltitudeType == 1)   // Relative to Pivot, fix altitude 
+    {
+       
+        position.AltitudeType = 0;
+        position.Altitude = 0;
+    }
+    if (createAs != "Group") {
+        if (PointLayer == null) {
+
+            PointLayer = SGWorld.Creator.CreateNewFeatureLayer(SGLang.i18n("Text30") + " (" + $('#ObjectType :selected').text() + ")", LayerGeometryType.LGT_POINT, "FileName=duplicate" + new Date().getTime() + ".shp;TEPlugName=OGR;", "");
+            PointLayer.Streaming = createAs == "LayerStreaming";
+            //PointLayer.DataSourceInfo.Attributes.CreateAttribute("Altitude Method", AttributeTypeCode.AT_TEXT, 0, 4);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute("Yaw", AttributeTypeCode.AT_DOUBLE, 0, 4);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute("Pitch", AttributeTypeCode.AT_DOUBLE, 0, 4);
+            PointLayer.DataSourceInfo.Attributes.CreateAttribute("Roll", AttributeTypeCode.AT_DOUBLE, 0, 4);
+            PointLayer.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+            gSupportOnTerrain = false;
+            // style the feature group
+            if (featureLayerStyles[ObjType] != null) {
+                var result = featureLayerStyles[ObjType](size, param);
+                if (result === false)
+                    return;
+            }
+            // Convert altitude Type numbers
+            
+            gFirstPositionAltitudeType = position.AltitudeType;
+            var layerAltitudeType = 0; // Relative to Terrain
+            if (position.AltitudeType == 3) // Absolute
+                layerAltitudeType = 1;
+            if (position.AltitudeType == 2) // OnTerrain
+            {
+                if (gSupportOnTerrain == true)
+                    layerAltitudeType = 2;
+                else { // dupliacted object doesn't support OnTerrain mode
+                    gFirstPositionAltitudeType = 0;
+                    position.AltitudeType = 0;
+
+                }
+            }
+            PointLayer.FeatureGroups.SetProperty("Altitude Method", layerAltitudeType);
+            //PointLayer.Refresh();
+            // this line causes mouseinput mode change event, which fires reset, which in turn saves the shape file and nulls the PointLayer variable
+            //SGWorld.ProjectTree.SelectItem(PointLayer.TreeItem.ItemID);
+        }
+        // Convert alatitude is not the same AltitudeMethod as the layer (in case of multiple lines or polygons with different altitude methods
+        if (position.AltitudeType == 3 || gFirstPositionAltitudeType == 3)
+            position.ChangeAltitudeType(gFirstPositionAltitudeType);
+        PointLayer.FeatureGroups.Point.CreateFeature([position.X, position.Y, position.Altitude], position.Yaw + ";" + position.Pitch + ";" + position.Roll);
+    }
+    else {
+        if (GroupID == null) {
+            GroupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("Text30") + " (" + $('#ObjectType :selected').text() + ")", "");
+        }
+        var creator = objectTypeCreators[ObjType];
+        if (creator) {
+            creator(position, size, param);
+        }
+    }
+    return (true);
+
+}
+
+function Restore3DModelToGroundObject()
+{
+    if ($("#ObjectType").attr("value") != "3DModel" || $("#createAs").val() != "Group")
+        return;
+    var item = SGWorld.ProjectTree.GetNextItem(GroupID, 11 /*Child */);
+    while (item != "")
+    {
+        var obj = SGWorld.ProjectTree.GetObject(item);
+        obj.Terrain.GroundObject = true;
+        item = SGWorld.ProjectTree.GetNextItem(item, 13 /*Next */);
+    }
+}
+
+var featureLayerStyles = {
+
+    "TextLabel": function (size, param) {
+        
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_LABEL;
+        PointLayer.FeatureGroups.Point.SetProperty("Text Color", 0x000099)
+        PointLayer.FeatureGroups.Point.SetProperty("Background Color", 0xffffff);
+        PointLayer.FeatureGroups.Point.SetProperty("Background Opacity", 0);
+        PointLayer.FeatureGroups.Point.SetProperty("Scale", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Text", param);
+    },
+    "ImageLabel": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_IMAGE_LABEL;
+        PointLayer.FeatureGroups.Point.SetProperty("Image file", $("#fileText").attr("value"))
+        PointLayer.FeatureGroups.Point.SetProperty("Scale", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Limit growth", false);
+    },
+    "RegularPolygon": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_REGULAR_POLYGON;
+        PointLayer.FeatureGroups.Point.SetProperty("Radius", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Number of sides", validateNumber(param));
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        gSupportOnTerrain = true;
+        ////PointLayer.FeatureGroups.Point.SetProperty("Altitude Method", 2);
+    },
+    "Arrow": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_ARROW;
+        PointLayer.FeatureGroups.Point.SetProperty("Length", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Style", 3);
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        gSupportOnTerrain = true;
+        ////PointLayer.FeatureGroups.Point.SetProperty("Altitude Method", 2);
+    },
+
+    "Circle": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_CIRCLE;
+        PointLayer.FeatureGroups.Point.SetProperty("Radius", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Number of sides", 16);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        gSupportOnTerrain = true;
+        ////PointLayer.FeatureGroups.Point.SetProperty("Altitude Method", 2);
+    },
+
+    "Ellipse": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_ELLIPSE;
+        PointLayer.FeatureGroups.Point.SetProperty("Radius X", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Radius Y", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Number of sides", 16);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        gSupportOnTerrain = true;
+        ////PointLayer.FeatureGroups.Point.SetProperty("Altitude Method", 2);
+    },
+
+    "3DModel": function (size, param) {
+        
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_MODEL;
+        PointLayer.FeatureGroups.Point.SetProperty("File Name", $("#fileText").attr("value"));
+        //PointLayer.FeatureGroups.Point.SetProperty("Scale", size); //Property name has changed recently to Scale X, Y, Z
+        PointLayer.FeatureGroups.Point.SetProperty("Scale X", size); //Property name has changed recently to Scale X, Y, Z
+        PointLayer.FeatureGroups.Point.SetProperty("Scale Y", size); //Property name has changed recently to Scale X, Y, Z
+        PointLayer.FeatureGroups.Point.SetProperty("Scale Z", size); //Property name has changed recently to Scale X, Y, Z
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+
+    "Box": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_BOX;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Width", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Length", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Height", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+
+    "Cylinder": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_CYLINDER;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Radius X", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Height", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+
+    "Sphere": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_SPHERE;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Radius", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+
+    "Cone": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_CONE;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Radius X", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Height", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Number of sides", 16);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+    "Pyramid": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_PYRAMID;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Width", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Length", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Height", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    },
+    "3DArrow": function (size, param) {
+        PointLayer.FeatureGroups.Point.DisplayAs = ObjectTypeCode.OT_3D_ARROW;
+        PointLayer.FeatureGroups.Point.SetProperty("Line Color", SGWorld.Creator.CreateColor(0, 255, 0, 255).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill Color", SGWorld.Creator.CreateColor(0, 255, 0, 128).ToRGBColor());
+        PointLayer.FeatureGroups.Point.SetProperty("Fill opacity", 0.5);
+        PointLayer.FeatureGroups.Point.SetProperty("Length", size);
+        PointLayer.FeatureGroups.Point.SetProperty("Height", param);
+        PointLayer.FeatureGroups.Point.SetProperty("Style", 0);
+        PointLayer.FeatureGroups.Point.SetProperty("Yaw", "[Yaw]");
+        PointLayer.FeatureGroups.Point.SetProperty("Roll", "[Roll]");
+        PointLayer.FeatureGroups.Point.SetProperty("Pitch", "[Pitch]");
+    }
+}
+
+var objectTypeCreators = {
+    "TextLabel": function (position, size, param)
+    {
+        var labelStyle = SGWorld.Creator.CreateLabelStyle();
+        labelStyle.TextColor.FromHTMLColor("#990000");
+        labelStyle.BackgroundColor.FromHTMLColor("#ffffff");
+        labelStyle.BackgroundColor.SetAlpha(0);
+        labelStyle.Scale = size;
+        TEObj = SGWorld.Creator.CreateTextLabel(position, param, labelStyle, GroupID, SGLang.i18n("Text38"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "ImageLabel": function (position, size, param)
+    {
+        TEObj = SGWorld.Creator.CreateImageLabel(position, $("#fileText").attr("value"), SGWorld.Creator.CreateLabelStyle(), GroupID, SGLang.i18n("Text40"));
+        TEObj.Style.LimitScreenSize = false;
+        TEObj.Style.Scale = size;
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "RegularPolygon": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateCircle(position, size, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text42"));
+      ////  TEObj.Position.AltitudeType = 2;
+        TEObj.NumberofSegments = validateNumber(param);
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+    "Arrow": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateArrow(position, size, 3, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text43"));
+      ////  TEObj.Position.AltitudeType = 2;
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "Circle": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateCircle(position, size, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text44"));
+    ////    TEObj.Position.AltitudeType = 2;
+        TEObj.NumberofSegments = 16;
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "Ellipse": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateEllipse(position, size, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), 16, GroupID, SGLang.i18n("Text45"));
+    ////    TEObj.Position.AltitudeType = 2;
+        TEObj.NumberofSegments = 16;
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "3DModel": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateModel(position, $("#fileText").attr("value"), size, 0, GroupID, SGLang.i18n("Text54"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+        // 3d model by default is ground object. The problem is that ground object changes height of terrain when calculating pitch position in DrawObject function
+        // to fix this, we make it not ground object on create, and when all objects are in place, we convert them back to ground objects. fix for bug #14439
+        TEObj.Terrain.GroundObject = false;
+    },
+
+    "Box": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateBox(position, size, size, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text48"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "Cylinder": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateCylinder(position, size, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), 16, GroupID, SGLang.i18n("Text49"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "Sphere": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateSphere(position, size, 0, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), -1, GroupID, SGLang.i18n("Text50"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+
+    "Cone": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreateCone(position, size, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), 16, GroupID, SGLang.i18n("Text51"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+    "Pyramid": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.CreatePyramid(position, size, size, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text52"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    },
+    "3DArrow": function (position, size, param)
+    {
+        TEObj = SGWorld.creator.Create3DArrow(position, size, 0, param, SGWorld.Creator.CreateColor(0, 255, 0, 255), SGWorld.Creator.CreateColor(0, 255, 0, 128), GroupID, SGLang.i18n("Text53"));
+        TEObj.Visibility.MaxVisibilityDistance = $("#visibilityDistance").attr("value");
+    }
+}
+
+//------------
+// TypeChanged
+function TypeChanged() {
+    var ObjType = $("#ObjectType").attr("value");
+    $("#filediv").hide();
+    $("#selectdiv").hide();
+    $("#paramdiv").show();
+    CloseLibrary();
+
+    if (ObjType == "TextLabel") {
+        $("#paramText").html(SGLang.i18n("Text19"));
+        $("#Param").attr("value", "");
+        $("#paramText2").html("");
+        $("#sizeText").html(SGLang.i18n("Text18"));
+        $("#sizeText2").html("");
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "ImageLabel") {
+        $("#paramText").html(SGLang.i18n("Text55"));
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text18"));
+        $("#sizeText2").html("");
+        $("#paramdiv").hide();
+        $("#filediv").show();
+		$("#selectResource").show();
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "RegularPolygon") {
+        $("#paramText").html(SGLang.i18n("Text56"));
+        $("#Param").attr("value", "5");
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text57"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Arrow") {
+        $("#paramText").html(SGLang.i18n("Text61"));
+        $("#Param").attr("value", "");
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text58"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Circle") {
+        $("#paramText").html(SGLang.i18n("Text61"));
+        $("#Param").attr("value", "");
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text57"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Ellipse") {
+        $("#paramText").html(SGLang.i18n("Text59"));
+        $("#Param").attr("value", "4");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text57"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "3DModel") {
+        $("#paramText").html(SGLang.i18n("Text55"));
+        $("#Param").attr("value", abspath() + "/leftturn.xpc");
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text18"));
+        $("#sizeText2").html("");
+        $("#paramdiv").hide();
+        $("#selectdiv").hide();
+        $("#filediv").show();
+		$("#selectResource").hide();
+
+    }
+
+    if (ObjType == "Box") {
+        $("#paramText").html(SGLang.i18n("Text62"));
+        $("#Param").attr("value", "2");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text63"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Cylinder") {
+        $("#paramText").html(SGLang.i18n("Text64"));
+        $("#Param").attr("value", "2");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text63"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Sphere") {
+        $("#paramText").html(SGLang.i18n("Text61"));
+        $("#Param").attr("value", "");
+        $("#paramText2").html(" ");
+        $("#sizeText").html(SGLang.i18n("Text57"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Cone") {
+        $("#paramText").html(SGLang.i18n("Text65"));
+        $("#Param").attr("value", "2");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text63"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "Pyramid") {
+        $("#paramText").html(SGLang.i18n("Text66"));
+        $("#Param").attr("value", "2");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text63"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+
+    if (ObjType == "3DArrow") {
+        $("#paramText").html(SGLang.i18n("Text67"));
+        $("#Param").attr("value", "2");
+        $("#paramText2").html(SGLang.i18n("Text60"));
+        $("#sizeText").html(SGLang.i18n("Text63"));
+        $("#sizeText2").html(SGLang.i18n("Text24"));
+        $("#selectdiv").show();
+    }
+}
+</script>
+</body>
+</html>

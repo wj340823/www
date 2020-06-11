@@ -1,0 +1,69 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.beans.PropertyDescriptor;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtilsBean;
+
+import com.sucsoft.gzhbyjwz.bean.common.ResultBean;
+
+public class ResultUtil {
+	public static final Integer DATA_SUCCESS = 0;
+	public static final Integer DATA_FAIL = 1;
+	public static final Integer NAME_REPEAT = 2;
+	
+	public static ResultBean nameRepeat(){
+		ResultBean result = new ResultBean();
+		result.setResult(NAME_REPEAT);
+		result.setMsg("名字重复!");
+		return result;
+	}
+	
+	public static ResultBean doSuccess(Object obj){
+		ResultBean result = new ResultBean();
+		result.setResult(DATA_SUCCESS);
+		result.setMsg("执行成功");
+		result.setData(obj);
+		return result;
+	}
+	
+	public static ResultBean doFail(){
+		ResultBean result = new ResultBean();
+		result.setResult(DATA_FAIL);
+		result.setMsg("数据处理失败");
+		return result;
+	}
+	
+	/**
+	 * 返回值封装
+	 * @param detect
+	 * @param flag
+	 * @return
+	 */
+	public static ResultBean doDbResult(Object obj,boolean flag){
+		if(flag)
+			return ResultUtil.doSuccess(obj);
+		else
+			return ResultUtil.doFail();
+	}
+	
+	
+	//将javabean转为map类型，然后返回一个map类型的值
+    public static Map<String, Object> beanToMap(Object obj) { 
+        Map<String, Object> params = new HashMap<String, Object>(0); 
+        try { 
+          PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean(); 
+          PropertyDescriptor[] descriptors = propertyUtilsBean.getPropertyDescriptors(obj); 
+          for (int i = 0; i < descriptors.length; i++) { 
+            String name = descriptors[i].getName(); 
+            if (!"class".equals(name)) { 
+              params.put(name, propertyUtilsBean.getNestedProperty(obj, name)); 
+            } 
+          } 
+        } catch (Exception e) { 
+          e.printStackTrace(); 
+        } 
+        return params; 
+    }
+}

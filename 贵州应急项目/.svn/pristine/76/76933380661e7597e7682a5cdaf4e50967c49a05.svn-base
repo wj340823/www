@@ -1,0 +1,136 @@
+define(['app'], function (app) {
+
+	app.controller("emerHeadCtrl", function ($rootScope, $scope, $http, $stateParams, $uibModal, mapSet, chartSet) {
+		$rootScope.system = "new";
+		$scope.$on("$destroy", function () {
+			$rootScope.system = "";
+		});
+	});
+
+	app.controller("emerPlanCtrl", function ($rootScope, $scope, $http, $stateParams, $uibModal, mapSet, chartSet) {
+
+		// 获取select地区数据
+		$scope.getArea = function () {
+			$http.get("basicData/listXzqy").then(function (response) {
+				$scope.itAreas = response.data;
+			});
+		};
+
+		//查询按钮功能，查询并回显
+		$scope.searchInfo = function () {
+			$('.loader').show();  //加载查询动态条
+            $http.post("preplan/listEnterprisePreplan?" + "&pageNo=" + $scope.page.currentPage,
+                {
+                    "companyName": $scope.search.companyName,
+                    "level": $scope.search.level,
+                    "recordStatus": $scope.search.recordStatus,
+                    "xzqyId": $scope.search.xzqyId
+                }
+            ).then(function (data) {
+									$('.loader').hide();
+									$scope.page.list = data.data;
+									$scope.page.totalCount = data.data.totalCount;
+									$scope.page.pageSize = data.data.pageSize;
+				});
+		};
+
+		$scope.searchCountry = function () {
+			$('.loader').show();  //加载查询动态条
+            $http.post("preplan/listEnterprisePreplan?" + "&pageNo=" + $scope.page.currentPage,
+                {
+                    "companyName": $scope.search.companyName,
+                    "level": $scope.search.level,
+                    "recordStatus": $scope.search.recordStatus,
+                    "xzqyId": $scope.search.xzqyId
+                }
+            ).then(function (data) {
+				$('.loader').hide();
+				$scope.page.list = data.data;
+				$scope.page.totalCount = data.data.totalCount;
+				$scope.page.pageSize = data.data.pageSize;
+				});
+		};
+
+		$scope.xzqyId = '15';
+		$scope.exzqyId = '15';
+
+		// 初始化
+		function init() {
+			$scope.page = {
+				url: "preplan/listEnterprisePreplan",
+				totalCount: 10,
+				currentPage: 1,
+				pageSize: 10,
+				list: []
+			};
+			$scope.search = {
+				xzqyId: '-1',
+				level: '-1',
+				recordStatus: '-1',
+				strDate:new Date().getFullYear()+'/01/01',
+				endDate:new Date().getFullYear()+1+'/01/01',
+				companyName: ''
+			};
+			$scope.getArea();
+			$scope.searchInfo();
+		}
+
+		// 调用初始化
+		init();
+	});
+
+	app.controller("emerDetailCtrl", function ($rootScope, $scope, $http, $stateParams, mapSet, chartSet, $timeout) {
+		console.log($rootScope.userList.ID)
+		$scope.comName  = $rootScope.userList.companyName;
+		$scope.getDatail = function () {
+			$http.get("preplan/getBycompanyId?" + "companyId=" + encodeURIComponent($rootScope.userList.companyId)).then(function (data) {
+				$scope.detail = data.data;
+				$scope.ID = $scope.detail.ID;
+				console.log($scope.ID)
+			})
+		}
+		// 获取文件数据
+		$scope.getFileDetail = function () {
+			$http({
+				method: "get",
+				url: $scope.page.url + "?planId=" + $scope.ID,
+				params: {
+					"pageNo": $scope.page.currentPage,
+					"pageSize": $scope.page.pageSize,
+
+				}
+			}).then(function (response) {
+				$scope.page.list = response.data;
+				$scope.page.total = response.data.totalCount;
+				$scope.page.pageSize = response.data.pageSize;
+				$scope.page.list.dataList.forEach(function (item) {
+          item.URLS = "preplan/downPlanAttachment?attachmentId=" + item.ID;
+        });
+			});
+		};
+
+		// 格式化SIZE
+		$scope.input = function (input) {
+			return input = (input / (1024 * 1024)).toFixed(2) + "Mb";
+		};
+
+		// 初始化
+		function init() {
+			$scope.page = {
+				url: "preplan/listAttachmentByPlan",
+				totalCount: 10,
+				currentPage: 1,
+				pageSize: 10,
+				list: []
+			};
+			$scope.COMPANYNAME = $stateParams.COMPANYNAME;
+			// $scope.detail = {};
+			$scope.getDatail();
+			$timeout(function () {
+				$scope.getFileDetail();
+			}, 500)
+		}
+		init();
+	});
+
+});

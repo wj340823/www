@@ -1,0 +1,84 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class TaskAttachment {
+
+    /**
+     *
+     * 文件大小
+     */
+    private String size;
+
+    private String id;
+    /**
+     *
+     * 上传日期
+     */
+    private Date time;
+    /**
+     *
+     * 文件类型
+     */
+    private String type;
+    /**
+     *
+     * EmergencyTask表的id
+     */
+    private String taskId;
+    /**
+     * 文件路径
+     * 
+     */
+    private String url;
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+}

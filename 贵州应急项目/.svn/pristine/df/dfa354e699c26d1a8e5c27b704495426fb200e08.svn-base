@@ -1,0 +1,178 @@
+package com.sucsoft.gzhbyjwz.bean.param.riskManage;
+
+import com.sucsoft.gzhbyjwz.bean.constant.TaskStatus;
+import com.sucsoft.gzhbyjwz.bean.dc12.EmergencyTask;
+import com.sucsoft.gzhbyjwz.bean.param.Param;
+import com.sucsoft.gzhbyjwz.util.DateUtils;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.util.StringUtils;
+
+import java.util.*;
+
+public class TaskParam extends EmergencyTask implements Param {
+
+    //完成时间区间
+    @ApiModelProperty(value = "完成时间开始时间")
+    private Long completetimeStart;
+    @ApiModelProperty(value = "完成时间结束时间")
+    private Long completetimeEnd;
+
+    @ApiModelProperty(value = "截止日期")
+    private String deadlineStr;
+
+    @ApiModelProperty(value = "审批结果：全部 -1，通过 100，驳回 20")
+    private Integer examResult;
+
+    @ApiModelProperty(value = "关键字")
+    private String keywords;
+
+    private List<Integer> statusList = new ArrayList<>();
+
+    //取反状态
+    private Integer notStatus;
+
+    //状态区间
+    private Integer statusStart;
+    private Integer statusEnd;
+
+
+
+    //隐患的级别
+    @ApiModelProperty(value = "隐患的级别")
+    private Integer level;
+
+    /**
+     * 该行政区域下的所有叶子节点。
+     */
+    private List<String> xzqyIdList;
+
+
+    public List<String> getXzqyIdList() {
+        return xzqyIdList;
+    }
+
+    public void setXzqyIdList(List<String> xzqyIdList) {
+        this.xzqyIdList = xzqyIdList;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public Integer getExamResult() {
+        return examResult;
+    }
+
+    public void setExamResult(Integer examResult) {
+        this.examResult = examResult;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public List<Integer> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<Integer> statusList) {
+        this.statusList = statusList;
+    }
+
+    public Integer getStatusStart() {
+        return statusStart;
+    }
+
+    public void setStatusStart(Integer statusStart) {
+        this.statusStart = statusStart;
+    }
+
+    public Integer getStatusEnd() {
+        return statusEnd;
+    }
+
+    public void setStatusEnd(Integer statusEnd) {
+        this.statusEnd = statusEnd;
+    }
+
+    public Long getCompletetimeStart() {
+        return completetimeStart;
+    }
+
+    public void setCompletetimeStart(Long completetimeStart) {
+        this.completetimeStart = completetimeStart;
+    }
+
+    public Long getCompletetimeEnd() {
+        return completetimeEnd;
+    }
+
+    public void setCompletetimeEnd(Long completetimeEnd) {
+        this.completetimeEnd = completetimeEnd;
+    }
+
+    public String getDeadlineStr() {
+        return deadlineStr;
+    }
+
+    public void setDeadlineStr(String deadlineStr) {
+        this.deadlineStr = deadlineStr;
+    }
+
+    public Integer getNotStatus() {
+        return notStatus;
+    }
+
+    public void setNotStatus(Integer notStatus) {
+        this.notStatus = notStatus;
+    }
+
+    @Override
+    public Map toParam() {
+        Map param = new HashMap();
+        if (!StringUtils.isEmpty(this.getName())) {
+            param.put("name", "%" + this.getName() + "%");
+        }
+        if (!StringUtils.isEmpty(this.keywords)) {
+            param.put("name", "%" + keywords + "%");
+        }
+        if (completetimeStart != null){
+            param.put("starttime", DateUtils.toDayStart(completetimeStart));
+            param.put("completetimeStart", param.get("starttime"));
+        }
+        if (completetimeEnd !=null){
+            param.put("endtime", DateUtils.toDayEnd(completetimeEnd));
+            param.put("completetimeEnd", param.get("endtime"));
+        }
+
+        param.put("status", this.getStatus());
+        param.put("notStatus", this.getNotStatus());
+        if (this.getStatusList().size() > 0) {
+            param.put("statusList", this.getStatusList());
+        }
+        if (examResult != null && examResult != -1){
+            param.put("status",examResult);
+        }
+        if (!(StringUtils.isEmpty(this.getXzqyId()) || this.getXzqyId().equals("-1"))){
+            param.put("xzqyIdList",this.getXzqyIdList());
+        }
+        //行政区域参数
+        if (!(this.xzqyIdList == null || this.xzqyIdList.size()==0)){
+            param.put("xzqyIdList", this.getXzqyIdList());
+        }
+        //企业ID
+        if (!StringUtils.isEmpty(this.getEnterpriseId())) {
+            param.put("enterpriseId", this.getEnterpriseId());
+        }
+
+        return param;
+    }
+}

@@ -1,0 +1,82 @@
+<div style="width:100%;position:relative">
+    <div class="editUser moveLeft" ng-controller="role2SelectCtrl">
+        <button type="button" class="btn btn-primary" ui-sref="system.role2">返回</button>
+        <div class="content" style="position:relative">
+        	<div class="panelA">
+                <div class="panel-title">
+                    <div class="menu-lev-left">角色详情</div>
+                    <i class="fa fa-angle-up menu-lev-icon" ng-click="isCollapsed=!isCollapsed"></i>
+                    <div class="menu-lev-right"  ng-click="isCollapsed=false;role.addRole('编辑角色',role.select.info);">编辑基本信息</div>
+                </div>
+                <div uib-collapse="isCollapsed" class="panel-table">
+                	<div class="panel-scroll panel-role">
+	                    <table class="table table_user table-bordered">
+	                    	<colgroup>
+	                                <col style="width:33.3%" />
+	                                <col style="width:33.3%;" />
+	                                <col style="width:33.3%" />
+	                        </colgroup>
+	                        <tbody>
+	                            <tr>
+	                                <td>角色标识&nbsp<span>{{role.select.info.role}}</span></td>
+	                                <td>角色名&nbsp<span>{{role.select.info.name}}</span></td>
+	                                <td>备注&nbsp<span>{{role.select.info.des}}</span></td>
+	                                </tr>
+	                                <tr>
+	                                <td>父节点&nbsp<span><span class="role-parent" ng-repeat="parent in role.select.info.parents">{{parent}}</span></span></td>
+	                                <td>创建时间&nbsp<span>{{role.select.info.createtimestamp|date:'yyyy-MM-dd'}}</span></td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panelA">
+                <div class="panel-title">
+                    <div class="menu-lev-left">角色权限</div>
+                    <i class="fa fa-angle-up menu-lev-icon" ng-click="isCollapsedF=!isCollapsedF"></i>
+                    <div class="menu-lev-right"  ng-show="!isEditing" ng-click="goEdit()">
+                        <i class="fa fa-pencil"></i>&nbsp;编辑</div>
+                    <div class="menu-lev-right" ng-click="isCollapsedF=false;saveEdit()" ng-show="isEditing">保存修改</div>
+                    <div class="menu-lev-right" ng-click="isCollapsedF=false;quitEdit()" ng-show="isEditing">取消修改</div>
+                </div>
+                <div uib-collapse="isCollapsedF">
+                    <!--                    <div autho-edit-table is-editing="role.isEditing" show-autho-list="role.showAuthoList" objs="role.objs" ops="role.ops" role="role.select.info.role"></div>-->
+                    <div class="fixed-tableHead">
+                        <table class="table table-bordered table-role" style="margin-bottom: 0px;">
+                            <colgroup>
+                                <col style="width:200px" />
+                                <col style="width: calc(100% - 310px);" />
+                                <col style="width:110px" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>客体</th>
+                                    <th>操作项</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="table-role">
+                            <div ng-repeat="rules in role.allRules" class="showNewAutho" style="font-size:0px;background-color:white">
+                                <div style="width:200px;padding: 6px;" class="newAutho">
+                                	<span style="line-height: 2;">{{objs[rules.objectTag]}}</span>
+                                </div>
+                                <div style="width: calc(100% - 310px);" class="newAutho newAutho-mid">
+                                	<span ng-repeat="op in rules.ops track by $index" >
+                                		<button 
+                                		ng-click="op.checked=!op.checked" class="btn btn-rule fa" 
+                                		ng-class="{checked:op.checked}" ng-disabled="!isEditing"
+                                		>{{opes[op.op]}}</button>
+                                	</span>
+                                </div>
+                                <div style="width:110px;" class="newAutho"></button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

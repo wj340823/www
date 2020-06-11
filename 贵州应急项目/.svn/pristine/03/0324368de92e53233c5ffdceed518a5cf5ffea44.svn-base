@@ -1,0 +1,246 @@
+<!-- 一览表-->
+<div  style="height: 100%" class="overviewCon" >
+	<button class="tab-button" ng-click="showYlb('intro')" ng-class="company.intro?'active':''">公司概况</button>
+	<button class="tab-button" ng-click="showYlb('sczz')" ng-class="company.sczz?'active':''">生产装置区</button>
+	<button class="tab-button" ng-click="showYlb('hjbhmb')" ng-class="company.hjbhmb?'active':''">环境保护目标</button>
+	<button class="tab-button" ng-click="showYlb('hjwrsgy')" ng-class="company.hjwrsgy?'active':''">环境污染事故源</button>
+	<button class="tab-button" ng-click="showYlb('yjwz')" ng-class="company.yjwz?'active':''">应急物资</button>
+	<button class="tab-button" ng-click="showYlb('yjzhtxl')" ng-class="company.yjzhtxl?'active':''">应急指挥通讯录</button>
+	<button class="tab-button" ng-click="showYlb('yjwbllb')" ng-class="company.yjwbllb?'active':''">应急外部联络表</button>
+	<button class="tab-button" ng-click="showYlb('yjzj')" ng-class="company.yjzj?'active':''">应急专家</button>
+	<div cgs-slim options="{size:'6px',height:'calc(100% - 10px)'}">
+		<div id="content">
+			<div ng-show="company.intro">
+				<div>
+					<h5 class="second_title">公司概况</h5>
+				</div>
+				<div class="companyLeft">
+					<div class="leftWord">
+						<span>风险源名称：</span>
+					</div>
+				</div>
+				<div class="companyRight">
+					<div>{{companyInfoTro.companyName||'&nbsp;'}}</div>
+				</div>
+				<div class="companyLeft">
+					<div class="leftWord">
+						<span>简介：</span>
+					</div>
+				</div>
+				<div class="companyRight">
+					<div>{{companyInfoTro.simpleIntroduce||'&nbsp;'}}</div>
+				</div>
+				<div class="companyLeft">
+					<div class="leftWord">
+						<span>地理位置：</span>
+					</div>
+				</div>
+				<div class="companyRight">
+					<div>{{companyInfoTro.address||'&nbsp;'}}</div>
+				</div>
+				<div class="companyLeft">
+					<div class="leftWord">
+						<span>交通情况：</span>
+					</div>
+				</div>
+				<div class="companyRight">
+					<div>{{companyInfoTro.transport||'&nbsp;'}}</div>
+				</div>
+				<div class="clearfix"></div>
+				<div>
+					<h5 class="second_title">厂区平面图</h5>
+				</div>
+				<img ng-show="cqpmt==1" src="riskSource/downloadAttachment?companyId={{companyInfoTro.companyId}}&type=1"
+					 style="width: 90%;margin:10px auto 20px ;display: block">
+                <p class="noDate dangerColor" ng-show="cqpmt==2">无图片</p>
+			</div>
+			<div ng-show="company.sczz">
+				<div class="item-content">
+					<table>
+						<thead>
+						<tr>
+							<th>序号</th>
+							<th>装置名称</th>
+							<th>主要原材料</th>
+							<th>产品名称</th>
+							<th>年产能(吨)</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="item in proLists">
+							<td ng-bind="$index+1"></td>
+							<td ng-bind="item.name"></td>
+							<td ng-bind="item.materials"></td>
+							<td ng-bind="item.productName"></td>
+							<!--<td ng-bind="item.prab"></td>-->
+							<td>
+								<span>{{item.annualCapacity}}</span>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div ng-show="company.hjbhmb">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>保护目标</th>
+							<th>方位</th>
+							<th>距离</th>
+							<th>人数/户数</th>
+							<th>保护目的</th>
+							<th>标准</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in targetLists">
+							<td ng-bind="$index+1"></td>
+							<td ng-bind="item.protectObject"></td>
+							<td ng-bind="item.direction"></td>
+							<td ng-bind="item.distance"></td>
+							<td ng-bind="item.peopleNumber"></td>
+							<td ng-bind="item.purpose"></td>
+							<td ng-bind="item.standard"></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div ng-show="company.hjwrsgy">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>事故源</th>
+							<th>危险特性</th>
+							<th>泄漏应急措施</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in accidents">
+							<td style="width: 10%" ng-bind="$index+1"></td>
+							<td style="width: 15%" ng-bind="item.accidentSource"></td>
+							<td ng-bind="item.hazardousCharacteristics"></td>
+							<td ng-bind="item.emergencyMeasure"></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div ng-show="company.yjwz">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>名称</th>
+							<th>数量(个)</th>
+							<th>计量单位</th>
+							<th>规格/型号</th>
+							<th>贮存地点</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in storages">
+							<td >{{storagePage.pageSize*(storagePage.pageNo-1)+$index+1}}</td>
+							<td ng-bind="item.name"></td>
+							<td ng-bind="item.number"></td>
+							<td ng-bind="item.numberUtil"></td>
+							<td ng-bind="item.typeNumber"></td>
+							<td ng-bind="item.address"></td>
+						</tr>
+					</tbody>
+				</table>
+					<uib-pagination
+							ng-change="getMsgList()"
+							total-items="storagePage.totalCount"
+							ng-model="storagePage.pageNo"
+							items-per-page="storagePage.pageSize"
+							first-text="first"
+							class="pagination"
+							boundary-link-numbers="true"
+							force-ellipses="true"
+							direction-links="false"
+							max-size= "3"
+							rotate="true">
+					</uib-pagination>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div ng-show="company.yjzhtxl">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>部门</th>
+							<th>姓名</th>
+							<th>职务</th>
+							<th>办公室电话</th>
+							<th>手机</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in phones">
+							<td ng-bind="$index+1"></td>
+							<td ng-bind="item.department"></td>
+							<td ng-bind="item.name"></td>
+							<td ng-bind="item.companyAgency"></td>
+							<td ng-bind="item.sfzNum"></td>
+							<td ng-bind="item.telephone"></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div ng-show="company.yjwbllb">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>部门</th>
+							<th>办公室电话</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in emergency">
+							<td ng-bind="$index+1"></td>
+							<td ng-bind="item.department"></td>
+							<td ng-bind="item.telephone"></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div ng-show="company.yjzj">
+				<div class="item-content">
+					<table>
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>姓名</th>
+							<th>单位</th>
+							<th>职务/职称</th>
+							<th>联系电话</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in experts">
+							<td ng-bind="$index+1"></td>
+							<td>{{item.name}}</td>
+							<td ng-bind="item.theUtil"></td>
+							<td ng-bind="item.companyAgency"></td>
+							<td ng-bind="item.telephone"></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

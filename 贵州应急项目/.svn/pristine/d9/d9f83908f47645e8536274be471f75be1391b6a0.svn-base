@@ -1,0 +1,49 @@
+<div class="emergencyPlan" ng-controller="emerStatisticsShCtrl">
+  <div class="tab-task">
+    <div class="tab-nav">
+      <button class="tab-button" ui-sref="cityHead.emergencyManage" ui-sref-active="active">
+        预案管理
+      </button>
+      <button class="tab-button" ui-sref="cityHead.emergencyAlarm" ui-sref-active="active">
+        备案预警
+      </button>
+      <button class="tab-button" ui-sref="cityHead.emergencyStatistics" ui-sref-active="active">
+        预案统计
+      </button>
+    </div>
+  </div>
+  <section class="table-content">
+    <section class="content">
+      <div>
+        <span >统计日期：{{ time | date:'yyyy-MM-dd' }}</span>
+      </div>
+    </section>
+    <table class="detailTable" style="margin-bottom: 30px">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>行政区域</th>
+          <th>企业总数</th>
+          <th>未备案（个）</th>
+          <th>备案超期（个）</th>
+          <th>即将到期（个）</th>
+          <th>已备案（个）</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in items">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.xzqyName }}</td>
+            <td>{{ item.csum }}</td>
+            <td>{{ item.notOnRecord }}</td>
+            <td>{{ item.expired }}</td>
+            <td>{{ item.aboutToExpire }}</td>
+            <td>{{ item.recorded }}</td>
+          </tr>
+        </tbody>
+    </table>
+    <section id="container" class="charts" style="height: 300px" cgs-echarts options="totalChart"></section>
+    <div class="item-title">预案类型上传企业数</div>
+    <div style="width: 100%;height: 400px" cgs-echarts options="fjOption"></div>
+  </section>
+</div>

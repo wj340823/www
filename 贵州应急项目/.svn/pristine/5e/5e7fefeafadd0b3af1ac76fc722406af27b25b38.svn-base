@@ -1,0 +1,30 @@
+package com.sucsoft.gzhbyjwz.bean.common;
+
+import java.util.Map;
+
+public class TempData {
+	private String json;
+	private Map map;
+	
+	
+	public TempData(String json, Map map) {
+		super();
+		this.json = json;
+		this.map = map;
+	}
+	
+	public String getJson() {
+		return json;
+	}
+	public Map getMap() {
+		return map;
+	}
+	public void setJson(String json) {
+		this.json = json;
+	}
+	public void setMap(Map map) {
+		this.map = map;
+	}
+	
+	
+}

@@ -1,0 +1,95 @@
+<div  ng-controller="orgCtrl" style="padding-top: 110px">
+    <div class="table-content">
+        <ul style="" class="homePage">
+            <li ui-sref="home.dataType1">
+                <i class="iconfont icon-fengxianyuan"></i>
+                风险源状况
+            </li>
+            <li ui-sref="home.emerStatus1">
+                <i class="iconfont icon-yingjiwuzi"></i>
+                应急物资状况
+            </li>
+            <li ui-sref="home.organise" ui-sref-active="active">
+                <i class="iconfont icon-jigourenyuan"></i>
+                机构人员
+            </li>
+            <li ui-sref="home.dealing">
+                <i class="iconfont icon-chuli"></i>
+                处置方式状况
+            </li>
+            <!--<li  ui-sref="home.waterSource">
+              <i class="iconfont icon-minganci"></i>
+              环境敏感点状况
+            </li>-->
+        </ul>
+        <div class="search-nav">
+            <input type="text" placeholder="姓名" class="search-input" ng-model="items.keywords">
+            <select  ng-model="items.unit">
+                <option value="">单位</option>
+                <option ng-repeat="item in units" value="{{item.UNIT}}">{{item.UNIT}}</option>
+            </select>
+            <select ng-model="items.xzqyId">
+                <option value="">所属市州</option>
+                <option ng-repeat="item in areas" value="{{item.id}}">{{item.name}}</option>
+            </select>
+            <button class="searchBtn" style="margin-left: 20px" ng-click="searchMsg()"><i class="iconfont icon-sousuo"></i>搜索</button>
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>单位</th>
+                <th>部门</th>
+                <th>姓名</th>
+                <th>职务</th>
+                <th>办公室电话</th>
+                <th>手机</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in obj">
+                <td>{{items.pageSize*(items.pageNo-1)+$index+1}}</td>
+                <td>{{item.unit}}</td>
+                <td>{{item.depart}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.position}}</td>
+                <td>{{item.officeTelephone }}</td>
+                <td>{{item.phoneNumber }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="noData==true">无数据</p>
+        <uib-pagination
+                ng-change="searchMsg()"
+                total-items="items.totalCount"
+                ng-model="items.pageNo"
+                items-per-page="items.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+<div class="loader">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		    <rect x="0" y="10" width="4" height="10" fill="#fc0" opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="8" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="16" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+	  	</svg>
+</div>

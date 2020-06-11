@@ -1,0 +1,1286 @@
+<div ng-controller="tbRPCtrl" >
+    <div style="background-color: rgba(0,0,0,.7);padding: 12px 20px 20px" cgs-slim options="{'width':'100%','height':'calc(100% - 70px)','size':'5px'}">
+        <div class="clearfix">
+            <div class="tb-title"> 风险防控措施隐患排查表</div>
+            <div class="fr">
+                <button class="searchBtn" style="margin-right: 10px" ng-if="false">
+                    <i class="iconfont icon-lishijilu"></i>
+                    加载历史记录
+                </button>
+                <button class="searchBtn" onclick="history.go(-1)">
+                    <i class="iconfont icon-fanhui"></i>
+                    返回
+                </button>
+            </div>
+        </div>
+        <form ng-submit="submit()">
+        <div class="item-title">基本信息</div>
+        <div class="item-content">
+            <p><span class="item-content-name">任务名称</span>：{{baseMsg.name}}</p>
+            <p><span class="item-content-name">企业名称</span>：{{baseMsg.enterpriseName}}</p>
+            <div>
+                <span  class="item-content-name">排查日期 <span class="dangerColor">*</span>：</span>
+                <input type="text"  cgs-date-picker date-fmt="yyyy-MM-dd" ng-model="baseMsg.time" />
+                <span  class="item-content-name">现场排查负责人 <span class="dangerColor">*</span>：</span>
+                <input type="text" ng-model="baseMsg.responsiblePerson" />
+            </div>
+        </div>
+        <div class="item-title">排查项目</div>
+        <div class="item-content">
+            <div class="check-item">
+                <p class="check-item-title"><span>1</span> 中间事故缓冲设施、事故应急水池或事故存液池（以下统称应急池）</p>
+                <div >
+                    <p ng-class="obj[0].level==2?'dangerColor':obj[0].level==1?'warning':''">（1）{{obj[0].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  class="radio-regular" value="0" ng-model="obj[0].result"/>
+                            <span>是</span>
+                            <input type="radio"   class="radio-regular" value="1" ng-model="obj[0].result"/>
+                            <span>否</span>
+                            <input type="radio"  class="radio-regular" value="2" ng-model="obj[0].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"   value="2" class="radio-regular" ng-model="obj[0].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"   value="1" class="radio-regular" ng-model="obj[0].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"   value="0" class="radio-regular" ng-model="obj[0].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[0].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[0].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[0].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd" ng-model="obj[0].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"   value="0" class="radio-regular" ng-model="obj[0].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"   value="1" class="radio-regular" ng-model="obj[0].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"   value="2" class="radio-regular" ng-model="obj[0].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[0].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                        <span ng-show="obj[0].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[0].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[0].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[0].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[0].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[0].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[1].level==2?'dangerColor':obj[1].level==1?'warning':''">（2）{{obj[1].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-2-1-set" class="radio-regular" value="0" ng-model="obj[1].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-2-1-set"  class="radio-regular" value="1" ng-model="obj[1].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-2-1-set"  class="radio-regular" value="2" ng-model="obj[1].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-2-2-set" value="2" class="radio-regular" ng-model="obj[1].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-2-2-set" value="1" class="radio-regular" ng-model="obj[1].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-2-2-set" value="0" class="radio-regular" ng-model="obj[1].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[1].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[1].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[1].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[1].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-2-3-set" value="0" class="radio-regular" ng-model="obj[1].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-2-3-set" value="1" class="radio-regular" ng-model="obj[1].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-2-3-set" value="2" class="radio-regular" ng-model="obj[1].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[1].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[1].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[1].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[1].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[1].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[1].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[1].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[2].level==2?'dangerColor':obj[2].level==1?'warning':''">（3）{{obj[2].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-3-1-set" class="radio-regular" value="0" ng-model="obj[2].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-3-1-set"  class="radio-regular" value="1" ng-model="obj[2].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-3-1-set"  class="radio-regular" value="2" ng-model="obj[2].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-3-2-set" value="2" class="radio-regular" ng-model="obj[2].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-3-2-set" value="1" class="radio-regular" ng-model="obj[2].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-3-2-set" value="0" class="radio-regular" ng-model="obj[2].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[2].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[2].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[2].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[2].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-3-3-set" value="0" class="radio-regular" ng-model="obj[2].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-3-3-set" value="1" class="radio-regular" ng-model="obj[2].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-3-3-set" value="2" class="radio-regular" ng-model="obj[2].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[2].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[2].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[2].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[2].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[2].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[2].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[2].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[3].level==2?'dangerColor':obj[3].level==1?'warning':''">（4）{{obj[3].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-4-1-set" class="radio-regular" value="0" ng-model="obj[3].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-4-1-set"  class="radio-regular" value="1" ng-model="obj[3].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-4-1-set"  class="radio-regular" value="2" ng-model="obj[3].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-4-2-set" value="2" class="radio-regular" ng-model="obj[3].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-4-2-set" value="1" class="radio-regular" ng-model="obj[3].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-4-2-set" value="0" class="radio-regular" ng-model="obj[3].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[3].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[3].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[3].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[3].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-4-3-set" value="0" class="radio-regular" ng-model="obj[3].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-4-3-set" value="1" class="radio-regular" ng-model="obj[3].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-4-3-set" value="2" class="radio-regular" ng-model="obj[3].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[3].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[3].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[3].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[3].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[3].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[3].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[3].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[4].level==2?'dangerColor':obj[4].level==1?'warning':''">（5）{{obj[4].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-5-1-set" class="radio-regular" value="0" ng-model="obj[4].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-5-1-set"  class="radio-regular" value="1" ng-model="obj[4].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-5-1-set"  class="radio-regular" value="2" ng-model="obj[4].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-5-2-set" value="2" class="radio-regular" ng-model="obj[4].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-5-2-set" value="1" class="radio-regular" ng-model="obj[4].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-5-2-set" value="0" class="radio-regular" ng-model="obj[4].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[4].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[4].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[4].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[4].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-5-3-set" value="0" class="radio-regular" ng-model="obj[4].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-5-3-set" value="1" class="radio-regular" ng-model="obj[4].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-5-3-set" value="2" class="radio-regular" ng-model="obj[4].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[4].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[4].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[4].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[4].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[4].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[4].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[4].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                <p ng-class="obj[5].level==2?'dangerColor':obj[5].level==1?'warning':''">（6）{{obj[5].name}}</p>
+                <div>
+                    <span class="check-result">排查结果 <span>*</span>：</span>
+                    <span class="radio-select">
+                            <input type="radio"  name="radio-6-1-set" class="radio-regular" value="0" ng-model="obj[5].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-6-1-set"  class="radio-regular" value="1" ng-model="obj[5].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-6-1-set"  class="radio-regular" value="2" ng-model="obj[5].result"/>
+                            <span>其他情况</span>
+                        </span>
+                </div>
+                <div>
+                    <span class="check-result">隐患级别 <span>*</span>：</span>
+                    <span class="radio-select">
+                            <input type="radio"  name="radio-6-2-set" value="2" class="radio-regular" ng-model="obj[5].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-6-2-set" value="1" class="radio-regular" ng-model="obj[5].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-6-2-set" value="0" class="radio-regular" ng-model="obj[5].level" />
+                            <span>无</span>
+                        </span>
+                </div>
+                <div ng-show="obj[5].level==0?false:true">
+                    <div>
+                        <span class="check-result">隐患地点 <span>*</span>：</span>
+                        <input type="text" maxlength="100" class="remark" ng-model="obj[5].address">
+                    </div>
+                    <div>
+                        <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                        <input type="text" maxlength="100" class="remark" ng-model="obj[5].hiddenDanger">
+                    </div>
+                    <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[5].deadline"  style="margin-right: 20px"/>
+                        </span>
+                        <span class="check-result">整改情况 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-6-3-set" value="0" class="radio-regular" ng-model="obj[5].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-6-3-set" value="1" class="radio-regular" ng-model="obj[5].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-6-3-set" value="2" class="radio-regular" ng-model="obj[5].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[5].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                        <span ng-show="obj[5].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[5].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[5].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[5].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[5].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[5].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+            <div class="check-item">
+                <p class="check-item-title"><span>2</span> 厂内排水系统</p>
+                <div >
+                    <p ng-class="obj[6].level==2?'dangerColor':obj[6].level==1?'warning':''">（7）{{obj[6].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-7-1-set" class="radio-regular" value="0" ng-model="obj[6].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-7-1-set"  class="radio-regular" value="1" ng-model="obj[6].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-7-1-set"  class="radio-regular" value="2" ng-model="obj[6].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-7-2-set" value="2" class="radio-regular" ng-model="obj[6].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-7-2-set" value="1" class="radio-regular" ng-model="obj[6].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-7-2-set" value="0" class="radio-regular" ng-model="obj[6].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[6].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[6].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[6].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[6].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-7-3-set" value="0" class="radio-regular" ng-model="obj[6].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-7-3-set" value="1" class="radio-regular" ng-model="obj[6].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-7-3-set" value="2" class="radio-regular" ng-model="obj[6].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[6].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[6].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[6].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[6].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[6].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[6].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[6].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[7].level==2?'dangerColor':obj[7].level==1?'warning':''">（8）{{obj[7].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-8-1-set" class="radio-regular" value="0" ng-model="obj[7].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-8-1-set"  class="radio-regular" value="1" ng-model="obj[7].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-8-1-set"  class="radio-regular" value="2" ng-model="obj[7].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-8-2-set" value="2" class="radio-regular" ng-model="obj[7].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-8-2-set" value="1" class="radio-regular" ng-model="obj[7].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-8-2-set" value="0" class="radio-regular" ng-model="obj[7].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[7].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[7].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[7].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[7].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-8-3-set" value="0" class="radio-regular" ng-model="obj[7].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-8-3-set" value="1" class="radio-regular" ng-model="obj[7].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-8-3-set" value="2" class="radio-regular" ng-model="obj[7].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[7].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[7].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[7].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[7].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[7].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[7].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[7].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[8].level==2?'dangerColor':obj[8].level==1?'warning':''">（9）{{obj[8].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-9-1-set" class="radio-regular" value="0" ng-model="obj[8].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-9-1-set"  class="radio-regular" value="1" ng-model="obj[8].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-9-1-set"  class="radio-regular" value="2" ng-model="obj[8].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-9-2-set" value="2" class="radio-regular" ng-model="obj[8].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-9-2-set" value="1" class="radio-regular" ng-model="obj[8].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-9-2-set" value="0" class="radio-regular" ng-model="obj[8].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[8].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[8].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[8].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[8].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-9-3-set" value="0" class="radio-regular" ng-model="obj[8].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-9-3-set" value="1" class="radio-regular" ng-model="obj[8].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-9-3-set" value="2" class="radio-regular" ng-model="obj[8].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[8].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[8].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[8].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[8].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[8].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[8].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[8].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[9].level==2?'dangerColor':obj[9].level==1?'warning':''">（10）{{obj[9].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-10-1-set" class="radio-regular" value="0" ng-model="obj[9].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-10-1-set"  class="radio-regular" value="1" ng-model="obj[9].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-10-1-set"  class="radio-regular" value="2" ng-model="obj[9].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-10-2-set" value="2" class="radio-regular" ng-model="obj[9].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-10-2-set" value="1" class="radio-regular" ng-model="obj[9].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-10-2-set" value="0" class="radio-regular" ng-model="obj[9].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[9].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[9].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[9].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[9].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-10-3-set" value="0" class="radio-regular" ng-model="obj[9].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-10-3-set" value="1" class="radio-regular" ng-model="obj[9].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-10-3-set" value="2" class="radio-regular" ng-model="obj[9].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[9].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[9].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[9].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[9].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[9].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[9].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[9].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[10].level==2?'dangerColor':obj[10].level==1?'warning':''">（11）{{obj[10].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-11-1-set" class="radio-regular" value="0" ng-model="obj[10].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-11-1-set"  class="radio-regular" value="1" ng-model="obj[10].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-11-1-set"  class="radio-regular" value="2" ng-model="obj[10].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-11-2-set" value="2" class="radio-regular" ng-model="obj[10].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-11-2-set" value="1" class="radio-regular" ng-model="obj[10].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-11-2-set" value="0" class="radio-regular" ng-model="obj[10].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[10].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[10].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[10].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[10].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-11-3-set" value="0" class="radio-regular" ng-model="obj[10].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-11-3-set" value="1" class="radio-regular" ng-model="obj[10].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-11-3-set" value="2" class="radio-regular" ng-model="obj[10].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[10].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[10].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[10].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[10].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[10].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[10].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[10].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="check-item">
+                <p class="check-item-title"><span>3</span> 雨水、清净下水和污（废）水的总排口</p>
+                <div >
+                    <p ng-class="obj[11].level==2?'dangerColor':obj[11].level==1?'warning':''">（12）{{obj[11].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-12-1-set" class="radio-regular" value="0" ng-model="obj[11].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-12-1-set"  class="radio-regular" value="1" ng-model="obj[11].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-12-1-set"  class="radio-regular" value="2" ng-model="obj[11].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-12-2-set" value="2" class="radio-regular" ng-model="obj[11].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-12-2-set" value="1" class="radio-regular" ng-model="obj[11].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-12-2-set" value="0" class="radio-regular" ng-model="obj[11].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[11].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[11].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[11].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[11].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-12-3-set" value="0" class="radio-regular" ng-model="obj[11].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-12-3-set" value="1" class="radio-regular" ng-model="obj[11].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-12-3-set" value="2" class="radio-regular" ng-model="obj[11].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[11].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[11].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[11].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[11].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[11].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[11].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[11].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div >
+                    <p ng-class="obj[12].level==2?'dangerColor':obj[12].level==1?'warning':''">（13）{{obj[12].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-13-1-set" class="radio-regular" value="0" ng-model="obj[12].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-13-1-set"  class="radio-regular" value="1" ng-model="obj[12].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-13-1-set"  class="radio-regular" value="2" ng-model="obj[12].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-13-2-set" value="2" class="radio-regular" ng-model="obj[12].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-13-2-set" value="1" class="radio-regular" ng-model="obj[12].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-13-2-set" value="0" class="radio-regular" ng-model="obj[12].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[12].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[12].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[12].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[12].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-13-3-set" value="0" class="radio-regular" ng-model="obj[12].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-13-3-set" value="1" class="radio-regular" ng-model="obj[12].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-13-3-set" value="2" class="radio-regular" ng-model="obj[12].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[12].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[12].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[12].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[12].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[12].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[12].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[12].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="check-item">
+                <p class="check-item-title"><span>4</span> 突发大气环境事件风险防控措施</p>
+                <div >
+                    <p ng-class="obj[13].level==2?'dangerColor':obj[13].level==1?'warning':''">（14）{{obj[13].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-14-1-set" class="radio-regular" value="0" ng-model="obj[13].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-14-1-set"  class="radio-regular" value="1" ng-model="obj[13].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-14-1-set"  class="radio-regular" value="2" ng-model="obj[13].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-14-2-set" value="2" class="radio-regular" ng-model="obj[13].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-14-2-set" value="1" class="radio-regular" ng-model="obj[13].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-14-2-set" value="0" class="radio-regular" ng-model="obj[13].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[13].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[13].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[13].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[13].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-14-3-set" value="0" class="radio-regular" ng-model="obj[13].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-14-3-set" value="1" class="radio-regular" ng-model="obj[13].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-14-3-set" value="2" class="radio-regular" ng-model="obj[13].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[13].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[13].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[13].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[13].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[13].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[13].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[13].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[14].level==2?'dangerColor':obj[14].level==1?'warning':''">（15）{{obj[14].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-15-1-set" class="radio-regular" value="0" ng-model="obj[14].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-15-1-set"  class="radio-regular" value="1" ng-model="obj[14].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-15-1-set"  class="radio-regular" value="2" ng-model="obj[14].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-15-2-set" value="2" class="radio-regular" ng-model="obj[14].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-15-2-set" value="1" class="radio-regular" ng-model="obj[14].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-15-2-set" value="0" class="radio-regular" ng-model="obj[14].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[14].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[14].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[14].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[14].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-15-3-set" value="0" class="radio-regular" ng-model="obj[14].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-15-3-set" value="1" class="radio-regular" ng-model="obj[14].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-15-3-set" value="2" class="radio-regular" ng-model="obj[14].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[14].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[14].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[14].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[14].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[14].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[14].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[14].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[15].level==2?'dangerColor':obj[15].level==1?'warning':''">（16）{{obj[15].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-16-1-set" class="radio-regular" value="0" ng-model="obj[15].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-16-1-set"  class="radio-regular" value="1" ng-model="obj[15].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-16-1-set"  class="radio-regular" value="2" ng-model="obj[15].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-16-2-set" value="2" class="radio-regular" ng-model="obj[15].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-16-2-set" value="1" class="radio-regular" ng-model="obj[15].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-16-2-set" value="0" class="radio-regular" ng-model="obj[15].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[15].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[15].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[15].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker date-fmt="yyyy-MM-dd"
+                                   ng-model="obj[15].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-16-3-set" value="0" class="radio-regular" ng-model="obj[15].isRectification"  checked  />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-16-3-set" value="1" class="radio-regular" ng-model="obj[15].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-16-3-set" value="2" class="radio-regular" ng-model="obj[15].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[15].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[15].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[15].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[15].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[15].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[15].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[15].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <p ng-class="obj[16].level==2?'dangerColor':obj[16].level==1?'warning':''">（17）{{obj[16].name}}</p>
+                    <div>
+                        <span class="check-result">排查结果 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-17-1-set" class="radio-regular" value="0" ng-model="obj[16].result"/>
+                            <span>是</span>
+                            <input type="radio"  name="radio-17-1-set"  class="radio-regular" value="1" ng-model="obj[16].result"/>
+                            <span>否</span>
+                            <input type="radio"  name="radio-17-1-set"  class="radio-regular" value="2" ng-model="obj[16].result"/>
+                            <span>其他情况</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="check-result">隐患级别 <span>*</span>：</span>
+                        <span class="radio-select">
+                            <input type="radio"  name="radio-17-2-set" value="2" class="radio-regular" ng-model="obj[16].level" />
+                            <span>重大隐患</span>
+                            <input type="radio"  name="radio-17-2-set" value="1" class="radio-regular" ng-model="obj[16].level"/>
+                            <span>一般隐患</span>
+                            <input type="radio"  name="radio-17-2-set" value="0" class="radio-regular" ng-model="obj[16].level" />
+                            <span>无</span>
+                        </span>
+                    </div>
+                    <div ng-show="obj[16].level==0?false:true">
+                        <div>
+                            <span class="check-result">隐患地点 <span>*</span>：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[16].address">
+                        </div>
+                        <div>
+                            <span class="check-result">潜在危害&nbsp;&nbsp;&nbsp;：</span>
+                            <input type="text" maxlength="100" class="remark" ng-model="obj[16].hiddenDanger">
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">治理期限 <span>*</span>：</span>
+                            <input cgs-date-picker  date-fmt="yyyy-MM-dd" date-fmt="yyyy-MM-dd" ng-model="obj[16].deadline"  style="margin-right: 20px"/>
+                        </span>
+                            <span class="check-result">整改情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                            <input type="radio"  name="radio-17-3-set" value="0" class="radio-regular" ng-model="obj[16].isRectification"    />
+                            <span>未整改</span>
+                            <input type="radio"  name="radio-17-3-set" value="1" class="radio-regular" ng-model="obj[16].isRectification"/>
+                            <span>正在整改</span>
+                            <input type="radio"  name="radio-17-3-set" value="2" class="radio-regular" ng-model="obj[16].isRectification" />
+                            <span>已整改</span>
+                        </span>
+                        </div>
+                        <div>
+                        <span>
+                            <span class="check-result">责任人 <span>*</span>：</span>
+                            <input type="text" ng-model="obj[16].responsiblePerson" style="margin-right: 20px"/>
+                        </span>
+                            <span ng-show="obj[16].level==2?true:false">
+                            <span class="check-result">督办情况 <span>*</span>：</span>
+                            <span class="radio-select">
+                                <input type="checkbox" class="radio-regular" ng-model="obj[16].isLimitRectification" />
+                                <span>限期整改</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[16].licensesToSupervise" />
+                                <span>挂牌督办</span>
+                                <input type="checkbox" class="radio-regular" ng-model="obj[16].isinvestigated"/>
+                                <span>追究责任</span>
+                                <span ng-show="obj[16].isinvestigated==true" >
+                                    <input type="text"placeholder="人数" ng-model="obj[16].investigated"  class="zjzr"> (人)
+                                </span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-title">排查结论</div>
+        <div class="item-content">
+            <p>
+                <span class="item-content-name">一般隐患</span>：<span>{{baseMsg.num3}}</span>
+                <span class="item-content-name" style="margin-left: 20px">一般隐患项：</span><span>{{geneItems}}</span>
+            </p>
+            <p>
+                <span class="item-content-name">重大隐患</span>：<span>{{baseMsg.num2}}</span>
+                <span class="item-content-name" style="margin-left: 20px">重大隐患项：</span><span>{{majorItems}}</span>
+            </p>
+        </div>
+        <div class="operate" style="text-align: right" ng-if="operate=='yes'">
+            <button class="searchBtn" type="submit">保存</button>
+            <button class="searchBtn" onclick="history.go(-1)">取消</button>
+            <div class="clearfix"></div>
+        </div>
+        </form>
+        <div class="task-alert">
+            <div class="alert-title">操作提示</div>
+            <div class="alert-content">{{textContent}}</div>
+            <ul class="alert-button">
+                <li ng-click="sureAlert()" ng-if="textContent=='还有必填项未完成，确定保存吗?'||
+                textContent=='所有必填项都已填写完毕，排查表状态将变为已完成，确定保存吗?'">确定</li>
+                <li ng-click="resetAlert(textContent)">{{textContent=='操作成功！'?'关闭':'取消'}}</li>
+            </ul>
+        </div>
+    </div>
+
+</div>

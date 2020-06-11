@@ -1,0 +1,41 @@
+<div ng-controller="emerHeadCtrl">
+    <div class="mainOuter" style="width: 100%;height: 70px" >
+        <header class="header">
+            <div class="logo">
+                <img src="images/lgqy.png">
+            </div>
+            <div class="userInfo" style="margin-right: 20px">
+                <i class="iconfont"></i>
+                <span>{{userName}}</span>
+                <i class="iconfont icon-webicon215" style="font-size: 12px;"></i>
+                <div class="logout">
+                    <a href="logout">注销登录</a>
+                    <a ng-click="showUserInfo()">用户信息</a>
+                    <a ng-click="changePwd()">修改密码</a>
+                </div>
+            </div>
+
+            <div class="menu" style="list-style-type: none; margin-right: 15px">
+                <li>
+                    <div ui-sref="riskInvest" ui-sref-active="active">
+                        <i class="iconfont icon-fengxianpaicha"></i>
+                        <span>风险排查</span>
+                    </div>
+                </li>
+                <li>
+                    <div ui-sref="enterpriseHead" ui-sref-active="active">
+                        <i class="iconfont icon-yuanguanli"></i>
+                        <span>应急预案</span>
+                    </div>
+                </li>
+                <li>
+                    <div ui-sref="msgManage" ui-sref-active="active">
+                        <i class="iconfont icon-xinxiguanli"></i>
+                        <span>信息管理</span>
+                    </div>
+                </li>
+            </div>
+        </header>
+    </div>
+    <div ui-view style="height: 100%"></div>
+</div>

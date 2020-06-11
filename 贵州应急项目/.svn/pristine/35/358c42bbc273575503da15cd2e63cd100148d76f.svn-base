@@ -1,0 +1,110 @@
+package com.sucsoft.gzhbyjwz.util.time;
+
+import java.util.Calendar;
+
+public class TimeStateYear implements TimeState{
+	//时间范围，毫秒
+	private long start;
+	private long end;
+	private long current;
+			
+	private static final int state = TimeState.YEAR;
+
+	
+	
+	public TimeStateYear(long start, long end) {
+		super();
+		this.start = start;
+		this.current = this.start;
+		this.end = end;
+	}
+	
+
+	@Override
+	public boolean hasNext() {
+		// TODO Auto-generated method stub
+		return current < end;
+	}
+
+	
+	public static long getYearStart(long time) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(time);
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		return cal.getTimeInMillis();
+	}
+	
+	public static long getYearStart(long time,int num) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(time);
+		cal.add(Calendar.YEAR, num);
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		return cal.getTimeInMillis();
+	}
+	
+	@Override
+	public long getStart() {
+		return start;
+	}
+
+	@Override
+	public long getEnd() {
+		return end;
+	}
+
+	public long getCurrent() {
+		return current;
+	}
+
+	public static int getState() {
+		return state;
+	}
+
+	public void setStart(long start) {
+		this.start = start;
+	}
+
+	public void setEnd(long end) {
+		this.end = end;
+	}
+
+	public void setCurrent(long current) {
+		this.current = current;
+	}
+
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(current);
+		return cal.get(Calendar.YEAR)+"";
+	}
+	
+	@Override
+	public Long next() {
+		// TODO Auto-generated method stub
+		//long result = current;
+		Calendar curCal = Calendar.getInstance();
+		curCal.setTimeInMillis(current);
+		curCal.add(Calendar.YEAR, 1);
+		curCal.setTimeInMillis(getYearStart(curCal.getTimeInMillis()));
+		current = current+curCal.getTimeInMillis();
+		
+		if (current > end) {
+			return end;
+		}else{
+			return current;
+		}
+	}
+
+	
+}

@@ -1,0 +1,28 @@
+<div id="editPlot">
+	<div>
+		<i class="fa fa-minus-circle" ng-show="plotOl.open" ng-click="plotOl.open=false"></i>
+		<i class="fa fa-plus-circle" ng-hide="plotOl.open" ng-click="plotOl.open=true"></i>
+	</div>
+	<ul ng-show="plotOl.open">
+		<li>
+			<a id="plotEditStroke" ng-model="plotOl.selectedStrokeColor" color-picker default-color="#2058A5" class="font-color" colorpicker-position="auto" line-width="2">
+			  <i class="plot_line"></i>
+			</a>
+		</li>
+		<li ng-show="plotOl.type=='area'">
+			<a ng-model="plotOl.selectedFillColor" color-picker default-color="rgba(32, 88, 165, 0.4)" class="font-color" colorpicker-position="auto">
+			  <i class="plot_fill"></i>
+			</a>
+		</li>
+		<li ng-show="plotOl.type=='text'">
+			<a>
+			  <i class="plot_text"></i>
+			</a>
+		</li>
+		<li>
+			<a ng-click="delObj(selectedFeature)">
+			  <i class="fa fa-close" aria-hidden="true" style="color:#d91e18;"></i>
+			</a>
+		</li>
+	</ul>
+</div>

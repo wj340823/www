@@ -1,0 +1,120 @@
+
+html { overflow:hidden;height:100%;width:100%}
+body {  background-color: White;  background-repeat: no-repeat; overflow:auto;height:100%;width:100%}
+.background {  background-color: #555555; background-image: url(img\background.gif); background-repeat: no-repeat}
+.s7 {font-family:  Arial, Helvetica, sans-serif; font-size: 7pt; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s7red {font-family:  Arial, Helvetica, sans-serif; font-size: 7pt; font-style: normal; font-weight: normal; color: #B90000; text-decoration: none;}
+.s8 {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s8w {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.s8b {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s8bu {font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: bold; color: #000000; text-decoration: underline;}
+.s9 {font-family:  Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s9w {font-family:  Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.s9bred{font-family:   Arial,Helvetica, sans-serif;font-size: 13px;font-style: normal;line-height: normal;font-weight: bold;font-variant: normal;text-transform: none;color: #B90000;text-decoration: none;}
+.s10 {font-family:  Arial, Helvetica, sans-serif; font-size: 15px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s10b {font-family:  Arial, Helvetica, sans-serif; font-size: 10pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s12b {font-family:  Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s12w {font-family:  Arial, Helvetica, sans-serif; font-size: 12pt; font-style: normal; font-weight: normal; color: #ffffff; text-decoration: none;}
+.s14b {font-family:  Arial, Helvetica, sans-serif; font-size: 14pt; font-style: normal; font-weight: bold; color: #000000; text-decoration: none;}
+.s14bi {font-family:  Arial, Helvetica, sans-serif; font-size: 14pt; font-style: italic; font-weight: bold; color: #000000; text-decoration: none;}
+
+h1	{margin-top:0in;	margin-right:0in;margin-bottom:12.0pt;	margin-left:.5in;	text-indent:-.5in;	page-break-before:always;	page-break-after:avoid;	border:none;	padding:0in;	font-size:16.0pt;	font-family:Calibri;	text-transform:uppercase;	font-weight:bold;}
+h2	{margin-top:24.0pt;	margin-right:0in;	margin-bottom:0in;	margin-left:0in;	margin-bottom:.0001pt;	page-break-after:avoid;	font-size:14.0pt;	font-family:Calibri;	font-weight:bold;}
+h3	{margin-top:12.0pt;	margin-right:0in;	margin-bottom:3.0pt;	margin-left:0in;	page-break-after:avoid;	font-size:11.0pt;	font-family:Calibri;	font-weight:bold;}
+h4	{margin-top:6.0pt;	margin-right:0in;	margin-bottom:0in;	margin-left:0in;	margin-bottom:.0001pt;	page-break-after:avoid;	font-size:11.0pt;	font-family:Calibri;	font-weight:bold;}
+h5	{margin-top:6.0pt;	margin-right:0in;	margin-bottom:0in;	margin-left:0in;	margin-bottom:.0001pt;	page-break-after:avoid;	font-size:8.0pt;	font-family:Verdana;	color:red;	font-weight:bold;}
+h6	{margin-top:12.0pt;	margin-right:0in;	margin-bottom:3.0pt;	margin-left:0in;	text-align:justify;	font-size:11.0pt;	font-family:"ITCCentury Light";	font-weight:bold;}
+
+.ToolTopArea {background-color: #535353; height:27px; color:#FFFFFF; font-weight:bold; font-size:12px; vertical-align:middle; }
+.ToolTopSeperator{background-color: #A9A9A9; height:1px;}
+.PropertiesSheet {background-color:#ffffff;width:100%; border-collapse: collapse;}
+.PropertiesSheet td { border:1px solid #cccccc; }
+.TableOtherLine{background-color:#ffffff; }
+.ToolButtonsArea {background-color:#535353; }
+.MenuButton{height: 78px;width: 65px;margin: 3px;white-space: normal; background-color:#535353;border:0px; border-right:1px solid #76757A;font-family:  Arial; font-size: 9pt;  color:white; line-height:120%}
+.MenuButton img {margin-bottom: 5px; }
+.MenuButton:hover{background-color:#76757A; }
+.MenuButtonLast{border-right:0px}
+.MenuButtonHighlight{color: yellow;font-weight: bold;}
+.MenuButtonSmall {height: 20px;margin: 3px;white-space: normal; background-color:#535353;border:0px; border-right:1px solid #76757A;font-family:  Arial; font-size: 9pt;  color:white; }
+.MenuButtonSmall:hover{background-color:#76757A; }
+.tab {float: left;background-color: #535353;border: solid 1px black;margin: 0px;color:white;padding: 4px;cursor: pointer;}
+.tabSelected {background-color: #335D6A;border-bottom:solid 1px #335D6A;}
+
+
+.SectionCaption{font-style:normal;  font-weight: bold;font-size:16px;font-family:  Arial, Helvetica, sans-serif; color:rgb(69,103,131)}
+.SectionText{font-style:normal;  font-weight: normal;font-size:11px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+.SectionTextWhite{font-style:normal;  font-weight: normal;font-size:10px;font-family:  Arial, Helvetica, sans-serif; color:black}
+
+.Footer{BORDER-top: rgb(198,207,214) 7px solid;BORDER-bottom:rgb(198,207,214) 2px solid;BACKGROUND-COLOR: rgb(239,243,247);font-style:normal;  font-weight: normal;font-size:13px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+
+li{margin: 0 0 0 9; list-style-type: square}
+
+A {COLOR: #000000; text-decoration: none;; font-weight: bold; cursor:pointer; }
+A:link {COLOR: #000000; text-decoration: none;; font-weight: bold; }
+A:visited {color: #000000; text-decoration: none;; font-weight: bold;}
+A:hover {COLOR: #E2A21B; text-decoration: none;}
+
+td.ColorWin {  padding: 0 0 0 0;  margin:  0 0 0 0;  border:  0 0 0 0;  height: 16px;  width: 16px;}
+#PS.td {border-bottom: solid 1px #ffcc00;}
+Select {width:130px;font-family:  Arial;  font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none; }
+
+INPUT[type=text] {width:130px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none; border: solid 1px #aaaaaa;}
+INPUT.checkbox {width:20px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT.file {width:160px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+INPUT.ColorButton {width:50px;font-family:  Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; text-decoration: none;}
+INPUT.button {width:125px;border-width:1;filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFAFAE2', endColorstr='#FFC0C18B')}
+INPUT.button2 {width:125px;border-width:1;filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFFEEE7', endColorstr='#FFDBA47B')}
+td{font-style:normal;  font-weight: normal;font-size:11px;font-family:  Arial, Helvetica, sans-serif; color:rgb(49,74,95)}
+
+.SelectSymbol1 {height: 150px; overflow:auto}
+.SelectSymbol2 {height: 150px; overflow:auto; background-color: #FFFFFF;}
+.SelectedSymbol {font-style: italic; background-color: #00FFFF;}
+.UnSelectedSymbol {font-style: normal; background-color: #FFFFFF;}
+
+
+.PropertiesTable{border-collapse :separate;BORDER-RIGHT: #c6cbce 1px solid;  BORDER-TOP: #c6cbce 1px solid; BORDER-LEFT: #c6cbce 1px solid; BORDER-BOTTOM: #c6cbce 1px solid; BACKGROUND-COLOR: #f7f7f7}
+.PropertiesTDTop{PADDING-Left: 1px; BORDER-BOTTOM: #c6cbce 1px solid;font-family:  Arial; FONT-SIZE: 11px;font-weight: bold;BACKGROUND-COLOR: #e6e3e0;}
+.PropertiesTD{PADDING-Left: 1px; BORDER-BOTTOM: #c6cbce 1px solid;font-family:  Arial; FONT-SIZE: 11px;font-weight: normal;}
+
+.ButtonYellow{BACKGROUND-COLOR: #ffffff;PADDING-RIGHT: 0px; BACKGROUND-POSITION: left top; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 11px;  PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: black; BORDER-TOP-STYLE: none; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Arial; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; HEIGHT: 21px; BORDER-BOTTOM-STYLE: none;text-align :center;line-height:20px;cursor:hand}
+.ButtonYellowLeftTD{BACKGROUND-IMAGE: url(Images\ButtonYellowLeft.gif);width:3px; background-repeat:no-repeat}
+.ButtonYellowCenterTD{width:100% ;BACKGROUND-IMAGE: url(Images\ButtonYellowCenter.gif);text-align:center ; FONT-WEIGHT: bold; FONT-SIZE: 11px;  PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: black; FONT-FAMILY: Arial;height:21px}
+.ButtonYellowRightTD{BACKGROUND-IMAGE: url(Images\ButtonYellowRight.gif);width:4px; background-repeat:no-repeat}
+.ButtonYellowTable{PADDING: 0px; MARGIN: 0px; WIDTH: 100%; HEIGHT: 100%;  BORDER-STYLE:none}
+
+.link {cursor:pointer; text-decoration:underline;}
+
+a.button {
+    background: transparent url('commonImg/bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 10px;
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('commonImg/bg_button_span.gif') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 10px;
+}
+
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none;
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 10px;
+}
+.hideUntillTranslated
+{
+	display:none;
+}

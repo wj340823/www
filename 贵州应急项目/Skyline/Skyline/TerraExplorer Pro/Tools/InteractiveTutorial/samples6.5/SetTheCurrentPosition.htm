@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Set the current position</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        function Init()
+        {
+            var pos = SGWorld.Creator.CreatePosition(-71.05216, // X
+                                                       42.34569, // Y
+                                                       1000,     // Altitude
+                                                       0, //AltitudeTypeCode.ATC_TERRAIN_RELATIVE, // Altitude type
+                                                       0.0,      // Yaw
+                                                      -43.0);     // Pitch
+            
+            SGWorld.Navigate.SetPosition(pos);
+        }
+                     
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:000000402bJLJnypsrbg9HxmCKAXvQ4ELwu.9i0u3iSoDwE3Xw.p72PrxdwYWK6gW7vo4qOkl0#WJtLYn7GsUHzZwturJbJJ-->

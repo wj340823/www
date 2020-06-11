@@ -1,0 +1,24 @@
+package com.sucsoft.gzhbyjwz.service.goods;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sucsoft.gzhbyjwz.bean.param.GoodsParam;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+
+@Service
+public class DangerousGoodsService {
+	@Autowired
+	private BasicQueryService queryService;
+	
+	//条件列表查询物资现状
+		public List<Map> listDangerousComponent(String dangerousGoodsId,Integer pageNo,Integer pageSize) throws Exception {
+			Map<String, Object> param = new HashMap<>();
+			List<Map> list = queryService.queryForList("listDangerousComponent", param, Map.class, pageNo, pageSize);
+			return list;
+		}
+}

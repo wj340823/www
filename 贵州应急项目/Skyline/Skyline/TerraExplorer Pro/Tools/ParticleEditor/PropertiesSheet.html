@@ -1,0 +1,1233 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link href="css/cupertino/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+	<script src="js/jquery-1.10.2.js"></script>
+	<script src="js/jquery-ui-1.10.4.custom.js"></script>
+    <link href="jquery-ui-Override.css" rel="stylesheet">    
+
+    <link type="text/css" rel="StyleSheet" href="slider.css" />
+    <script language="javascript" src="ToolsCommon-NoJQ.js"></script>
+    <!--<script language="javascript" src="../ToolsCommon65.js"></script>-->
+    <script type="text/javascript" src="range.js"></script>
+    <script type="text/javascript" src="timer.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+
+    <link rel="StyleSheet" href="Style.css" type="text/css">
+    <style>
+        .MenuButton
+        {
+            height: 78px;
+            width: 65px;
+            margin: 5px;
+            white-space: normal;
+        }
+        .MenuButtonHighlight
+        {
+            color: Red;
+            font-weight: bold;
+        }
+
+        .style1
+        {
+            height: 37px;
+        }
+
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0;    overflow: hidden; background-color: #ffffff" id="Body" onload="Init()" onunload="Reset(0,0)" >
+    <!--oncontextmenu="return false;"  onclick="bHide=true;HideOptionsNow()" > -->
+
+               <table border="0" cellspacing="1" cellpadding="3" bgcolor="#ffffff" class="s8" width="100%">
+
+                  <tr class='TableOtherLine'>
+                        <td align="top" class="s8b i18n" style="width:84px">
+                            <label for="createAs" class="i18n">Text1</label>
+                        </td>
+                        <td align="left">
+                            <select id="ParticleTemplate"  style="width:100px; white-space: pre; " onchange="UpdateImage();" >
+                                <option class="i18n" value="bubbles.png" >bubbles.png</option>
+<!--                                <option class="i18n" value="bubbles02.png" >bubbles02.png</option>
+                                <option class="i18n" value="bubbles03.png" >bubbles03.png</option>
+                                <option class="i18n" value="bubbles04.png" >bubbles04.png</option>
+                                <option class="i18n" value="drop.png" >drop.png</option>
+                                <option class="i18n" value="drop01.png" >drop01.png</option>-->
+                                <option class="i18n" value="drop02.png" >drop02.png</option>
+                                <option class="i18n" value="fire.png" >fire.png</option>
+<!--                                <option class="i18n" value="fire2.png" >fire2.png</option>
+                                <option class="i18n" value="particle01.png" >particle01.png</option>-->
+                                <option class="i18n" value="smoke.png" selected>smoke.png</option>
+<!--                            <option class="i18n" value="explosion-1.png" >explosion-1.png</option>
+                                <option class="i18n" value="explosion-2.png" >explosion-2.png</option>
+                                <option class="i18n" value="arrow.png" >arrow.png</option>-->
+                                <option class="i18n" value="browse" >Text37</option>
+                                <option class="i18n" value="url" >Text38</option>
+                            </select>
+                            <input id="file" class="file" type="file" value="3" size="20" style="display:none; " onchange="AddImageToAllLists(this.value);"/>
+                            &nbsp;
+                <input type="button" class="ColorButton" id="Color"  onclick="pop(TraceColor)" style="background:'#FFFFFF';width:40px;" />
+                 <input id="Blend" type="checkbox" style="width:20px;" onclick="UpdateParticle();" ><span id="Span10" class="i18n">Text33</span></input>
+                <span id="ColorText" style="display: none">#FFFFFF</span><span id="TraceColor" style="display: none">
+                    <table border="5" cellpadding="0" cellspacing="0">
+      <tr><td class="ColorWin" bgcolor="#FF0000" value="#FF0000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#800000" value="#800000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C00000" value="#C00000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FF4040" value="#FF4040" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FF8080" value="#FF8080" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFC0C0" value="#FFC0C0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#000000" value="#000000" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+      <tr><td class="ColorWin" bgcolor="#FFFF00" value="#FFFF00" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#808000" value="#808000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C0C000" value="#C0C000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFFF40" value="#FFFF40" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFFF80" value="#FFFF80" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFFFC0" value="#FFFFC0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#202020" value="#202020" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+      <tr><td class="ColorWin" bgcolor="#00FF00" value="#00FF00" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#008000" value="#008000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#00C000" value="#00C000" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#40FF40" value="#40FF40" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#80FF80" value="#80FF80" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C0FFC0" value="#C0FFC0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#404040" value="#404040" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+      <tr><td class="ColorWin" bgcolor="#00FFFF" value="#00FFFF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#008080" value="#008080" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#00C0C0" value="#00C0C0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#40FFFF" value="#40FFFF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#80FFFF" value="#80FFFF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C0FFFF" value="#C0FFFF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#808080" value="#808080" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+      <tr><td class="ColorWin" bgcolor="#0000FF" value="#0000FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#000080" value="#000080" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#0000C0" value="#0000C0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#4040FF" value="#4040FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#8080FF" value="#8080FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C0C0FF" value="#C0C0FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C0C0C0" value="#C0C0C0" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+      <tr><td class="ColorWin" bgcolor="#FF00FF" value="#FF00FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#800080" value="#800080" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#C000C0" value="#C000C0" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FF40FF" value="#FF40FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FF80FF" value="#FF80FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFC0FF" value="#FFC0FF" onclick="pick(Color,ColorText,TraceColor)"></td><td class="ColorWin" bgcolor="#FFFFFF" value="#FFFFFF" onclick="pick(Color,ColorText,TraceColor)"></td> </tr>
+                    </table>
+                </span>
+
+                        </td>
+                    </tr>
+  
+
+                  <tr >  <!-- Emitter Shape -->
+                        <td align="top" class="s8b i18n">
+                            <label for="createAs" class="i18n">Text2</label>
+                        </td>
+                        <td align="left">
+                            <select id="ParticleShape"  style="width:100px;" onchange="UpdateParticleShape();" >
+                                <option class="i18n" value="Cone" selected>Text3</option>
+                                <option class="i18n" value="Sphere" >Text4</option>
+                                <option class="i18n" value="ShellCone" >Text5</option>
+                                <option class="i18n" value="ShellSphere" >Text6</option>
+                                <option class="i18n" value="Ring" >Text7</option>
+                                <option class="i18n" value="Disc" >Text8</option>
+                                <option class="i18n" value="Cube" >Text9</option>
+                                <option class="i18n" value="One" >Text31</option>
+                            </select>
+                        </td>
+                    </tr>   
+                    
+                     
+                     
+        <!-- Shape Scale  -->
+                   <tr class='TableOtherLine'>
+                       <td class="s8b ">
+                           <span id="Span2" class="i18n">Text32</span>
+                       </td>
+                       <td align="left">
+                           <table cellpadding="0" cellspacing="0" border="0">
+                               <tr>
+                                   <td>
+                                       <span class="i18n">Text28</span>
+                                   </td>
+                                   <td align="center">
+                                       <span id="ScaleXSpan" style="display:inline">1</span>
+                                   </td>
+                                   <td>
+                                       <span class="i18n">Text29</span> <!--Swap YZ: Replaced Y and Z then text used to be Text 30 (Z), but changed to 29 (Y) for UI only, internal is still Z-->
+                                   </td>
+                                   <td align="center">
+                                       <span id="ScaleZSpan" style="display:inline">1</span>
+                                   </td>
+                                   <td>
+                                       <span class="i18n">Text30</span> <!--Swap YZ-->
+                                   </td>
+                                   <td align="center">
+                                       <span id="ScaleYSpan" style="display:inline">1</span>
+                                   </td>
+                               <tr>
+                                   <td colspan=2 style="height:25px; width:80px;">
+                                       <div id="ScaleXSlider" style="display: compact; width:70px; "></div>
+                                   </td>
+                                   <td colspan=2 style="height:25px; width:80px;">
+                                       <!--Swap YZ-->
+                                       <div id="ScaleZSlider" style="display: compact; width:70px;"></div>
+                                   </td>
+                                   <td colspan=2 style="height:25px; width:80px;">
+                                       <!--Swap YZ-->
+                                       <div id="ScaleYSlider" style="display: compact; width:70px;"></div>
+                                   </td>
+                               </tr>
+                   </tr>
+                </table>
+
+    <tr >
+        <!-- Speed Direction Shape -->
+        <td align="top" class="s8b i18n">
+            <label for="createAs" class="i18n">Text48</label>
+        </td>
+        <td align="left">
+            <select id="ParticleSpeedShape" style="width:100px;" onchange="UpdateParticle();">
+                <option class="i18n" value="Cone" selected>Text3</option>
+                <option class="i18n" value="Sphere">Text4</option>
+                <option class="i18n" value="ShellCone">Text5</option>
+                <option class="i18n" value="ShellSphere">Text6</option>
+                <option class="i18n" value="Ring">Text7</option>
+                <option class="i18n" value="Disc">Text8</option>
+                <option class="i18n" value="Cube">Text9</option>
+                <option class="i18n" value="One">Text31</option>
+            </select>
+        </td>
+    </tr>
+
+    <tr class='TableOtherLine'>
+        <!-- Speed Factor-->
+        <td class="s8b ">
+            <span id="Span1" class="i18n">Text13</span>
+        </td>
+        <td align="left" style="height: 30px;">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="left" style="height: 30px;">
+                        <div id="SpeedSlider" style="width: 200px;">
+                        </div>
+                        &nbsp;&nbsp;
+                    </td>
+                    <td align="right" style="height: 30px; width: 30px;">
+                        <span id="SpeedSpan" style="display: inline">XX</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr >
+        <!-- Speed direction -->
+        <td class="s8b "></td>
+        <td align="left">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <span class="i18n">Text28</span>
+                    </td>
+                    <td align="center">
+                        <span id="SpeedDirXSpan" style="display:inline">1</span>
+                    </td>
+                    <td>
+                        <span class="i18n">Text29</span> <!--Swap YZ: Replaced Y and Z then text used to be Text 30 (Z), but changed to 29 (Y) for UI only, internal is still Z-->
+                    </td>
+                    <td align="center">
+                        <span id="SpeedDirZSpan" style="display:inline">1</span>
+                    </td>
+                    <td>
+                        <span class="i18n">Text30</span> <!--Swap YZ-->
+                    </td>
+                    <td align="center">
+                        <span id="SpeedDirYSpan" style="display:inline">1</span>
+                    </td>
+                <tr>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <div id="SpeedDirXSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <!--Swap YZ-->
+                        <div id="SpeedDirZSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <!--Swap YZ-->
+                        <div id="SpeedDirYSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                </tr>
+                <!--</tr>-->
+            </table>
+        </td>
+    </tr>
+
+
+            <!--</td>
+        </tr>-->         
+        <!-- Size -->
+    <tr class='TableOtherLine'>
+        <td>
+            <span id="Span7" class="i18n">Text19</span>
+        </td>
+        <td align="left" class="style1">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="left" style="height: 30px;">
+                        <div id="SizeSlider" style="width: 200px;">
+                        </div>
+                        &nbsp;&nbsp;
+                    </td>
+                    <td align="right" style="height: 30px; width: 30px;">
+                        <span id="SizeSpan" style="display: inline">10</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>                                                   
+        <!-- Size Ratio-->
+    <tr >
+        <td class="s8b ">
+            <span id="Span13" class="i18n">Text43</span>
+        </td>
+        <td align="left">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="left" style="height: 30px;">
+                        <div id="SizeRatioSlider" style="width: 200px;">
+                        </div>
+                        &nbsp;&nbsp;
+                    </td>
+                    <td align="right" style="height: 30px; width: 30px;">
+                        <span id="SizeRatioSpan" style="display: inline">1:1</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+
+ 
+         <tr class='TableOtherLine'> <!-- Rotation -->
+            <td class="s8b ">
+                <span id="Span14" class="i18n">Text44</span>
+            </td>
+            <td align="left">
+                <table cellpadding="0"  cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <span class="i18n">Text45</span>
+                    </td>
+                    <td align="center">                                
+                            <span id="RotationSpeedSpan" style="display:inline">0</span>
+                    </td>
+                    <td>
+                    <span class="i18n">Text46</span> 
+                    </td>
+                    <td align="center">
+                            <span id="RotationTimeSpan" style="display:inline">0</span>
+                    </td>
+                    <td>
+                            <span class="i18n"></span> 
+                    </td>
+                    <td align="left">
+                            <input id="RandomizeRotation" type="checkbox" style="width:20px;" onclick="UpdateParticle();" ></input>
+                            <!--<span id="EmptyRandomizeSpan" style="display:inline"></span>-->
+                    </td>
+                <tr>
+                    <td colspan=2 style="height:25px; width:80px;">
+                           <div id="RotationSpeedSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <div id="RotationTimeSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <span id="Span16" class="i18n">Text47</span>
+                    </td>
+                </tr>
+                </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr >  <!-- Render -->
+            <td align="top" class="s8b i18n">
+                <label for="createAs" class="i18n">Text49</label>
+            </td>
+            <td align="left">
+                    <select id="Render"  style="width:100px;" onchange="UpdateParticle();" >
+                    <option class="i18n" value="Billboard" selected>Text50</option>
+                    <option class="i18n" value="Vertical" >Text51</option>
+                    <option class="i18n" value="Horizontal" >Text52</option>
+                </select>
+            </td>
+        </tr>   
+
+        <tr class='TableOtherLine'> <!-- Gravity -->
+            <td class="s8b ">
+                <span id="Span9" class="i18n">Text14</span>
+            </td>
+            <td align="left">
+                <table cellpadding="0"  cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <span class="i18n">Text28</span>
+                    </td>
+                    <td align="center">                                
+                            <span id="GravityXSpan" style="display:inline">0</span>
+                    </td>
+                    <td>
+                    <span class="i18n">Text29</span> <!--Swap YZ: Replaced Y and Z then text used to be Text 30 (Z), but changed to 29 (Y) for UI only, internal is still Z-->
+                    </td>
+                    <td align="center">
+                            <span id="GravityZSpan" style="display:inline">0</span>
+                    </td>
+                    <td>
+                            <span class="i18n">Text30</span> <!--Swap YZ-->
+                    </td>
+                    <td align="center">
+                            <span id="GravityYSpan" style="display:inline">0</span>
+                    </td>
+                <tr>
+                    <td colspan=2 style="height:25px; width:80px;">
+                           <div id="GravityXSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;"><!--Swap YZ-->
+                        <div id="GravityZSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;"><!--Swap YZ-->
+                        <div id="GravityYSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                </tr>
+                </tr>
+                </table>
+            </td>
+        </tr>
+
+    <tr>
+        <!-- Force (wind) -->
+        <td align="top" class="s8b i18n">
+            <span id="Span11" class="i18n">Text40</span>
+        </td>
+        <td align="left">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <span class="i18n">Text41</span>
+                    </td>
+                    <td align="center">
+                        <span id="WindForceSpan" style="display:inline">0</span>
+                    </td>
+                    <td>
+                        <span class="i18n"></span>
+                    </td>
+                    <td align="left">
+                        <input id="OverrideRotation" type="checkbox" style="width:20px;" onclick="UpdateOverrideRotation();"><span id="Span12" class="i18n">Text42</span></input>
+                    </td>
+                <tr>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <div id="WindForceSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <!--<span id="Span16" class="i18n">Text42</span>-->
+                    </td>
+                </tr>
+    </tr>
+    </table>
+    </td>
+        </tr>
+        <tr class='TableOtherLine'> <!-- Drag  -->
+            <td class="s8b ">
+                <span id="Span6" class="i18n">Text18</span>
+            </td>
+            <td align="left" style="height:30px; ">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td align="left" style="height: 30px;">
+                            <div id="DragSlider" style="width: 200px;">
+                            </div>
+                            &nbsp;&nbsp;
+                        </td>
+                        <td align="right" style="height: 30px; width: 30px;">
+                            <span id="DragSpan" style="display: inline">0</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+<!-- Rate -->
+        <tr > 
+            <td class="s8b ">
+                <span id="Span4" class="i18n">Text16</span>
+            </td>
+            <td align="left" style="height:30px; ">
+                               <table cellpadding="0" cellspacing="0" border="0">
+                       <tr>
+                           <td align="left" style="height: 30px;">
+                               <div id="RateSlider" style="width: 200px;">
+                               </div>
+                               &nbsp;&nbsp;
+                           </td>
+                           <td align="right" style="height: 30px; width: 30px;">
+                               <span id="RateSpan" style="display: inline">100</span>
+                           </td>
+                       </tr>
+                   </table>
+            </td>
+        </tr>
+<!-- maxParticles -->
+        <tr  class='TableOtherLine'> 
+            <td class="s8b ">
+                <span id="Span3" class="i18n">Text15</span>
+            </td>
+            <td align="left" style="height:30px; ">
+                               <table cellpadding="0" cellspacing="0" border="0">
+                       <tr>
+                           <td align="left" style="height: 30px;">
+                               <div id="MaxParticlesSlider" style="width: 200px;">
+                               </div>
+                               &nbsp;&nbsp;
+                           </td>
+                           <td align="right" style="height: 30px; width: 30px;">
+                               <span id="MaxParticlesSpan" style="display: inline">100</span>
+                           </td>
+                       </tr>
+                   </table>
+            </td>
+        </tr>
+
+
+        <tr > <!-- Time -->
+            <td class="s8b ">
+                <span id="Span5" class="i18n">Text17</span>
+            </td>
+            <td align="left" style="height:30px; ">
+                               <table cellpadding="0" cellspacing="0" border="0">
+                       <tr>
+                           <td align="left" style="height: 30px;">
+                               <div id="TimeSlider" style="width: 200px;">
+                               </div>
+                               &nbsp;&nbsp;
+                           </td>
+                           <td align="right" style="height: 30px; width: 30px;">
+                               <span id="TimeSpan" style="display: inline">XX</span>
+                           </td>
+                       </tr>
+                   </table>
+            </td>
+        </tr>
+        <tr class='TableOtherLine'> <!-- Fade -->
+            <td class="s8b ">
+                <span id="Span8" class="i18n">Text20</span>
+            </td>
+            <td align="left">
+                <table cellpadding="0"  cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <span class="i18n">Text21</span>
+                    </td>
+                    <td align="center">                                
+                            <span id="FadeInSpan" style="display:inline">50</span>%
+                    </td>
+                    <td>
+                            <span class="i18n">Text22</span> 
+                    </td>
+                    <td align="center">
+                            <span id="FadeOutSpan" style="display:inline">50</span>%
+                    </td>
+                    <td>
+                    <span class="i18n">Text23</span> 
+                    </td>
+                    <td align="center">
+                            <span id="MaxFadeSpan" style="display:inline">50</span>%
+                    </td>
+                <tr>
+                    <td colspan=2 style="height:25px; width:80px;">
+                           <div id="FadeInSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <div id="FadeOutSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                    <td colspan=2 style="height:25px; width:80px;">
+                        <div id="MaxFadeSlider" style="display: compact; width:70px;"></div>
+                    </td>
+                </tr>
+                </tr>
+                </table>
+            </td>
+        </tr>
+
+
+
+    </table>
+
+
+<script language="JavaScript">
+
+
+var sizeSlider;
+var sizeRatioSlider;
+var speedSlider;
+var rotationSpeedSlider
+var rotationTimeSlider;
+var gravityXSlider;
+var gravityYSlider;
+var gravityZSlider;
+var scaleXSlider;
+var scaleYSlider;
+var scaleZSlider;
+var dragSlider;
+var maxParticlesSlider;
+var rateSlider;
+var timeSlider;
+var fadeInSlider;
+var fadeOutSlider;
+var maxFadeSlider;
+var speedDirXSlider;
+var speedDirYSlider;
+var speedDirZSlider;
+
+var gColorR ;
+var gColorG ;
+var gColorB;
+var gSize;
+var gSizeRatio;
+var gParticleSpeed ;
+var gSpeedDirX;
+var gSpeedDirY;
+var gSpeedDirZ;
+var gImageName;
+var gShape;
+var gSpeedShape;
+var gRotationSpeed;
+var gRotationTime;
+var gRandomizeRotation;
+var gGravityX;
+var gGravityY;
+var gGravityZ;
+var gForce;
+var gOverrideRotation
+var gRender;
+var gScaleX;
+var gScaleY;
+var gScaleZ;
+var gDrag;
+var gMaxParticles ;
+var gRate ;
+var gTimeSpan;
+var gFadeIn;
+var gFadeOut;
+var gMaxFade;
+var gBlend;
+
+var outOfFrame;
+
+//--------------
+// Init
+function Init() {
+
+    //alert("PSInit");
+    //debugger;
+    Color.style.backgroundColor = "#FFFFFF";
+
+    Reset(true, false);
+    delayInit();
+    //setTimeout("delayInit();", 1000);
+    }
+
+function delayInit()
+{
+    // Scale
+    $("#ScaleXSlider").slider({
+        value: 1,
+        min: 0,
+        max: 100,
+        slide: function (event, ui) {
+            $("#ScaleXSpan").html(ui.value/10);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#ScaleXSpan").html(ui.value/10);
+            UpdateParticle();
+        }
+    });
+    $("#ScaleYSlider").slider({
+        value: 1,
+        min: 0,
+        max: 100,
+        slide: function (event, ui) {
+            $("#ScaleYSpan").html(ui.value/10);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#ScaleYSpan").html(ui.value/10);
+            UpdateParticle();
+        }
+    });
+    $("#ScaleZSlider").slider({
+        value: 1,
+        min: 0,
+        max: 100,
+        slide: function (event, ui) {
+            $("#ScaleZSpan").html(ui.value/10);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#ScaleZSpan").html(ui.value/10);
+            UpdateParticle();
+        }
+    });
+    // Particle size
+    $("#SizeSlider").slider({
+        value: 10,
+        min: 1,
+        max: 50,
+        slide: function (event, ui) {
+            $("#SizeSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#SizeSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    // Size Ratio
+    $("#SizeRatioSlider").slider({
+        value: 0,
+        min: -4,
+        max: 4,
+        slide: function (event, ui) {
+            $("#SizeRatioSpan").html((ui.value >= 0) ? "1:" + (ui.value + 1) : ((ui.value - 1) * -1) + ":1"); //***here, decide if this is good and add handle UpdateParticle and LoadParticle
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#SizeRatioSpan").html((ui.value >= 0) ? "1:" + (ui.value + 1) : ((ui.value - 1) * -1) + ":1"); //***here, decide if this is good and add handle UpdateParticle and LoadParticle
+            UpdateParticle();
+        }
+    });
+    //Speed
+    $("#SpeedSpan").html(SliderCurveFormula(10));
+    $("#SpeedSlider").slider({
+        value: 10, 
+        min: 0,
+        max: 60,
+        slide: function (event, ui) {
+            $("#SpeedSpan").html(SliderCurveFormula(ui.value)); // ui.value );
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#SpeedSpan").html(SliderCurveFormula(ui.value)); // ui.value );
+            UpdateParticle();
+        }
+    });
+
+
+// Speed Direction
+    $("#SpeedDirXSlider").slider({
+        value: 100,
+        min: -100,
+        max: 100,
+        slide: function (event, ui) {
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirXSpan").html(ui.value/100);
+            UpdateParticle();
+        },
+        change: function (event, ui) {//TODO: add change to all fields
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirXSpan").html(ui.value/100);
+            UpdateParticle();
+        }
+    });
+    $("#SpeedDirYSlider").slider({
+        value: 100,
+        min: -100,
+        max: 100,
+        slide: function (event, ui) {
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirYSpan").html(ui.value/100);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirYSpan").html(ui.value/100);
+            UpdateParticle();
+        }
+    });
+    $("#SpeedDirZSlider").slider({
+        value: 100,
+        min: -100,
+        max: 100,
+        slide: function (event, ui) {
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirZSpan").html(ui.value/100);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            if (ui.value > -5 && ui.value < 5) ui.value = 0;
+            $("#SpeedDirZSpan").html(ui.value/100);
+            UpdateParticle();
+        }
+    });
+
+    //Rotation
+    $("#RotationSpeedSlider").slider({
+        value: 0,
+        min: 0,
+        max: 20,
+        slide: function (event, ui) {
+            $("#RotationSpeedSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#RotationSpeedSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#RotationTimeSlider").slider({
+        value: 0,
+        min: 0,
+        max: 11,
+        slide: function (event, ui) {
+            $("#RotationTimeSpan").html((ui.value<=10)? ui.value : "10K");
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#RotationTimeSpan").html((ui.value<=10)? ui.value : "10K");
+            UpdateParticle();
+        }
+    });
+
+// Gravity
+    $("#GravityXSlider").slider({
+        value: 0,
+        min: -10,
+        max: 10,
+        slide: function (event, ui) {
+            $("#GravityXSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#GravityXSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#GravityYSlider").slider({
+        value: 0,
+        min: -10,
+        max: 10,
+        slide: function (event, ui) {
+            $("#GravityYSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#GravityYSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#GravityZSlider").slider({
+        value: 0,
+        min: -10,
+        max: 10,
+        slide: function (event, ui) {
+            $("#GravityZSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#GravityZSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+
+    //Force (Wind)
+    $("#WindForceSlider").slider({
+        value: 0,
+        min: 0,
+        max: 10,
+        slide: function (event, ui) {
+            $("#WindForceSpan").html(ui.value/10);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#WindForceSpan").html(ui.value/10);
+            UpdateParticle();
+        }
+    });
+
+    // Drag
+    $("#DragSlider").slider({
+        value: 0,
+        min: 0,
+        max: 10,
+        slide: function (event, ui) {
+            $("#DragSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#DragSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+
+    $("#MaxParticlesSlider").slider({
+        value: 100,
+        min: 1,
+        max: 600,
+        slide: function (event, ui) {
+            $("#MaxParticlesSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#MaxParticlesSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+
+    $("#RateSlider").slider({
+        value: 100,
+        min: 1,
+        max: 1000,
+        slide: function (event, ui) {
+            $("#RateSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#RateSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#TimeSpan").html(SliderCurveFormula(30));
+    $("#TimeSlider").slider({
+        value: 30,
+        min: 0,
+        max: 40,
+        slide: function (event, ui) {
+            $("#TimeSpan").html(SliderCurveFormula(ui.value));
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#TimeSpan").html(SliderCurveFormula(ui.value));
+            UpdateParticle();
+        }
+    });
+
+// Fade
+    $("#FadeInSlider").slider({
+        value: 50,
+        min: 0,
+        max: 100,
+        slide: function (event, ui) {
+            $("#FadeInSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#FadeInSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#FadeOutSlider").slider({
+        value: 50,
+        min: 0,
+        max: 100,
+        slide: function (event, ui) {
+            $("#FadeOutSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#FadeOutSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+    $("#MaxFadeSlider").slider({
+        value: 50,
+        min: 1,
+        max: 100,
+        slide: function (event, ui) {
+            $("#MaxFadeSpan").html(ui.value);
+            UpdateParticle();
+        },
+        change: function (event, ui) {
+            $("#MaxFadeSpan").html(ui.value);
+            UpdateParticle();
+        }
+    });
+
+
+    UpdateParticle();
+
+    // fix for jq-ui slider not releasing outside of iframe inspired from: http://stackoverflow.com/questions/13343792/iframe-and-mouse-interactions
+    $(document).on('mouseout', 'body', function () {
+        outOfFrame = true;
+    });
+
+    $(document).on('mouseenter', 'body', function () {
+        if (outOfFrame) {
+            outOfFrame = false;
+            $("div[id$='Slider']").trigger('mousedown').trigger('mouseup');
+        }
+    });
+
+
+//    $(document).on('mouseover', 'body', function () {
+//        outOfFrame = false;
+//    });
+
+//    setInterval(function () {
+
+//        if (outOfFrame) {
+//            $("div[id$='Slider']").trigger('mousedown').trigger('mouseup');
+//        }
+
+//    }, 1000);
+}
+
+//------------------
+// Reset
+//------------------
+function Reset(FirstTime, FromMouseInputMode) {
+
+}
+
+
+
+
+//-------------
+// POP
+function pop(id) {
+    if (id.style.display == "")
+        id.style.display = "none";
+    else
+        id.style.display = "";
+}
+//-----------------
+function pick(ButtonID, TextID, SpanID) {
+    //  ColorPicker.style.visibility="hidden";
+    pop(SpanID)
+    //alert($(window.event.srcElement).attr("value"));
+    ButtonID.style.backgroundColor = $(window.event.srcElement).attr("value");
+    TextID.innerText = $(window.event.srcElement).attr("value")
+    UpdateParticle();
+
+}
+//-----------------
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+
+
+//-----------------
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+//--------------
+// CheckNumberEx
+function CheckNumberEx(field, defVal, MinNum, MaxNum) {
+    try {
+        field.value = validateNumber(field.value);
+
+        if (field.value < MinNum)
+            field.value = MinNum;
+        if (field.value > MaxNum)
+            field.value = MaxNum;
+    }
+    catch (e) { field.value = defVal }
+}
+//--------------------
+// UpdateImage
+function UpdateImage() {
+    if ($("#ParticleTemplate").val() == "browse") {
+        $("#file").click();
+    }
+    if ($("#ParticleTemplate").val() == "url") {
+        var url = prompt("Please enter image URL:", "http://skylineglobe.com/skylineglobe/corporate/images/headersloganblack.gif");
+        if (url != null && url!="") {
+            AddImageToAllLists(url);
+        }
+    }
+
+    //if (
+    UpdateParticle();
+}
+
+//--------------------
+// AddImageToAllLists
+function AddImageToAllLists(ImageFile) {
+    if (ImageFile.indexOf("fakepath") != -1)
+        alert(SGLang.i18n("Text35"));
+    else {
+        for (var i = 1; i <= 5; i++) {
+            window.parent.document.getElementById("tabs-" + i).contentWindow.AddImageToList(ImageFile); //contentWindow.gColorR);  //$("#tabs-" + i).prop('checked'));
+        }
+        $("#ParticleTemplate").val(ImageFile);//Only select on the current tab
+    }
+}
+
+//--------------------
+// AddImageToList
+function AddImageToList(ImageFile) {
+    var fileName = ImageFile.split('\\').pop();
+    $("#ParticleTemplate").prepend('<option value=\'' + ImageFile + '\'>' + fileName + '</option>');
+}
+
+//--------------------
+// SliderCurveFormula
+function SliderCurveFormula(value) {
+
+    return  Math.floor((Math.pow(value / 16, 2)*100))/100 ;   //(Math.log(SpeedFactorLog) - Math.log(SpeedFactorLog - (value/3))) * 10; //value; //
+}
+
+//--------------------
+// SliderCurveReverseFormula
+function SliderCurveReverseFormula(value) {
+
+    return Math.sqrt(value) * 16 ;   
+}
+
+//--------------------
+// UpdateParticleShape
+function UpdateParticleShape() {
+    $("#ParticleSpeedShape").val($("#ParticleShape").val()); 
+    UpdateParticle();
+}
+
+//--------------------
+// UpdateOverrideRotation
+function UpdateOverrideRotation() {
+    if ($("#OverrideRotation").prop('checked')) {
+        $("#RotationSpeedSlider").slider("value", 0);
+        $("#RotationTimeSlider").slider("value", 0);
+    }
+    UpdateParticle();
+}
+
+//--------------------
+// UpdateParticle
+function UpdateParticle() {
+
+//debugger;
+    gColorR = hexToRgb($("#ColorText").text()).r;
+    gColorG = hexToRgb($("#ColorText").text()).g;
+    gColorB = hexToRgb($("#ColorText").text()).b;
+
+    gScaleX = $("#ScaleXSlider").slider("value")/10;
+    gScaleY = $("#ScaleYSlider").slider("value")/10;
+    gScaleZ = $("#ScaleZSlider").slider("value")/10;
+    gSize = $("#SizeSlider").slider("value") / 10;
+    gSizeRatio = ($("#SizeRatioSlider").slider("value") >= 0) ? ($("#SizeRatioSlider").slider("value") + 1) : 1 / (-1 * $("#SizeRatioSlider").slider("value") + 1);
+    gParticleSpeed = SliderCurveFormula($("#SpeedSlider").slider("value")); 
+    gSpeedDirX = $("#SpeedDirXSlider").slider("value") / 100;// * 2 - 1;
+    gSpeedDirY = $("#SpeedDirYSlider").slider("value") / 100;// * 2 - 1;
+    gSpeedDirZ = $("#SpeedDirZSlider").slider("value") / 100;// * 2 - 1;
+    gImageName = $("#ParticleTemplate").val();
+    gShape = $("#ParticleShape").val();
+    gSpeedShape = $("#ParticleSpeedShape").val();
+    gRotationSpeed = $("#RotationSpeedSlider").slider("value");
+    gRotationTime = ($("#RotationTimeSlider").slider("value") <= 10) ? $("#RotationTimeSlider").slider("value") : 10000;
+    if ($("#RandomizeRotation").prop('checked'))
+        gRandomizeRotation = "1";
+    else
+        gRandomizeRotation = "0";
+
+    gRender = $("#Render").val();
+
+    gGravityX = $("#GravityXSlider").slider("value");
+    gGravityY = $("#GravityYSlider").slider("value");
+    gGravityZ = $("#GravityZSlider").slider("value");
+    gForce = $("#WindForceSlider").slider("value") / 10;
+    if ($("#OverrideRotation").prop('checked'))
+        gOverrideRotation = "1";
+    else
+        gOverrideRotation = "0";
+    gDrag = $("#DragSlider").slider("value");
+    gMaxParticles = $("#MaxParticlesSlider").slider("value");
+    gRate = $("#RateSlider").slider("value");
+    gTimeSpan = SliderCurveFormula($("#TimeSlider").slider("value")); //$("#TimeSlider").slider("value") / 10;
+    gFadeIn = $("#FadeInSlider").slider("value") / 100;
+    gFadeOut = $("#FadeOutSlider").slider("value") / 100;
+    gMaxFade = $("#MaxFadeSlider").slider("value") / 100;
+
+    if ($("#Blend").prop('checked'))//was "if ($("#Blend").attr('checked'))" but broke affter JQuery update
+        gBlend = "Add";
+    else
+        gBlend = "";
+
+
+    //debugger;
+    if(window.parent.UpdateParticle)
+        window.parent.UpdateParticle();
+}
+
+//--------------------
+// LoadParticle
+function LoadParticle(xmlObj) {
+    $Particle = xmlObj;
+    $ParticleEmitter = xmlObj;
+    $Emitter = $ParticleEmitter.find("Emitter");
+
+    //debugger;
+    var colorSplit = $ParticleEmitter.find("Color").attr('Value').split(",");
+    var value = rgbToHex(parseFloat(colorSplit[1]), parseFloat(colorSplit[2]), parseFloat(colorSplit[3]));
+    $("#Color").css("background-color", value);
+    $("#ColorText").text(value);
+    //***1UpdateParticle();
+
+    //debugger;
+    var scaleSplit = $Emitter.attr('Scale').split(",");
+    $("#ScaleXSlider").slider("value", scaleSplit[0]*10);
+    $("#ScaleYSlider").slider("value", scaleSplit[1]*10);
+    $("#ScaleZSlider").slider("value", scaleSplit[2]*10);
+
+    var SizeSplit = $ParticleEmitter.find("Size").attr('Value').split(",");
+    $("#SizeSlider").slider("value", parseFloat(SizeSplit[0]) * 10);
+    var ratio = parseFloat(SizeSplit[0]) / parseFloat(SizeSplit[1]);
+    $("#SizeRatioSlider").slider("value", (ratio <= 1) ? 1 / ratio - 1 : -1 * ratio + 1);
+
+    $("#SpeedSlider").slider("value", SliderCurveReverseFormula(parseFloat($ParticleEmitter.find("Speed").attr('Value'))));
+
+
+    var speedSplit = $Emitter.attr('Speed').split(",");
+    $("#SpeedDirXSlider").slider("value", parseFloat(speedSplit[0])*100 /*(parseFloat(speedSplit[0]) + 1) * 100 / 2*/);
+    $("#SpeedDirYSlider").slider("value", parseFloat(speedSplit[1])*100 /*(parseFloat(speedSplit[1]) + 1) * 100 / 2*/);
+    $("#SpeedDirZSlider").slider("value", parseFloat(speedSplit[2])*100 /*(parseFloat(speedSplit[2]) + 1) * 100 / 2*/);
+
+    if ($("#ParticleTemplate option[value='" + $ParticleEmitter.attr('Texture') + "']").length > 0) {
+        $("#ParticleTemplate").val($ParticleEmitter.attr('Texture'));
+    }
+    else {    
+        AddImageToAllLists($ParticleEmitter.attr('Texture'));
+    }
+    $("#ParticleShape").val($Emitter.attr('Shape'));
+    $("#ParticleSpeedShape").val($Emitter.attr('SpeedShape'));
+
+    if ($ParticleEmitter.find("Rotation").length != 0) {
+        $("#RotationSpeedSlider").slider("value", $ParticleEmitter.find("Rotation").attr('Speed'));
+        $("#RotationTimeSlider").slider("value", ($ParticleEmitter.find("Rotation").attr('Time') <= 10) ? $ParticleEmitter.find("Rotation").attr('Time') : 11);
+        if ($ParticleEmitter.find("Rotation").attr('Initial') == "1") {
+            $("#RandomizeRotation").prop('checked', true)
+            gRandomizeRotation = "1";
+        }
+        else {
+            $("#RandomizeRotation").prop('checked', false);
+            gRandomizeRotation = "0";
+        }
+    }
+    $("#Render").val($ParticleEmitter.find("Render").attr('Value'));
+
+    $Gravity = $ParticleEmitter.find("Gravity");
+    var gravitySplit = $Gravity.attr('Value').split(",");
+    $("#GravityXSlider").slider("value", gravitySplit[0]);
+    $("#GravityYSlider").slider("value", gravitySplit[1]);
+    $("#GravityZSlider").slider("value", gravitySplit[2]);
+
+    $("#WindForceSlider").slider("value", $ParticleEmitter.find("Force").attr('Value') * 10);
+    if ($ParticleEmitter.find("Force").attr('OverrideRotation') == "1") {
+        $("#OverrideRotation").prop('checked', true)
+        gOverrideRotation = "1";
+    }
+    else {
+        $("#OverrideRotation").prop('checked', false);
+        gOverrideRotation = "0";
+    }
+
+    $("#DragSlider").slider("value", $ParticleEmitter.find("Drag").attr('Value'));
+    $("#MaxParticlesSlider").slider("value", $ParticleEmitter.attr('NumParticles'));
+    $("#RateSlider").slider("value", $Emitter.attr('Rate'));
+    $("#TimeSlider").slider("value", SliderCurveReverseFormula(parseFloat($ParticleEmitter.find("Life").attr('Value')))); //parseFloat($ParticleEmitter.find("Life").attr('Value')) * 10);
+
+    $Fade = $ParticleEmitter.find("Fade");
+    $("#FadeInSlider").slider("value", parseFloat($Fade.attr('FadeIn')) * 100);
+    $("#FadeOutSlider").slider("value", parseFloat($Fade.attr('FadeOut')) * 100);
+    $("#MaxFadeSlider").slider("value", parseFloat($Fade.attr('MaxFade')) * 100);
+
+    if ($ParticleEmitter.find("Blend").attr('Type') == "Add") {
+        $("#Blend").prop('checked', true)
+        gBlend = "Add";
+    }
+    else {
+        $("#Blend").prop('checked', false);
+        gBlend = "";
+    }
+
+    //***UpdateParticle();
+
+}
+
+
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:00000040v4MMiZRRwxgP6rmsova9bAcsOWSnHuKCPcHDaG4FtB07MlgxdHSmp3dRBx#EaG.lM6fpcrOFbGY6hZ4p45s3MAJJ-->

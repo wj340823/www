@@ -1,0 +1,858 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+h3
+	{mso-style-link:"Heading 3 Char";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoCaption, li.MsoCaption, div.MsoCaption
+	{margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	font-size:9.0pt;
+	font-family:"Verdana","sans-serif";
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Balloon Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-link:"Heading 3";
+	font-family:"Calibri","sans-serif";
+	font-weight:bold;}
+p.Figure, li.Figure, div.Figure
+	{mso-style-name:Figure;
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.Note, li.Note, div.Note
+	{mso-style-name:Note;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.5in;
+	text-indent:-.5in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.Bullet2, li.Bullet2, div.Bullet2
+	{mso-style-name:Bullet_2;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.NoteSecondLevel, li.NoteSecondLevel, div.NoteSecondLevel
+	{mso-style-name:"Note Second Level";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.9in;
+	text-indent:-.65in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.Bullet3, li.Bullet3, div.Bullet3
+	{mso-style-name:Bullet_3;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.ListThirdLevel, li.ListThirdLevel, div.ListThirdLevel
+	{mso-style-name:"List Third Level";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.ListSecondLevel, li.ListSecondLevel, div.ListSecondLevel
+	{mso-style-name:"List Second Level";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+span.Bullet1Char
+	{mso-style-name:"Bullet_1 Char";
+	mso-style-link:Bullet_1;
+	font-family:"Verdana","sans-serif";}
+p.Bullet1, li.Bullet1, div.Bullet1
+	{mso-style-name:Bullet_1;
+	mso-style-link:"Bullet_1 Char";
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	layout-grid-mode:char;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.ListFirstLevel, li.ListFirstLevel, div.ListFirstLevel
+	{mso-style-name:"List First Level";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.Bullet4, li.Bullet4, div.Bullet4
+	{mso-style-name:Bullet_4;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:1.0in;
+	margin-bottom:.0001pt;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+p.ProcedureHeader, li.ProcedureHeader, div.ProcedureHeader
+	{mso-style-name:"Procedure Header";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	text-indent:0in;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:"Verdana","sans-serif";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+.MsoChpDefault
+	{font-family:"Calibri","sans-serif";}
+.MsoPapDefault
+	{margin-bottom:10.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple>
+
+<div class=WordSection1>
+
+<h3>Fence and Wall Tool </h3>
+
+<p class=MsoNormal>The Fence and Wall tool enables you to easily create fences
+and walls in the precise dimensions, shape and texture you require. The output
+can be saved as a TerraExplorer group of objects or as a feature layer
+(shapefile). </p>
+
+<p class=MsoNormal>A fence or wall can be created through the simple view (by
+clicking on the required fence/wall image) or through the advanced view that
+enables manual setting of relevant parameters.</p>
+
+<p class=ProcedureHeader style='margin-left:0in;text-indent:0in'><span dir=LTR></span>To
+use the Fence and Wall tool:</p>
+
+<p class=ListFirstLevel>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>On the <b>Tools</b> tab, in the <b>Draw Tool </b>group,
+click <b>Fence and Wall</b>. The Fence and Wall dialog box is displayed.</p>
+
+<p class=Figure><img width=448 height=461 id="Picture 2"
+src="Help_files/image001.gif" alt=fenceandwall.gif></p>
+
+<p class=MsoCaption>Fence and Wall Tool</p>
+
+<p class=ListFirstLevel>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>If you want to create the fence or wall through the
+Simple view, select the required fence or wall style, by clicking a fence or
+wall image. This will automatically set the appropriate texture file as well as
+other parameters and create a Project Tree group that contains all the created
+fences/walls.</p>
+
+<p class=NoteSecondLevel><b>Note:      </b>Once parameters are set in the
+Advanced mode (see below), these parameters are applied to all fences and walls
+created while the Fence and Wall tool remains open. Once the Fence and Wall
+tool is closed, the default parameters are restored.</p>
+
+<p class=ListFirstLevel>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>If you want to use a different texture and/or
+manually set other parameters for the fence or wall, click <b>Advanced</b>. A
+Fence and Wall property sheet displays with fence/wall parameters.</p>
+
+<p class=Figure> </p>
+
+<p class=MsoCaption><img width=448 height=679 id="Picture 1"
+src="Help_files/image002.gif" alt=fencenew.gif></p>
+
+<p class=MsoCaption>Fence and Wall Parameters</p>
+
+<p class=ListFirstLevel><a name=step4></a>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>In the <b>General Settings</b> section, enter the
+following parameters:</p>
+
+<p class=NoteSecondLevel><b>Note</b>:    Once the Object Type is selected, the
+settings displayed below the General Settings section change to correspond to
+the selected type.</p>
+
+<table class=SkyTable border=1 cellspacing=0 cellpadding=0 width="94%"
+ style='width:94.0%;margin-left:27.35pt;border-collapse:collapse;border:none'>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Parameter</b></p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Object Type</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select one of the following:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Mesh Fence</b> – Fence with either a solid colored or
+  textured surface.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Wall</b> – Object with measurable width.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Wall with Fence Top</b> – Wall with a mesh fence (solid
+  colored or textured) on top of it.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Wire Strand Fence</b> – Fence made of horizontal wires.</p>
+  <p class=Note><b>Note:  </b>A wall differs from a fence in that it has
+  measureable width.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Create as</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select one of the following:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Group</b> – Create a group with fence/wall objects. If the
+  fences or walls are being created based on the polylines or polygons in a
+  selected group or layer (<b>See </b><a
+  href="file:///T:\Docs\TerraExplorer\v6.5\Manual\TEP_UserManual%2312.docx#step7">step
+  6</a> below), the new group will contain a fence/wall object for each
+  polyline or polygon in the original group or layer.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Layer (Entire) </b>– Create a feature layer under the
+  application AppData. If the fences or walls are being created based on the
+  polylines or polygons in a selected group or layer (<b>See </b><a
+  href="file:///T:\Docs\TerraExplorer\v6.5\Manual\TEP_UserManual%2312.docx#step7">step
+  6</a> below), the new layer will contain a feature for each polyline or
+  polygon in the original group or layer.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Layer (Streaming) </b>– Create a streaming feature layer
+  under the application AppData.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Visibility Distance</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Sets the maximal distance from the camera above which the
+  fence/wall disappears.</p>
+  </td>
+ </tr>
+</table>
+
+<p class=ListFirstLevel>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>Enter the parameters that are relevant for the
+selected object type:</p>
+
+<table class=SkyTable border=1 cellspacing=0 cellpadding=0 width="94%"
+ style='width:94.0%;margin-left:.4in;border-collapse:collapse;border:none'>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Parameter</b></p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width="100%" colspan=2 valign=top style='width:100.0%;border:none;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Wire Strand Settings</b></p>
+  <p class=MsoNormal>(For Wire Strand Fence)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal># of Strands</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Number of horizontal wires to be placed within the height
+  of the fence. </p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Strand Color</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Color of the wires. </p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height of the fence.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Sampling</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Distance between points added to the fence, in meters. The
+  smaller the spacing, the more accurately the fence follows the terrain, but
+  the longer it takes to calculate.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Minimize line points</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Simplifies the number of sampling points calculated for
+  the fence.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="100%" colspan=2 valign=top style='width:100.0%;border:none;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Fence Post Settings</b></p>
+  <p class=MsoNormal>(For Mesh Fence, Wire Strand Fence, and Wall with Fence
+  Top)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Type</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select one of the following types:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>None</b> – No fence posts are rendered.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Circular</b> – Fence posts are rendered as cylindrical
+  objects.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Square</b> – Fence posts are rendered as rectangular
+  objects.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Fill Style</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the fill type for the posts:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Color</b> – The posts get a single color filling according
+  to the Color field.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Texture</b> – The posts get the texture from an external
+  texture file according to the Texture field.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Color</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the color of the posts and the % opacity of the
+  post fill.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Texture</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Browse to the GIF, JPEG, or PNG to provide the texture for
+  the posts.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Spacing</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Type the required distance between posts, in meters. The
+  smaller the spacing, the more accurately the fence follows the terrain, but
+  the longer it takes to calculate.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Extension</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height, in meters, that the posts extend above the fence. </p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Diameter</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Diameter of the rendered circular posts or width of the
+  rendered rectangular posts, in meters.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="100%" colspan=2 valign=top style='width:100.0%;border:none;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Wall Settings</b></p>
+  <p class=MsoNormal>(For Wall and Wall with Fence Top)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Fill Style</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the fill type for the wall:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Color</b> – The wall gets a single color filling according
+  to the Color field.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Texture</b> – The wall gets the texture from an external
+  texture file according to the Texture field.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Color</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the color of the wall and the % opacity of the
+  fill.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Texture</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Browse to the GIF, JPEG, or PNG to provide the texture for
+  the wall.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height of the wall in meters.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Wall Width</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Width of the wall in meters. </p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Sampling</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Distance between points added to the wall, in meters. The
+  smaller the spacing, the more accurately the wall follows the terrain, but
+  the longer it takes to calculate.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Minimize line points</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Simplifies the number of sampling points calculated for
+  the wall.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="100%" colspan=2 valign=top style='width:100.0%;border:none;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Wall Post Settings</b></p>
+  <p class=MsoNormal>(For Wall and Wall with Fence Top)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Type</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select one of the following types:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>None</b> - No wall posts are rendered.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Circular</b> – Wall posts are rendered as cylindrical
+  objects.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Square</b> – Wall posts are rendered as rectangular
+  objects.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Fill Style</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the fill type for the posts:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Color</b> – The posts get a single color filling according
+  to the Color field.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Texture</b> – The posts get the texture from an external
+  texture file according to the Texture field.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Color</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the color of the posts and the % opacity of the
+  post fill.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Texture</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Browse to the GIF, JPEG, or PNG to provide the texture for
+  the posts.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Spacing</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Type the required distance between posts, in meters. The
+  smaller the spacing, the more accurately the wall follows the terrain, but
+  the longer it takes to calculate.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Extension</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height, in meters, that the posts extend above the wall. </p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Post Diameter</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Diameter of the rendered circular posts or width of the
+  rendered rectangular posts, in meters.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="100%" colspan=2 valign=top style='width:100.0%;border:none;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Fence Settings</b></p>
+  <p class=MsoNormal>(For Wall with Fence Top)</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Fill Style</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the fill type for the fence top:</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Color</b> – The fence gets a single color filling according
+  to the Color field.</p>
+  <p class=Bullet1><span style='font-size:8.0pt;font-family:Wingdings'>§<span
+  style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><span
+  dir=LTR></span><b>Texture</b> – The fence gets the texture from an external
+  texture file according to the Texture field.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Color</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Select the color of the fence top and the % opacity of the
+  fill.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Texture</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Browse to the GIF, JPEG, or PNG to provide the texture for
+  the fence top.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:#F9FAFC;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Height of the fence top, in meters.</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=ListFirstLevel><a name="_Ref311015299"></a><a name=step7></a>6.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span><span dir=LTR></span>Select
+one of the following methods of designating the fences/walls to be created:</p>
+
+<table class=SkyTable border=1 cellspacing=0 cellpadding=0 width="94%"
+ style='width:94.0%;margin-left:27.35pt;border-collapse:collapse;border:none'>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Method</b></p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border-top:solid #4BACC6 1.5pt;
+  border-left:none;border-bottom:solid #4BACC6 1.0pt;border-right:none;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal><b>Description</b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Follow Line</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Build a fence or wall along a line.</p>
+  <p class=MsoNormal>Click<b> Follow Line</b>. Then in the <b>3D Window</b>,
+  click the left mouse button to place the line waypoints, and right-click to
+  complete the line</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Create Polygon</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:white;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Build a fence or wall along a polygon’s borders. </p>
+  <p class=MsoNormal>Click <b>Create Polygon</b>. Then in the <b>3D Window</b>,
+  click the left mouse button to place the polygon waypoints, and right-click
+  to complete the polygon.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Selected Group</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;background:#F9FAFC;
+  padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Build fences or walls along all polygons or polylines in a
+  selected group or layer.</p>
+  <p class=MsoNormal>Select the required group or layer from the Project Tree
+  and then click <b>Selected Group</b>.</p>
+  <p class=Note><b>Note:  </b>Only first level polygons and polylines in an
+  existing group are included.</p>
+  </td>
+ </tr>
+ <tr>
+  <td width="35%" valign=top style='width:35.1%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>From Clipboard</p>
+  </td>
+  <td width="64%" valign=top style='width:64.9%;border:none;border-bottom:solid #4BACC6 1.5pt;
+  background:white;padding:0in 5.75pt 0in 5.75pt'>
+  <p class=MsoNormal>Build a fence or wall along a polyline or polygon
+  clipboard object.</p>
+  <p class=MsoNormal>Click <b>From Clipboard</b>. </p>
+  </td>
+ </tr>
+</table>
+
+<p class=ListFirstLevel>7.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span><span dir=LTR></span>If you want to edit these or additional parameters,
+right-click the group/layer in the Project Tree and select <b>Properties</b>.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

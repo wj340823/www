@@ -1,0 +1,75 @@
+package com.sucsoft.gzhbyjwz.service.common;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sucsoft.gzhbyjwz.bean.common.ResultBean;
+import com.sucsoft.gzhbyjwz.util.ResultUtil;
+
+@Service
+public class BasicDatasetService {
+	@Autowired
+	private BasicQueryService queryService;
+
+	private final static Integer ADD_OBJ = 0;
+	private final static Integer UPDATE_OBJ = 1;
+	/**
+	 * 信息发布增加命令
+	 * @param
+	 * @return
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public <R> ResultBean addObject(Object obj,Class<R> class_z,Integer updateType){
+		ResultBean result = new ResultBean();
+		try {
+			if(updateType .equals(ADD_OBJ) )
+				queryService.getDataset().save(obj,class_z.getName());
+			else if(updateType.equals(UPDATE_OBJ) )
+				queryService.getDataset().update(obj,class_z.getName());
+			result = ResultUtil.doSuccess(obj);//保存成功
+		} catch (Exception e) {
+			result = ResultUtil.doFail();//异常
+		}
+		return result;
+	}
+	/**
+	 * 判断名称是否重复
+	 * @param queryName 查询方法名
+	 * @param class_z 类
+	 * @param conditions 类型
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> boolean isNameRepeat(String queryName,Class<R> class_z,Object...conditions) throws Exception{
+		List<R> list = queryService.findByCondition(queryName, class_z, conditions);
+		boolean flag = false;
+		if(!list.isEmpty())
+			flag = true;
+		return flag;
+	}
+
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @param class_z
+	 * @return
+	 */
+	@Transactional
+	public <R> ResultBean deleteObject(Object[] ids,Class<R> class_z){
+		ResultBean result = new ResultBean();
+		try {
+			for(Object id:ids){
+				queryService.getDataset().remove((Serializable)id.getClass().cast(id), class_z.getName());
+			}
+			result = ResultUtil.doSuccess(ids);//更新成功
+		} catch (Exception e) {
+			result = ResultUtil.doFail();//异常
+		}
+		return result;
+	}
+}

@@ -1,0 +1,43 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class Factory {
+
+    private String zdcc;
+    private String id;
+    private String companyId;
+    private String pm;
+
+    public void setZdcc(String zdcc) {
+        this.zdcc = zdcc;
+    }
+
+    public String getZdcc() {
+        return zdcc;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getPm() {
+        return pm;
+    }
+
+    public void setPm(String pm) {
+        this.pm = pm;
+    }
+}

@@ -1,0 +1,372 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>	
+    <TITLE>ToolTitle</TITLE>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+	<script language="JavaScript" src="skyline:sgapi.js"></script>
+    <LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+</head>
+
+<body leftmargin="0" topmargin="0"  marginheight="0" style="border:0;overflow:auto;" id="Body" OnLoad="Init()" > <!-- onclick="bHide=true;HideOptionsNow()" > -->
+<OBJECT ID="TE" CLASSID="CLSID:3a4f9191-65a8-11d5-85c1-0001023952c1" onerror="TEError" style="visibility:hidden;height:0 "></OBJECT>
+<form>
+<table border=0 width=100% cellspacing=0 cellpadding=2 >
+<tr>
+<td id = "TopAreaTD" height=50px width=100% valign=middle style="background-color:#CAD8E2"> 
+    <table border=0 width=100% cellspacing=0 cellpadding=0 >
+    <tr height=40px>
+    <td width=12px> </td>
+    <td width=55px><img src="img/ShadowIcon.gif" /></td>
+    <td id="TitleTD" align=center class="s12b i18n">ToolName</td>
+	<td valign=top align=right id="CloseHelpTd" width=60px>
+			<img src="../CommonImg/help.gif" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;">
+	</td>
+    </tr>
+    </table>
+</td>
+</tr>
+<tr height=1px><td style="background-repeat:repeat-x;" background="../CommonImg/separator.gif"></td></tr>
+
+
+
+</table>
+<script language="javascript" src="../ToolsCommon.js"></script>
+<SCRIPT Language="JavaScript">
+
+//--------------
+// Init
+function Init()
+{        
+	if (GetParamValue ("inSG","") == "1")
+	{
+		document.all["TopAreaTD"].style.height = "57";
+		document.all["CloseHelpTd"].style.display = "none";
+	}
+
+}
+
+function GetParamValue(findParam, defaultValue)
+{
+    var arr = document.location.href.split("?");
+    if (arr.length <= 1) return defaultValue;
+    arr = arr[1].split("&");    
+    for (var i=0; i<arr.length; i++)
+    {
+        if (arr[i].indexOf(findParam) == 0 && arr[i].indexOf("=") == findParam.length)
+        {
+            arr = arr[i].split("=");
+            return arr[1];
+        }
+    }
+    return defaultValue;
+}  
+	 		       
+    
+    var TerraExplorer;	    	 		    	 	
+    var globe;
+    var sgFramework;
+    var gCircle;
+    function OnUnload()
+    {   
+        DeleteShadow();
+    }
+      
+   function OnHideTool()
+   {   
+        for(i=0;i<g_objIds.length;i++)
+        {
+              var node = new SGNode(g_objIds[i]);
+			  try
+			  {     
+				node.innerObj.SetParam(202,false);
+			  }
+			  catch(e)
+			  {
+
+         	  }
+        }  
+        gCircle.setVisibility(false);
+   }
+   function OnShowTool()
+   {
+        for(i=0;i<g_objIds.length;i++)
+        {
+              var node = new SGNode(g_objIds[i]);     
+			  try
+			  {
+				node.innerObj.SetParam(202,true);
+			  }
+			  catch(e)
+			  {
+
+         	  }
+        }
+   }   
+    function  CheckIfCanRednerShadow()
+    {
+        var bCanRednerShadow = TerraExplorer.ProjectParam("CanRednerShadow");
+        if(!bCanRednerShadow)
+        {
+        alert(SGLang.i18n("Text1"));
+        }
+    }
+   function Raduis_onchange()
+   {            
+        var TEObj = gCircle.innerObj;      
+        TEObj.Radius = validateNumber(document.all["Radius"].value);
+   }
+//------------------
+function ValidateParameters()
+{
+	if(isNaN(document.getElementById("Radius").value))
+	{
+		alert(SGLang.i18n("InvalidRadius"));
+		return false;
+	}
+	return true;
+}
+function document_onload()
+{                     
+    window.attachEvent("onunload", OnUnload);
+    Init();     
+    globe = new SGWorld();                            
+	var projectRoot = globe.root.parentNode();
+    globe.root.parentNode().removeChild(globe.root);	  
+/****************   Displayed for V6 .  Uses GlobalNames. Need to restore with a different mechanism  
+    sgFramework = new SGFramework();       
+    try
+    {     
+      sgFramework.events.attachEvent("onShowTool", OnShowTool);
+      sgFramework.events.attachEvent("onHideTool", OnHideTool);        
+    }
+    catch(e)
+    {
+    
+    }      
+*******/    
+    TerraExplorer = globe.teCore.ITerraExplorer.Interface("ITerraExplorer51");      
+    CheckIfCanRednerShadow();      
+    	  
+	globe.teCore.IDateTime.DisplaySun = true;	// Turn on the sun
+    globe.window.showControls(globe.window.getControls() | sgControlDateTime); // Turn on the time control
+    
+    var position= globe.navigate.getPosition(); 
+    var ret = globe.window.pixelToWorld();
+    if(ret!=null)
+    {
+      var terrainX = ret.coord.x;
+      var terrainY = ret.coord.y;
+      position.x =terrainX;
+      position.y =terrainY;
+    }      
+    position.heightType = sgHeightOnTerrain;      
+    var radius =document.all('Radius');            
+    var color = new SGColor("#DC143C");
+    color.setAlpha(0.4);      
+    gCircle = globe.creator.createCircle(position, radius.value,"#7FFF00",color);      
+    gCircle.innerObj.DrawOrder = -20000;            
+    var InformationTree = globe.innerTEObj.Interface("IInformationTree5");
+    InformationTree.EnableRedraw(true);      
+    gCircle.setVisibility(false);          
+    gCircle.innerObj.SaveInFlyFile = false;
+}
+
+    
+            
+    var g_objIds = new Array();
+//---------------    
+function CreateShadow()
+{               
+    CheckIfCanRednerShadow(); 
+	if(!ValidateParameters())
+		return;
+    //var button = document.all("CreateButton");                       
+    //button.value = "Refresh";
+    //Radius.value                         
+    var objIds = new Array();
+    GetNodesIds(objIds);
+    //create shadow to objects.
+    for(i=0;i<objIds.length;i++)
+    {             
+           var node = new SGNode(objIds[i]);
+	       try
+	       {     
+       		    node.innerObj.SetParam(201,true);
+	       }
+	       catch(e)
+	       {
+    			
+	       }              
+    }             
+    /////////////////////////////
+
+    //remove the shadow to objects that not in radius.                
+    for(i=0;i<g_objIds.length;i++)
+    {
+       var bFound =false; 
+       for(j=0;j<objIds.length;j++)
+       {
+            if(g_objIds[i]==objIds[j])
+            {
+                bFound = true;
+                break;
+            }             
+       }
+       if(!bFound)
+       {
+            //remove the shadow to object
+            var node = new SGNode(g_objIds[i]); 
+            try
+            {    
+                node.innerObj.SetParam(201,false);
+            }
+            catch(e)
+            {
+            
+            }
+       }
+}
+////////////////////////////////////
+//button.style.cursor = 'hand';
+g_objIds = objIds;        
+}
+    
+    var index=0;
+    
+    function Iterator()
+    {
+        this.objManager = globe.teCore.IObjectManager;
+        this.it= globe.teCore.IObjectManager.GetFirstObjectPosition();     
+        this.GetNext = f_Iterator_GetNext;                
+    }
+    function f_Iterator_GetNext()
+    {
+      var obj =null;	
+	while(obj==null)
+	{
+	 var pos = this.it;	
+	 obj = vbGetNextObject(this);		
+	 if(pos==this.it || this.it==0)
+	   break;
+	}	
+	return obj;
+    }
+
+    function GetNodesIds(objIds)
+    {   
+        var pos = new SGPosition();                
+        pos.height = 0;
+        var ret = globe.window.pixelToWorld();
+        pos.x = ret.coord.x;
+        pos.y = ret.coord.y;                                      
+        var Pos = new SGPosition();                
+        var obj;
+        var it = new Iterator();		        
+        while(obj = it.GetNext())
+        {          
+            vbObjectGetPosition1(obj,Pos)
+            Pos.height =0;
+            if(pos.distanceTo(Pos)<document.all('Radius').value)
+                objIds[objIds.length] = obj.ID;
+        }                                              
+    }
+    
+    function DeleteShadow()
+    {
+       for(j=0;j<g_objIds.length;j++)
+       {
+         var node = new SGNode(g_objIds[j]);
+         try
+         {
+            node.innerObj.SetParam(201,false);
+         }
+         catch(e)         {        }
+       }
+       g_objIds = new Array();
+    }
+    function Checkbox1_onclick()
+    {
+        for(i=0;i<g_objIds.length;i++)
+        {
+              var node = new SGNode(g_objIds[i]);     
+			  try
+			  {
+				node.innerObj.SetParam(202,document.all('Checkbox1').checked);			  
+			  }
+			  catch(e)
+			  {
+
+         	  }
+        }
+    }
+
+
+function ShowCircle(bShow)
+{    
+    if(bShow)
+    {
+		if(!ValidateParameters())
+			return;
+        var position= globe.navigate.getPosition();
+        position.heightType = sgHeightOnTerrain;             
+        var ret = globe.window.pixelToWorld();
+        if(ret!=null)
+        {
+            position.x =ret.coord.x;
+            position.y =ret.coord.y;
+        }                  
+        gCircle.setPosition(position);                          
+    }    
+
+    gCircle.setVisibility(bShow);          
+}
+function CloseTool (ToolName)
+{
+	globe.teCore.IContainer.RemoveURL (1,ToolName);
+}
+</script>
+
+<script language="vbscript">
+    function vbGetNextObject(Iterator)   
+        dim pos,obj
+        pos = Iterator.it
+	  on error resume next	
+        set obj =Iterator.objManager.GetNextObject(pos)
+        Iterator.it = pos
+        set vbGetNextObject = obj	  
+    End function
+    
+    sub vbObjectGetPosition1(obj, pos)
+        On Error Resume Next
+        vbObjectGetPosition obj, Pos
+    End Sub
+</script>
+
+<script LANGUAGE="javascript" FOR="window" EVENT="onload">
+ document_onload()
+</script>
+<table class="s9" width=100% cellpadding=2>
+    <tr height=30px>
+        <td class="s9 i18n" valign=middle>Text2</td>
+    </tr>
+    <tr style="background-color:#ffffff; height:50px;">
+        <td class="s9 " valign=middle><span class="i18n">Text3</span> <input id="Radius"  onchange="return Raduis_onchange()" style="width: 50px; left: 238px; top: 218px;" type="text" value="1000" /> <span class="i18n">Text4</span> <a class="ButtonYellow" id="ShowRadius" href="#" onmouseout="this.blur()" onclick="this.blur(); return false;" value="Show Radius"  onmousedown="return ShowCircle(true)" onmouseup="setTimeout('ShowCircle(false)',1000)"><span class="i18n">Text5</span></a>
+        <br />    
+        </td>
+    </tr>
+    <tr height="40px">        
+        <td valign="bottom" align="center">
+
+            <div style="width:10px;float:left"></div><a class="button " id="CreateButton" href="#" onmouseout="this.blur()" onclick="this.blur();javascript:CreateShadow(); return false;"><span class="i18n">Text6</span></a>                                                    
+             <div style="width:20px;float:left"></div> <a class="button " id="DeleteButton" href="#" onmouseout="this.blur()" onclick="this.blur();javascript:DeleteShadow(); return false;"><span class="i18n">Text7</span></a>                                                    
+            <!--&nbsp;&nbsp;&nbsp<input id="Checkbox1" checked="checked"  style="width=30px;top:auto" type="checkbox" onclick="return Checkbox1_onclick()" />Show Shadow.<br />                                            -->
+        </td>
+    </tr>       
+
+</table>
+</form>
+</body>
+</html>
+
+
+
+<!--Sig:00000040X8UhjjoLmldNJE4CMA2seRcO#0BAOQUyD.VbTAzay##I.D8s85wI.bVtnWtCpuZM8LI8sxWX4rBf#IpRwjzAMbJJ-->

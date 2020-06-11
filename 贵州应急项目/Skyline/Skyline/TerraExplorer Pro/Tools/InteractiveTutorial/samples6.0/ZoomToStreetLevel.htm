@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Zoom To Street Level</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        function Init()
+        {
+            var position = SGWorld.Navigate.GetPosition();
+            position.Altitude = 1000;       // Street level in TerraExplorer corresponds to altitude of 1000m
+            position.AltitudeType = 0;      // 0 is relative to terrain;
+            SGWorld.Navigate.FlyTo(position, 0); // 0 is fly to
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:000000407uiRaIviuoBbW16nOgh#3svRlWxOI9ZNxQYV3Vfwd3N04zcKbsULsHy9dD60W3sGAI.ULw8SRCzPmoq4srsZMiJJ-->

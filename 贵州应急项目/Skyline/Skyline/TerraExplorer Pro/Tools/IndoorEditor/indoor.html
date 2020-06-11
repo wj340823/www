@@ -1,0 +1,234 @@
+﻿    <HTML>
+<HEAD>
+<TITLE>SkylineGlobe - Skyline Software Systems, Inc.</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<style type="text/css">
+.s10w {font-family:  Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: bold; color: #ffffff; text-decoration: none;}
+.s12w {font-family:  Arial, Helvetica, sans-serif; font-size: 15px; font-style: normal; font-weight: bold; color: #ffffff; text-decoration: none;}
+</style>
+</HEAD>
+
+<BODY leftmargin="0" style="background-color:black;overflow:auto" topmargin="0" marginwidth="0" marginheight="0"  OnLoad="Init()" OnUnload="Exit()" > <!-- oncontextmenu="return false;"  >   -->
+
+<table border=0 width=100% cellspacing=0 cellpadding=5 class="s10w" >
+<tr>
+<td class="s12w" align=center>
+<a style="cursor:pointer;" onclick="CloseAndExit();"><u><b>Exit Indoor Mode</b></u></a><br />
+</td></tr>
+<tr><td style="background-color:333333" class="s10w" align=center>
+    <a style="cursor:pointer;" onmousedown="MoveMode=1;" onmouseup="MoveMode=0;" onmouseout="MoveMode=0;" >^</a><br />
+<a style="cursor:pointer;" onmousedown="MoveMode=3;" onmouseup="MoveMode=0;" onmouseout="MoveMode=0;"><<</a> <span style="margin-left:40px"></span>  <a style="cursor:pointer;" onmousedown="MoveMode=4;" onmouseup="MoveMode=0;" onmouseout="MoveMode=0;">>></a><br />
+    <a style="cursor:pointer;" onmousedown="MoveMode=2;" onmouseup="MoveMode=0;" onmouseout="MoveMode=0;">v</a><br />
+</td></tr>
+<tr><td>
+<span id="locationList"></span>
+<br />
+</td></tr>
+
+
+</BODY>
+
+<script type="text/javascript" language="jscript" src="skyline:sgapi.js"></script>
+
+<script type="text/javascript" language="javascript">
+
+var globe;
+var NavMode;
+var MoveMode;
+var FloorAltitude;
+
+var navigationMode;
+var IndoorGroup ;
+
+var startPos;
+var bFlyTo = false;
+var hudControls;
+
+var isUnderground;
+var setUnderground;
+
+//-----------------
+// Init
+function Init()
+{
+
+    globe = new SGWorld();
+    var node;
+
+    // Attach TerraExplorer events to local functions
+    globe.attachEvent("OnFrame", OnFrame);
+    globe.attachEvent("onMouseWheel", onMouseWheel);
+     
+    startPos = globe.creator.createLocation();
+
+    document.onselectstart=new Function('return false');
+    NavMode = 0;
+    MoveMode = 0;
+    FloorAltitude = 2.0;
+    bFirstLocation  = true;
+    IndoorGroup = null;
+    isUnderground = globe.teCore.ITerraExplorer.GetParam(7600);
+    setUnderground = false;
+
+    groupID = GetParamValue ("group","");
+    RootGroup = globe.root.parentNode().selectSingleNode("Indoor");
+    node = RootGroup.firstChild();
+    
+    while (node != null)
+    {
+        if (node.getData("indoor") == groupID)
+        {
+            IndoorGroup = node;
+            break;
+        }    
+        node = node.nextSibling();
+    }            
+
+    if (IndoorGroup != null)
+    {
+        node = IndoorGroup.firstChild();
+        while (node != null)
+        {
+            if (node.nodeType() == sgNodeTypeLocation) // || node.nodeType() == sgNodeTypeRoute)
+            {
+            
+                var pos = node.getPosition();
+                var newPos = pos.move(-pos.distance, pos.yaw, pos.pitch);
+                nodeAltitude= newPos.height;
+                
+                locationList.innerHTML +=  "<li><a style='cursor:pointer;' onclick=FlyToFloor("+node.nodeId()+","+nodeAltitude+")><u>" + node.getName() +  "</u></a></li>"; 
+                if (bFirstLocation)
+                    FlyToFloor(node.nodeId(),nodeAltitude);
+                bFirstLocation  = false;
+                
+                if (nodeAltitude < 0 )
+                    setUnderground = true;
+            }           
+            if (node.nodeType() == sgNodeTypeModel)
+            {
+                node.innerObj.GroundObject = false;
+            }
+            node = node.nextSibling();
+        }            
+    }            
+        
+    globe.root.parentNode().removeChild (globe.root);
+    
+    hudControls = globe.window.getControls();
+    globe.window.showControls(hudControls&~sgControlNavigation)
+    
+    if (setUnderground == true && isUnderground == 0 )
+        globe.teCore.IMenu.invoke (33372);
+}
+//-----------------
+// Exit
+function Exit()
+{
+    NavMode = 0;
+
+    if (IndoorGroup != null) 
+    {
+        var node = IndoorGroup.firstChild();
+        while (node != null)
+        {
+            if (node.nodeType() == sgNodeTypeModel)
+                node.innerObj.GroundObject = true;
+            node = node.nextSibling();
+        }            
+    }            
+
+    if (bFlyTo)
+        globe.navigate.flyTo (startPos,sgPatternJump);
+
+    globe.window.showControls (hudControls);
+    globe.teCore.IMenu.Invoke (1022);
+    
+    if (globe.teCore.ITerraExplorer.GetParam(7600) == 1 && isUnderground == 0 && setUnderground == true)  
+        globe.teCore.IMenu.invoke (33372);
+}
+//-----------------
+// CloseAndExit
+function CloseAndExit()
+{
+    Exit();
+    globe.removePopup("Indoor");
+}
+//-----------------
+// OnFrame
+function OnFrame (elapsed)
+{
+    if (NavMode == 0 )
+        return;
+
+    var curPos = globe.navigate.getPosition();
+
+    if (MoveMode == 1) // forward
+        globe.navigate.setPosition(curPos.move(elapsed*6.0));
+    if (MoveMode == 2) // Backward
+        globe.navigate.setPosition(curPos.move(-elapsed*6.0));
+    if (MoveMode == 3) // Left
+    {
+        curPos.yaw -= elapsed*90;
+        globe.navigate.setPosition(curPos);
+    }
+    if (MoveMode == 4) // Right
+    {
+        curPos.yaw += elapsed*90;
+        globe.navigate.setPosition(curPos);
+    }
+
+
+    var pos = globe.navigate.getPosition(sgHeightRelative);
+    pos.height = (pos.height - FloorAltitude)*0.3 + FloorAltitude;
+    globe.navigate.setPosition (pos);
+            
+}
+//-----------------
+// onMouseWheel
+function onMouseWheel (flags, deltaZ, x, y)
+{
+    return true;
+}    
+
+//-----------------
+// FlyToFloor
+function FlyToFloor (nodeID, altitude)
+{
+    bFlyTo = true;
+    globe.navigate.jumpTo (nodeID);
+
+    
+    FloorAltitude = altitude*1.0;
+    globe.teCore.IMenu.Invoke (1021);
+
+   NavMode = 1;
+}
+
+//-------------------
+//  GetParamValue
+function GetParamValue(findParam, defaultValue)
+{
+    var arr = document.location.href.split("?");
+    if (arr.length <= 1) return defaultValue;
+    arr = arr[1].split("&");    
+    for (var i=0; i < arr.length; i++)
+    {
+        if (arr[i].indexOf(findParam) == 0 && arr[i].indexOf("=") == findParam.length)
+        {
+            arr = arr[i].split("=");
+            return arr[1];
+        }
+    }
+    return defaultValue;
+}  
+
+</script>
+
+</HTML>
+
+
+
+<!--Sig:00000040KwBcQ54vpiwzZs.xgqOfO#.PSLCgHZnsErWgRoefdxmIkaEqr1FK8I5C#LjFhvI7yQ7lh0ML288a8IZCwr0NM4JJ-->
+
+
+<!--Sig:000000409PwFF1PzA6ZhfHMYJFUHxzkBFoq#1YIwyQ4Jgnd3L0szyvwd1yZcnlL7Cq#p99phaRptNbjRlyd9ErfczJzfJfJJ-->

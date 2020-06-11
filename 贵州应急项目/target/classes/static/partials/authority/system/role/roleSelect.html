@@ -1,0 +1,139 @@
+<div style="width:100%;position:relative">
+    <div class="editUser moveLeft" ng-controller="roleSelectCtrl">
+        <button type="button" class="btn btn-primary" ui-sref="system.role">返回</button>
+        <div class="content" style="position:relative">
+            <div class="panelA">
+                <div class="panel-title">
+                    <div class="menu-lev-left">角色详情</div>
+                    <i class="fa fa-angle-up menu-lev-icon" ng-click="isCollapsed=!isCollapsed"></i>
+                    <div class="menu-lev-right"  ng-click="isCollapsed=false;role.addRole('编辑角色',role.select.info);">编辑基本信息</div>
+                </div>
+                <div uib-collapse="isCollapsed" class="panel-table">
+                	<div class="panel-scroll panel-role">
+	                   <table class="table table_user table-bordered">
+	                   	<colgroup>
+	                               <col style="width:33.3%" />
+	                               <col style="width:33.3%;" />
+	                               <col style="width:33.3%" />
+	                       </colgroup>
+	                       <tbody>
+	                           <tr>
+	                               <td>角色标识&nbsp<span>{{role.select.info.role}}</span></td>
+	                               <td>角色名&nbsp<span>{{role.select.info.name}}</span></td>
+	                               <td>备注&nbsp<span>{{role.select.info.des}}</span></td>
+	                               </tr>
+	                               <tr>
+	                               <td>父节点&nbsp<span><span class="role-parent" ng-repeat="parent in role.select.info.parents">{{parent}}</span></span></td>
+	                               <td>创建时间&nbsp<span>{{role.select.info.createtimestamp|date:'yyyy-MM-dd'}}</span></td>
+	                           </tr>
+	                       </tbody>
+	                   </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panelA">
+                <div class="panel-title">
+                    <div class="menu-lev-left">角色权限</div>
+                    <i class="fa fa-angle-up menu-lev-icon" ng-click="isCollapsedF=!isCollapsedF"></i>
+                    <div  class="menu-lev-right" ng-show="!isEditing" ng-click="isCollapsedF=false;goEdit();isEditing=true">
+                        <i class="fa fa-pencil"></i>&nbsp;编辑</div>
+                    <div class="menu-lev-right" ng-click="isCollapsedF=false;getShowAuthoList();isEditing=false;" ng-show="isEditing">退出编辑</div>
+                </div>
+                <div uib-collapse="isCollapsedF">
+                    <!--                    <div autho-edit-table is-editing="role.isEditing" show-autho-list="role.showAuthoList" objs="role.objs" ops="role.ops" role="role.select.info.role"></div>-->
+                    <div class="fixed-tableHead">
+                        <table class="table table-bordered table-role" style="margin-bottom: 0px;">
+                            <colgroup>
+                                <col style="width:200px" />
+                                <col style="width: calc(100% - 310px);" />
+                                <col style="width:110px" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>客体</th>
+                                    <th>操作项</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="table-role" ng-switch="isEditing">
+                            <div ng-switch-when="true" class="showNewAutho" style="font-size:0px">
+                                <div style="width:200px;padding: 6px;" class="newAutho">
+                                    <input ng-model="newAutho.objectTag" uib-typeahead="autho for autho in role.objs | filter:$viewValue| limitTo:8" ng-model-options="{updateOn:'default blur',debounce:{default:800,blur:0}}" placeholder="请输入客体名" class="tableInput form-control" />
+                                </div>
+                                <div style="width: calc(100% - 310px);" class="newAutho newAutho-mid">
+                                    <div my-ope data="newAutho.op" ops="role.ops" is-edited="newAutho.isEdited"></div>
+                                </div>
+                                <div style="width:110px;" class="newAutho">
+                                    <button class="fa fa-plus editBtn" ng-disabled="!newAutho.objectTag||overriderAutho" ng-click="addNewAutho('添加')" title="添加"></button>&nbsp;
+                                    <button class="fa fa-check editBtn" ng-disabled="!newAutho.objectTag||!overriderAutho" ng-click="addNewAutho('修改')" title="修改"></button>&nbsp;
+                                    <button class="fa fa-close editBtn" ng-click="closeNewAutho()"></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-tableBody">
+                        <table class="table table-bordered table-role" ng-switch="isEditing">
+                            <colgroup>
+                                <col style="width:200px" />
+                                <col />
+                                <col style="width:110px" />
+                            </colgroup>
+                            <tr ng-repeat="autho in role.showAuthoList track by $index" ng-switch-when="true">
+                                <td>{{autho.objectTag}}</td>
+                                <td style="position:relative" ng-class="{isEdited:autho.isEdited}">
+                                    <div ng-show="autho.inEditing" class="opeInEditing"></div>
+                                    <div my-ope data="autho.op" ops="role.ops" is-edited="autho.isEdited" ng-disabled="autho.inEditing"></div>
+                                </td>
+                                <td>
+                                    <button class="editBtn fa fa-check" title="修改" ng-click="updateAutho(autho,role.showAuthoList)" ng-disabled="autho.inEditing"></button>
+                                    <button class="editBtn fa fa-trash" title="删除" ng-click="deleteAutho(autho,role.showAuthoList)" ng-disabled="autho.inEditing"></button></td>
+                            </tr>
+                            <tbody ng-switch-when="false">
+                                <tr ng-repeat="autho in role.showAuthoList track by $index">
+                                    <td>{{autho.objectTag}}</td>
+                                    <td>
+                                        <ul class="opeLi">
+                                            <li ng-repeat="ope in autho.op track by $index">{{ope.operaName}}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panelA">
+                <div class="panel-title">
+                    <div class="menu-lev-left">引用记录</div>
+                    <i class="fa fa-angle-up menu-lev-icon" ng-click="isCollapsedS=!isCollapsedS"></i>
+                </div>
+                <div uib-collapse="isCollapsedS" class="panel-table">
+                	<div class="panel-scroll panel-role">
+	                   <table class="table table-bordered">
+	                       <thead>
+	                           <tr>
+	                               <th>被授权对象</th>
+	                               <th>备注</th>
+	                               <th>类型</th>
+	                               <th>操作</th>
+	                           </tr>
+	                       </thead>
+	                       <tbody>
+	                           <tr ng-repeat="record in role.select.record">
+	                               <td>{{record.name}}</td>
+	                               <td>{{record.des}}</td>
+	                               <td>{{record.type}}</td>
+	                               <td style="width:200px">
+	                               	<!-- <a class="table_a" ng-click="">解除授权</a> -->
+	                               	</td>
+	                           </tr>
+	                       </tbody>
+	                   </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

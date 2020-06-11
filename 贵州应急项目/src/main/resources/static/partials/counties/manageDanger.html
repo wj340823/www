@@ -1,0 +1,87 @@
+<div ng-controller="manageDCtrl">
+    <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button" ui-sref="approval.waiter" ui-sref-active="active">
+                待审核
+            </button>
+            <button class="tab-button" ui-sref="approval.drawing" ui-sref-active="active">
+                已审核
+            </button>
+            <button class="tab-button" ui-sref="approval.taskManage" ui-sref-active="active">
+                任务管理
+            </button>
+<!--            <button class="tab-button" ui-sref="approval.checkRecord" ui-sref-active="active" >-->
+<!--                排查记录-->
+<!--            </button>-->
+            <button class="tab-button" ui-sref="approval.majorDanger" ui-sref-active="active">
+                重大隐患
+            </button>
+            <button class="tab-button" ui-sref="approval.manageDanger" ui-sref-active="active">
+                应急管理隐患
+            </button>
+
+        </div>
+    </div>
+    <div class="table-content">
+        <div>
+            <span>排查日期：</span><input cgs-date-picker   placeholder="开始日期" date-fmt="yyyy-MM-dd"
+                                                               ng-model="page.strTime" /> ~
+            <input cgs-date-picker placeholder="结束日期" date-fmt="yyyy-MM-dd"
+                   ng-model="page.endTime"  style="margin-right: 20px;"/>
+            <span>整改情况：</span>
+            <select ng-model="page.type">
+                <option value="-1">全部</option>
+                <option value="0">未整改</option>
+                <option value="1">正在整改</option>
+                <option value="2">已整改</option>
+            </select>
+            <button class="searchBtn" style="margin-left: 20px" ng-click="searchMsg()">
+                <i class="iconfont icon-sousuo"></i>搜索
+            </button>
+        </div>
+
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>行政区划</th>
+                <th>排查项目</th>
+                <th>排查结果</th>
+                <th>排查日期</th>
+                <th>整改情况</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in page.list.dataList">
+                <td>{{(page.currentPage-1)*page.pageSize+$index + 1}}</td>
+                <td>{{item.xzqyName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.result==1?'否':'是'}}</td>
+                <td>{{item.time | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.isRectification==1?'正在整改':(item.isRectification==2?'已整改':'未整改')}}</td>
+                <td>
+                    <span class="hander oper"
+                          ui-sref="approval.manageDangerDetail({id: item.id})">
+                        详情
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="noData==true">无数据</p>
+        <uib-pagination
+                ng-change="pageType==1?getManageDetail():searchMsg()"
+                total-items="page.total"
+                ng-model="page.currentPage"
+                items-per-page="page.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+
+</div>

@@ -1,0 +1,127 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+
+
+    <script language="javascript" src="../ToolsCommon.js"></script>
+
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <style>
+        .MenuButton
+        {
+            height: 78px;
+            width: 65px;
+            margin: 5px;
+            white-space: normal;s
+        }
+        .MenuButtonHighlight
+        {
+            color: Red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0;
+    overflow: auto;" id="Body" onload="Init()" onunload="exitTool();" >
+    <!--oncontextmenu="return false;"  onclick="bHide=true;HideOptionsNow()" > -->
+       <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td id="TopAreaTD" height="50px" width="100%" valign="middle" style="background-color: #CAD8E2">
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="12px">
+                        </td>
+                        <td width="55px">
+                            <img src="images/ImageComparisonIcon.gif" />
+                        </td>
+                        <td id="TitleTD" align="center" class="s12b  i18n">
+                            ToolName
+                        </td>
+                        <td valign="top" align="right" id="CloseHelpTd">
+							<img src="../CommonImg/help.gif" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6 (SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;">
+						</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr height="1px">
+            <td style="background-repeat: repeat-x;" background="../CommonImg/separator.gif">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+    </table>
+    <table>
+       
+        <tr class="s8">
+            <td colspan="2">
+                <button id="Button3" class="MenuButton" onclick="DynamicCompare()"><img src="images/snapshotDetection.gif" /><br /><span class="i18n">Text1</span></button> 
+            </td>
+        </tr>
+        <tr class="s8">
+            <td colspan="2">
+                <button id="Button1" class="MenuButton" onclick="SnapshotCompare()"><img src="images/snapshotDetection.gif" /><br /><span class="i18n">Text7</span></button> 
+            </td>
+        </tr>
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+
+<script language="JavaScript">
+
+//--------------
+// Init
+function Init() {
+}
+
+//------------------
+// Reset
+//------------------
+function Reset(FirstTime, FromMouseInputMode) {
+
+}
+//---------------
+// exitTool
+function exitTool() {
+    try {
+        SGWorld.Window.RemovePopupByCaption(SGLang.i18n("Text31"));
+        SGWorld.Window.RemovePopupByCaption(SGLang.i18n("Text15"));
+        SGWorld.Window.RemovePopupByCaption(SGLang.i18n("Text16"));
+    }
+    catch (e) { return }
+   
+
+}
+//--------------
+// SnapshotCompare
+function SnapshotCompare() {
+
+
+        var url = abspath() + "/SnapshotComparison.html"; ;
+        var popupMsg = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("Text6"), url, 200, 200, 400, 200, -1);
+
+        popupMsg.Flags = 2 + 128 + 2048;
+     SGWorld.Window.ShowPopup(popupMsg);
+
+}
+
+//--------------
+// DynamicCompare
+function DynamicCompare() {
+
+    var url = abspath() + "/ImageComparisonPopup.html";
+    var popupMsg = SGWorld.Creator.CreatePopupMessage(SGLang.i18n("Text15"), url, 0, 5, 480, 120, -1);
+
+    popupMsg.Flags = 2 + 128 + 2048;
+    SGWorld.Window.ShowPopup(popupMsg);
+
+}
+</script>
+
+</body>
+</html>
+
+
+<!--Sig:000000406PiEFew9VV4Hm#Nzx30IK3ZESXFrhvKBbAjbpAzWS6vvCaDC5kMx2Tuxxwb6oAXYVsx19sK.m6Vc#M1jx1uTXQJJ-->

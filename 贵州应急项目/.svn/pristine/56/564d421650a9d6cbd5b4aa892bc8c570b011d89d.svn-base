@@ -1,0 +1,51 @@
+package com.sucsoft.gzhbyjwz.bean.common;
+
+import java.util.Date;
+
+public class PrePlanUpdateList {
+
+    private String companyId;
+    private Date recordTime;
+    private String underSignrd;
+    private Integer level;
+    private Integer documentTime;
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public Date getRecordTime() {
+        return recordTime;
+    }
+
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
+    }
+
+    public String getUnderSignrd() {
+        return underSignrd;
+    }
+
+    public void setUnderSignrd(String underSignrd) {
+        this.underSignrd = underSignrd;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getDocumentTime() {
+        return documentTime;
+    }
+
+    public void setDocumentTime(Integer documentTime) {
+        this.documentTime = documentTime;
+    }
+}

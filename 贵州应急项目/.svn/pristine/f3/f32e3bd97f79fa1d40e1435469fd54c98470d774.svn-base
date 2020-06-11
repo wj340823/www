@@ -1,0 +1,219 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class WordBean {
+
+    XWPFDocument document;
+
+    /**
+     * 初始化
+     */
+    public WordBean(){
+        document = new XWPFDocument();
+//        org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBackground ctBackground = document.getDocument().isSetBackground() ? document.getDocument().getBackground() : document.getDocument().addNewBackground();
+//
+//        bg.setColor(bgColor);
+    }
+
+
+
+    /**
+     * 添加标题
+     * @param title 标题
+     * @param fontSize 字体大小
+     * @param p 对其类型
+     * @return
+     */
+    public WordBean addTitle(String title, int fontSize, ParagraphAlignment p,boolean isbold){
+        XWPFParagraph titlePg = document.createParagraph();
+        titlePg.setAlignment(p);
+        XWPFRun run = titlePg.createRun();
+
+        run.setText(title);
+        run.setFontSize(fontSize);
+
+        run.setBold(isbold);
+        return this;
+    }
+
+    /**
+     * 添加标题
+     * @param title 标题
+     * @param fontSize 字体大小
+     * @param p 对其类型
+     * @return
+     */
+    public WordBean addTitle(String title, int fontSize, ParagraphAlignment p){
+        addTitle(title,fontSize,p,true);
+        return this;
+    }
+
+    public WordBean addTitle(String title,int fontSize){
+        return addTitle(title,fontSize,ParagraphAlignment.CENTER);
+    }
+
+    /**
+     * 添加标题
+     * @param title
+     * @return
+     */
+    public WordBean addTitle(String title){
+        return addTitle(title,28);
+    }
+
+    /**
+     * 添加图片
+     * @param tpUrl 图片路径
+     * @return
+     */
+//    public WordBean addTitle(String tpUrl, boolean isbo) throws FileNotFoundException, InvalidFormatException {
+//        String picId = document.addPictureData(new FileInputStream(tpUrl), XWPFDocument.PICTURE_TYPE_JPEG);
+//        document
+//        return this;
+//    }
+
+    /**
+     * 添加一张表
+     * @param data 表数据
+     * @param contentFontSize 暂时无效
+     * @param titleFontSize 暂时无效
+     * @param align 暂时无效
+     * @param lenSize 暂时无效
+     * @return
+     */
+    public WordBean addTable(List<List<String>> data,int contentFontSize,int titleFontSize,XWPFTableCell.XWPFVertAlign align,int lenSize){
+        int row = data.size();
+        int vertical = 0;
+        if(row > 0){
+            vertical = data.get(0).size();
+        }
+        Map<Integer,Integer> maxLength = new HashMap<>();
+        for (int i = 0; i < vertical; i++) {
+            maxLength.put(i,0);
+        }
+        int max = 0;
+        //计算每列的最大数据行
+        for (List<String> datum : data) {
+            for (int i = 0; i < datum.size(); i++) {
+                int length = datum.get(i).length();
+                if(maxLength.get(i) < length){
+                    maxLength.put(i,length);
+                }
+                if(max < length){
+                    max = length;
+                }
+            }
+        }
+        int count = 0;
+        //计算每片包含长度
+        double plan_length = max * 1.0 / lenSize;
+        for (Integer integer : maxLength.keySet()) {
+            Integer length = maxLength.get(integer);
+            int ceil = (int) Math.ceil(length * 1.0 / plan_length);
+            count += ceil;
+            maxLength.put(integer,ceil);
+        }
+        //表实例
+        XWPFTable table = document.createTable(row, vertical);
+        CTTblPr ctTblPr = table.getCTTbl().addNewTblPr();
+        //表格整体居中
+        ctTblPr.addNewJc().setVal(STJc.CENTER);
+        ctTblPr.addNewTblW().setW(BigInteger.valueOf(8000L));
+        for (int i = 0; i < row; i++) {
+            List<String> dataTemp = data.get(i);
+            XWPFTableRow rowTemp = table.getRow(i);
+//            if (i == 0) {
+//                CTTrPr ctTrPr = rowTemp.getCtRow().addNewTrPr();
+//                ctTrPr.addNewTrHeight().setVal(BigInteger.valueOf(500L));
+//            }v
+            for (int j = 0; j < vertical; j++) {
+                //通用变量生成
+                XWPFTableCell cell = rowTemp.getCell(j);
+                CTTcPr ctTcPr = cell.getCTTc().addNewTcPr();
+
+                CTTcBorders ctTcBorders = ctTcPr.addNewTcBorders();
+                CTTblWidth ctTblWidth = ctTcPr.isSetTcW() ? ctTcPr.getTcW() : ctTcPr.addNewTcW();
+//                    ctTblWidth.setW(BigInteger.valueOf(4800L / count * maxLength.get(i)));
+                ctTblWidth.setW(BigInteger.valueOf(1900L*5/vertical));
+                ctTcPr.setTcW(ctTblWidth);
+
+                //第一行，标题
+                if (i == 0) {
+                    cell.setText(dataTemp.get(j));
+                    ctTcBorders.addNewBottom();
+                    ctTcBorders.addNewTop();
+                    ctTcBorders.addNewLeft();
+                    ctTcBorders.addNewRight();
+//                    XWPFParagraph xwpfParagraph = cell.addParagraph();
+//                    xwpfParagraph.setAlignment(ParagraphAlignment.CENTER);
+//                    XWPFRun run = xwpfParagraph.createRun();
+//                    //设置标题颜色,暂定黄色
+//                    run.setColor("FFCC01");
+//                    run.setText(dataTemp.get(j));
+//                    run.setBold(true);
+//                    run.setFontSize(16);
+
+//                    setBorder(ctTcBorders.addNewLeft());
+//                    setBorder(ctTcBorders.addNewBottom());
+//                    setBorder(ctTcBorders.addNewRight());
+//                    setBorder(ctTcBorders.addNewTop());
+//                    //底纹
+//                    CTShd ctShd = ctTcPr.addNewShd();
+//                    //标题底色
+//                    ctShd.setFill("222222");
+                } else if (i % 2 != 0) {
+                    cell.setText(dataTemp.get(j));
+                    ctTcBorders.addNewBottom();
+                    ctTcBorders.addNewTop();
+                    ctTcBorders.addNewLeft();
+                    ctTcBorders.addNewRight();
+                    CTShd ctShd = ctTcPr.addNewShd();
+                    //间隔底色
+                    //ctShd.setFill("75D2FF");
+                } else {
+                    cell.setText(dataTemp.get(j));
+                    ctTcBorders.addNewBottom();
+                    ctTcBorders.addNewTop();
+                    ctTcBorders.addNewLeft();
+                    ctTcBorders.addNewRight();
+                    CTShd ctShd = ctTcPr.addNewShd();
+                    //间隔底色
+                    //ctShd.setFill("E0E3DF");
+                }
+
+            }
+        }
+        return this;
+    }
+
+    public void write(HttpServletResponse response) throws IOException{
+        write(response,"download.docx");
+    }
+
+    public void write(HttpServletResponse response,String fileName) throws IOException{
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/msword");
+        response.setHeader("Content-Disposition", "attachment; filename="+ URLEncoder.encode(fileName,"UTF-8"));
+        document.write(response.getOutputStream());
+    }
+
+    private void setBorder(CTBorder ctBorder){
+        ctBorder.setSz(BigInteger.valueOf(1L));
+        ctBorder.setVal(STBorder.Enum.forString("single"));
+        ctBorder.setColor("4DA6FF");
+    }
+}

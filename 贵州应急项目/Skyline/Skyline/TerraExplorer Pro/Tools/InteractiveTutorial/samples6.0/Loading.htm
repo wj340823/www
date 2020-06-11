@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Loading</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            alert("Click OK to load the polygons");
+            var id = SGWorld.ProjectTree.LoadFlyLayer(SGWorld.Application.DataPath + "\\myWork.fly");
+            SGWorld.Navigate.FlyTo(SGWorld.Creator.CreatePosition(-109.51449, 32.85615, 1500000, 0, 0, -60));
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040Sf.nZwoqUn6ngV9DWOk0kIy2Wh6V7HaPdasTo6L44EbwximZaGZi03pNqlDOcaaUoRTsjbKVQtSMUnWhdpWAGZJJ-->

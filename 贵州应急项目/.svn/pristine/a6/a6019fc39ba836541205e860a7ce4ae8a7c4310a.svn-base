@@ -1,0 +1,33 @@
+//package com.sucsoft.gzhbyjwz;
+//
+//
+//import com.sucsoft.gzhbyjwz.bean.param.PreplanParam;
+//
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//
+//public class testMain {
+//    public static void main(String[] args) {
+//        Map map = new HashMap();
+//        map.put("a",new Integer(1));
+//
+//        List list = new ArrayList();
+//        list.add(1);
+//        map.put("b",list);
+//        Integer i = (Integer) map.get("a");
+//        i+=1;
+//        ((ArrayList)map.get("b")).add(2);
+//
+//        System.out.println(map);
+//        return;
+//    }
+//
+//    public static void testInteger(){
+//        Map<String,Integer> map = new HashMap();
+//        map.put("a",new Integer(1));
+//
+//
+//    }
+//}

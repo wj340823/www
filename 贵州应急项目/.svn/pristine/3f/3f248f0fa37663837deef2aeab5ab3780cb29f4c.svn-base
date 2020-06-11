@@ -1,0 +1,34 @@
+package com.sucsoft.gzhbyjwz.service.emergencyEvent;
+
+import com.sucsoft.gzhbyjwz.bean.param.Point;
+import com.sucsoft.gzhbyjwz.util.HttpUtil;
+import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+
+@Service
+public class WaterEventService {
+    @Value("${WaterEvent.json.posturl}")
+    private String posturl;
+
+    public List<Object> postPoint(List<Point> list){
+        List<Object> results = new ArrayList<>();
+        if(list != null && list.size()>0){
+            for(Point point :list){
+                StringBuffer sb = new StringBuffer();
+                sb.append(point.getPoint_lon()).append("_").append(point.getPoint_lat()).append("_").append(point.getRiver_name());
+                Object result =HttpUtil.sendPost(posturl,sb.toString());
+                results.add(result);
+            }
+        }
+        return results;
+    }
+
+
+}

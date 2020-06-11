@@ -1,0 +1,160 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("环境风险源")
+public class RiskSourceUnit {
+
+    /**
+     * 风险物质名称
+     * 
+     */
+    @ApiModelProperty("风险物质名称")
+    private String riskName;
+    /**
+     * 是否围堰
+     * 
+     */
+    @ApiModelProperty("是否围堰")
+    private String sfwy;
+    /**
+     * 涉及有毒易燃气体
+     * 
+     */
+    @ApiModelProperty("涉及有毒易燃气体")
+    private String sfqtcl;
+    /**
+     * 风险源id
+     * 
+     */
+    @ApiModelProperty("风险源id")
+    private String companyId;
+    /**
+     * 场所
+     * 
+     */
+    @ApiModelProperty("场所")
+    private String address;
+    /**
+     * 最大贮存量
+     * 
+     */
+    @ApiModelProperty("最大贮存量")
+    private String maxNumber;
+    /**
+     * 风险源单位名称
+     * 
+     */
+    @ApiModelProperty("风险源单位名称")
+    private String unitName;
+    /**
+     * 是否防渗
+     * 
+     */
+    @ApiModelProperty("是否防渗")
+    private String sffs;
+    /**
+     * 是否防腐
+     * 
+     */
+    @ApiModelProperty("是否防腐")
+    private String sfff;
+    /**
+     * 是否有管道或者沟渠
+     * 
+     */
+    @ApiModelProperty("是否有管道或者沟渠")
+    private String sfwscl;
+    private String id;
+
+    public void setRiskName(String riskName) {
+        this.riskName = riskName;
+    }
+
+    public String getRiskName() {
+        return riskName;
+    }
+
+    public void setSfwy(String sfwy) {
+        this.sfwy = sfwy;
+    }
+
+    public String getSfwy() {
+        return sfwy;
+    }
+
+    public void setSfqtcl(String sfqtcl) {
+        this.sfqtcl = sfqtcl;
+    }
+
+    public String getSfqtcl() {
+        return sfqtcl;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setMaxNumber(String maxNumber) {
+        this.maxNumber = maxNumber;
+    }
+
+    public String getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setSffs(String sffs) {
+        this.sffs = sffs;
+    }
+
+    public String getSffs() {
+        return sffs;
+    }
+
+    public void setSfff(String sfff) {
+        this.sfff = sfff;
+    }
+
+    public String getSfff() {
+        return sfff;
+    }
+
+    public void setSfwscl(String sfwscl) {
+        this.sfwscl = sfwscl;
+    }
+
+    public String getSfwscl() {
+        return sfwscl;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+}

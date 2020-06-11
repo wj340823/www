@@ -1,0 +1,186 @@
+$font-sans: "Helvetica Neue",
+"Luxi Sans",
+"DejaVu Sans",
+Tahoma,
+"Hiragino Sans GB",
+STHeiti,
+"Microsoft YaHei";
+$primary-color: rgb(0, 0, 0) !default; //主色调
+$bg: rgba(red($primary-color), green($primary-color), blue($primary-color), .87);
+$head-bg: rgba(red($primary-color), green($primary-color), blue($primary-color), .9);
+$title-bg: rgba(34, 34, 34, .7);
+$focus-out-color: #ffcc01 !default; //着重色，强调突出
+$focus-error-color: #f76417 !default; //着重色，强调突出
+$color: #fff !default; //主体文字颜色
+$secondary-color: #bdbdbd !default; //次要文字颜色
+$third-color: #666 !default; //次要文字颜色
+$placeholder-color: #e1e1e1 !default; //input提示语颜色
+$menu-bg: #5E5E5E; //菜单背景颜色
+$hover-color: rgba(34, 34, 34, .7) !default; //悬浮颜色
+$selected-color: #CCE8FF !default; //选中颜色
+$border-color: #494A4A !default; //描边、提示
+$main-bg: #21252a !default; //非地图页面的主体背景色
+$th-bg: #222 !default; //表头背景色
+$txt-link: #247ad6 !default; //文字链接颜色，一般蓝色
+$input-border-focus: $focus-out-color; //输入框focus时颜色
+$white-color: #fff !default; //白色
+$source-major-color: #28A900 !default; //重大风险源
+$source-large-color: #FFB401 !default; //较大风险源
+$source-common-color: #28A900 !default; //一般风险源
+$source-area-color: #C62828 !default; //重点风险区域
+$water-source-color: #58C6FF !default; //饮用水源地
+$natural-color: #51B17C !default; //自然保护区
+$short-color: #C62828 !default; //资源库短缺
+$normal-color: #003567 !default; //资源库正常
+$risk-num-level: (1:#FFF59D, 2:#FFEA30, 3:#FFCC01, 4:#F79730); //风险源数量等级 
+$consume-num-level: (4:#FBFEE2, 3:#DFED5D, 2:#F6D51D, 1:#BFAA34); //物资消耗等级 
+@mixin box-shadow($value...) {
+    -webkit-box-shadow: $value;
+    box-shadow: $value;
+}
+
+// 输入框样式预设 
+@mixin input-focus($color: $input-border-focus) {
+    &:focus {
+        border-color: $color;
+        outline: 0;
+    }
+}
+
+@mixin input-color {
+    height: 32px;
+    line-height: 32px;
+    padding-left: 4px;
+    background-color: transparent;
+    border: 1px solid $secondary-color;
+    border-radius: 2px;
+    @include input-focus;
+}
+
+// 按钮样式预设 
+@mixin button {
+    border-radius: 2px;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+}
+
+@mixin button-disabled {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+@mixin button-search {
+    //查询按钮颜色样式
+    background-color: $primary-color;
+    color: $white-color;
+    border: 1px solid $primary-color;
+    &:hover {
+        background: darken($primary-color, 10%);
+    }
+}
+
+@mixin button-refresh {
+    //刷新按钮颜色样式
+    background-color: $white-color;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    &:hover {
+        background: darken($white-color, 10%);
+    }
+}
+
+@mixin button-submit {
+    //提交按钮颜色样式
+    color: $white-color;
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+    &:hover {
+        background: darken($primary-color, 10%);
+    }
+    &[disabled]:hover {
+        background-color: $primary-color;
+        border: 1px solid $primary-color;
+    }
+}
+
+@mixin button-cancel {
+    //取消提交按钮颜色样式
+    color: $white-color;
+    background-color: $th-bg;
+    border: 1px solid transparent;
+    &:hover {
+        background: $primary-color;
+        border: 1px solid $focus-out-color;
+        color: $focus-out-color;
+    }
+    &.active {
+        background: rgba(red($focus-out-color), green($focus-out-color), blue($focus-out-color), .2);
+        border: 1px solid $focus-out-color;
+        color: $focus-out-color;
+    }
+}
+
+@mixin text-link {
+    //文字链接
+    color: $txt-link;
+    &:hover {
+        color: $txt-link;
+        text-decoration: underline;
+    }
+}
+
+// 表格样式预设 
+@mixin tb-th {
+    padding: 10px;
+    background-color: $th-bg;
+    color: $focus-out-color;
+    border-top: 0px;
+}
+
+@mixin tb-td {
+    padding: 12px 10px;
+    background: transparent;
+    color: $color;
+}
+
+//分页控件颜色样式预设
+@mixin page-a-normal {
+    //normal
+    color: $primary-color;
+    background-color: $white-color;
+    border-color: $border-color;
+}
+
+@mixin page-a-hover {
+    //hover
+    color: $primary-color;
+    background-color: $hover-color;
+    border-color: $primary-color;
+}
+
+@mixin page-a-selected {
+    //selected
+    color: $white-color;
+    background-color: $primary-color;
+    border-color: $primary-color;
+}
+
+@mixin icon-dot($width:6px, $color:$primary-color) {
+    display: inline-block;
+    width: $width;
+    height: $width;
+    border-radius: $width / 2;
+    background: $color;
+    vertical-align: middle;
+}
+
+@mixin icon-square($width:12px, $height:6px, $color:$primary-color) {
+    display: inline-block;
+    width: $width;
+    height: $height;
+    background: $color;
+    vertical-align: middle;
+}

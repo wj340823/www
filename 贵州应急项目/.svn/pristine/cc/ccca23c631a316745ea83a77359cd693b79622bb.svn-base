@@ -1,0 +1,67 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import javax.persistence.*;
+import io.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+/**
+  * 
+  * @author luowb
+  * @date 2019-07-29 11:36
+  */
+@Entity
+@Table(name = "file_storage")
+@ApiModel("文件存储")
+public class FileStorage {
+
+    @ApiModelProperty("主键")
+    private String id;
+    @ApiModelProperty("关联主键")
+    private String relationId;
+    @ApiModelProperty("文件名称")
+    private String fileName;
+    @ApiModelProperty("文件地址")
+    private String url;
+    @ApiModelProperty("类型")
+    private String type;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+}

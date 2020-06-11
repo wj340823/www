@@ -1,0 +1,169 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class DangerUnit {
+
+    /**
+     * 最大容量
+     * 
+     */
+    private String maxcapacity;
+    /**
+     * 单位名称
+     * 
+     */
+    private String companyName;
+    /**
+     * 编号
+     * 
+     */
+    private String num;
+    /**
+     * 危险目标的危险特性及对周边的影响
+     * 
+     */
+    private String yingxiang;
+    /**
+     * 责任人
+     * 
+     */
+    private String responsiblePerson;
+    /**
+     * 应急保障
+     * 
+     */
+    private String yjbz;
+    /**
+     * 所属企业
+     * 
+     */
+    private String companyid;
+    /**
+     * 理化特性
+     * 
+     */
+    private String lhtx;
+    /**
+     * 联系电话
+     * 
+     */
+    private String phone;
+    /**
+     * 应急监管
+     * 
+     */
+    private String yjjg;
+    private String name;
+    private String id;
+    /**
+     * ？专项应急处置方案
+     * 
+     */
+    private String czfa;
+
+    public void setMaxcapacity(String maxcapacity) {
+        this.maxcapacity = maxcapacity;
+    }
+
+    public String getMaxcapacity() {
+        return maxcapacity;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setYingxiang(String yingxiang) {
+        this.yingxiang = yingxiang;
+    }
+
+    public String getYingxiang() {
+        return yingxiang;
+    }
+
+    public void setResponsiblePerson(String responsiblePerson) {
+        this.responsiblePerson = responsiblePerson;
+    }
+
+    public String getResponsiblePerson() {
+        return responsiblePerson;
+    }
+
+    public void setYjbz(String yjbz) {
+        this.yjbz = yjbz;
+    }
+
+    public String getYjbz() {
+        return yjbz;
+    }
+
+    public void setCompanyid(String companyid) {
+        this.companyid = companyid;
+    }
+
+    public String getCompanyid() {
+        return companyid;
+    }
+
+    public void setLhtx(String lhtx) {
+        this.lhtx = lhtx;
+    }
+
+    public String getLhtx() {
+        return lhtx;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setYjjg(String yjjg) {
+        this.yjjg = yjjg;
+    }
+
+    public String getYjjg() {
+        return yjjg;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setCzfa(String czfa) {
+        this.czfa = czfa;
+    }
+
+    public String getCzfa() {
+        return czfa;
+    }
+
+}

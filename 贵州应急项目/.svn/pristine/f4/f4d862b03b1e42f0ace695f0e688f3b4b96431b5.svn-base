@@ -1,0 +1,396 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class WXHXP {
+
+    private String GBBH;
+    /**
+     * 危险类别
+     * 
+     */
+    private String WXBJ;
+    private String RS;
+    private String ZCL;
+    private String SJLY;
+    /**
+     * 蒸气压
+     * 
+     */
+    private String ZQY;
+    private String BHMB;
+    private String OBJECTNAME;
+    private String XCYJJCFF;
+    /**
+     * 防护措施
+     * 
+     */
+    private String YJCLCZFF;
+    /**
+     * 别名
+     * 
+     */
+    private String BM;
+    private String WXXZ;
+    private String OBJECTID;
+    private String SD;
+    private String HXPLX;
+    /**
+     * 密度
+     * 
+     */
+    private String MD;
+    private String ZJJL;
+    private String WXJZ;
+    /**
+     * 英文名称
+     * 
+     */
+    private String YWMC;
+    private String SYSJCFF;
+    /**
+     * 物理特性
+     * 
+     */
+    private String WGYXZ;
+    /**
+     * 可溶性，溶解性
+     * 
+     */
+    private String RJX;
+    private String SJNF;
+    /**
+     * 稳定性
+     * 
+     */
+    private String WDX;
+    private String M_ALIAS;
+    private String ZYYT;
+    /**
+     * 熔点
+     * 
+     */
+    private String RD;
+    /**
+     * 废危编码
+     * 
+     */
+    private String CAS;
+    private String ND;
+    /**
+     * 中文名称
+     * 
+     */
+    private String ZWMC;
+    /**
+     * 分子量
+     * 
+     */
+    private String FZL;
+    /**
+     * 环境标准
+     * 
+     */
+    private String HJBZ;
+    private String BODY;
+    /**
+     * 分子式
+     * 
+     */
+    private String FZS;
+    /**
+     * 沸点
+     * 
+     */
+    private String FD;
+    private String DHJDYX;
+
+    public void setGBBH(String GBBH) {
+        this.GBBH = GBBH;
+    }
+
+    public String getGBBH() {
+        return GBBH;
+    }
+
+    public void setWXBJ(String WXBJ) {
+        this.WXBJ = WXBJ;
+    }
+
+    public String getWXBJ() {
+        return WXBJ;
+    }
+
+    public void setRS(String RS) {
+        this.RS = RS;
+    }
+
+    public String getRS() {
+        return RS;
+    }
+
+    public void setZCL(String ZCL) {
+        this.ZCL = ZCL;
+    }
+
+    public String getZCL() {
+        return ZCL;
+    }
+
+    public void setSJLY(String SJLY) {
+        this.SJLY = SJLY;
+    }
+
+    public String getSJLY() {
+        return SJLY;
+    }
+
+    public void setZQY(String ZQY) {
+        this.ZQY = ZQY;
+    }
+
+    public String getZQY() {
+        return ZQY;
+    }
+
+    public void setBHMB(String BHMB) {
+        this.BHMB = BHMB;
+    }
+
+    public String getBHMB() {
+        return BHMB;
+    }
+
+    public void setOBJECTNAME(String OBJECTNAME) {
+        this.OBJECTNAME = OBJECTNAME;
+    }
+
+    public String getOBJECTNAME() {
+        return OBJECTNAME;
+    }
+
+    public void setXCYJJCFF(String XCYJJCFF) {
+        this.XCYJJCFF = XCYJJCFF;
+    }
+
+    public String getXCYJJCFF() {
+        return XCYJJCFF;
+    }
+
+    public void setYJCLCZFF(String YJCLCZFF) {
+        this.YJCLCZFF = YJCLCZFF;
+    }
+
+    public String getYJCLCZFF() {
+        return YJCLCZFF;
+    }
+
+    public void setBM(String BM) {
+        this.BM = BM;
+    }
+
+    public String getBM() {
+        return BM;
+    }
+
+    public void setWXXZ(String WXXZ) {
+        this.WXXZ = WXXZ;
+    }
+
+    public String getWXXZ() {
+        return WXXZ;
+    }
+
+    public void setOBJECTID(String OBJECTID) {
+        this.OBJECTID = OBJECTID;
+    }
+
+    public String getOBJECTID() {
+        return OBJECTID;
+    }
+
+    public void setSD(String SD) {
+        this.SD = SD;
+    }
+
+    public String getSD() {
+        return SD;
+    }
+
+    public void setHXPLX(String HXPLX) {
+        this.HXPLX = HXPLX;
+    }
+
+    public String getHXPLX() {
+        return HXPLX;
+    }
+
+    public void setMD(String MD) {
+        this.MD = MD;
+    }
+
+    public String getMD() {
+        return MD;
+    }
+
+    public void setZJJL(String ZJJL) {
+        this.ZJJL = ZJJL;
+    }
+
+    public String getZJJL() {
+        return ZJJL;
+    }
+
+    public void setWXJZ(String WXJZ) {
+        this.WXJZ = WXJZ;
+    }
+
+    public String getWXJZ() {
+        return WXJZ;
+    }
+
+    public void setYWMC(String YWMC) {
+        this.YWMC = YWMC;
+    }
+
+    public String getYWMC() {
+        return YWMC;
+    }
+
+    public void setSYSJCFF(String SYSJCFF) {
+        this.SYSJCFF = SYSJCFF;
+    }
+
+    public String getSYSJCFF() {
+        return SYSJCFF;
+    }
+
+    public void setWGYXZ(String WGYXZ) {
+        this.WGYXZ = WGYXZ;
+    }
+
+    public String getWGYXZ() {
+        return WGYXZ;
+    }
+
+    public void setRJX(String RJX) {
+        this.RJX = RJX;
+    }
+
+    public String getRJX() {
+        return RJX;
+    }
+
+    public void setSJNF(String SJNF) {
+        this.SJNF = SJNF;
+    }
+
+    public String getSJNF() {
+        return SJNF;
+    }
+
+    public void setWDX(String WDX) {
+        this.WDX = WDX;
+    }
+
+    public String getWDX() {
+        return WDX;
+    }
+
+    public void setM_ALIAS(String M_ALIAS) {
+        this.M_ALIAS = M_ALIAS;
+    }
+
+    public String getM_ALIAS() {
+        return M_ALIAS;
+    }
+
+    public void setZYYT(String ZYYT) {
+        this.ZYYT = ZYYT;
+    }
+
+    public String getZYYT() {
+        return ZYYT;
+    }
+
+    public void setRD(String RD) {
+        this.RD = RD;
+    }
+
+    public String getRD() {
+        return RD;
+    }
+
+    public void setCAS(String CAS) {
+        this.CAS = CAS;
+    }
+
+    public String getCAS() {
+        return CAS;
+    }
+
+    public void setND(String ND) {
+        this.ND = ND;
+    }
+
+    public String getND() {
+        return ND;
+    }
+
+    public void setZWMC(String ZWMC) {
+        this.ZWMC = ZWMC;
+    }
+
+    public String getZWMC() {
+        return ZWMC;
+    }
+
+    public void setFZL(String FZL) {
+        this.FZL = FZL;
+    }
+
+    public String getFZL() {
+        return FZL;
+    }
+
+    public void setHJBZ(String HJBZ) {
+        this.HJBZ = HJBZ;
+    }
+
+    public String getHJBZ() {
+        return HJBZ;
+    }
+
+    public void setBODY(String BODY) {
+        this.BODY = BODY;
+    }
+
+    public String getBODY() {
+        return BODY;
+    }
+
+    public void setFZS(String FZS) {
+        this.FZS = FZS;
+    }
+
+    public String getFZS() {
+        return FZS;
+    }
+
+    public void setFD(String FD) {
+        this.FD = FD;
+    }
+
+    public String getFD() {
+        return FD;
+    }
+
+    public void setDHJDYX(String DHJDYX) {
+        this.DHJDYX = DHJDYX;
+    }
+
+    public String getDHJDYX() {
+        return DHJDYX;
+    }
+
+}

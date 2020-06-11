@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <title>Coordinates 5</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript" src="abspath.js"></script>
+        <script type="text/javascript">
+        
+        var popup = null;        
+        
+        var model     = null;
+        var labelF16  = null;
+        
+        var yaw = 45.0;
+        var totalTime = 0;
+        function Init()
+        {
+            SGWorld.AttachEvent("OnFrame", onFrame);
+            setTimeout(function () { SGWorld.DetachEvent("OnFrame", onFrame); }, 10000); // remove event handler after 10 seconds
+            time = new Date().getTime();
+
+            model = SGWorld.Creator.CreateModel(SGWorld.Creator.CreatePosition(-71.10055, 42.31624, 125.0,0, 28), toAbspath("data/f16.xpc"), 1);
+
+            labelF16 = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(0, 0), "F-16",SGWorld.Creator.CreateLabelStyle());                        
+           
+            // Display a message to the user
+            popup = SGWorld.Creator.CreatePopupMessage("Coordinate sample");
+            popup.InnerText = "This sample shows how, by manipulating coordinates, you can create a complex scene\r\n" +
+                              "In this sample you can see how to:\r\n" +
+                              "1. Move an object (F16)\r\n" +
+                              "2. Make another object, a label in this case, to follow the first object\r\n" +
+                              "3. Make the camera follow the first object while circling it";
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);      
+        }
+       
+                
+        function onFrame()   // elapsedTime is the time in seconds elapsed from the previous frame
+        {
+            var elapsedTime = (new Date().getTime() - time) / 1000 // elapsedTime is the time in seconds elapsed from the previous frame
+            time = new Date().getTime();
+
+            var modelPos = model.Position;
+            
+            modelPos.Roll = modelPos.Roll + 4.5;
+            modelPos = modelPos.Move(700 * elapsedTime, modelPos.Yaw, modelPos.Pitch); // move the object in its current direction at a speed of 700 m/s                                                              
+
+            if (totalTime > 6) 
+			    modelPos.Pitch += 20*elapsedTime; // increase pitch by 20 degree per sec
+
+            model.Position = modelPos;
+            
+            // Make the label object to be positioned 40 meters above (pitch = 90) the first object            
+            labelF16.Position = modelPos.Move(40.0, 0.0, 90.0);            
+            
+            // Move the camera in relation to the first object while looking at it.
+            yaw += 40.0*elapsedTime; // increase yaw by 40 degree per sec
+            var cameraPos = modelPos.Move(700, yaw, 5).AimTo(modelPos);
+            cameraPos.Roll = 0; // plane is rolling, but we do not want the camera to use this roll, so we zero it.
+            SGWorld.Navigate.SetPosition(cameraPos);
+            totalTime += elapsedTime;
+        }                        
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+  
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:000000400i4qudC5D6LGxAUXXWY5TgpR8oX2z1JDlW3lw0ZbrUeKifCwTMVwxnTQY6Nn1FPM17Riv7KGM7C.Cw2O44C0G6JJ-->

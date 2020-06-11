@@ -1,0 +1,36 @@
+package com.sucsoft.gzhbyjwz.bean.param.riskManage;
+
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.sucsoft.gzhbyjwz.bean.param.riskManage.CompanyParam;
+
+/**
+ * @author jmy
+ */
+public class ReleaseTaskParam implements Serializable {
+
+    @ApiModelProperty(value = "任务ID")
+    private Integer taskId;
+
+    @ApiModelProperty(value = "被派发任务的企业")
+    private List<CompanyParam> companyList;
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public List<CompanyParam> getCompanyList() {
+        return companyList;
+    }
+
+    public void setCompanyList(List<CompanyParam> companyList) {
+        this.companyList = companyList;
+    }
+}

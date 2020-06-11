@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Get the current position</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        function Init()
+        {
+            var pos = SGWorld.Navigate.GetPosition();
+
+            alert("Current Position:\n\nX: " + pos.X + "\nY: " + pos.Y + "\nHeight: " + pos.Altitude + "\nYaw: " + pos.Yaw + "\nPitch: " + pos.Pitch);
+       }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:000000408gRRvtfNQGY.fwTbFbcsXFKwkc3KWn6kpEh25Wbk0s1OU4tBUgNLbBzD4dIcXBN1s7vJJeJHyyV937b53SekXNJJ-->

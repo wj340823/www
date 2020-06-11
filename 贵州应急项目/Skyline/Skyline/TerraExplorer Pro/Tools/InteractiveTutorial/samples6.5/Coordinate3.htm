@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>Coordinates 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        var popup = null;
+        
+        var coord1, coord2, pos, distance;
+        var time;
+        function Init()
+        {
+            
+            SGWorld.AttachEvent("OnFrame", onFrame);
+            time = new Date().getTime();
+            // defining two coordinates
+            coord1 = SGWorld.Creator.CreatePosition(-71.07542, 42.34930, 232.0);
+            coord2 = SGWorld.Creator.CreatePosition(-71.05507, 42.35561, 105.0);
+            
+            // Placing some annotation on the terrain
+            SGWorld.Creator.CreateTextLabel(coord1, "Hancock Building",SGWorld.Creator.CreateLabelStyle());
+            SGWorld.Creator.CreateTextLabel(coord2, "Building 2",SGWorld.Creator.CreateLabelStyle());
+
+            distance = coord1.DistanceTo(coord2);
+            pos = coord1.AimTo(coord2);
+
+            // Set the start position at the top of the Hancock building
+            SGWorld.Navigate.SetPosition(pos);            
+            
+            // Display a message to the user
+            popup = SGWorld.Creator.CreatePopupMessage("Coordinate sample");
+            popup.InnerText = "This sample shows how to move a coordinate toward another coordinate";
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);                             
+        }
+        
+        
+        
+        function onFrame()
+        {
+            var elapsedTime = (new Date().getTime() - time) / 1000 // elapsed time in seconds
+            time = new Date().getTime();
+            pos = pos.MoveToward(coord2, 200*elapsedTime);   // 200 meters/sec
+            
+            var newDist = pos.DistanceTo(coord2);
+            
+            if (newDist > distance)
+            {
+                // Stop condition. if we are here, then we have passed building 2
+                SGWorld.DetachEvent("OnFrame", onFrame);
+                return;
+            }
+
+            SGWorld.Navigate.SetPosition(pos);         
+            distance = newDist;
+        }
+        
+        
+        
+        
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:00000040yzbjIRvxx00L41b3UiZXFe8ZVQFiZm1q2lG9qgqCjOKOs80ZxrNW731XSxWY5uRMTWZG01rJcOfddXxppv.mXxJJ-->

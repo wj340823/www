@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ToolTitle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0;overflow: auto;" id="Body"  class="hideUntillTranslated" onload="init();" onunload="exit();" >    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    
+   <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="ToolIcon.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolName</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table cellspacing="0" cellpadding="2" >
+                    <tr class='TableOtherLine'>
+                    <td colspan=2>
+                        <span id="SizeText" class="i18n s8b">Text2</span><br /><br />
+                    </td>
+                    </tr>
+                    
+                    <tr'>
+                        <td align="left"  class='ToolButtonsArea'>
+                            <input type=radio name="layertype" style="width:25px;" /> <img alt="points" align=absmiddle border=0 src="../commonImg/point.png" /><br />
+                            <input type=radio name="layertype" style="width:25px;" /> <img alt="lines" align=absmiddle border=0 src="../commonImg/polyline.png" /><br />
+                            <input type=radio name="layertype" style="width:25px;" /> <img alt="polygons" align=absmiddle border=0 src="../commonImg/polygon.png" />
+                        </td>
+                        <td align="center">
+                            <button id="CalculateButton" class="MenuButton " onclick="suggestBlockWidth(1);"><img src="Calculate.png" alt="Alone a line" /><br /><span class="i18n">Text3</span></button>
+                        </td>
+                    </tr>
+
+                <tr class="s8">
+                    <td colspan="2" align="left">
+
+           	                <span id="blockwidthspan"></span>
+                    </td>
+                </tr>
+                    <tr >
+                    <td colspan=2 align="center">
+                        <span id="Span2" class="i18n s10b">Text4</span>
+                    </td>
+                    </tr>
+                    <tr class='TableOtherLine'>
+                        <td colspan=2 align="left" ><br /><span id="Span1" class="i18n s8b">Text5</span><br /><br /></td>
+                    </tr>
+                    <tr class='TableOtherLine'>
+                        <td colspan=2 align="center" >
+                             <select id="Levels" size="1" onchange="onLevelChanged()" style="width:230px;z-index: 1;"></select>    <br /><br />
+                        </td>
+                    </tr>
+        </table>
+            </td>
+        </tr>
+        
+        
+    </table>
+    <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1">
+    </object>
+
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+<script language="javascript">    
+    
+
+var grid = null;
+var GroupID = 0;
+var realNumLevels = 22;
+var fakeNumLevels = 22;
+
+var bestLevelWidth = 19.109257071294063;
+
+//------------------
+function init()
+{
+
+    realNumLevels = SGWorld.Terrain.Levels;
+
+
+	if (realNumLevels > 22)
+	    alert(SGLang.i18n("Text6"));
+
+	addLevel(22, "40075 " + SGLang.i18n("Text7"));
+	addLevel(21, "20037 " + SGLang.i18n("Text7"));
+	addLevel(20, "10018 " + SGLang.i18n("Text7"));
+	addLevel(19, "5009 " + SGLang.i18n("Text7"));
+	addLevel(18, "2504 " + SGLang.i18n("Text9"));
+	addLevel(17, "1252 " + SGLang.i18n("Text7"));
+	addLevel(16, "626 " + SGLang.i18n("Text10"));
+	addLevel(15, "313 " + SGLang.i18n("Text11"));
+	addLevel(14, "156 " + SGLang.i18n("Text7"));
+	addLevel(13, "78 " + SGLang.i18n("Text12"));
+	addLevel(12, "39 " + SGLang.i18n("Text13"));
+	addLevel(11, "19 " + SGLang.i18n("Text7"));
+	addLevel(10, "9783 " + SGLang.i18n("Text14"));
+	addLevel(9, "4891 " + SGLang.i18n("Text15"));
+	addLevel(8, "2445 " + SGLang.i18n("Text8"));
+	addLevel(7, "1222 " + SGLang.i18n("Text16"));
+	addLevel(6, "611 " + SGLang.i18n("Text17"));
+	addLevel(5, "305 " + SGLang.i18n("Text8"));
+	addLevel(4, "152 " + SGLang.i18n("Text18"));
+	addLevel(3, "76 " + SGLang.i18n("Text19"));
+	addLevel(2, "38 " + SGLang.i18n("Text8"));
+	addLevel(1, "19 " + SGLang.i18n("Text8"));
+
+}
+//------------------
+function addLevel(level, text) {
+
+
+    if (level <= fakeNumLevels) {
+        var oOption = document.createElement("OPTION");
+        oOption.text = text;
+
+         document.all["Levels"].add(oOption);
+    }
+}
+
+function exit() 
+{
+    try {
+        if (GroupID != 0)
+            SGWorld.ProjectTree.DeleteItem(GroupID);
+    }
+    catch (e) { }
+}
+//------------------
+function getBestViewPoint() {
+
+    var worldPointMid = SGWorld.Window.CenterPixelToWorld();
+
+    if (worldPointMid.Type == 32) {
+        alert(SGLang.i18n("Text20"));
+        return null;
+    }
+
+    return worldPointMid.Position;
+}
+
+//------------------
+function suggestBlockWidth() 
+{
+    var position = getBestViewPoint();
+    if (position == null)
+        return;
+        
+    var preferredLevel = getPreferredLevel(position);
+    if (preferredLevel < 0)
+        return;
+
+    drawLevel(preferredLevel);
+
+    document.all["blockwidthspan"].innerHTML = " <font style='color:red'>" + SGLang.i18n("Text23") + Levels[preferredLevel].outerText + "</font>";
+}
+//------------------
+function drawLevel(level) {
+
+    try
+    {
+        if (GroupID != 0)
+            SGWorld.ProjectTree.DeleteItem(GroupID);
+    }
+    catch (e) { }
+
+
+    GroupID = SGWorld.ProjectTree.CreateGroup(SGLang.i18n("ToolName"),0);
+
+    var posCenter = getBestViewPoint();
+    if (posCenter == null)
+        return;
+
+    var blockWidth = alignCoordsToGrid(level, posCenter)
+
+    var size = 2;
+
+    var position = SGWorld.Creator.CreatePosition (posCenter.X - size * blockWidth, posCenter.Y - size * blockWidth,0);
+
+    for (var i = 0; i < size * 2 + 1; i++) 
+    {
+        for (var j = 0; j < size * 2 + 1; j++) 
+        {
+            darwRequest(position, blockWidth);
+            position.Y += blockWidth;
+        }
+
+        position.X += blockWidth;
+        position.Y = posCenter.Y - size * blockWidth;
+    }
+
+    Levels.selectedIndex = level;
+}
+//------------------
+function darwRequest(coord,width)
+{
+    var halfWidth = width / 2;
+    var myGeometry = SGWorld.Creator.GeometryCreator.CreateLinearRingGeometry([coord.x - halfWidth, coord.y - halfWidth, 0, coord.x - halfWidth, coord.y + halfWidth, 0, coord.x + halfWidth, coord.y + halfWidth, 0, coord.x + halfWidth, coord.y - halfWidth, 0]);
+    var lineColor = SGWorld.Creator.CreateColor(255, 255, 0);
+    var fillColor = SGWorld.Creator.CreateColor(0, 255, 0, 0);
+    var poly = SGWorld.Creator.CreatePolygon(myGeometry, lineColor, fillColor, 2, GroupID, SGLang.i18n("Text22"));
+}
+
+//------------------
+function getPreferredLevel(viewPoint) 
+{
+    var DistCameraToTerrain = SGWorld.Navigate.GetPosition().DistanceTo(viewPoint);
+    var HalfRealWidth = DistCameraToTerrain * Math.tan((53.0 / 2.0) * Math.PI / 180.0);
+    var NumBlocksInViewWidth = 4;
+    var IdealBlockSize = HalfRealWidth * 2.0 / NumBlocksInViewWidth;
+    var blockLevel = BlockWidthToLevel(IdealBlockSize);
+
+
+    var LayerType = -1;
+    if (document.all["layertype"][0].checked)
+        LayerType = 0; // "points";
+    if (document.all["layertype"][1].checked)
+        LayerType = 1; //"lines";
+    if (document.all["layertype"][2].checked)
+        LayerType = 2; //"polygons";
+
+    if (LayerType == -1) 
+    {
+        alert(SGLang.i18n("Text21"));
+        return -1;
+    }
+    else if (LayerType != 0)
+        blockLevel += 1;
+        
+    blockLevel = Math.min(blockLevel, fakeNumLevels - 1);
+	
+    return blockLevel;
+}
+
+//------------------
+function BlockWidthToLevel(blockWidth) 
+{
+    var numOfBlocksInLevel = blockWidth / bestLevelWidth;
+    var deltaFromBestLevel = Math.log(numOfBlocksInLevel) / Math.log(2.0);
+
+    var L1 = bestLevelWidth * Math.pow(2, Math.floor(deltaFromBestLevel));
+    var L2 = bestLevelWidth * Math.pow(2, Math.floor(deltaFromBestLevel + 0.5));
+
+    if (Math.abs(L1 - blockWidth) <= Math.abs(L2 - blockWidth))
+        deltaFromBestLevel = Math.floor(deltaFromBestLevel);
+    else
+        deltaFromBestLevel = Math.ceil(deltaFromBestLevel);
+
+    var blockLevel = Math.floor(fakeNumLevels - 1.0 - deltaFromBestLevel);
+
+    blockLevel = Math.max(0, Math.min(fakeNumLevels - 1, blockLevel));
+
+    return blockLevel;
+}
+
+//------------------
+function alignCoordsToGrid(level, position) 
+{
+    var blockWidth, blockX, blockY;
+
+    var X = position.X;
+    var Y = position.Y;
+
+    if (SGWorld.CoordServices.SourceCoordinateSystem.IsPlanar() == false) 
+    {
+        var numBlockes = Math.pow(2, level);
+        blockWidth = 360.0 / numBlockes;
+
+        var left = -180.0;
+        var top = -90.0;
+
+        var xfactor = (X - left) / blockWidth;
+        xfactor = Math.floor(xfactor);
+        blockX = left + (xfactor * blockWidth);
+
+        var yfactor = (Y - top) / blockWidth;
+        yfactor = Math.ceil(yfactor);
+        blockY = top + (yfactor * blockWidth);
+    }
+    else 
+    {
+        var levelsFromBest = fakeNumLevels - 1 - level;
+        blockWidth = bestLevelWidth * (1 << levelsFromBest);
+
+        var xfactor = Math.floor(X / blockWidth);
+        blockX = xfactor * blockWidth;
+
+        var yfactor = Math.floor(Y / blockWidth);
+        blockY = yfactor * blockWidth;
+    }
+
+    position.X = blockX + blockWidth / 2.0;
+    position.Y = blockY + blockWidth / 2.0;
+
+    return blockWidth;
+}
+//------------------
+function onLevelChanged() {
+    drawLevel(Levels.selectedIndex);
+}
+
+
+</script>
+
+</body>
+</html>

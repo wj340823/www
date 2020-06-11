@@ -1,0 +1,347 @@
+package com.sucsoft.gzhbyjwz.service.common;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.sucsoft.gzhbyjwz.bean.dc12.EmergencyOrganization;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterpriseInformation;
+import com.sucsoft.gzhbyjwz.bean.dc12.EnterprisePreplan;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cgs.dc.PojoDataset;
+import com.cgs.dc.client.utils.BeanAssign;
+import com.cgs.dc.starter.model.CountObject;
+import com.cgs.dc.starter.model.GetOptions;
+import com.cgs.dc.starter.services.UnsafeCrudService;
+import com.cgs.dc.starter.services.UnsafeQueryService;
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+
+import com.sucsoft.gzhbyjwz.util.PageUtils;
+import com.sucsoft.gzhbyjwz.util.ParamsUtils;
+
+@Service
+public class BasicQueryService {
+	@Autowired
+	private UnsafeQueryService queryService;
+	@Autowired
+	private PojoDataset dataset;
+	@Autowired
+	private UnsafeCrudService crudService;
+
+	@Autowired
+	private HttpServletRequest request;
+	
+	public PojoDataset getDataset() {
+		return dataset;
+	}
+	protected Logger log = Logger.getLogger(getClass());
+
+	public void setDataset(PojoDataset dataset) {
+		this.dataset = dataset;
+	}
+
+
+	public UnsafeCrudService getCrudService() {
+		return crudService;
+	}
+
+
+	public void setCrudService(UnsafeCrudService crudService) {
+		this.crudService = crudService;
+	}
+
+
+	public UnsafeQueryService getQueryService() {
+		return queryService;
+	}
+
+
+	public void setQueryService(UnsafeQueryService queryService) {
+		this.queryService = queryService;
+	}
+	
+	@Transactional(readOnly=false)
+	public Serializable save(Object o) {
+		return dataset.save(o,o.getClass().getName());
+	}
+
+	@Transactional(readOnly=false)
+	public Serializable save(Map<String, Object> map, String entityName) {
+		return crudService.save(map, entityName);
+	}
+	
+	@Transactional(readOnly=false)
+	public void update(Object o) {
+		dataset.update(o,o.getClass().getName());
+	}
+	
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
+	public void update(Serializable id, Map<String, Object> map, String entityName) {
+		crudService.update(id, map, entityName);
+	}
+	
+	
+	@Transactional(readOnly=false)
+	public <R> void delete(Serializable id,Class<R> class_z) {
+		dataset.remove(id,class_z.getName());
+	}
+	
+	@Transactional(readOnly=true)
+	public <R> R get(Serializable id,Class<R> class_z){
+		return dataset.get(id, class_z.getName(),class_z);
+	}
+	
+	@Transactional(readOnly=true)
+	public <R> Map<String, Object> getMap(Serializable id,Class<R> class_z,String...fetches){
+		return crudService.get(id, class_z.getName(), Arrays.asList(fetches));
+	}
+	
+	
+	
+	/**
+	 * 查询某个类所有数据，加上关联关系
+	 * @param class_z
+	 * @param fetches
+	 * @return
+	 */
+	public <R> List<R> list(Class<R> class_z,String...fetches){
+		GetOptions options = new GetOptions();
+		if(fetches.length>0)
+			options.setExpands(Arrays.asList(fetches));
+		return crudService.list(class_z.getClass().getName(), options, class_z);
+	}
+	/**
+	 * 普通分页查询
+	 * @param queryName
+	 * @param params
+	 * @param resultType
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> Page queryForPage(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		List<R> list = queryForList(queryName, params, resultType, pageNo, pageSize);
+		CountObject totalCount = queryService.restQueryCount(queryName, params);
+		Page<R> page = new Page<>(totalCount.getCount(), pageNo, pageSize, list);
+		return page;
+	}
+	
+	/**
+	 * 普通分页查询-hql
+	 * @param queryName
+	 * @param params
+	 * @param resultType
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> Page queryForPageHql(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		List<R> list = queryForList(queryName, params, resultType, pageNo, pageSize);
+		CountObject totalCount = new CountObject(queryService.query(queryName, params, resultType, 0, 0).size());
+		Page<R> page = new Page<>(totalCount.getCount(), pageNo, pageSize, list);
+		return page;
+	}
+	/**
+	 * 普通查询,不带页码
+	 * @param queryName
+	 * @param params
+	 * @param resultType
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional()
+	public <R> List<R> queryForList(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		Integer first = PageUtils.getFirst(pageNo, pageSize);
+		List<R> list = queryService.query(queryName, params,resultType, first, pageSize);
+		return list;
+	}
+	
+	/**
+	 * 普通查询,不带页码,不带map
+	 * @param queryName
+	 * @param resultType
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> List<R> queryForList(String queryName, Object[] objs, String[] conditions, Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		Map<String, Object> params = new HashMap<>();
+		ParamsUtils.addParamsArr(params, objs, conditions);
+		return queryForList(queryName, params, resultType, pageNo, pageSize);
+	}
+	
+	/**
+	 * 根据查询条件查询带expands的list
+	 * @param queryName yml方法名
+	 * @param objs 参数
+	 * @param conditions 参数名
+	 * @param resultType 返回类型
+	 * @param fetches 关联字段
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> List<Map<String,Object>> queryForList(String queryName, Object[] objs, String[] conditions, Class<R> resultType, String...fetches) throws Exception{
+		Map<String, Object> params = new HashMap<>();
+		ParamsUtils.addParamsArr(params, objs, conditions);
+		List<R> list = queryForList(queryName, params, resultType, 0, 0);
+		List<Map<String,Object>> result = new ArrayList<>();
+		for(R r : list){
+			result.add(BeanAssign.beanToMap(r, resultType.getName(), dataset, "", Arrays.asList(fetches)));
+		}
+		return result;
+	}
+	
+	/**
+	 * 简化分页查询
+	 * @param queryName
+	 * @param objs
+	 * @param conditions
+	 * @param resultType
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> Page<R> queryForPage(String queryName, Object[] objs, String[] conditions, Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		Map<String, Object> params = new HashMap<>();
+		ParamsUtils.addParamsArr(params, objs, conditions);
+		return queryForPage(queryName, params, resultType, pageNo, pageSize);
+	}
+	
+	/**
+	 * 带fetches的分页，返回map
+	 * @param queryName 方法名
+	 * @param params 参数
+	 * @param resultType 返回类型（调用方法后 的返回类型，最终返回的是map）
+	 * @param pageNo 第几页
+	 * @param pageSize 每页数量
+	 * @param fetches 关联表
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public <R> Page<Map<String,Object>> queryForPageAsMap
+		(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize,String... fetches) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		Integer first = PageUtils.getFirst(pageNo, pageSize);
+		List<R> list = queryService.query(queryName, params,resultType, first, pageSize);
+		CountObject totalCount = queryService.restQueryCount(queryName, params);
+		List<Map<String,Object>> result = new ArrayList<>();
+		for(R r:list){
+			result.add(BeanAssign.beanToMap(r, resultType.getName(), dataset, "", Arrays.asList(fetches)));
+		}
+		Page<Map<String,Object>> page = new Page<Map<String,Object>>(totalCount.getCount(),pageNo,pageSize,result);
+		return page;
+	}
+	
+	/**
+	 * 通用方法，参数统一用condition表示，用于单个参数或者无参数，返回所有
+	 * @param queryName 方法名
+	 * @param resultType 返回类型
+	 * @param condition 参数
+	 * @return
+	 * @throws Exception
+	 */
+	public <R> List<R> findByCondition(String queryName,Class<R> resultType,Object... condition) throws Exception{
+		Map<String,Object> params = new HashMap<String,Object>();
+		if(condition.length>0){
+			for(int i=0;i<condition.length;i++){
+				if(condition[i]!=null&&StringUtils.isNotBlank(condition[i].toString()))
+					params.put("condition"+i, condition[i]);
+			}
+		}
+		List<R> list = queryService.query(queryName, params, resultType, 0, 0);
+		return list;
+	}
+	
+/*	public TblUser getMyUserDetails() {
+    	HttpSession session = request.getSession();
+		return (TblUser)session.getAttribute("NewTbl");
+//		return userService.getMyUserDetails();
+	}
+	
+	public String findLoginOid(){
+		String oid = "";
+		TblUser user = new TblUser();
+		try {
+			user = getMyUserDetails();
+		} catch (Exception e) {
+			return null;
+		}
+		if(user==null)
+			oid = null;
+		else {
+			if(user.getUserOrganizationRel()==null)
+				oid = null;
+			else {
+				if(user.getUserOrganizationRel().getOrganization()==null)
+					oid = null;
+				else
+					oid = user.getUserOrganizationRel().getOrganization().getOid();
+			}
+		}
+		return oid;
+	}*/
+	/**
+	 * 
+	 * 判断bus获取到的时间字段是否为时间戳. <br/>
+	 *
+	 * @param map
+	 * @return true:时间戳  false:非时间戳
+	 */
+	@Transactional
+	public Boolean checkTimeType(Map map){
+		try{
+			long timestamp = Long.parseLong(map.get("rectime").toString());
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+
+	@Transactional
+	public List<EnterpriseInformation> queryInfoList(Map map,Integer num) throws Exception {
+		List<EnterpriseInformation> list = queryService.query("getPlanList",map,EnterpriseInformation.class,0,num);
+		return list;
+	}
+	@Transactional
+	public Map<String,String> queryPlanList() throws Exception {
+		List<EnterprisePreplan> list = queryService.query("getPlanList",new HashMap<>(),EnterprisePreplan.class,0,0);
+		Map<String,String> map = new HashMap<>();
+		for(EnterprisePreplan preplan : list){
+			map.put(preplan.getCompanyId(),"1");
+		}
+		return map;
+	}
+
+
+}

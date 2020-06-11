@@ -1,0 +1,62 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.Arrays;
+import java.util.Map;
+
+public final class VehicleTypeUtil {
+	
+	public static int[] StringToInt(String strResour) {
+		String[] arrs = strResour.split(",");
+		int[] ints = new int[arrs.length];
+		for (int i = 0; i < arrs.length; i++) {
+			ints[i] = Integer.parseInt(arrs[i]);
+		}
+		//排序
+		Arrays.sort(ints);
+		return ints;
+	}
+	
+	public static String vehicleTypes []={"客运"  , "班车客运","县内班车","县级班车","市级班车","省级班车","包车客运","县内包车","县级包车", "市级包车","省级包车"  ,"货运"  ,"普运"  ,"集装箱"  ,"危险品"  ,"经营性危货","危险品第1类","危险品第2类","危险品第3类","危险品第4类","危险品第5类","危险品第6类","危险品第7类","危险品第8类" ,"危险品第9类" ,"剧毒化学品"  ,"医疗废物"     ,"危险废物"   ,"非经营性危货","驾培"   ,"未知"    };
+	public static String carTypeBit []={"2_0_0", "2_2_0","2_2_1" ,"2_2_2","2_2_4","2_2_8" ,"2_4_0","2_4_16","2_4_32","2_4_64","2_4_128","4_0_0","4_8_0","4_16_0","8_32_0","8_64_0" ,"8_64_1"  ,"8_64_2" ,"8_64_4"  ,"8_64_8"  ,"8_64_16" ,"8_64_32" ,"8_64_64" ,"8_64_128" ,"8_64_256","8_64_512" ,"8_64_1024" ,"8_64_2048","8_128_0" ,"16_0_0","32_0_0"};
+	
+	//根据输入的一个车辆类型，得到smallclass，smallclassa，smallclassb
+	public static int[] getSmallClazz(String vehicleType) {
+		int [] smallclazz = new int [3];
+		for(int i=0;i<vehicleTypes.length;i++){
+			if(vehicleType.equals(vehicleTypes[i])){
+				String [] bits = (carTypeBit[i]).split("_");
+				smallclazz[0] = Integer.parseInt(bits[0]);
+				smallclazz[1] = Integer.parseInt(bits[1]);
+				smallclazz[2] = Integer.parseInt(bits[2]);
+				break;
+			}
+		}
+		return smallclazz;
+	}
+	
+	/**
+	 * 企业经营范围sql拼接
+	 * @param busiScope  输入的企业经营范围：集装箱;省际包车
+	 * @param sql   sql语句
+	 * @param enterScopeMap   经营范围所对应的type
+	 */
+	public static void enterScopSql(String busiScope, StringBuilder sql,Map<String,Map<String,Object>> enterScopeMap) {
+		String [] busiScopes = busiScope.split(";");
+		sql.append(" and(");
+		for(int i= 0;i<busiScopes.length;i++){
+			if(enterScopeMap.containsKey(busiScopes[i])){
+				if(i !=0){
+					sql.append(" or");
+				}
+				sql.append(" (bitand(nvl(t1.busstype,0),").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPE")).append(") =").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPE"));
+				sql.append(" and bitand(nvl(t1.busstypea,0),").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEA")).append(") =").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEA"));
+				sql.append(" and bitand(nvl(t1.busstypeb,0),").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEB")).append(") =").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEB"));
+				sql.append(" and bitand(nvl(t1.busstypec,0),").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEC")).append(") =").append(enterScopeMap.get(busiScopes[i]).get("BUSSTYPEC")).append(")");
+			}
+		}
+		sql.append(")");
+	}
+	
+	
+}
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+        *{margin: 0;padding: 0}
+    </style>
+</head>
+<body style="height: 100%;">
+<div style="height: 300px;width: 500px;overflow-y: scroll;">
+    <input type="text" id="role" value="444">
+    <button onclick="copyText()">复制</button>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+<script>
+
+    /*$('ul li').each(function (item) {
+        console.log($(item).val())
+    })*/
+    function copyText() {
+        $('#role').select()
+        document.execCommand('copy');
+        alert($('#role').val())
+    }
+
+</script>
+</body>
+</html>

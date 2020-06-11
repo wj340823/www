@@ -1,0 +1,58 @@
+<div class="emergencyPlan emergencyDetail" ng-controller="emerDetailCtrl">
+	<section class="table-content">
+		<div class="clearfix">
+			<div class="tb-title">预案详情</div>
+		</div>
+		<div class="item-title">基本信息</div>
+		<div class="item-content">
+			<ul class="detail">
+				<li>
+					<span ng-model="company.COMPANYNAME">企业名称：{{ comName }}</span>
+				</li>
+				<li>
+					<span>备案状态*：</span>
+					<span ng-if="detail.RECORDSTATUS==''">未备案</span>
+					<span ng-if="detail.RECORDSTATUS==1">已备案</span>
+					<span ng-if="detail.RECORDSTATUS==2">即将到期</span>
+					<span ng-if="detail.RECORDSTATUS==3">备案超期</span>
+				</li>
+				<li>
+					<span>备案时间：</span><span class="qie">{{ detail.RECORDTIME | date:'yyyy-MM-dd' }}</span>
+          			<span>预案管理经办人：</span><span ng-if="detail.UNDERSIGNED" >{{ detail.UNDERSIGNED }}</span>
+					<span style="margin-left:20px">联系方式：</span><span ng-if="company.PREPLANTEL">{{ company.UNDERSIGNED }}</span>
+				</li>
+				<li>
+					<span>风险级别：</span>
+					<span ng-if="detail.LEVEL==1">一般风险源</span>
+					<span ng-if="detail.LEVEL==3">较大风险源</span>
+					<span ng-if="detail.LEVEL==2">重大风险源</span>
+				</li>
+			</ul>
+		</div>
+		<table class="detailTable">
+			<thead>
+				<tr>
+					<th>附件名称</th>
+					<th>附件类型</th>
+					<th>文件大小</th>
+					<th>上传日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="detail in page.list.dataList">
+					<td> {{ detail.URL }} </td>
+					<td> {{ detail.TYPE==1?'应急综合预案': detail.TYPE==2?'应急专项预案': detail.TYPE==3?'应急现场处置预案': detail.TYPE==4?'应急预案备案表': detail.TYPE==5?'应急预案编制说明': detail.TYPE==6?'环境风险评估报告': detail.TYPE==7?'环境应急资源调查报告': detail.TYPE==8?'环境应急预案评审意见': detail.TYPE==9?'其他':''}} </td>
+					<td> {{ input(detail.SIZE) }} </td>
+					<td> {{ detail.TIME | date: 'yyyy-MM-dd' }} </td>
+					<td>
+						<a ng-href="{{detail.URLS}}"><span class="oper">下载</span></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<uib-pagination ng-change="getManageDetail()" total-items="page.totalCount" items-per-page="page.pageSize" ng-model="page.currentPage" class="pagination" boundary-link-numbers="true" direction-links="false" rotate="false" max-size="3" first-text="首页" last-text="末页">
+		</uib-pagination>
+		<div class="clearfix"></div>
+	</section>
+</div>

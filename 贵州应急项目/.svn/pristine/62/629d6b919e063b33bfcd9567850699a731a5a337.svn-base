@@ -1,0 +1,109 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "环境风险要素排口信息")
+public class RiskFactorsPkList_ya {
+
+    @ApiModelProperty(value = "uuid")
+    private String uuid;
+    @ApiModelProperty(value = "riskfactors_id")
+    private String riskfactors_id;
+    @ApiModelProperty(value = "排口名称")
+    private String name;
+    @ApiModelProperty(value = "经度")
+    private String jd;
+    @ApiModelProperty(value = "纬度")
+    private String wd;
+    @ApiModelProperty(value = "1：间接排放， 2：进入市政污水网，3：进入园区污水管网，4：其它")
+    private String pfqx;
+    @ApiModelProperty(value = "其它")
+    private String qt;
+    @ApiModelProperty(value = "收纳水体")
+    private String snst;
+    @ApiModelProperty(value = "排污口到受纳水体距离（米）")
+    private String snstjl;
+    @ApiModelProperty(value = "预案id")
+    private String yaid;
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getYaid() {
+        return yaid;
+    }
+
+    public void setYaid(String yaid) {
+        this.yaid = yaid;
+    }
+
+    public String getRiskfactors_id() {
+        return riskfactors_id;
+    }
+
+    public void setRiskfactors_id(String riskfactors_id) {
+        this.riskfactors_id = riskfactors_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getJd() {
+        return jd;
+    }
+
+    public void setJd(String jd) {
+        this.jd = jd;
+    }
+
+    public String getWd() {
+        return wd;
+    }
+
+    public void setWd(String wd) {
+        this.wd = wd;
+    }
+
+    public String getPfqx() {
+        return pfqx;
+    }
+
+    public void setPfqx(String pfqx) {
+        this.pfqx = pfqx;
+    }
+
+    public String getSnst() {
+        return snst;
+    }
+
+    public void setSnst(String snst) {
+        this.snst = snst;
+    }
+
+    public String getQt() {
+        return qt;
+    }
+
+    public void setQt(String qt) {
+        this.qt = qt;
+    }
+
+    public String getSnstjl() {
+        return snstjl;
+    }
+
+    public void setSnstjl(String snstjl) {
+        this.snstjl = snstjl;
+    }
+}

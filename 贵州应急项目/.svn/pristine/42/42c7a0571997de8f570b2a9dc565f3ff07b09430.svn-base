@@ -1,0 +1,174 @@
+package com.sucsoft.gzhbyjwz.service.app;
+
+import com.sucsoft.gzhbyjwz.bean.dc12.*;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.util.StringUtils;
+import com.sucsoft.gzhbyjwz.util.UploadUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class AppService {
+	@Value("${app.update.filePath}")
+	private String filePath;
+
+	@Autowired
+	private BasicQueryService queryService;
+
+
+	/**
+	 * 更新app版本
+	 * @param versionId
+	 * @param file
+	 * @return
+	 */
+	@Transactional
+	public Object updateVersion(String versionId, MultipartFile file) throws Exception {
+		AppVersion lastVersion = getLastVersion();
+		if (lastVersion != null){
+			if (!lastVersion.getVersionId().equals(versionId)){
+				String url = UploadUtil.saveMultipartFile(file, filePath);
+				lastVersion.setFilename(url);
+				lastVersion.setVersionId(versionId);
+				lastVersion.setLastupdatetime(new Date());
+				queryService.update(lastVersion);
+			}
+		}else {
+			lastVersion = new AppVersion();
+			String url = UploadUtil.saveMultipartFile(file, filePath);
+			lastVersion.setFilename(url);
+			lastVersion.setVersionId(versionId);
+			lastVersion.setLastupdatetime(new Date());
+			queryService.update(lastVersion);
+		}
+		return "success";
+	}
+
+	/**
+	 * 通过对比版本号查看是否需要更新版本。
+	 * 如果传来的参数版本号和库里存的最新版本号相同，则不需要更新。
+	 * @param versionId
+	 * @return true:需要更新，false：不需要更新
+	 * @throws Exception
+	 */
+	@Transactional
+	public boolean checkVersion(String versionId) throws Exception {
+		AppVersion lastVersion = getLastVersion();
+		if (lastVersion != null && !org.springframework.util.StringUtils.isEmpty(versionId)){
+			return !lastVersion.getVersionId().equals(versionId);
+		}
+		return false;
+	}
+
+	/**
+	 * 下载最新的apk
+	 * @param response
+	 * @return
+	 */
+	@Transactional
+	public Object downloadApk(HttpServletResponse response) throws Exception {
+		AppVersion lastVersion = getLastVersion();
+		if (lastVersion != null){
+			String url = lastVersion.getFilename();
+			FileInputStream fis = null;
+			try {
+				fis =  new FileInputStream(Paths.get(filePath,url).toFile());
+				response.setContentType("application/x-download");
+				response.addHeader("Content-Disposition","attachment;filename=" + StringUtils.toUtf8String("gzyj.apk"));
+				FileCopyUtils.copy(fis,response.getOutputStream());
+			}finally {
+				fis.close();
+			}
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+
+	/**
+	 * 获取最新的version
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional
+	public AppVersion getLastVersion() throws Exception {
+		List<AppVersion> versions = queryService.queryForList("getLastVersion", new HashMap<>(), AppVersion.class, 0, 0);
+		if(versions != null && versions.size() > 0){
+			return versions.get(0);
+		}else {
+			return null;
+		}
+	}
+
+	/**
+	 * 微信二维码危险品罐的扫码信息
+	 * @param id 危险品罐的id
+	 * @return
+	 * @throws Exception
+	 */
+	public Object getDangerUnitInfo(String id,String companyId1) throws Exception {
+		Map param = new HashMap(3);
+		if(org.apache.commons.lang.StringUtils.isNotBlank(id)) {
+			param.put("id", id);
+		}
+		if(org.apache.commons.lang.StringUtils.isNotBlank(companyId1)) {
+			param.put("companyId", companyId1);
+		}
+
+		List<Map> list = queryService.queryForList("getDangerUnit", param, Map.class, 0, 0);
+		if (list == null || list.size() == 0){
+			return null;
+		}
+
+		Map dangerUnit = list.get(0);
+		String companyId = String.valueOf(dangerUnit.get("COMPANYID"));
+
+		//应急人员
+		param.clear();
+		param.put("companyId",companyId);
+		List<EmergencyCrew> crewList = queryService.queryForList("getEmergencyCrew",param,EmergencyCrew.class,0,0);
+
+		//应急物资
+		List<EmergencySubstance> substanceList = queryService.queryForList("getEmergencySubstance",param,EmergencySubstance.class,0,0);
+
+		//联动单位
+		List<ForeignAidUnit> foreignAidUnitList = queryService.queryForList("getForeignAidUnit",param,ForeignAidUnit.class,0,0);
+
+		//应急专家
+		List<EmergencySpecialist> emergencySpecialistList = queryService.queryForList("getEmergencySpecialist",param,EmergencySpecialist.class,0,0);
+
+		Map result = new HashMap(6);
+		result.put("DangerUnit",list);
+		result.put("crewList",crewList);
+		result.put("substanceList",substanceList);
+		result.put("lddwlist",foreignAidUnitList);
+		result.put("yjzjlist",emergencySpecialistList);
+
+		return result;
+
+	}
+
+
+
+	public static int func (){
+		try{
+			return 1;
+		}catch (Exception e){
+			return 2;
+		}finally{
+			return 3;
+		}
+	}
+}

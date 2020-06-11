@@ -1,0 +1,57 @@
+package com.sucsoft.gzhbyjwz;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.velocity.VelocityAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.Random;
+
+/**
+ *                      _ooOoo_
+                       o8888888o
+                       88" . "88
+                       (| -_- |)
+                       O\  =  /O
+                    ____/`---'\____
+                  .'  \\|     |//  `.
+                 /  \\|||  :  |||//  \
+                /  _||||| -:- |||||-  \
+                |   | \\\  -  /// |   |
+                | \_|  ''\---/''  |   |
+                \  .-\__  `-`  ___/-. /
+               ___`. .'  /--.--\  `. . __
+             ."" '<  `.___\_<|>_/___.'  >'"".
+          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+          \  \ `-.   \_ __\ /__ _/   .-` /  /
+       ======`-.____`-.___\_____/___.-`____.-'======
+        `=---='
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               佛祖保佑       永无BUG
+ */
+@SpringBootApplication
+@EnableScheduling
+@EnableAutoConfiguration(exclude={HibernateJpaAutoConfiguration.class,
+		LiquibaseAutoConfiguration.class,VelocityAutoConfiguration.class})
+public class GuizhouyjzyApplication {
+
+	public static void main(String[] args) {
+		System.out.println(randomString(-229985452)+' '+randomString(-147909649));
+		SpringApplication.run(GuizhouyjzyApplication.class, args);
+
+	}
+
+	public static String randomString(int seed) {
+		Random rand = new Random(seed);
+		StringBuilder sb = new StringBuilder();
+		while(true) {
+			int n = rand.nextInt(27);
+			if (n == 0) break;
+			sb.append((char) ('`' + n));
+		}
+		return sb.toString();
+	}
+}

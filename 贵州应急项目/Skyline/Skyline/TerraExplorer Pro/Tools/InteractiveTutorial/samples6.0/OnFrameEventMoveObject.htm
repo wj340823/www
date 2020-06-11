@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>onFrame - Move objects</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script src="abspath.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+        
+        var model = null;
+        var time;
+         
+        function Init()
+        {
+            time = new Date();
+            SGWorld.AttachEvent("onFrame", onFrame);
+            
+            var pos = SGWorld.Creator.CreatePosition(-122.38050, // x
+                                                  37.62331,  // y
+                                                  40.0,      // height
+                                                  3,         // height type
+                                                  297.0,     // yaw
+                                                  15.0,      // pitch
+                                                  0,         // roll
+                                                  0          // dist
+                                                  );
+                                                                                            
+            model = SGWorld.Creator.CreateModel(pos, toAbspath("data/747.xpc"), 0.2);
+
+            model.Attachment.AutoDetach = false;
+                                   
+            SGWorld.Navigate.FlyTo(model);            
+        }
+        
+        function onFrame(elapsedTime)
+        {
+            // move object with speed of 400km/h
+            var distToMove = (400 * 1000 / 3600) * (new Date().getTime() - time.getTime()) / 1000;
+
+            model.Position = model.Position.Move(distToMove, model.Position.Yaw + 0.1, model.Position.Pitch);
+            time = new Date();
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040lm5e5DSLrqXcp3z772MwPfqN8Rma15JVcO7NFtaBK21g2rRnP.Bilaq.TK7hbgHswD1ghN6NLacS8KfuwEU0M8JJ-->

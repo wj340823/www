@@ -1,0 +1,72 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class LoginLog {
+
+    private String id;
+    private String displayName;
+    private String account;
+    private Date logTime;
+    private String xzqyName;
+    private String roleName;
+    private String companyName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getXzqyName() {
+        return xzqyName;
+    }
+
+    public void setXzqyName(String xzqyName) {
+        this.xzqyName = xzqyName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setLogTime(Date logTime) {
+        this.logTime = logTime;
+    }
+
+    public Date getLogTime() {
+        return logTime;
+    }
+
+}

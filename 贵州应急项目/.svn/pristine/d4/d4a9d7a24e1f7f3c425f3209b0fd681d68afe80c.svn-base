@@ -1,0 +1,272 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.persistence.Transient;
+
+/**
+ * 风险源信息
+ * @author jinly
+ *
+ */
+@ApiModel(value = "企业风险源", description = "企业风险源信息")
+public class EnterpriseInformation {
+	@ApiModelProperty(value = "唯一标识")
+	private String companyId;//风险源id
+	@ApiModelProperty(value = "编制年份")
+	private String documentYear;
+	@ApiModelProperty(value = "风险源名称")
+	private String companyName;//风险源名称
+	@ApiModelProperty(value = "经度")
+	private String longitude;//经度
+	@ApiModelProperty(value = "纬度")
+	private String latitude;//纬度
+	@ApiModelProperty(value = "所属行政区域id")
+	private String xzqyId;//行政区域id
+	@ApiModelProperty(value = "所属二级行政区域id")
+	private String xzqyId2;//所属二级行政区域id
+	@ApiModelProperty(value = "风险等级")
+	private String riskGrade;//风险等级
+	@ApiModelProperty(value = "录入时间")
+	private Date entryTime;//录入时间
+	@ApiModelProperty(value = "企业法人代表")
+	private String legalPerson;//法人代表
+	@ApiModelProperty(value = "所在地")
+	private String address;//所在地
+	@ApiModelProperty(value = "风险源编号")
+	private String riskSourceNum;//风险源编号
+	@ApiModelProperty(value = "所属行业")
+	private String industryInvolved;//所属行业
+	@ApiModelProperty(value = "管理者")
+	private String custodian;//管理者
+	@ApiModelProperty(value = "管理人电话")
+	private String custodianTelephone;//管理人电话
+	@ApiModelProperty(value = "值班电话")
+	private String onDutyTelephone;//值班电话
+	@ApiModelProperty(value = "年生产时间")
+	private String productionTimes;//年生产时间
+	@ApiModelProperty(value = "工业总产值")
+	private String totalIndustrialValue;//工业总产值
+	@ApiModelProperty(value = "历史事故次数")
+	private String accidentNumber;//历史事故次数
+	@ApiModelProperty(value = "风险源面积m2")
+	private String riskSourceArea;//风险源面积m2
+	@ApiModelProperty(value = "通讯地址")
+	private String telAddress;//通讯地址
+	@ApiModelProperty(value = "企业区域大气环境质量等级")
+	private String environmentQuality;//企业区域大气环境质量等级
+	@ApiModelProperty(value = "总投资")
+	private String totalInvestment;//总投资
+	@ApiModelProperty(value = "生产规模")
+	private String processScale;//生产规模
+	@ApiModelProperty(value = "简介")
+	private String simpleIntroduce;//简介
+	@ApiModelProperty(value = "交通情况")
+	private String transport;//交通情况
+	@ApiModelProperty(value = "公司概况")
+	private String companyProfile;//公司概况
+	@ApiModelProperty(value = "预案id")
+	private String preplanId;
+	@Transient
+    private String account;
+	@Transient
+    private String password;
+
+
+	public String getDocumentYear() {
+		return documentYear;
+	}
+
+	public void setDocumentYear(String documentYear) {
+		this.documentYear = documentYear;
+	}
+
+	public String getXzqyId2() {
+		return xzqyId2;
+	}
+
+	public void setXzqyId2(String xzqyId2) {
+		this.xzqyId2 = xzqyId2;
+	}
+
+	public String getPreplanId() {
+		return preplanId;
+	}
+
+	public void setPreplanId(String preplanId) {
+		this.preplanId = preplanId;
+	}
+
+	public String getSimpleIntroduce() {
+		return simpleIntroduce;
+	}
+	public void setSimpleIntroduce(String simpleIntroduce) {
+		this.simpleIntroduce = simpleIntroduce;
+	}
+	public String getTransport() {
+		return transport;
+	}
+
+	public void setTransport(String transport) {
+		this.transport = transport;
+	}
+
+	public String getXzqyId() {
+		return xzqyId;
+	}
+	public void setXzqyId(String xzqyId) {
+		this.xzqyId = xzqyId;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
+	public String getLegalPerson() {
+		return legalPerson;
+	}
+	public void setLegalPerson(String legalPerson) {
+		this.legalPerson = legalPerson;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getRiskSourceNum() {
+		return riskSourceNum;
+	}
+	public void setRiskSourceNum(String riskSourceNum) {
+		this.riskSourceNum = riskSourceNum;
+	}
+	public String getIndustryInvolved() {
+		return industryInvolved;
+	}
+	public void setIndustryInvolved(String industryInvolved) {
+		this.industryInvolved = industryInvolved;
+	}
+	public String getCustodian() {
+		return custodian;
+	}
+	public void setCustodian(String custodian) {
+		this.custodian = custodian;
+	}
+	public String getCustodianTelephone() {
+		return custodianTelephone;
+	}
+	public void setCustodianTelephone(String custodianTelephone) {
+		this.custodianTelephone = custodianTelephone;
+	}
+	public String getOnDutyTelephone() {
+		return onDutyTelephone;
+	}
+	public void setOnDutyTelephone(String onDutyTelephone) {
+		this.onDutyTelephone = onDutyTelephone;
+	}
+	public String getProductionTimes() {
+		return productionTimes;
+	}
+	public void setProductionTimes(String productionTimes) {
+		this.productionTimes = productionTimes;
+	}
+	public String getTotalIndustrialValue() {
+		return totalIndustrialValue;
+	}
+	public void setTotalIndustrialValue(String totalIndustrialValue) {
+		this.totalIndustrialValue = totalIndustrialValue;
+	}
+	public String getAccidentNumber() {
+		return accidentNumber;
+	}
+	public void setAccidentNumber(String accidentNumber) {
+		this.accidentNumber = accidentNumber;
+	}
+	public String getRiskSourceArea() {
+		return riskSourceArea;
+	}
+	public void setRiskSourceArea(String riskSourceArea) {
+		this.riskSourceArea = riskSourceArea;
+	}
+	public String getTelAddress() {
+		return telAddress;
+	}
+	public void setTelAddress(String telAddress) {
+		this.telAddress = telAddress;
+	}
+	public String getEnvironmentQuality() {
+		return environmentQuality;
+	}
+	public void setEnvironmentQuality(String environmentQuality) {
+		this.environmentQuality = environmentQuality;
+	}
+	public String getTotalInvestment() {
+		return totalInvestment;
+	}
+	public void setTotalInvestment(String totalInvestment) {
+		this.totalInvestment = totalInvestment;
+	}
+	public String getProcessScale() {
+		return processScale;
+	}
+	public void setProcessScale(String processScale) {
+		this.processScale = processScale;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getRiskGrade() {
+		return riskGrade;
+	}
+	public void setRiskGrade(String riskGrade) {
+		this.riskGrade = riskGrade;
+	}
+	public Date getEntryTime() {
+		return entryTime;
+	}
+	public void setEntryTime(Date entryTime) {
+		this.entryTime = entryTime;
+	}
+	public String getCompanyProfile() {
+		return companyProfile;
+	}
+	public void setCompanyProfile(String companyProfile) {
+		this.companyProfile = companyProfile;
+	}
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+}

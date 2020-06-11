@@ -1,0 +1,455 @@
+package com.sucsoft.gzhbyjwz.service.riskmanage;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import com.sucsoft.gzhbyjwz.bean.constant.DangerConstant;
+import com.sucsoft.gzhbyjwz.bean.constant.EmergencyTaskStatus;
+import com.sucsoft.gzhbyjwz.bean.constant.PreplanConstant;
+import com.sucsoft.gzhbyjwz.bean.constant.TaskStatus;
+import com.sucsoft.gzhbyjwz.bean.dc12.EmergencyTask;
+import com.sucsoft.gzhbyjwz.bean.dc12.XZQY;
+import com.sucsoft.gzhbyjwz.service.XzqyService;
+import com.sucsoft.gzhbyjwz.service.common.BasicQueryService;
+import com.sucsoft.gzhbyjwz.service.user.UserService;
+import io.swagger.models.auth.In;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.*;
+
+@Service
+public class TaskCountService {
+
+    @Value("${application.xzqy}")
+    private String applicationXzqy;
+
+    @Autowired
+    private BasicQueryService basicQueryService;
+
+    @Autowired
+    private XzqyService xzqyService;
+
+    @Autowired
+    private UserService userService;
+
+
+
+    //企业总数
+    //已完成企业数
+    //应急隐患
+    //重大隐患
+    //已整改
+    //未整改
+    //整改中
+    //限期整改
+    //挂牌督办
+    //追究责任（人）
+
+
+    public Map initMap(){
+        Map<String,Object> map1 = new HashMap<String,Object>();
+        map1.put("num",0);//企业总数
+        map1.put("enterpriseList",new HashSet<>());
+        map1.put("CEnterpriseList",new HashSet<>());
+        map1.put("cnum",0);//已完成企业数
+        map1.put("emergency",0);//应急隐患
+        map1.put("significant",0);//重大隐患
+        map1.put("general",0);//一般隐患
+        map1.put("rectificated",0);//已整改
+        map1.put("notrectificated",0);//未整改
+        map1.put("rectificating",0);//整改中
+        map1.put("limitRectificate",0);//限期整改
+        map1.put("licensesToSupervise",0);//挂牌督办
+        map1.put("investigated",0);//追究责任（人）
+        map1.put("status",EmergencyTaskStatus.yiwancheng.getStatus());
+
+        return map1;
+    }
+
+    /**
+     * 省厅任务统计
+     * @param taskId
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Map> countTask(Integer taskId) throws Exception {
+        Map<String,Map<String,Object>> rmap = new HashMap<>();
+        int i=1;
+        //拿到下一级行政区域列表
+        List<XZQY> xzqies = xzqyService.getchildren(null);
+        XZQY curXzqy = userService.getCurXzqy();
+        xzqies.add(curXzqy);
+        for (XZQY xzqy:xzqies){
+            String name = xzqy.getName();
+            Map<String,Object> map1 = initMap();
+            map1.put("sort",xzqy.getSort());
+            map1.put("xzqyId",xzqy.getId());
+            rmap.put(name,map1);
+        }
+
+        Map param = new HashMap();
+        param.put("taskId",taskId);
+        //param.put("xzqyIdList",xzqyService.getChildrenAndSelfId(null));
+
+        //每个行政区域的状态，汇总后综合判断整个贵州省的状态
+        Multimap<Integer,Integer> statusMultimap = ArrayListMultimap.create();
+        List<Integer> statusList = new ArrayList<>();
+
+        //根据时间判断状态
+        long now = System.currentTimeMillis();
+        long thirtydaysago = now - ((long)EmergencyTaskStatus.daysInMillisecond);
+
+        List<Map> list = basicQueryService.queryForList("countTask",param,Map.class,0,0);
+        for (Map map : list) {
+            String xzqyName = xzqyService.getCachedMap().get(map.get("xzqyName"));
+            if(!StringUtils.isNotBlank(xzqyName)){
+                continue;
+            }
+            Map<String,Object> map1 = rmap.get(xzqyName);
+            //判断状态
+            int status = (int) map1.get("status");
+            int status1 = (int) map.get("status");
+            long deadline = ((Timestamp) map.get("deadline")).getTime();
+            if (status != EmergencyTaskStatus.chaoshi.getStatus().intValue()){
+                if (status1 != TaskStatus.Pass){
+                    if (deadline - now < EmergencyTaskStatus.daysInMillisecond){
+                        status = EmergencyTaskStatus.yujing.getStatus().intValue();
+                    }else if (deadline - now > EmergencyTaskStatus.daysInMillisecond){
+                        status = EmergencyTaskStatus.zhixingzhong.getStatus().intValue();
+                    }if (deadline < now){
+                        status = EmergencyTaskStatus.chaoshi.getStatus().intValue();
+                    }
+                }
+            }
+            map1.put("status",status);
+            statusMultimap.put(status,status);
+
+            //map1.put("num",(Integer)map1.get("num")+1);
+            //企业总数
+            HashSet enterpriseList = (HashSet)map1.get("enterpriseList");
+            enterpriseList.add(map.get("COMPANYID"));
+            //已完成企业数
+            if (map.get("cId") != null){
+                //map1.put("cnum",(Integer)map1.get("cnum")+1);
+                HashSet set = (HashSet)map1.get("CEnterpriseList");
+                set.add(map.get("cId"));
+                map1.put("CEnterpriseList",set);
+            }
+
+
+            //是否是隐患
+            if (map.get("RESULT") != null && (Integer)map.get("RESULT") ==1 && TaskStatus.Pass==status1){
+                if (map.get("LEVEL") != null && (Integer) map.get("LEVEL") == DangerConstant.DangerLevel.Emergency.getLevel().intValue()){
+                    //应急隐患
+                    map1.put("emergency",(Integer)map1.get("emergency")+1);
+                }else if (map.get("LEVEL") != null && (Integer) map.get("LEVEL") == DangerConstant.DangerLevel.General.getLevel().intValue()){
+                    //一般隐患
+                    map1.put("general",(Integer)map1.get("general")+1);
+
+                }else if (map.get("LEVEL") != null && (Integer) map.get("LEVEL") == DangerConstant.DangerLevel.Significant.getLevel().intValue()){
+                    //重大隐患
+                    map1.put("significant",(Integer)map1.get("significant")+1);
+
+                    //
+                    if (map.get("ISRECTIFICATION") != null){
+                        if (map.get("ISRECTIFICATION") != null && (Integer)map.get("ISRECTIFICATION") == 0){
+                            //未整改
+                            map1.put("notrectificated",(Integer)map1.get("notrectificated")+1);
+                        }
+                        else if (map.get("ISRECTIFICATION") != null && (Integer)map.get("ISRECTIFICATION") == 1){
+                            //整改中
+                            map1.put("rectificating",(Integer)map1.get("rectificating")+1);
+                        }
+                        else if (map.get("ISRECTIFICATION") != null && (Integer)map.get("ISRECTIFICATION") == 2){
+                            //已整改
+                            map1.put("rectificated",(Integer)map1.get("rectificated")+1);
+                        }
+                    }
+
+                    if (map.get("ISLIMITRECTIFICATION") != null && (Boolean) map.get("ISLIMITRECTIFICATION") == true){
+                        //限期整改
+                        map1.put("limitRectificate",(Integer)map1.get("limitRectificate")+1);
+                    }
+                    if (map.get("LICENSESTOSUPERVISE") != null && (Boolean) map.get("LICENSESTOSUPERVISE") == true){
+                        //挂牌督办
+                        map1.put("licensesToSupervise",(Integer)map1.get("licensesToSupervise")+1);
+                    }
+
+                    if (map.get("INVESTIGATED") != null){
+                        //追究责任（人）
+                        map1.put("investigated",(Integer)map1.get("investigated")+(Integer) map.get("INVESTIGATED"));
+                    }
+                }
+            }
+
+
+        }
+
+        List rlist = new ArrayList();
+        Map guizhou = initMap();
+        //如果当前用户的行政区域不是叶子节点，则要汇总一下子节点的数据
+        if (!xzqyService.isLeaf()){
+            rlist.add(guizhou);
+        }
+
+        guizhou.remove("enterpriseList");
+        guizhou.remove("CEnterpriseList");
+        for (String name:rmap.keySet()){
+            Map map = rmap.get(name);
+            //行政区域名称
+            map.put("xzqyName",name);
+            HashSet enterpriseList = (HashSet)map.get("enterpriseList");
+            HashSet CEnterpriseList = (HashSet)map.get("CEnterpriseList");
+            //企业数量
+            map.put("num",enterpriseList.size());
+            //完成企业数量
+            map.put("cnum",CEnterpriseList.size());
+            rlist.add(map);
+
+            //汇总到贵州省map
+            for (Object key:guizhou.keySet()){
+                guizhou.put(key,(Integer)guizhou.get(key)+(Integer)map.get(key));
+            }
+        }
+        guizhou.put("xzqyName",userService.getCurXzqy().getName());
+        guizhou.put("status",getStatusByList(statusMultimap));
+        guizhou.put("sort",1);
+
+
+        Collections.sort(rlist,new Comparator<Map>(){
+
+            @Override
+            public int compare(Map o1, Map o2) {
+                return (Integer) o1.get("sort")-(Integer)o2.get("sort");
+            }
+        });
+        return rlist;
+    }
+
+    public Integer getStatusByList(Multimap<Integer,Integer> statusMultimap){
+        Integer status = 0;
+
+        if (statusMultimap.get(EmergencyTaskStatus.chaoshi.getStatus()).size() >0){
+            status=EmergencyTaskStatus.chaoshi.getStatus();
+        }else if (statusMultimap.get(EmergencyTaskStatus.yujing.getStatus()).size() >0){
+            status=EmergencyTaskStatus.yujing.getStatus();
+        }else if (statusMultimap.get(EmergencyTaskStatus.zhixingzhong.getStatus()).size() >0){
+            status=EmergencyTaskStatus.zhixingzhong.getStatus();
+        }else if (statusMultimap.get(EmergencyTaskStatus.yiwancheng.getStatus()).size() >0){
+            status=EmergencyTaskStatus.yiwancheng.getStatus();
+        }
+
+        return status;
+    }
+
+    /**
+     * 根据时间判断状态
+     * @param daysago
+     * @param list
+     * @return
+     */
+    public Integer getStatusByTime(String deadlineKey,Long daysago,Collection<Map> list){
+        //当前日期
+        Long now = System.currentTimeMillis();
+
+        Integer status = EmergencyTaskStatus.yiwancheng.getStatus();
+        for (Map map1:list){
+            Integer status1 = (Integer) map1.get("STATUS");
+            if (status1.intValue() == TaskStatus.Pass){
+                continue;
+            }
+
+            Long deadline = (Long) map1.get(deadlineKey);
+            //超时
+            if (deadline < now){
+                status = EmergencyTaskStatus.chaoshi.getStatus();break;
+            }
+            //预警
+            if (deadline > daysago){
+                status = EmergencyTaskStatus.yujing.getStatus();break;
+            }
+            //未完成
+            else{
+                status = EmergencyTaskStatus.zhixingzhong.getStatus();continue;
+            }
+        }
+        return status;
+    }
+
+    /**
+     * 预案统计
+     * @param xzqyId
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Object countPreplan(String xzqyId) throws Exception {
+        List rlist = new ArrayList();
+
+        //根据行政区域初始化
+        Map<String,Map<String,Object>> rmap = new HashMap<>();
+
+        //拿到行政区域列表
+        List<XZQY> xzqies = xzqyService.getchildren(null);
+        for (XZQY xzqy:xzqies){
+            String name = xzqy.getName();
+            Map<String,Object> map1 = initPreMap();
+            rmap.put(name,map1);
+        }
+
+        Map param = new HashMap();
+        param.put("xzqyId",xzqyId);
+        param.put("xzqyIdlist",xzqyService.getChildrenAndSelfId(null));
+
+        List<Map> list = basicQueryService.queryForList("countPreplan",param,Map.class,0,0);
+
+
+        for (Map map :list) {
+            Map map1 = rmap.get(xzqyService.getCachedMap().get(map.get("xzqyName")));
+            if (map1 == null) {continue;}
+            //企业数量
+            if (map.get("cId") != null){
+                map1.put("csum",(Integer)map1.get("csum")+1);
+            }
+
+            if (map.get("RECORDSTATUS") != null){
+                int status = ((Integer)map.get("RECORDSTATUS")).intValue();
+                //未备案
+                if (status == PreplanConstant.RecordStatus.notOnRecord.getStatus().intValue()){
+                    map1.put("notOnRecord",(Integer)map1.get("notOnRecord")+1);
+                }
+                //已备案
+                if (status == PreplanConstant.RecordStatus.recorded.getStatus().intValue()){
+
+                    if (map.get("RECORDTIME") != null){
+                        Calendar now =  Calendar.getInstance();
+                        now.setTime(new Date());
+
+                        //备案时间
+                        long recordtime = ((java.sql.Timestamp)map.get("RECORDTIME")).getTime();
+
+                        //备案超期
+                        Calendar expiredCal = Calendar.getInstance();
+                        expiredCal.setTimeInMillis(recordtime);
+                        expiredCal.add(Calendar.YEAR,3);
+                        if (expiredCal.compareTo(Calendar.getInstance()) <= 0){
+                            map1.put("expired",(Integer)map1.get("expired")+1);
+                        }else{
+                            //即将到期
+                            expiredCal.add(Calendar.MONTH,-1);
+                            if (expiredCal.compareTo(now) <= 0){
+                                map1.put("aboutToExpire",(Integer)map1.get("aboutToExpire")+1);
+                            }else {
+                                map1.put("recorded",(Integer)map1.get("recorded")+1);
+                            }
+                        }
+                    }
+                }
+
+            }else if (map.get("cId") != null){
+                map1.put("notOnRecord",(Integer)map1.get("notOnRecord")+1);
+            }
+        }
+
+        Map guizhou = initPreMap();
+        //如果当前用户的行政区域不是叶子节点，则要汇总一下子节点的数据
+        if (!xzqyService.isLeaf()){
+            rlist.add(guizhou);
+        }
+        for (String name:rmap.keySet()){
+            Map map = rmap.get(name);
+            map.put("xzqyName",name);
+
+            //汇总到贵州省map
+            for (Object key:guizhou.keySet()){
+                guizhou.put(key,(Integer)guizhou.get(key)+(Integer)map.get(key));
+            }
+            rlist.add(map);
+        }
+
+        guizhou.put("xzqyName",userService.getCurXzqy().getName());
+        return rlist;
+
+    }
+
+    //企业数量
+    //未备案
+    //备案超期
+    //即将到期
+    //已备案
+
+    public Map initPreMap(){
+        Map map = new HashMap();
+        //企业数量
+        map.put("csum",0);
+        //未备案
+        map.put("notOnRecord",0);
+        //备案超期
+        map.put("expired",0);
+        //即将到期
+        map.put("aboutToExpire",0);
+        //已备案
+        map.put("recorded",0);
+
+        return map;
+    }
+
+    /**
+     *  计算该预案的备案状态
+     * 备案状态： 未备案 备案超期：已备案 ，备案日期满三年 即将到期：已备案， 距离超期还有一个月 已备案
+     * @param recordStatus 备案状态
+     * @param recordtime 备案时间
+     * @return
+     */
+    public int getPreplanStatus(Integer recordStatus,Long recordtime){
+        Assert.notNull(recordStatus,"备案状态 status 不能为空");
+        int status = PreplanConstant.RecordStatus.notOnRecord.getStatus().intValue();
+
+        //未备案
+        if (recordStatus == PreplanConstant.RecordStatus.notOnRecord.getStatus().intValue()){
+            return recordStatus.intValue();
+        }
+        //已备案
+        if (recordStatus == PreplanConstant.RecordStatus.recorded.getStatus().intValue()){
+            if (recordtime != null){
+                Calendar now =  Calendar.getInstance();
+                now.setTime(new Date());
+
+                //备案时间
+                //long recordtime = ((java.sql.Timestamp)map.get("RECORDTIME")).getTime();
+
+                //备案超期
+                Calendar expiredCal = Calendar.getInstance();
+                expiredCal.setTimeInMillis(recordtime);
+                expiredCal.add(Calendar.YEAR,3);
+                if (expiredCal.compareTo(Calendar.getInstance()) <= 0){
+                    return PreplanConstant.RecordStatus.expired.getStatus().intValue();
+                }else{
+                    //即将到期
+                    expiredCal.add(Calendar.MONTH,-1);
+                    if (expiredCal.compareTo(now) <= 0){
+                        return PreplanConstant.RecordStatus.aboutToExpire.getStatus().intValue();
+                    }else {
+                        return PreplanConstant.RecordStatus.recorded.getStatus().intValue();
+                    }
+                }
+            }
+        }
+
+        return status;
+    }
+
+    public Map countCompletedEnterprise() throws Exception {
+        List<Map> list = basicQueryService.queryForList("countCompletedEnterprise",new HashMap<>(),Map.class,0,0);
+        Map result = new HashMap();
+        result.put("complete",list.get(0).get("total"));
+        result.put("notcomplete",list.get(1).get("total"));
+        return result;
+    }
+}

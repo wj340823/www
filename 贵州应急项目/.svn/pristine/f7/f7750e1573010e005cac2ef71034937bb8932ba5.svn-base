@@ -1,0 +1,76 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class ExampleAttachement {
+
+    /**
+     * EmergencyExample表id
+     * 
+     */
+    private String exampleId;
+    private Date lastupdatetime;
+    private String size;
+    private String name;
+    private String id;
+    private String type;
+    private String url;
+
+    public void setExampleId(String exampleId) {
+        this.exampleId = exampleId;
+    }
+
+    public String getExampleId() {
+        return exampleId;
+    }
+
+    public void setLastupdatetime(Date lastupdatetime) {
+        this.lastupdatetime = lastupdatetime;
+    }
+
+    public Date getLastupdatetime() {
+        return lastupdatetime;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+}

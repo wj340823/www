@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Saving</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            var group = createPolygons();              
+                        
+            alert("Click OK to save the polygons");
+            
+            // this can be done on any group node.
+            try
+            {
+                var ret = SGWorld.ProjectTree.SaveAsFly("mywork.fly", group);
+                alert("The polygons were successfully saved to: " + ret);
+            }
+            catch(e)
+            {
+                alert("Error: The polygons were not saved\r\nDescription:" + e.Description);                
+            }
+        }
+        
+        
+        
+        function createPolygons()
+        {
+            var group = SGWorld.ProjectTree.CreateGroup("Polygons");
+            var pointsUtah = SGWorld.Creator.GeometryCreator.CreateGeometryFromWKT("POLYGON((-114.03822 41.99547,-111.04795 41.99626,-111.05028 40.99663,-109.04763 40.99847,-109.04782 36.99664,-114.04313 36.99656,-114.03822 41.99547))");
+
+            // 2 in AltitudeTypeCode means on terrain, 0 means add to root 
+            var polyUtah = SGWorld.Creator.CreatePolygon(pointsUtah, "#ff0000", SGWorld.Creator.CreateColor(0, 255, 255, 40), 2, group, "Utah"); //
+
+            polyUtah.LineStyle.Width = 5000; // 5000m (5km)
+
+            var pointsWyoming = SGWorld.Creator.GeometryCreator.CreateGeometryFromWKT("POLYGON((-111.05265 44.99576,-104.05934 44.99734,-104.05120 41.00322,-111.05028 40.99663,-111.05265 44.99576))");
+
+            // 2 in AltitudeTypeCode means on terrain, 0 means add to root 
+            var polyWyoming = SGWorld.Creator.CreatePolygon(pointsWyoming, SGWorld.Creator.CreateColor(255, 255, 0, 10), null, 2, group, "Wyoming");
+
+            polyWyoming.LineStyle.Width = 20000; // 20000m (20km)
+
+            polyWyoming.Position.Distance = 1600000;
+            SGWorld.Navigate.FlyTo(polyWyoming);
+            return group;
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040bapwvAF#ulSMO6PzNJtQ3zA4f1MWJ.cPKd13HfQ0.3OAm84QwjdDMni#1yI5Qy0R.#JCksF1RfL0GtsdsgI1XuJJ-->

@@ -1,0 +1,314 @@
+package com.sucsoft.gzhbyjwz.controller;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.sucsoft.gzhbyjwz.bean.common.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sucsoft.gzhbyjwz.bean.common.TempData;
+import com.sucsoft.gzhbyjwz.bean.param.GoodsParam;
+import com.sucsoft.gzhbyjwz.service.goods.GoodsFrequencyService;
+import com.sucsoft.gzhbyjwz.service.goods.GoodsService;
+import com.sucsoft.gzhbyjwz.util.DateUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+import javax.servlet.http.HttpServletResponse;
+
+@RestController
+@RequestMapping("/goods")
+@Api(value="GoodsController",description="物资模块")
+public class GoodsController {
+	@Autowired
+	GoodsService goodsServce;
+	@Autowired
+	GoodsFrequencyService goodsFrequencyService;
+	@Autowired
+	TempData tempData;
+	
+	@RequestMapping(value="/test",method=RequestMethod.GET)
+    //@ApiOperation(httpMethod="GET",value="用条件列表查询物资现状",notes="用条件列表查询物资现状",
+    //response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public int test() throws Exception{
+        //tsetService.createUser(user);
+        return goodsFrequencyService.persistentFrequency();
+    }
+	
+	/**
+	 * 列表查询物资现状
+	 * @param goodsParam
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	//@AuthoxResource(value="authox", access="access")
+    @RequestMapping(value="/list",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询物资现状",notes="用条件列表查询物资现状",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public Page list(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam,
+    		@ApiParam("页码")Integer pageNo,
+    		@ApiParam("页大小")Integer pageSize) throws Exception{
+        //tsetService.createUser(user);
+		if (goodsParam.getCategory() != null && goodsParam.getCategory().equals("-1")){
+			goodsParam.setCategory(null);
+		}
+        return goodsServce.listGoods(goodsParam, pageNo, pageSize);
+    }
+
+	@RequestMapping(value="/downloadlist",method=RequestMethod.GET)
+	@ApiOperation(httpMethod="GET",value="用条件列表查询物资现状",notes="用条件列表查询物资现状",
+			response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+	public void list(
+			@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+					GoodsParam goodsParam,
+			HttpServletResponse response) throws Exception{
+		//tsetService.createUser(user);
+		if (goodsParam.getCategory() != null && goodsParam.getCategory().equals("-1")){
+			goodsParam.setCategory(null);
+		}
+		 goodsServce.downloadlist(goodsParam,response);
+	}
+    
+    @RequestMapping(value="/listStars",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询物资现状",notes="用条件列表查询物资现状",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> listStars() throws Exception{
+        //tsetService.createUser(user);
+        return goodsServce.listStars();
+    }
+    
+    
+    /**
+     * 按照类型分组统计物资现状
+     * @param goodsParam
+     * @return
+     * @throws Exception
+     */ 
+    @RequestMapping(value="/groupByCategory",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按照类型分组统计物资现状",notes="按照类型分组统计物资现状",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> groupByCategory(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam) throws Exception{
+        //tsetService.createUser(user);
+        return goodsServce.groupCategory(goodsParam);
+    }
+    
+    @RequestMapping(value="/listWarehouse",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询仓库",notes="用条件列表查询仓库",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> listWarehouse(
+    		String xzqyId,
+    		Integer pageNo,
+    		Integer pageSize) throws Exception{
+        //tsetService.createUser(user);
+        return goodsServce.listWarehouse(xzqyId, pageNo, pageSize);
+    }
+
+	@RequestMapping(value="/listWarehouseforpage",method=RequestMethod.GET)
+	@ApiOperation(httpMethod="GET",value="用条件列表查询仓库",notes="用条件列表查询仓库",
+			response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+	public Page listWarehouseforpage(
+					String xzqyId,
+					String keyword,
+					Integer pageNo,
+			Integer pageSize) throws Exception{
+		//tsetService.createUser(user);
+		return goodsServce.listWarehouseforpage(xzqyId,keyword, pageNo, pageSize);
+	}
+    
+    /**
+     * 根据行政区域、库存是否短缺查询仓库
+     * @param xzqyId
+     * @param isAlarm
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/listAlarmWareHouse",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询仓库",notes="用条件列表查询仓库",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> listAlarmWareHouse(
+    		@ApiParam("行政区域的id")
+    		String xzqyId,
+    		@ApiParam("是否为短缺，0-正常，1-短缺")Integer isAlarm) throws Exception{
+        //tsetService.createUser(user);
+        return goodsServce.listAlarmWareHouse(xzqyId, isAlarm==null?0:isAlarm);
+    }
+    
+    /**
+	 * 列表查询物资现状
+	 * @param goodsParam
+	 * @return
+	 * @throws Exception
+	 */
+	//@AuthoxResource(value="authox", access="access")
+    @RequestMapping(value="/listAlarmGoods",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询告警物资",notes="用条件列表查询告警物资",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> listAlarmGoods(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam) throws Exception{
+        //tsetService.createUser(user);
+        if (tempData.getMap().isEmpty()) {
+			return goodsServce.listAlarmGoods(goodsParam);
+		}else{
+			return (List<Map>) tempData.getMap().get("inventoryWarning");
+		}
+    	
+    	//return goodsServce.listAlarmGoods(goodsParam);
+    }
+    
+    /**
+	 * 首页展示-物资储备
+	 * @param goodsParam
+	 * @return
+	 * @throws Exception
+	 */
+	//@AuthoxResource(value="authox", access="access")
+    @RequestMapping(value="/materialReserves",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="用条件列表查询告警物资",notes="用条件列表查询告警物资",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> materialReserves(
+    		@ApiParam("查询参数{名称:name,数量:number,计量单位:unit}")
+    		GoodsParam goodsParam) throws Exception{
+        //tsetService.createUser(user);
+        if (tempData.getMap().isEmpty()) {
+			return goodsServce.materialReserves(goodsParam);
+		}else{
+			return (List<Map>) tempData.getMap().get("materialReserves");
+		}
+    	
+    	//return goodsServce.listAlarmGoods(goodsParam);
+    }
+    
+    /**
+     * 按照行政区域分组统计物资现状
+     * @param goodsParam
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/groupGoodsByXZQY",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按照行政区域分组统计物资现状",notes="按照行政区域分组统计物资现状",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> groupGoodsByXZQY(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam) throws Exception{
+
+        return goodsServce.groupGoodsByXZQY(goodsParam);
+    }
+    
+    /**
+     * 按照行政区域分组统计物资现状
+     * @param goodsParam
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/consumeLog",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按照行政区域分组统计物资消耗",notes="按照行政区域分组统计物资消耗",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map> consumeLog(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam,
+    		@ApiParam("开始时间  yyyy-MM-dd HH:mm:ss")String startTime,
+    		@ApiParam("结束时间  yyyy-MM-dd HH:mm:ss")String endTime
+    		) throws Exception{
+
+    	if(startTime == null || endTime == null){
+    		throw new RuntimeException("请输入时间参数");
+    	}
+    	Date str,end;
+		try {
+			str = DateUtils.sdf.parse(startTime);
+			end = DateUtils.sdf.parse(endTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("非法的时间参数");
+		}
+    	if (tempData.getMap().containsKey("consumptionRanking")){
+			return (List<Map>) tempData.getMap().get("consumptionRanking");
+		}
+        return goodsServce.consumeLog(goodsParam,str,end);
+    }
+    
+    @RequestMapping(value="/y2yConsumeByName",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按照行政区域分组统计物资消耗",notes="按照行政区域分组统计物资消耗",
+    response=List.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map<String, Object>> y2yConsumeByName(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam,
+    		@ApiParam("开始时间  yyyy-MM-dd HH:mm:ss")String startTime,
+    		@ApiParam("结束时间  yyyy-MM-dd HH:mm:ss")String endTime
+    		) throws Exception{
+
+    	if(startTime == null || endTime == null){
+    		throw new RuntimeException("请输入时间参数");
+    	}
+    	Date str,end;
+		try {
+			str = DateUtils.sdf.parse(startTime);
+			end = DateUtils.sdf.parse(endTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("非法的时间参数");
+		}
+		String consumptionRanking = "consumptionRanking";
+		if (tempData.getMap().containsKey(consumptionRanking)){
+
+			return (List<Map<String, Object>>) tempData.getMap().get("consumptionRanking");
+		}
+        return goodsServce.year2yearConsumeGroupByName(goodsParam,str,end);
+    }
+    
+    /**
+     * 按照行政区域分组统计物资现状
+     * @param goodsParam
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/year2yearGroupByMonth",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按月同比分析",notes="按月同比分析",
+    response=Map.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public Map<String, List<Map>> year2yearGroupByMonth(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam) throws Exception{
+
+        return goodsServce.year2yearGroupByMonth(goodsParam);
+    }
+    
+    
+    /**
+     * 按照行政区域分组统计物资现状
+     * @param goodsParam
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/year2yearGroupByName",method=RequestMethod.GET)
+    @ApiOperation(httpMethod="GET",value="按名称分组同比分析",notes="按名称分组同比分析",
+    response=Map.class,produces=MediaType.TEXT_PLAIN_VALUE)
+    public List<Map<String, Object>> year2yearGroupByName(
+    		@ApiParam("查询参数{物资设备名称:name,最大数量:maxnumber,最小数量minnumber,物资设备分类:category,管理单位:managerunit}")
+    		GoodsParam goodsParam) throws Exception{
+
+        return goodsServce.year2yearGroupByName(goodsParam);
+    }
+    
+    
+    
+    
+    
+    
+}

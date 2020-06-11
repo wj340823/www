@@ -1,0 +1,230 @@
+<div  ng-controller="yilanbiao">
+    <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button tab-left" ui-sref="msgManage.companyIntro" ui-sref-active="active">
+                公司概况
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hgsjt" ui-sref-active="active">
+                宏观数据图
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxys" ui-sref-active="active">
+                环境风险要素
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxwz" ui-sref-active="active">
+                环境风险物质
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxdy" ui-sref-active="active">
+                环境风险单元
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjfxfkss" ui-sref-active="active">
+                环境风险防控设施
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.sczzq" ui-sref-active="active">-->
+<!--                生产装置区-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.scgy" ui-sref-active="active">
+                生产工艺
+            </button>
+            <button class="tab-button tab-left" ui-sref="msgManage.hjbhmb" ui-sref-active="active">
+                环境风险受体
+            </button>
+<!--            <button class="tab-button tab-left" ui-sref="msgManage.hjwrsgy" ui-sref-active="active" >-->
+<!--                环境污染事故源-->
+<!--            </button>-->
+            <button class="tab-button tab-left" ui-sref="msgManage.tfhjsjqjfx" ui-sref-active="active" >
+                情景分析
+            </button>
+            <div class="tab-button tab-left">
+                <span>应急物资及人员联络方式</span>
+                <i class="iconfont icon-webicon215"></i>
+                <div>
+                    <button class="tab-button" ui-sref="msgManage.yjwz" ui-sref-active="active" style="width:185px;">
+                        应急物资
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzhtxl" ui-sref-active="active" style="width:185px;">
+                        应急指挥通讯录
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjwbllb" ui-sref-active="active" style="width:185px;">
+                        应急外部联络表
+                    </button>
+                    <button class="tab-button" ui-sref="msgManage.yjzj" ui-sref-active="active" style="width:185px;">
+                        应急专家
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="item-content" style="background-color: rgba(0,0,0,.7)">
+        <div>
+            <span class="check-result1">风险源名称：</span>
+            <span ng-bind="ylb.companyIntro.companyName"></span>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">企业名称：</span>
+            <input class="text-info-small" ng-model="ylb.companyIntro.companyName" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">企业类型：</span>
+            <input type="radio" ng-model="ylb.companyIntro.qylx" value="1" class="regular-radio" id="radio1" ng-disabled="!editable"/>
+            <label for="radio1" class="hander"></label>
+            <span style="margin-right: 10px">水</span>
+            <input type="radio" ng-model="ylb.companyIntro.qylx" value="2" class="regular-radio" id="radio2" ng-disabled="!editable"/>
+            <label for="radio2"  class="hander"></label>
+            <span style="margin-right: 10px">气</span>
+            <input type="radio" ng-model="ylb.companyIntro.qylx" value="3" class="regular-radio" id="radio3" ng-disabled="!editable"/>
+            <label for="radio3" class="hander"></label>
+            <span style="margin-right: 10px">水、气</span>
+        </div>
+        <br/>
+        <div>
+            <span  class="check-result1">简介：</span>
+            <textarea class="text-info" ng-model="ylb.companyIntro.simpleIntroduce"  ng-disabled="!editable"></textarea>
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">统一社会信用代码：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.socialCreditCode" ng-disabled="!editable">
+            <span class="check-result1">法定代表人：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.legalRepresentative" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">企业地址：</span>
+            <input class="text-info-small" ng-model="ylb.companyIntro.address" ng-disabled="!editable">
+        </div>
+        <br>
+        <div>
+            <span class="check-result1">经纬度类型：</span>
+            <input type="radio" ng-model="ylb.companyIntro.type" value="0" class="regular-radio" id="radio4" ng-disabled="!editable"/>
+            <label for="radio4" class="hander"></label>
+            <span style="margin-right: 10px">度数</span>
+            <input type="radio" ng-model="ylb.companyIntro.type" value="1" class="regular-radio" id="radio5" ng-disabled="!editable"/>
+            <label for="radio5"  class="hander"></label>
+            <span style="margin-right: 10px">度分秒</span>
+        </div>
+        <br/>
+        <div ng-show="ylb.companyIntro.type == '0'">
+            <span class="check-result1">中心经度</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.longitude" ng-disabled="!editable">
+            <span class="check-result1">中心纬度</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.latitude" ng-disabled="!editable">
+        </div>
+        <div ng-show="ylb.companyIntro.type == '1'">
+            <span class="check-result1">中心经度</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.longitude1" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">°</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.longitude2" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">′</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.longitude3" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">″</span>
+            <span class="check-result1">中心纬度</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.latitude1" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">°</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.latitude2" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">′</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.latitude3" ng-disabled="!editable" style="width: 70px;">
+            <span class="check-result1" style="width: 3px;">″</span>
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">企业规模：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.enterpriseSize" ng-disabled="!editable">
+            <span class="check-result1">建厂时间：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.documentYear" ng-disabled="!editable">
+            <span class="check-result1">厂区面积：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.riskSourceArea" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">行业类别代码：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.industryCategoryCode" ng-disabled="!editable">
+            <span class="check-result1">行业类别名称：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.industryCategoryName" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <button class="searchBtn" style="margin-left:60px;margin-bottom:15px;" ng-click="addcompanyDiv()" ng-show="editable"><i class="iconfont icon-tianjia"></i> 添加产品信息</button>
+        </div>
+        <div ng-repeat="item in ylb.companyIntro.productInfos">
+            <div>
+                <span class="check-result1">主要产品：</span>
+                <input class="text-info-input" ng-model="item.name" ng-disabled="!editable">
+                <span class="check-result1">产量：</span>
+                <input class="text-info-input" ng-model="item.number" ng-disabled="!editable">
+                <button class="searchBtn" style="margin-left:10px;" ng-click="removecompanyDiv($index,item)" ng-show="editable"><i class="iconfont icon-shanchu"></i> 删除产品信息</button>
+            </div>
+            <br/>
+        </div>
+        <div>
+            <span class="check-result1">企业负责人：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.legalPerson" ng-disabled="!editable">
+            <span class="check-result1">企业负责人联系电话：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.enterpriseHeadPhone" ng-disabled="!editable">
+            <span class="check-result1">传真电话：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.onDutyTelephone" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">填报人姓名：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.custodian" ng-disabled="!editable">
+            <span class="check-result1">填报人联系电话：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.custodianTelephone" ng-disabled="!editable">
+            <span class="check-result1">电子邮箱：</span>
+            <input class="text-info-input" ng-model="ylb.companyIntro.email" ng-disabled="!editable">
+        </div>
+        <br/>
+        <div>
+            <span class="check-result1">交通情况：</span>
+            <textarea class="text-info" ng-model="ylb.companyIntro.transport" ng-disabled="!editable"></textarea>
+        </div>
+
+       <!--<div style="margin-top: 10px">
+            <span class="check-result1">上传厂区平面图：</span>
+            <input type="text" id="txt" name="txt" class="input" ng-click="size()" disabled="disabled"/>
+            <input type="button" onMouseMove="f.style.pixelLeft=event.x-60;f.style.pixelTop=this.offsetTop;" value="浏览" size="30" onClick="f.click()"
+                   class='searchBtn'>
+            <div  id='imgCon' style="display: inline-block" ng-click="bigImg=true">
+                <img id='imghead' src="riskSource/downloadAttachment?companyId={{userList.companyId}}&type=1" ng-show="cqpmtType==1">
+                <span class="dangerColor" ng-show="cqpmtType==2">暂无图片</span>
+            </div>
+            <input type="file" id="f" name="f" onChange="txt.value=this.value"  class="files" size="1" style="height:26px; opacity: 0;display: none"  />
+        </div>-->
+        <br><br>
+        <div class="operate" >
+            <button class="searchBtn" ng-click="editable=true" ng-show="!editable">编辑</button>
+            <button class="searchBtn" ng-click="editable=false" ng-show="editable">返回</button>
+            <button class="searchBtn" ng-click="alertTask()" ng-show="editable">保存</button>
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+    <!--<div class="bigCon" ng-show="bigImg">
+        <div style="width: 30px;height: 30px;border-radius: 50%;text-align: center;line-height: 30px;position:absolute; top:10px;
+        right:10px;color: #bdbdbd" ng-click="bigImg=false">
+            <i class="iconfont icon-guanbi"></i>
+        </div>
+        <img src="riskSource/downloadAttachment?companyId={{userList.companyId}}&type=1" class="bigImg">
+    </div>-->
+
+    <div id="comInfo" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0, 0, 0, .8); display: none; z-index:100;">
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="saveCompanyIntro()" ng-if="textContent=='确定保存吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定保存吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+    <div class="tasks-alert" style="z-index: 9999">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">保存成功！</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()">关闭</li>
+        </ul>
+    </div>
+</div>

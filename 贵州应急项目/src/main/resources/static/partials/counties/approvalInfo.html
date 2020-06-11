@@ -1,0 +1,109 @@
+<div ng-controller="approveInfoCtrl">
+    <div style="background-color: rgba(0,0,0,.7);padding: 12px 20px 20px">
+        <div class="clearfix">
+            <div class="tb-title"> 审核详情</div>
+            <div class="fr">
+                <button class="searchBtn" onclick="history.go(-1)">
+                    <i class="iconfont icon-fanhui"></i>
+                    返回
+                </button>
+            </div>
+        </div>
+        <div class="item-title">基本信息</div>
+        <div class="item-content">
+            <p><span class="item-content-name">任务名称</span>：{{obj.name}}</p>
+            <p><span class="item-content-name">企业名称</span>：{{obj.companyName}}</p>
+            <div>
+                <span  class="item-content-name" >截止日期：</span>{{obj.deadline | date:'yyyy-MM-dd'}}
+                <span  class="item-content-name" style="margin-left: 40px;">完成日期：</span>{{obj.completetime | date:'yyyy-MM-dd'}}
+            </div>
+            <div style="line-height: 40px">
+                <span class="item-content-name">附件：</span>
+                <span ng-show="filesDown" >
+                    <button ng-click="downloadFile()" class="searchBtn">下载</button>
+                </span>
+            </div>
+        </div>
+        <div class="item-title">应急管理隐患排查表</div>
+        <div class="item-content">
+            <p>
+                <span class="item-content-name">完成情况：</span>
+                <span  ng-class="obj.emergencyManagement.status==1?'pointGreen status':'pointOrange status'"></span>
+                <span  class="hander"
+                       ui-sref="approval.tbRiskCheck({id:obj.emergencyManagement.id,operate:'no'})">
+                    {{obj.emergencyManagement.status==1?'已完成':'未完成'}}
+                </span>
+                <span class="item-content-name" style="margin-left: 20px">排查日期：</span>
+                {{obj.emergencyManagement.time | date:'yyyy-MM-dd'}}
+                <span class="item-content-name" style="margin-left: 20px">现场排查负责人：</span>
+                {{obj.emergencyManagement.responsiblePerson}}
+            </p>
+            <p>
+                <span class="item-content-name">发现隐患数：</span><span>
+                {{obj.emergencyManagement.num1}}</span>
+            </p>
+        </div>
+        <div class="item-title">风险防控措施隐患排查表</div>
+        <div class="item-content">
+            <p>
+                <span class="item-content-name">完成情况：</span>
+                <span  ng-class="obj.riskManagement.status==1?'pointGreen status':'pointOrange status'"></span>
+                <span class="hander"
+                      ui-sref="approval.tbRiskPrevent({id:obj.riskManagement.id,operate:'no'})">
+                {{obj.riskManagement.status==1?'已完成':'未完成'}}</span>
+                <span class="item-content-name" style="margin-left: 20px">排查日期：</span>
+                {{obj.riskManagement.time | date:'yyyy-MM-dd'}}
+                <span class="item-content-name"style="margin-left: 20px">现场排查负责人：</span>
+                {{obj.riskManagement.responsiblePerson}}
+            </p>
+            <p>
+                <span class="item-content-name">重大隐患：</span><span>{{obj.riskManagement.num2==null?'0':obj.riskManagement.num2}}</span>
+                <span class="item-content-name"style="margin-left: 20px">一般隐患：</span><span>{{obj.riskManagement.num3==null?'0':obj.riskManagement.num3}}</span>
+            </p>
+        </div>
+        <form ng-submit="submit()">
+            <div>
+                <div class="item-title">审核信息</div>
+
+                <div class="item-content" ng-if="operate=='yes'">
+                    <p>
+                        <span class="item-content-name">审核人：</span>{{items.reviewer}}
+                        <span class="item-content-name" style="margin-left: 20px">审核结果：</span>
+                        <input type="radio" ng-model="items.type" value="1"  class="radio-s1" /><span>通过</span>
+                        <input type="radio" ng-model="items.type"  value="2" class="radio-s1" /><span>驳回</span>
+                    </p>
+                    <p ng-show="items.type==2">
+                        <span class="item-content-name">驳回理由：</span>
+                        <input type="text" class="remark" ng-model="items.comment">
+                    </p>
+                </div>
+                <div class="item-content" ng-if="operate=='no'">
+                    <p>
+                        <span class="item-content-name">审核人：</span>{{obj.reviewer}}
+                        <span class="item-content-name" style="margin-left: 20px">审核结果：</span>
+                        <input type="radio" ng-model="obj.status" value="100"  class="radio-s1" /><span>通过</span>
+                        <input type="radio" ng-model="obj.status"  value="20" class="radio-s1" /><span>驳回</span>
+                    </p>
+                    <p ng-show="obj.status==20">
+                        <span class="item-content-name">驳回理由：</span>{{obj.comment}}
+                    </p>
+                </div>
+            </div>
+            <div class="operate" style="text-align: right" ng-if="operate=='yes'">
+                <button class="searchBtn"  type="submit">保存</button>
+                <button class="searchBtn" onclick="history.go(-1)">取消</button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+        <div class="task-alert">
+            <div class="alert-title">操作提示</div>
+            <div class="alert-content">{{textContent}}</div>
+            <ul class="alert-button">
+                <li ng-click="sureAlert() " ng-if="textContent!='操作成功！'">确定</li>
+                <li ng-click="resetAlert(textContent)">{{textContent=='操作成功！'?'关闭':'取消'}}</li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>

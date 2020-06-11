@@ -1,0 +1,116 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class RiskSubstance {
+
+    private String rjx;
+    private String wgtx;
+    private String qmd;
+    private String bhzqy;
+    private String smd;
+    private String rsfjw;
+    private String rd;
+    private String jjw;
+    private String name;
+    private String id;
+    private String detail;
+    private String fd;
+
+    public void setRjx(String rjx) {
+        this.rjx = rjx;
+    }
+
+    public String getRjx() {
+        return rjx;
+    }
+
+    public void setWgtx(String wgtx) {
+        this.wgtx = wgtx;
+    }
+
+    public String getWgtx() {
+        return wgtx;
+    }
+
+    public void setQmd(String qmd) {
+        this.qmd = qmd;
+    }
+
+    public String getQmd() {
+        return qmd;
+    }
+
+    public void setBhzqy(String bhzqy) {
+        this.bhzqy = bhzqy;
+    }
+
+    public String getBhzqy() {
+        return bhzqy;
+    }
+
+    public void setSmd(String smd) {
+        this.smd = smd;
+    }
+
+    public String getSmd() {
+        return smd;
+    }
+
+    public void setRsfjw(String rsfjw) {
+        this.rsfjw = rsfjw;
+    }
+
+    public String getRsfjw() {
+        return rsfjw;
+    }
+
+    public void setRd(String rd) {
+        this.rd = rd;
+    }
+
+    public String getRd() {
+        return rd;
+    }
+
+    public void setJjw(String jjw) {
+        this.jjw = jjw;
+    }
+
+    public String getJjw() {
+        return jjw;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setFd(String fd) {
+        this.fd = fd;
+    }
+
+    public String getFd() {
+        return fd;
+    }
+
+}

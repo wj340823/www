@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Materials>
+<AttributeKey>Category Name</AttributeKey>
+<Material><Value>Casework</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal><MaterialVal>1.0,0.89,0.71,1.0</MaterialVal></Material>
+<Material><Value>Ceilings</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Value>Columns</Value><MaterialVal>0.5,0.5,0.5,1.0</MaterialVal></Material>
+<Material><Value>Curtain Panels</Value><MaterialVal>0.5,1,1,0.4</MaterialVal></Material>
+<Material><Value>Curtain Wall Mullions</Value><MaterialVal>0.85,0.96,0.96,1.0</MaterialVal></Material>
+<Material><Value>Doors</Value><MaterialVal>0.745,0.576,0.349,1.0</MaterialVal><MaterialVal>0.886,0.808,0.698,1.0</MaterialVal></Material>
+<Material><Value>Electrical Equipment</Value><MaterialVal>0.176,0.243,0.259,1.0</MaterialVal></Material>
+<Material><Value>Entourage</Value><MaterialVal>0.976,0.945,0.862,1.0</MaterialVal></Material>
+<Material><Value>Electrical Fixtures</Value><MaterialVal>1,0.95,0.90,1.0</MaterialVal></Material>
+<Material><Value>Fascias</Value><MaterialVal> 0.125,0.266,0.404,1</MaterialVal></Material>
+<Material><Value>Floors</Value><MaterialVal> 1.0,1.0,0.88,1</MaterialVal></Material>
+<Material><Value>Furniture</Value><MaterialVal>0.12,0.15,0.17,1.0</MaterialVal><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Value>Furniture Systems</Value><MaterialVal>0.94,0.94,0.94,1.0</MaterialVal></Material>
+<Material><Value>Generic Models</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Value>Gutters</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Value>Lighting Fixtures</Value><MaterialVal>1.0,0.89,0.71,1.0</MaterialVal></Material>
+<Material><Value>Mechanical Equipment</Value><MaterialVal>0.8,0.2,0.2,1.0</MaterialVal></Material>
+<Material><Value>Pads</Value><MaterialVal>0.5,0.5,0.5,1.0</MaterialVal></Material>
+<Material><Value>Parking</Value><MaterialVal>0.1,0.1,0.1,1.0</MaterialVal></Material>
+<Material><Value>Parts</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Value>Plumbing Fixtures</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Value>Railings</Value><MaterialVal>0.7,0.9,0.9,1.0</MaterialVal></Material>
+<Material><Value>Ramps</Value><MaterialVal>0.886,0.808,0.698,1.0</MaterialVal></Material>
+<Material><Value>Roofs</Value><MaterialVal>0.333,0.439,0.474,1.0</MaterialVal></Material>
+<Material><Value>Site</Value><MaterialVal>0.7,0.7,0.7,1.0</MaterialVal></Material>
+<Material><Value>Slab Edges</Value><MaterialVal>0.5,0.5,0.5,1.0</MaterialVal></Material>
+<Material><Value>Specialty Equipment</Value><MaterialVal>0.89,0.91,0.91,1.0</MaterialVal></Material>
+<Material><Value>Stairs</Value><MaterialVal>0.823,0.706,0.549,1.0</MaterialVal></Material>
+<Material><Value>Structural Columns</Value><MaterialVal>1.0,1.0,0.9,1.0</MaterialVal></Material>
+<Material><Value>Structural Foundations</Value><MaterialVal>1.0,1.0,0.88,1.0</MaterialVal></Material>
+<Material><Value>Structural Framing</Value><MaterialVal>1.0,1.0,0.8,1.0</MaterialVal></Material>
+<Material><Value>Structural Connections</Value><MaterialVal>0.176,0.243,0.259,1.0</MaterialVal></Material>
+<Material><Value>Top Rails</Value><MaterialVal>0.7,0.9,0.9,1.0</MaterialVal></Material>
+<Material><Value>Topography</Value><MaterialVal>0.666,0.757,0.682,1.0</MaterialVal></Material>
+<Material><Value>Walls</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Value>Wall Sweeps</Value><MaterialVal>1.0,1.0,0.88,1</MaterialVal></Material>
+<Material><Value>Windows</Value><MaterialVal>0.5,1,1,0.4</MaterialVal><MaterialVal>0.85,0.96,0.96,1.0</MaterialVal></Material>
+<Material><Like>Topography</Like><Value>地形</Value><MaterialVal>0.666,0.757,0.682,1.0</MaterialVal></Material>
+<Material><Like>Walls</Like><Value>墙</Value><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Like>Generic Models</Like><Value>常规模型</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Like>Architectural Floor</Like><Value>建筑地坪</Value><MaterialVal>1.0,1.0,0.88,1</MaterialVal></Material>
+<Material><Like>Floors</Like><Value>楼板</Value><MaterialVal>1.0,1.0,0.88,1</MaterialVal></Material>
+<Material><Like>Structural Foundations</Like><Value>结构基础</Value><MaterialVal>1.0,1.0,0.88,1.0</MaterialVal></Material>
+<Material><Like>Structural Columns</Like><Value>结构柱</Value><MaterialVal>1.0,1.0,0.9,1.0</MaterialVal></Material>
+<Material><Like>Structural Framing</Like><Value>结构框架</Value><MaterialVal>1.0,1.0,0.8,1.0</MaterialVal></Material>
+<Material><Like>Body mass</Like><Value>体量</Value><MaterialVal>0.9,0.9,0.9,1.0</MaterialVal></Material>
+<Material><Like>Platform</Like><Value>平台</Value><MaterialVal>1.0,1.0,0.88,1</MaterialVal></Material>
+<Material><Like>Railings</Like><Value>栏杆扶手</Value><MaterialVal>0.7,0.9,0.9,1.0</MaterialVal></Material>
+<Material><Like>Furniture</Like><Value>梯段</Value><MaterialVal>0.12,0.15,0.17,1.0</MaterialVal><MaterialVal>1.0,1.0,1.0,1.0</MaterialVal></Material>
+<Material><Like>Stairs</Like><Value>楼梯</Value><MaterialVal>0.823,0.706,0.549,1.0</MaterialVal></Material>
+<Material><Like>Cable Tray</Like><Value>电缆桥架</Value><MaterialVal>0.7,0.7,0.7,1.0</MaterialVal></Material>
+<Material><Like>Cable Tray Accessories</Like><Value>电缆桥架配件</Value><MaterialVal>0.7,0.7,0.7,1.0</MaterialVal></Material>
+<Material><Like>Fittings</Like><Value>管件</Value><MaterialVal>0.7,0.7,0.7,1.0</MaterialVal></Material>
+<Material><Like>Line Accessories</Like><Value>管路附件</Value><MaterialVal>0.7,0.7,0.7,1.0</MaterialVal></Material>
+<Material><Like>Pipeline</Like><Value>管道</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Like>Line Pipe</Like><Value>线管</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Like>Plumbing Fixtures</Like><Value>线管配件</Value><MaterialVal>1,0.99,0.95,1.0</MaterialVal></Material>
+<Material><Like>Top Railings</Like><Value>顶部扶栏</Value><MaterialVal>0.7,0.9,0.9,1.0</MaterialVal></Material>
+<Material><Like>Ramp</Like><Value>坡道</Value><MaterialVal>0.886,0.808,0.698,1.0</MaterialVal></Material>
+<Material><Like>Roofs</Like><Value>屋顶</Value><MaterialVal>0.333,0.439,0.474,1.0</MaterialVal></Material>
+<Material><Like>Curtain Panels</Like><Value>幕墙嵌板</Value><MaterialVal>0.5,1,1,0.4</MaterialVal></Material>
+<Material><Like>Curtain Wall Mullions</Like><Value>幕墙竖梃</Value><MaterialVal>0.85,0.96,0.96,1.0</MaterialVal></Material>
+<Material><Like>Columns</Like><Value>柱</Value><MaterialVal>0.8,0.2,0,1.0</MaterialVal></Material>
+<Material><Like>Slab Edges</Like><Value>楼板边缘</Value><MaterialVal>0.5,0.5,0.5,1.0</MaterialVal></Material>
+<Material><Like>Windows</Like><Value>窗</Value><MaterialVal>0.5,1,1,0.4</MaterialVal><MaterialVal>0.85,0.96,0.96,1.0</MaterialVal></Material>
+<Material><Like>Gate</Like><Value>门</Value><MaterialVal>0.5,1,1,0.4</MaterialVal></Material>
+<RandomMaterials RgbLow="C08020" RgbHigh="f0c020" >1</RandomMaterials>
+<LineColor>0.1,0.1,0.1,1.0</LineColor>
+</Materials>

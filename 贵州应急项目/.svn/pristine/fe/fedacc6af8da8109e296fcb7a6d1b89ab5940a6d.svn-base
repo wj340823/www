@@ -1,0 +1,156 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * 应急物质
+ * @author jinly
+ *
+ */
+@ApiModel(value = "企业应急物资", description = "应急物资")
+public class EmergencySubstance {
+
+	@ApiModelProperty(value = "唯一标识")
+	private String emergencySubstanceId;
+	@ApiModelProperty(value = "风险源企业id")
+	private String companyId;//企业ID
+	@ApiModelProperty(value = "物资名称")
+	private String name;//名称
+	@ApiModelProperty(value = "物资数量")
+	private String number;//数量
+	@ApiModelProperty(value = "主要用途")
+	private String function;//功能
+	@ApiModelProperty(value = "储备地点")
+	private String address;//存放地点
+	@ApiModelProperty(value = "物资储备库名")
+	private String depositoryName;
+	@ApiModelProperty(value = "别名")
+	private String otherName;
+	@ApiModelProperty(value = "主管单位")
+	private String headUnit;
+	@ApiModelProperty(value = "负责人")
+	private String manager;
+	@ApiModelProperty(value = "负责人电话")
+	private String managerTelephone;
+	@ApiModelProperty(value = "数量单位")
+	private String numberUtil;
+	@ApiModelProperty(value = "备注")
+	private String remark;
+	@ApiModelProperty(value = "规格型号")
+	private String typeNumber;
+	@ApiModelProperty(value = "风险源名称")
+	private String riskSource;
+	private String la;
+	private String lo;
+
+	public String getLa() {
+		return la;
+	}
+
+	public void setLa(String la) {
+		this.la = la;
+	}
+
+	public String getLo() {
+		return lo;
+	}
+
+	public void setLo(String lo) {
+		this.lo = lo;
+	}
+
+	public String getRiskSource() {
+		return riskSource;
+	}
+	public void setRiskSource(String riskSource) {
+		this.riskSource = riskSource;
+	}
+	public String getTypeNumber() {
+		return typeNumber;
+	}
+	public void setTypeNumber(String typeNumber) {
+		this.typeNumber = typeNumber;
+	}
+	public String getEmergencySubstanceId() {
+		return emergencySubstanceId;
+	}
+	public void setEmergencySubstanceId(String emergencySubstanceId) {
+		this.emergencySubstanceId = emergencySubstanceId;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public String getFunction() {
+		return function;
+	}
+	public void setFunction(String function) {
+		this.function = function;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDepositoryName() {
+		return depositoryName;
+	}
+	public void setDepositoryName(String depositoryName) {
+		this.depositoryName = depositoryName;
+	}
+	public String getOtherName() {
+		return otherName;
+	}
+	public void setOtherName(String otherName) {
+		this.otherName = otherName;
+	}
+	public String getHeadUnit() {
+		return headUnit;
+	}
+	public void setHeadUnit(String headUnit) {
+		this.headUnit = headUnit;
+	}
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+	public String getManagerTelephone() {
+		return managerTelephone;
+	}
+	public void setManagerTelephone(String managerTelephone) {
+		this.managerTelephone = managerTelephone;
+	}
+	public String getNumberUtil() {
+		return numberUtil;
+	}
+	public void setNumberUtil(String numberUtil) {
+		this.numberUtil = numberUtil;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+
+	
+}

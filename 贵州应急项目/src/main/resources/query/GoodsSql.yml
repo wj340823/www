@@ -1,0 +1,87 @@
+---
+  grammer: SQL
+  queries:
+    #根据部门id求出在该部门的所有人的id
+    - name: findUserIdByDepart
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          t.ID
+        from
+          TblUser t
+        where
+          1=1
+        #if($departId)
+          and t.DEPARTMENT_ID = :departId
+        #end
+        "
+    - name: findUndealByAdvice
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          un.ID
+        from
+          UnDealAdvice un
+        where
+          1=1
+        #if($adviceId)
+          and un.ADVICEPUBLIC_ID = :adviceId
+        #end
+        "
+    - name: findAdviceByUser
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          un.ADVICEPUBLIC_ID as ID
+        from
+          UnDealAdvice un
+        left join AdvicePublic ap
+        on ap.ID = un.ADVICEPUBLIC_ID
+        where
+          un.dealTime is null
+        #if($userId)
+          and un.userId = :userId
+        #end
+        order by ap.CREATETIME desc
+        "
+    - name: getcount
+      resultType: Map
+      fetches: []
+      statement:
+        "
+        select
+          a.account,
+          a.address,
+          a.company,
+          a.createtimestamp,
+          a.description,
+          a.uid,
+          e.custodianTelephone,
+          e.companyName
+        from
+          authoxuser a
+        left join
+          EnterpriseInformation e
+        on a.company = e.companyId
+        where
+          1=1
+        #if($getAccount)
+          and  a.account = :getAccount
+        #end
+        #if($getcompanyName)
+          and  a.description like :getcompanyName
+        #end
+        #if($getcompanyId)
+          and  a.company = :getcompanyId
+        #end
+        #if($getAddress)
+          and  a.address = :getAddress
+        #end
+          and a.company is not null
+        "

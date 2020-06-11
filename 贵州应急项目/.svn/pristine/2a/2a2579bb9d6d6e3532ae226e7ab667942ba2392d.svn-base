@@ -1,0 +1,147 @@
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "应急案例", description = "应急案例")
+public class EmergencyCase {
+
+	private String emergencyCaseId;
+	private String  companyId;
+	@ApiModelProperty(value = "事故名称")
+	private String  accidentName;
+	@ApiModelProperty(value = "事故类别")
+	private String  accidentType;
+	@ApiModelProperty(value = "事故时间")
+	private Date  accidentTime;
+	@ApiModelProperty(value = "事故性质")
+	private String  accidentProperty;
+	@ApiModelProperty(value = "事故级别")
+	private String  accidentLevel;
+	@ApiModelProperty(value = "危险源名称")
+	private String  riskSourceName;
+	@ApiModelProperty(value = "事故地点")
+	private String  address;
+	@ApiModelProperty(value = "联系电话")
+	private String  telephone;
+	@ApiModelProperty(value = "影响人口")
+	private String  impactPopulation;
+	@ApiModelProperty(value = "轻伤人数")
+	private String  minorNumber;
+	@ApiModelProperty(value = "轻伤人数")
+	private String  hardWoundNumber;
+	@ApiModelProperty(value = "死亡人数")
+	private String  deathNumber;
+	@ApiModelProperty(value = "联系人")
+	private String  contacts;
+	@ApiModelProperty(value = "环境状况")
+	private String  environmentConditions;
+	@ApiModelProperty(value = "主要污染物")
+	private String  pollutant;
+	public String getEmergencyCaseId() {
+		return emergencyCaseId;
+	}
+	public void setEmergencyCaseId(String emergencyCaseId) {
+		this.emergencyCaseId = emergencyCaseId;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getAccidentName() {
+		return accidentName;
+	}
+	public void setAccidentName(String accidentName) {
+		this.accidentName = accidentName;
+	}
+	public String getAccidentType() {
+		return accidentType;
+	}
+	public void setAccidentType(String accidentType) {
+		this.accidentType = accidentType;
+	}
+	public Date getAccidentTime() {
+		return accidentTime;
+	}
+	public void setAccidentTime(Date accidentTime) {
+		this.accidentTime = accidentTime;
+	}
+	public String getAccidentProperty() {
+		return accidentProperty;
+	}
+	public void setAccidentProperty(String accidentProperty) {
+		this.accidentProperty = accidentProperty;
+	}
+	public String getAccidentLevel() {
+		return accidentLevel;
+	}
+	public void setAccidentLevel(String accidentLevel) {
+		this.accidentLevel = accidentLevel;
+	}
+	public String getRiskSourceName() {
+		return riskSourceName;
+	}
+	public void setRiskSourceName(String riskSourceName) {
+		this.riskSourceName = riskSourceName;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	public String getImpactPopulation() {
+		return impactPopulation;
+	}
+	public void setImpactPopulation(String impactPopulation) {
+		this.impactPopulation = impactPopulation;
+	}
+	public String getMinorNumber() {
+		return minorNumber;
+	}
+	public void setMinorNumber(String minorNumber) {
+		this.minorNumber = minorNumber;
+	}
+	public String getHardWoundNumber() {
+		return hardWoundNumber;
+	}
+	public void setHardWoundNumber(String hardWoundNumber) {
+		this.hardWoundNumber = hardWoundNumber;
+	}
+	public String getDeathNumber() {
+		return deathNumber;
+	}
+	public void setDeathNumber(String deathNumber) {
+		this.deathNumber = deathNumber;
+	}
+	public String getContacts() {
+		return contacts;
+	}
+	public void setContacts(String contacts) {
+		this.contacts = contacts;
+	}
+	public String getEnvironmentConditions() {
+		return environmentConditions;
+	}
+	public void setEnvironmentConditions(String environmentConditions) {
+		this.environmentConditions = environmentConditions;
+	}
+	public String getPollutant() {
+		return pollutant;
+	}
+	public void setPollutant(String pollutant) {
+		this.pollutant = pollutant;
+	}
+	
+	
+}

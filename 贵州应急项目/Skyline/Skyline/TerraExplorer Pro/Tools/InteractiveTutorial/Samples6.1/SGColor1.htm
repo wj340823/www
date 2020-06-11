@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Coordinates 1</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            var coord = SGWorld.Creator.CreatePosition(-71.00864, 42.36229,0,2);
+            var radius = 500.0; // 500 meter
+
+            var outlineColor = SGWorld.Creator.CreateColor(0, 0, 0, 0);
+            
+            // Red
+            var redCircle = SGWorld.Creator.CreateCircle(coord, radius, outlineColor, SGWorld.Creator.CreateColor(255, 0, 0));
+            SGWorld.Creator.CreateTextLabel(coord, "CreateColor(255, 0, 0)\r\nRed",SGWorld.Creator.CreateLabelStyle());
+
+            // Green, with alpha transparency            
+            coord.x -= 0.015;
+            var greenCircle = SGWorld.Creator.CreateCircle(coord, radius, outlineColor, SGWorld.Creator.CreateColor(0, 255, 0, 100));
+            SGWorld.Creator.CreateTextLabel(coord, "CreateColor(0, 255, 0, 100)\r\nGreen, with alpha transparency",SGWorld.Creator.CreateLabelStyle());
+
+            // Blue, using HTML color format
+            coord.y += 0.015;
+            var blueCircle = SGWorld.Creator.CreateCircle(coord, radius, outlineColor, "#0000FF");
+            SGWorld.Creator.CreateTextLabel(coord, "\"#0000FF\"\r\nBlue, using HTML color format",SGWorld.Creator.CreateLabelStyle());                        
+            
+            // Yellow, using ABGR format /////////////////////////////////////////////////////
+            coord.x += 0.015;
+            var yellowCircle = SGWorld.Creator.CreateCircle(coord, radius, outlineColor, 0xAA00FFFF);
+            SGWorld.Creator.CreateTextLabel(coord, "0xAA00FFFF\r\nYellow, using ABGR format",SGWorld.Creator.CreateLabelStyle());
+
+            coord.Altitude = 4000;
+            coord.Y -= 0.035;
+            coord.Pitch = -45;
+            SGWorld.Navigate.FlyTo(coord);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040I8qwrSTL4Mv.Hegm6qXjHWCfQ#coJ3QSwGHR2dFvwJmn.UfUhH4.L3mww3bGf4bdbO#zEFplZPs#xxxy1O78GqJJ-->

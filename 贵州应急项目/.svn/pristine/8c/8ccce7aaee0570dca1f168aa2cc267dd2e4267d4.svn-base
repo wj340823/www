@@ -1,0 +1,72 @@
+//package com.sucsoft.gzhbyjwz.util;
+//
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//
+//public final class Excel2DB {
+//
+//	// 获取Excel文档的路径
+//	public static final String filePath = "D://TBL_CONFIG_GPSPLAINFO.xls";
+//
+//	public static List<Map<Integer,Object>> excel2DB() throws IOException {
+//		List<Map<Integer,Object>> dataList = new ArrayList<Map<Integer,Object>>();
+//		try {
+//			// 创建对Excel工作簿文件的引用
+//			HSSFWorkbook wookbook = new HSSFWorkbook(new FileInputStream(
+//					filePath));
+//			// 在Excel文档中，第一张工作表的缺省索引是0，
+//			// 其语句为：HSSFSheet sheet = workbook.getSheetAt(0);
+//			HSSFSheet sheet = wookbook.getSheet("Sheet 1");
+//			// 获取到Excel文件中的所有行数
+//			int rows = sheet.getPhysicalNumberOfRows();
+//			// 遍历行
+//			for (int i = 2; i < rows; i++) {
+//				// 读取左上端单元格
+//				HSSFRow row = sheet.getRow(i);
+//				// 行不为空
+//				if (row != null) {
+//					// 获取到Excel文件中的所有的列
+//					int cells = row.getPhysicalNumberOfCells();
+//					// 遍历列
+//					Map<Integer,Object> newMap = new HashMap<Integer,Object>(cells);
+//					for (int j = 0; j < cells; j++) {
+//						// 获取到列的值
+//						HSSFCell cell = row.getCell(j);
+//						if (cell != null) {
+//							switch (cell.getCellType()) {
+//							//数值型
+//							case HSSFCell.CELL_TYPE_NUMERIC:
+//								newMap.put(Integer.valueOf(j), cell.getNumericCellValue());
+//								break;
+//							//字符串型
+//							case HSSFCell.CELL_TYPE_STRING:
+//								newMap.put(Integer.valueOf(j), cell.getStringCellValue());
+//								break;
+//							//空值
+//							case HSSFCell.CELL_TYPE_BLANK:
+//								newMap.put(Integer.valueOf(j), null);
+//								break;
+//							//布尔类型
+//							case HSSFCell.CELL_TYPE_BOOLEAN:
+//								newMap.put(Integer.valueOf(j),cell.getBooleanCellValue());
+//								break;
+//							default:
+//								 break;
+//							}
+//						}
+//					}
+//					dataList.add(newMap);
+//
+//				}
+//			}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} 
+//		return dataList;
+//	}
+//}

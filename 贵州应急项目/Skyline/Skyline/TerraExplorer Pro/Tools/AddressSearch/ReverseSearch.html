@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="StyleSheet" href="../Style.css" type="text/css">
+    <script language="javascript" src="../ToolsCommon65.js"></script>
+    <style>
+        .closeButton {
+            color: gray;
+            float: right;
+            cursor: pointer;
+        }
+
+            .closeButton:hover {
+                color: black;
+            }
+
+        .header {
+            color: black;
+            font-size: 14px;
+            padding-right: 6px;
+            padding-left: 3px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        noselect {
+            user-select: none;
+        }
+    </style>
+</head>
+<body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0" style="background-color:#404040; border: 0;overflow:hidden; height:100%;" id="Body" onload="Init()" onunload="Reset(0,0);" oncontextmenu="return false;">
+    <img id="searchIcon" src="ReverseSearchIcon.png" " alt=" " align=" absmiddle" /><span id="address" class="s9w i18n"> ClickMouse</span>
+    <object id="SGWorld" classid="CLSID:3a4f9199-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+
+    <script language="javascript" src="../ToolsCommon.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var SearchURL = SGWorld.GetOptionParam("SGServicesURL");
+        //if (osmServer == "http://www.skylineglobe.com/Skylineglobe/layers/osm.json")
+        //osmServer = "http://www.skylineglobe.com";
+        //var SearchURL = osmServer + "/Skylineglobe/AddressSearch/AddressSearch.ashx?latlon=";
+        var isStart;
+        var gSearchingText = false;
+
+        var sg = "";
+        var jqxhr1 = $.ajax({
+            url: SearchURL,
+            success: function (data) {
+                sg = data.AddressSearch[0].Value + "latlon=";
+            },
+            error: function () {
+                alert(SGLang.i18n("ReverseSearchConnectionError"));
+                Reset(0, 0);
+            }
+        });
+        //--------------
+        // Init
+        function Init() {
+            SGWorld.AttachEvent("onLButtonUp", onLButtonUp);
+            SGWorld.AttachEvent("onLButtonDown", onLButtonDown);
+            SGWorld.AttachEvent("onRButtonUp", onRButtonUp);
+            SGWorld.AttachEvent("OnInputModeChanged", OnInputModeChanged);
+            isStart = true;
+            SGWorld.Window.SetInputMode(1, "", true);
+
+        }
+        //------------------
+        // Reset
+        //------------------
+        function Reset(FirstTime, FromMouseInputMode) {
+            try {
+                isStart = false;
+                if (FirstTime != 1 && FromMouseInputMode == 0)
+                    SGWorld.Window.SetInputMode(0);
+                ClosePopup();
+            }
+            catch (err) { isStart = false; }
+        }
+        //--------------
+        // ClosePopup
+        function ClosePopup() {
+            try {
+                SGWorld.Window.RemovePopupByCaption(SGLang.i18n("ToolNameReserve"));
+            }
+            catch (err) { }
+        }
+        //------------
+        //onLButtonDown
+        function onLButtonDown(Flag, X, Y) {
+            if (isStart == false)
+                return;
+            SGWorld.Window.SetInputMode(1, abspath() + "./GrabHand.cur", true);
+
+            // Save camera location to identify dragging
+            cameraClickPos = SGWorld.Navigate.GetPosition();
+        }
+        //------------
+        //onLButtonUp
+        function onLButtonUp(Flag, X, Y) {
+            if (isStart == false || sg == "")
+                return;
+
+            // Creating objects only if not dragging the terrain
+            if (cameraClickPos.IsEqual(SGWorld.Navigate.GetPosition())) {
+                gSearchingText = true;
+                setTimeout("DisplaySearchingText();", 1000);
+                // service supports only wgs84
+                SGWorld.CoordServices.SourceCoordinateSystem.InitFromEPSG(4326);
+                var worldPoint = SGWorld.Window.PixelToWorld(X, Y, 0 + 1 + 16 + 64 + 128);
+                SGWorld.CoordServices.SourceCoordinateSystem.WellKnownText = SGWorld.Terrain.CoordinateSystem.WellKnownText;
+
+                var URL = sg + worldPoint.Position.Y + "," + worldPoint.Position.X;
+                var jqxhr = $.get(URL, function (data) {
+                    gSearchingText = false;
+                    $("#searchIcon").hide();
+                    if (data[0].Name == "" && data[0].Description == "")
+                        $("#address").html(SGLang.i18n("noResultsFound"));
+                    else
+                        $("#address").html("<b>" + data[0].Name + "</b><br />" + data[0].Description);
+                })
+
+            }
+            SGWorld.Window.SetInputMode(1, abspath() + "/cursor_m.cur", true);
+
+        }
+        function DisplaySearchingText() {
+            if (gSearchingText) {
+                $("#searchIcon").show();
+                $("#address").html(SGLang.i18n("Searching"));
+            }
+        }
+
+        //------------
+        //onRButtonUp
+        function onRButtonUp(Flag, X, Y) {
+            if (isStart == false)
+                return;
+            Reset(0, 0);
+            return true;
+        }
+        //------------
+        //OnInputModeChanged
+        function OnInputModeChanged(newMode) {
+
+            Reset(0, 1);
+        }
+    </script>
+</body>
+</html>
+
+
+<!--Sig:0000004069rJCr8T952ACmXNAH#pROSd6GgBMWF5J0W4M0HheLkVCl#akghE0AL2duBWyRLU2TAYx3jvH7fPz2Co2Fz#M8JJ-->

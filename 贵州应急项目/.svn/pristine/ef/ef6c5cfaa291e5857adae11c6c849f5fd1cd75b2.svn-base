@@ -1,0 +1,53 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@ApiModel("主要产品")
+public class ProductInfo {
+
+    @ApiModelProperty("名称")
+    private String name;
+    @ApiModelProperty("数量")
+    private String number;
+    @ApiModelProperty("风险源id")
+    private String companyId;
+    private String id;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+}

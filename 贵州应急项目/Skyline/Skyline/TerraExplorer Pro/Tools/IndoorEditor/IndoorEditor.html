@@ -1,0 +1,411 @@
+﻿    <HTML>
+<HEAD>
+<TITLE>ToolTitle</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<LINK REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+</HEAD>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border:0;overflow:auto;" id="Body" OnLoad="Init()" onunload="Exit()" > <!-- oncontextmenu="return false;" -->
+<table border=0 width=100% cellspacing=0 cellpadding=2 >
+<tr>
+<td id = "TopAreaTD" height=50px width=100% valign=middle style="background-color:#CAD8E2"> 
+    <table border=0 width=100% cellspacing=0 cellpadding=0 >
+    <tr>
+    <td width=12px> </td>
+    <td width=55px><img src="images/IndoorEditorIcon.gif" /></td>
+    <td id="TitleTD" align=center class="s12b i18n">ToolName</td>
+	<td valign=top align=right id="CloseHelpTd" >
+								<img src="../CommonImg/help.gif" border="0" class="i18n" alt="help" title="help" onclick="DisplayHelpPopup6(SGLang.i18nFile('IndoorEditorHelp.html'),SGLang.i18n('help'))" style="cursor: pointer;">
+						</td>
+    </tr>
+    </table>
+</td>
+</tr>
+<tr height=1px><td style="background-repeat:repeat-x;" background="../CommonImg/separator.gif"></td></tr>
+<tr>
+<td>
+<br />
+
+</td>
+</tr>
+
+<tr  >
+<td colspan=2 class="s9" style="padding:10px">
+<br />
+
+<!-- Step 1 -->
+<div id="step1" style="display:inline">
+    
+    <span class="s10b i18n" style="background-color:Yellow">Text1</span><br /><br />
+    
+    <span class="i18n">Text2</span> 
+	<INPUT type=button value="Text3" name="start" onclick="startIndoor()"  class="button i18n" style="width:90px"> <span class="i18n">Text4</span> <br />
+<!--     <input type=button value="Cancel" name="cancel" onclick="Cancel()"  class="button" style="width:50px"> -->
+</div>
+
+<!-- Step 2 -->
+<div id="step2" style="display:none">
+    <span class="s10b i18n" style="background-color:Yellow">Text5</span><br /><br />
+
+    <span class="i18n">Text6</span> <br />
+    <br />
+    <span class="i18n">Text7</span> <input type=text id="locationName" size=30  onkeydown="if (window.event.keyCode == 13)AddLocation();" /> 
+    <input type=button value="Text8" name="AddLocation" onclick="AddLocation()" class="button i18n" style="width:40px"> <br />
+	<br />
+	<table border=1 width=100% class="s9">
+	<tr><td style="background-color:cccccc;" width=100%>
+	    <span class="i18n">Text9</span>
+	</td></tr>
+	<tr>
+	<td>
+        <span id="locationsList" style="background-color:white;"></span><br />
+	</td>
+	</tr>
+	</table>
+	<br />
+	<input type="button" value="Text10" name="finish" onclick="Finish()"  class="button i18n" style="width:80px"> <span style="margin-left:30px"></span>
+     <!--<input type="button" value="Text11" name="cancel" onclick="Cancel()"  class="button i18n" style="width:80px">                                                    -->
+</div>
+<!-- Step 3 -->
+<div id="step3" style="display:none">
+    <span class="i18n">Text12</span><br />   <br />
+    <span class="i18n">Text13</span><img src="images/doorin.gif" border=0 alt="enter" align=absmiddle /> <span class="i18n">Text14</span><br />   <br />
+    <br />
+	<INPUT type=button value="Text16" name="finish" onclick="Reset(false)"  class="button i18n" style="width:130px"> 
+</div>
+</td>
+</tr>
+</table>
+    <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1">    </object>
+</body>
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+
+<script type="text/javascript" language="javascript">
+
+var rootFolder;
+var editMode;
+var selectedBuilding;
+var indoorGroup ;
+var entranceIcon;
+var notification;
+var NewGroup;
+var CollisionWasOn;
+var wasUnderground;
+//-----------------
+// Init
+function Init() {
+    SGWorld.AttachEvent("OnLButtonDown", onLButtonDown);
+    SGWorld.AttachEvent("OnRButtonDown", onRButtonDown);
+    
+    // Check if "Indoor" group already exists and attach to it.
+    //a = globe.root.parentNode().selectSingleNode("Indoor");
+    var a = SGWorld.ProjectTree.FindItem("Indoor");
+    if (a != 0)
+        rootFolder = a;
+    else
+        rootFolder = SGWorld.ProjectTree.CreateLockedGroup("Indoor", 0);
+    CollisionWasOn = SGWorld.Command.IsChecked(1140, 0);
+
+    Reset(true);
+}
+//-----------------
+// Reset
+function Reset(fromInit) {
+    //try
+    {
+    if(SGWorld.Project.Name != "") // set input mode only if we have fly loaded, otherwise throws exception.
+        SGWorld.Window.SetInputMode(0);
+    showStep(1);
+//        if (selectedBuilding != null)
+//            selectedBuilding.GroundObject = true;
+    editMode = 0;
+    entranceIcon = null;
+    indoorGroup = -1;
+    selectedBuilding = null;
+    bNewGroup = false;
+    if (!fromInit) 
+    {
+        if (wasUnderground != SGWorld.Command.IsChecked(1027, 0))
+            SGWorld.Command.Execute(1027, 0);
+
+        if (CollisionWasOn && SGWorld.Command.IsChecked(1140, 0) == false)
+            SGWorld.Command.Execute(1140, 0);
+        SGWorld.Command.Execute(1049, 0);
+    }
+    wasUnderground = false;
+   
+    document.all["locationsList"].innerHTML = "";
+    document.all["locationName"].value = "";
+    }
+  //  catch (e) { }
+}
+//-----------------
+// Exit
+function Exit()
+{
+    Reset (false);
+}
+//-----------------
+// Cancel
+function Cancel() {
+    try {
+        if (indoorGroup != -1) {
+            SGWorld.Navigate.JumpTo(selectedBuilding.ID);
+            SGWorld.ProjectTree.DeleteItem(indoorGroup);
+        }
+        Reset(false);
+    }
+    catch (e) { }
+
+}
+//-----------------
+// showStep
+function showStep(step)
+{
+    document.all["step1"].style.display = "none";
+    document.all["step2"].style.display = "none";
+    document.all["step3"].style.display = "none";
+    
+    document.all["step"+step].style.display = "inline";
+}
+
+
+//-----------------
+// start
+function startIndoor()
+{
+    //showStep(2);
+    SGWorld.Window.SetInputMode(1, abspath() + "/images/pointer_ZoomIn.cur");
+    SGWorld.Window.ShowMessageBarText(SGLang.i18n("Text17"));
+    editMode = 1;
+}
+//-----------------
+// onLButtonDown
+function onLButtonDown(flags, x, y)
+{
+    if (editMode ==0)
+        return false;
+
+
+    var ret = SGWorld.Window.pixelToWorld(x,y);
+
+    if (ret == null || ret.ObjectID <= 0 )
+        return;
+
+    selectedBuilding = SGWorld.Creator.GetObject(ret.ObjectID);
+
+    if (selectedBuilding.ObjectType == 7) // Building
+    {
+        alert (SGLang.i18n("Text18"));
+        return;
+    }
+    if (selectedBuilding.ObjectType == 17) // 3D model
+    {
+        // Turn off collision detection
+        CollisionWasOn = SGWorld.Command.IsChecked(1140, 0); 
+        if (CollisionWasOn == true)
+            SGWorld.Command.Execute(1140, 0);
+
+        // If building pivot under the ground - switch to underground mode (no terrain transparency)
+        if (selectedBuilding.Position.Copy().ToRelative().Altitude < 0) 
+        {
+            wasUnderground = SGWorld.Command.IsChecked(1027, 0);
+            if (wasUnderground == false) {
+                SGWorld.Command.Execute(1027, 0);   // Underground mode (by default it changes the terrain opacity to 50%)
+                SGWorld.Command.Execute(1060, 100);  // Terrain opacity back to 100%
+            }
+        }
+        addLocationsGroup();
+
+        SGWorld.Window.SetInputMode(0);
+        SGWorld.Window.HideMessageBarText();
+        editMode = 0;
+        SGWorld.Command.Execute(1051, 0);  // Pan navigation mode
+        showStep(2);
+    }
+    
+}
+//-----------------
+// addLocationsGroup
+function addLocationsGroup() {
+
+    name = rtrim(selectedBuilding.TreeItem.Name);
+    
+    try {
+
+        if (FindBuilding()) 
+        {
+            UpdateLocationsList();
+            bNewGroup = false;
+        }
+        else 
+        {
+            indoorGroup = SGWorld.ProjectTree.CreateLockedGroup(name, rootFolder);
+            bNewGroup = true;
+        }    
+    }
+    catch (e) 
+    {
+        rootFolder = SGWorld.ProjectTree.CreateLockedGroup("Indoor", 0);
+        indoorGroup = SGWorld.ProjectTree.CreateLockedGroup(name, rootFolder);
+        bNewGroup = true;
+    };
+    
+}
+//-------------
+// Find if building already has an Indoor group
+// FindBuilding
+function FindBuilding() {
+
+    var itemID = SGWorld.ProjectTree.GetNextItem(rootFolder, 11);
+    while (itemID > 0) // Find the right group
+    {
+        if (SGWorld.ProjectTree.GetClientData(itemID, "indoor") == selectedBuilding.ID) {
+            indoorGroup = itemID;
+            return true;
+        }
+        itemID = SGWorld.ProjectTree.GetNextItem(itemID, 13);
+    }
+    return false;
+
+}   
+//-----------------
+// UpdateLocationsList
+function UpdateLocationsList(groupID) {
+
+    document.all["locationsList"].innerHTML = "";
+    var itemID = SGWorld.ProjectTree.GetNextItem(indoorGroup, 11);
+    while (itemID > 0) 
+    {
+
+            var obj = SGWorld.ProjectTree.GetObject(itemID);
+            if (obj.ObjectType == 19) // location
+            {
+                document.all["locationsList"].innerHTML += "<li style='list-style-type:none' id=" + itemID + ">  <a style='cursor:pointer;' onclick=FlyToFloor(" + itemID + ")><img src='images/view.gif' border=0 ></a> | <a style='cursor:pointer;' onclick=DeleteLocation(" + itemID + ")><img src='images/delete.gif' border=0 ></a> " + obj.TreeItem.Name + "</li>";
+            }
+
+        itemID = SGWorld.ProjectTree.GetNextItem(itemID, 13);
+    }
+
+}
+//-----------------
+// AddLocation
+function AddLocation()
+{
+    if (indoorGroup == -1 || selectedBuilding == null )
+    {
+        alert (SGLang.i18n("Text19"));
+        Cancel();
+    }
+    
+    if (document.all["locationName"].value == "")
+    {
+        alert (SGLang.i18n("Text20"));
+        return;
+    }
+
+    var locationObj = SGWorld.Creator.CreateLocationHere(indoorGroup, document.all["locationName"].value);
+    locationItemID = locationObj.TreeItem.ItemID;
+
+    UpdateLocationsList();
+        
+}
+//-----------------
+// Finish
+function Finish()
+{
+    if (indoorGroup == -1 || selectedBuilding == null )
+    {
+        alert (SGLang.i18n("Text18"));
+        Cancel();
+    }
+
+    // Check that the list of locations is not empty
+    var list = document.getElementById("locationsList");
+    if (list.firstChild == null)
+    {
+        alert (SGLang.i18n("Text22"));
+        Cancel();
+        return;
+    }
+
+    if (bNewGroup) 
+        createEntranceIcon(); // Create the icon to launch the indoor viewer
+
+    SGWorld.Navigate.JumpTo(selectedBuilding.ID);
+    Reset(false);
+    showStep(3);
+}
+//-----------------
+// createEntranceIcon
+function createEntranceIcon() {
+
+
+       var buildingInfo = SGWorld.Terrain.GetGroundHeightInfo(selectedBuilding.Position.X, selectedBuilding.Position.Y, 1);
+       buildingInfo.Position.Altitude += 10;
+       
+       var entranceIcon = SGWorld.Creator.CreateImageLabel(buildingInfo.Position, abspath() + "/images/doorin.gif", SGWorld.Creator.CreateLabelStyle(), indoorGroup, "Entrance");
+       entranceIcon.Style.Scale = 1;
+       entranceIcon.Style.LimitScreenSize = true;
+
+       SGWorld.ProjectTree.SetClientData(indoorGroup, "indoor", selectedBuilding.ID);
+
+       var message = SGWorld.Creator.CreatePopupMessage("Indoor", "file://" + abspath() + "/indoor6.html?building=" + selectedBuilding.ID, 10, 10, 200, 530, -1);
+	   message.Flags = message.Flags | _HTML_POPUP_FLAGS.HTML_POPUP_NOT_USE_POINTER;
+       entranceIcon.Message.MessageID = message.ID;
+}
+
+//-----------------
+// onLButtonDown
+function onRButtonDown(flags, x, y)
+{
+    if (editMode ==0)
+        return false;
+
+    Reset(false);
+    return true;
+}        
+//-----------------
+// FlyToFloor
+function FlyToFloor(ItemID)
+{
+    var obj = SGWorld.ProjectTree.GetObject(ItemID);
+    
+    SGWorld.Navigate.JumpTo(obj.ID);
+    
+}
+//-----------------
+// DeleteLocation
+function DeleteLocation(ItemID)
+{
+    var obj = SGWorld.ProjectTree.GetObject(ItemID);
+
+    //var li = window.event.srcElement.parentNode;
+    var li = document.getElementById(ItemID);
+    var list = document.getElementById("locationsList");
+    list.removeChild(li);
+   SGWorld.ProjectTree.DeleteItem (ItemID);
+//    SGWorld.Creator.DeleteObject(obj.ID);
+}
+
+//-----------------
+// isStreamingObject
+/**
+function isStreamingObject(node)
+{
+    node = node.parentNode();
+    if (node == null)
+        return true;
+}
+**/
+function rtrim(stringToTrim) 
+{
+	return stringToTrim.replace(/\s+$/,"");
+}
+</script>
+
+</HTML>
+
+
+<!--Sig:00000040LzvZde5fM.9nIjd2UdYLPIb3fSjdFl.FXmsfLVCWU9TKaeopwU4Bytw8JikK.l7aycXyC8kx.zL7OaSaOTc5XzJJ-->

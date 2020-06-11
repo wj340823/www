@@ -1,0 +1,78 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.text.DecimalFormat;
+import java.util.UUID;
+
+public final class StringUtils {
+
+	public static String getUUID(){
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+	/**
+	 * 将数组转换成字符串，用','分割
+	 */
+	public static String arr2Str(Object [] arr){
+		String str = "";
+		if(ValidateUtil.isValid(arr)){
+			for(Object obj:arr){
+				str = obj +",";
+			}
+			return str.substring(0, str.length()-1);
+		}
+		return null;
+	}
+	
+	/**
+	 * 转百分率
+	 */
+	public static String toPercent(String online,String offline)
+	{
+		Double allline=Double.parseDouble(online)+Double.parseDouble(offline);
+		Double onlinedouble=Double.parseDouble(online);
+		Double onlinerate=onlinedouble/allline*100;
+		DecimalFormat  df= new DecimalFormat("######0.00");   
+		return df.format(onlinerate)+"%";
+	}
+	
+	/**
+	 * 不会报空指针的toString方法
+	 * @param o
+	 * @return
+	 */
+	public static String toString(Object o) {
+		if (o != null) {
+			return o.toString();
+		}
+		return null;
+	}
+
+	/**
+	 * 文件名中文输出方法修改
+	 * @param s 中文名称.xls
+	 * @return
+	 */
+	public static String toUtf8String(String s) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c >= 0 && c <= 255) {
+				sb.append(c);
+			} else {
+				byte[] b;
+				try {
+					b = Character.toString(c).getBytes("utf-8");
+				} catch (Exception ex) {
+					System.out.println(ex);
+					b = new byte[0];
+				}
+				for (int j = 0; j < b.length; j++) {
+					int k = b[j];
+					if (k < 0)
+						k += 256;
+					sb.append("%" + Integer.toHexString(k).toUpperCase());
+				}
+			}
+		}
+		return sb.toString();
+	}
+}

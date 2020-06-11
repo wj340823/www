@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Popup4</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+        
+        function Init()
+        {
+            // passing empty caption will turn caption off. You can also turn caption on/off using ShowCaption property of popup.
+            var popup = SGWorld.Creator.CreatePopupMessage("", "", 0, 0, 300, 50, 5000);
+            
+            popup.InnerText = "This is a simple text popup without a caption.\r\nIt will be displayed for 5 seconds";            
+            popup.Align = "BottomLeft";
+
+            SGWorld.Window.ShowPopup(popup);
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:0000004065bLniEdQU3HEh1m2S#Dv.q9METdUN3NjoM6jChqbF6TkzK3AdrbP0SQqMW6BQBy045f6KgutLuY..4s0tdsGYJJ-->

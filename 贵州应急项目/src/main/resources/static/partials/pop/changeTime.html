@@ -1,0 +1,25 @@
+<div>
+    <div class="modal-body" style="background: #000">
+        <div ng-show="operate == 1">
+            <label>备案日期</label>
+            <input cgs-date-picker date-fmt="yyyy-MM-dd" ng-model="company.RECORDTIME">
+        </div>
+        <div ng-show="operate == 2">
+            <label>编制年份</label>
+            <input cgs-date-picker date-fmt="yyyy" ng-model="company.DOCUMENTYEAR">
+        </div>
+        <div ng-show="operate == 3">
+            <label style="margin-right: 30px">风险源等级</label>
+            <input type="radio" id="radioD"  ng-model="company.LEVEL" value="1" style="width: 14px" />
+            <label for="radioD" style="margin-right: 30px;">一般风险源</label>
+            <input type="radio" id="radioE"  ng-model="company.LEVEL" value="3"  style="width: 14px" />
+            <label for="radioE" style="margin-right: 30px;">较大风险源</label>
+            <input type="radio" id="radioF"  ng-model="company.LEVEL" value="2" style="width: 14px" />
+            <label for="radioF">重大风险源</label>
+        </div>
+    </div>
+    <div class="modal-footer" style="background: #000">
+        <button class="searchBtn" ng-click="commitTime()">提交</button>
+        <button class="searchBtn" ng-click="cancel()">取消</button>
+    </div>
+</div>

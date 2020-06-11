@@ -1,0 +1,377 @@
+<html>
+
+<head>
+
+<title>TerraExplorer  - License Agreement</title>
+<style type="text/css">
+<!--
+.s7 {font-family: Arial, Helvetica, sans-serif; font-size: 7pt; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s8 {font-family: Arial, Helvetica, sans-serif; font-size: 8pt; font-style: normal; font-weight: normal; color: #000000; text-decoration: none;}
+.s9w {font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-weight: normal; color: #FFFFFF; text-decoration: none;}
+.s12bw {font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-style: normal; font-weight: bold; color: #FFFFFF; text-decoration: none;}
+.s12bg {font-family: Arial, Helvetica, sans-serif; font-size: 21px; font-style: normal; font-weight: bold; color: #8D979F; text-decoration: none;}
+
+A:link		{color: #FFFFFF; text-decoration: underline;}
+A:visited	{color: #FFFFFF; text-decoration: underline;}
+A:hover		{color: #FFFFFF; text-decoration: underline;}
+
+
+ /* Font Definitions */
+ @font-face	{font-family:"Cambria Math";	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal	{margin:0in;	margin-bottom:.0001pt;	font-size:10.0pt;	font-family:"Times New Roman","serif";}
+h1	{mso-style-link:"Heading 1 Char";	margin-top:0in;	margin-right:0in;	margin-bottom:12.0pt;	margin-left:0in;	page-break-after:avoid;	font-size:10.0pt;	font-family:"Times New Roman","serif";	text-decoration:underline;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader	{mso-style-link:"Header Char";	margin:0in;	margin-bottom:.0001pt;	font-size:10.0pt;	font-family:"Times New Roman","serif";}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2	{mso-style-link:"Body Text 2 Char";	margin-top:0in;	margin-right:-.25in;	margin-bottom:0in;	margin-left:0in;	margin-bottom:.0001pt;	text-autospace:none;	font-size:7.0pt;	font-family:"Arial","sans-serif";}
+span.Heading1Char	{mso-style-name:"Heading 1 Char";	mso-style-link:"Heading 1";	font-family:"Times New Roman","serif";	font-weight:bold;	text-decoration:underline;}
+span.HeaderChar	{mso-style-name:"Header Char";	mso-style-link:Header;	font-family:"Times New Roman","serif";}
+span.BodyText2Char	{mso-style-name:"Body Text 2 Char";	mso-style-link:"Body Text 2";	font-family:"Arial","sans-serif";}
+.MsoChpDefault	{font-family:"Calibri","sans-serif";}
+.MsoPapDefault	{margin-bottom:10.0pt;	line-height:115%;}
+@page WordSection1	{size:8.5in 11.0in;	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1	{page:WordSection1;}
+-->
+</style>
+
+
+
+<script language="JavaScript">
+   
+function Init() {
+
+    C2mp = GetParamValue("C2MP", "1");
+    if (C2mp != "1")
+        document.all["ProductName"].src = "img/terraexplorerpro_c2mp.gif";
+
+    }
+</script>
+<SCRIPT LANGUAGE="VBScript">
+'--------------------------------------
+' GetParamValue
+'--------------------------------------
+Function GetParamValue( FindParam , Default)
+
+ Dim URL
+ Dim l
+ Dim pl
+ Dim RetVal
+ Dim Params
+
+ RetVal=Default
+ Params=""
+
+ URL=document.location
+ l=Len(URL)
+
+ ' find the location of the first parameter
+ For i = 1 to l 
+   If Mid(URL,i,1)="?" Then
+	 ' enter the parameters into params string
+	 Params="%26" & Mid(URL,i+1,l-i) & "%26" ' Make Sure it will Start and End With "&"
+	 Exit For ' i=l+1 ' finish the for
+   End if 
+ Next 
+
+ ' We Have Parameters List
+
+ l=Len(Params)
+ FindParam = "%26" & FindParam & "="
+
+ pl=Len(FindParam)
+ for i = 1 to l-pl
+   if mid(Params,i,pl)=FindParam then
+	 for j = i+pl to l-2
+	   if mid(Params,j,3)="%26" then
+		   RetVal=mid(Params,i+pl,j-i-pl) 
+	   Exit For ' j=l-pl+1 ' finish the for
+	   end if 
+	 next
+	 Exit For ' i=l-pl+1 ' finish the for
+   end if 
+ next 
+ 
+ GetParamValue=RetVal
+End Function
+</script>
+</head>
+
+
+<body style="background-color:#3F5261;" topmargin="0" leftmargin="0" class="background"  OnLoad="Init()"   oncontextmenu="return false;">
+
+<table border="0px" cellspacing="0" cellpadding="0" class="s9w">
+
+<tr >
+    <td >
+        <a style="cursor:pointer;" onClick="history.back()"><img src="img/back.gif"  border="0" name="back" alt="Return to previous page"></a>
+    </td>
+    <td align="center">
+    <br />
+    <img src="img/terraexplorerpro_64.gif" id="ProductName" border=0 alt="TEP" />
+    </td>
+    
+</tr>
+
+<tr>
+<td style="width:55px">  
+</td>
+
+<td>
+
+<div>
+
+<p class=MsoNormal align=center style='margin-top:0in;margin-right:-6.3pt;
+margin-bottom:12.0pt;margin-left:0in;text-align:center'><b><span
+style='text-transform:uppercase; font-size:14.0pt'>Skyline Software Systems End User License Agreement</span></b><b><span
+style='font-size:12.0pt'><br>
+<br>
+</span></b></p>
+
+<div style='border:solid white 1.0pt;padding:1.0pt 1.0pt 1.0pt 1.0pt'>
+
+<p class=MsoNormal style='border:none;padding:0in'><b>THIS SOFTWARE LICENSE
+AGREEMENT (THE “LICENSE”) IS A LEGAL AGREEMENT BETWEEN SKYLINE SOFTWARE
+SYSTEMS, INC. (“SKYLINE”) AND YOU (EITHER AN INDIVIDUAL OR AN ENTITY).  BY
+CLICKING THE “ACCEPT” BOX OR BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE
+USING THE SOFTWARE, YOU REPRESENT (I)&nbsp;THAT YOU HAVE BEEN AUTHORIZED TO
+ACCEPT THESE TERMS ON BEHALF OF THE CUSTOMER (THE ENTITY ON WHOSE BEHALF YOU ARE ACTING, IN WHICH EVENT “YOU” AND “YOUR” SHALL REFER TO YOU AND SUCH ENTITY, AS THE CASE MAY BE), OR (II)&nbsp;THAT YOU INTEND TO BE PERSONALLY BOUND TO THE TERMS OF THIS AGREEMENT AS
+THE CUSTOMER.  IF YOU ARE NOT SO AUTHORIZED OR DO NOT INTEND TO BE PERSONALLY
+BOUND, THEN SKYLINE IS UNWILLING TO LICENSE THE SOFTWARE, YOU ARE NOT PERMITTED TO DOWNLOAD, INSTALL, COPY OR USE THE SOFTWARE, AND YOU SHOULD RETURN IT TO THE
+ORIGINAL SOURCE FOR A REFUND. IF YOU ACCEPT THESE TERMS ON BEHALF OF AN ENTITY,
+YOU MAY USE THE SOFTWARE ONLY ON BEHALF OF SUCH ENTITY.  IF YOU INTEND TO BE
+PERSONALLY BOUND, USE OF THE SOFTWARE IS LIMITED TO YOUR PERSONAL USE.</b></p>
+
+</div>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal style='page-break-after:avoid'><b><u>License.&nbsp; </u></b>You
+have licensed or been officially authorized by Skyline to install and use one
+or more Skyline products, which may include the following: TerraExplorer®;
+TerraExplorer Plus®; TerraExplorer®Pro; SkylineGlobe Viewer; TerraBuilder®;
+TerraGate®; Streaming Feature Server and Enterprise Web Package (the
+“Software”). Except as expressly provided in the specifications for your
+licensed Software, the following terms shall apply: </p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>The
+Software is provided in and is licensed for use in object-code form only and
+for use only on a single computer and by a single contemporaneous user, and
+without such copy being accessible over a network.&nbsp; </p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>You
+may transfer the Software from one workstation to another provided You only use
+one copy of the Software on a single computer or a single virtual instance of a
+computer <a name="_msoanchor_1"></a><span style='display:none'>&nbsp;</span> at
+any time.&nbsp; </p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>You
+may not reverse assemble, reverse compile, translate or otherwise attempt to create
+the source code from the Software or create derivative works of the Software or
+any portion thereof, including for reasons of error correction or
+interoperability, except to the extent this prohibition is limited by
+law.&nbsp; </p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>You
+may not use, transmit, distribute, copy, modify, or alter the Software except
+as expressly provided in this License.&nbsp; </p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>You
+may not rent, lease, license, grant a security interest in, or otherwise
+transfer rights to the Software.</p>
+
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;page-break-after:
+avoid'>-<span style='font-size:7.0pt'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>You may not remove or alter any trademark, logo, copyright or other
+proprietary notices, legends, symbols or labels in the Software. </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h1>Title<span style='text-decoration:none'>.  </span><span style='font-weight:
+normal;text-decoration:none'>Skyline retains all proprietary rights and title
+to the Software and any modifications, including copyrights, trade names and
+trademarks, and no ownership of any part of the Software is hereby transferred
+to You.  You agree to exercise due care and diligence under this License to
+protect the interests and rights of Skyline and its suppliers.</span></h1>
+
+<p class=MsoNormal><b><u>Security</u>.  </b>You understand and agree that the
+Software contains trade secrets belonging to Skyline, and will take all
+reasonable steps to protect its confidentiality.  You acknowledge that the<b> </b>Software
+is the property of Skyline and contains confidential information.  You agree
+that You will not provide a copy of the Software nor divulge any details of it
+to any person without the prior consent in writing of Skyline, provided that
+You may permit Your employees to access Your copy subject to the terms hereof.</p>
+
+<p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'>&nbsp;</p>
+
+<p class=MsoNormal><b><u>Backup</u>.  </b>You may make one copy of the Software
+solely for use for archival or backup purposes (or that number of copies as
+permitted by applicable law).  You must label any and all copies to include the
+copyright and trademark notices, the Software name and version number.  Any and
+all copies of the Software made are fully subject to the terms of this License.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b><u>Term</u>.  </b>This License shall continue so long as
+You use the Software in compliance with this License.  Should You breach any of
+its obligations, this License shall automatically terminate, and You agree to
+destroy all copies of the Software and all materials provided for or with the
+Software. You may terminate this License at any time by deleting and destroying
+all copies or returning them to Skyline.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b><u>Limitation of Warranties and Liability</u>.  </b>THE
+SOFTWARE AND MANUALS ARE PROVIDED “AS IS,” WITHOUT WARRANTY, REPRESENTATION OR
+CONDITIONS OF ANY KIND.  THE ENTIRE RISK AS TO THE RESULTS AND PERFORMANCE OF THE SOFTWARE IS ASSUMED BY YOU.  SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU (AND NOT SKYLINE OR ITS DEALERS OR SUPPLIERS) ASSUME THE ENTIRE COST OF ALL NECESSARY SERVICING,
+REPAIR, OR CORRECTION.  FURTHER, SKYLINE DOES NOT WARRANT, GUARANTEE OR MAKE
+ANY REPRESENTATIONS REGARDING THE USE OF, OR THE RESULTS OF THE USE OF, THE
+SOFTWARE IN TERMS OF CORRECTNESS, ACCURACY, RELIABILITY, CURRENTNESS OR
+OTHERWISE, AND YOU RELY ON THE SOFTWARE AND RESULTS SOLELY AT YOUR OWN RISK.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>THE
+SOFTWARE MAY INCLUDE DATA AND IMAGES FROM THIRD PARTIES.  SKYLINE HAS NOT VERIFIED THE COMPLETENESS OR ACCURACY OF SUCH DATA OR IMAGES.  IN ADDITION, THE AREAS
+DEPICTED IN THESE IMAGES MAY CHANGE OVER TIME FOR VARIOUS REASONS.  SKYLINE HAS NO OBLIGATION TO PROVIDE UPDATED DATA OR IMAGES TO REFLECT SUCH CHANGES.  USERS SHOULD BE
+AWARE OF THESE LIMITATIONS.  IN PARTICULAR, PERSONS USING THE SOFTWARE FOR
+PURPOSES RELATED TO HIGH RISK ACTIVITIES, SUCH AS AIRCRAFT NAVIGATION, SHOULD
+UNDERSTAND THAT THE SOFTWARE IS NOT A SUBSTITUTE FOR ADEQUATE AND PROPER TRAINING, EXPERIENCE AND JUDGMENT AND THAT OTHER AVAILABLE SOURCES OF INFORMATION ABOUT
+A PARTICULAR GEOGRAPHIC AREA SHOULD ALSO BE UTILIZED.</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>&nbsp;</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>THE
+SOFTWARE IS NOT FAULT&#8209;TOLERANT.  </span><span style='font-size:10.0pt;
+font-family:"Times New Roman","serif"'>SKYLINE DOES NOT WARRANT THAT THE
+FUNCTIONS OF THE SOFTWARE WILL MEET YOUR REQUIREMENTS OR THAT THE OPERATION OF
+THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR-FREE.</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>&nbsp;</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>TO
+THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, SKYLINE DISCLAIMS ALL WARRANTIES, REPRESENTATIONS AND CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.</span></p>
+
+<p class=MsoNormal style='text-align:justify'>&nbsp;</p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>TO
+THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT (INCLUDING
+NEGLIGENCE) (I) SHALL SKYLINE OR ITS SUPPLIERS BE LIABLE FOR ANY SPECIAL,
+INCIDENTAL, INDIRECT, CONSEQUENTIAL OR PUNITIVE DAMAGES WHATSOEVER (INCLUDING
+WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, LOSS OF BUSINESS
+INFORMATION OR OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OR THE INABILITY TO
+USE THE SOFTWARE, EVEN IF SKYLINE HAS BEEN ADVISED OF THE POSSIBILITY FOR SUCH
+DAMAGES, OR (II) SHALL SKYLINE’S AGGREGATE LIABILITY IN CONNECTION WITH THE
+SOFTWARE OR USE OF THE SOFTWARE EXCEED THE AMOUNT PAID BY YOU TO SKYLINE FOR
+THE PARTICULAR SOFTWARE WITH RESPECT TO WHICH SUCH LIABILITY AROSE.</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>&nbsp;</span></p>
+
+<p class=MsoBodyText2><span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>SOME
+STATES OR JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF SPECIAL, INCIDENTAL,
+INDIRECT, CONSEQUENTIAL OR PUNITIVE DAMAGES OR THE LIMITATION OF LIABILITY IN
+CERTAIN SITUATIONS, SO THE ABOVE EXCLUSIONS OR LIMITATIONS MAY NOT APPLY TO YOU IN ALL INSTANCES.</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><b><u>Governing Law and Forum Selection</u></b>.  The
+validity of this License and the rights, obligations and relations of the
+parties shall be construed and determined in accordance with the laws of the Commonwealth  of Virginia, United States of America, without giving effect to the
+principles of conflict or choice of law of such Commonwealth.  You acknowledge
+that any action or suit brought to enforce any right or remedy of this
+Agreement shall be subject to the exclusive jurisdiction and venue of federal
+and state courts in Virginia.  The original of this License has been written in
+English.  The parties hereto waive any statute, law, or regulation that might
+provide an alternative law or forum or to have this Agreement written in any
+language other than English.  Skyline and you exclude the United Nations
+Convention on Contracts for the International Sale of Goods from this License.</p>
+
+<p class=MsoHeader>&nbsp;</p>
+
+<h1>U.S. Government Restricted Rights<span style='font-weight:normal;
+text-decoration:none'>.   The Software and any accompanying manuals are
+&quot;commercial items&quot; (as defined in 48 C.F.R. 2.</span><span
+style='font-weight:normal;text-decoration:none'>101) that </span><span
+style='font-weight:normal;text-decoration:none'>were developed at private
+expense, are not in the public domain, and are</span><span style='font-weight:
+normal;text-decoration:none'> provided to any agency, contractor or
+subcontractor of the U.S. Government (at any tier) subject to the maximum
+restrictions on use permitted by FAR 52.227-19 for civilian agencies and DFARS
+227.7202-3(a) (Jan. 1, 2000) for military agencies, or successor regulations.</span><span
+style='font-weight:normal;text-decoration:none'> Thus, to the maximum extent
+permitted by law the U.S. Government and any intermediate buyers obtain only
+those rights specified herein. Contractor/manufacturer Skyline Software
+Systems, Inc., 13873 Park Center Road, Suite 201, Herndon, Virginia, U.S.A..</span></h1>
+
+<p class=MsoNormal><b><u>Export Controls</u>.  </b>In accordance with the U.S.
+Department of Commerce, Export Administration Regulations (EAR): “These commodities, technology or software were exported from the United States in accordance with the Export Administration Regulations. Diversion contrary
+to U.S. law is prohibited.”</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>None of the Software or underlying information or technology
+may be downloaded or otherwise exported or reexported (i) into (or to a
+national or resident of) Cuba, Iraq, Libya, Sudan, North Korea, Iran, Syria or
+any other country to which the U.S. has embargoed goods; or (ii) to anyone on
+the U. S. Treasury Department’s list of Specially Designated Nationals or the
+U.S. Commerce Department’s Table of Denial Orders.  By downloading or using the
+Software, you agree to the foregoing and represent and warrant that you are not
+located in, under the control of, or a national or resident of any such country
+or on any such list.  In addition, you are responsible for complying with any
+local laws in your jurisdiction which may affect your right to import, export
+or use the Software, and represent that you have complied with any regulations or
+registration procedures required by applicable law to make this license
+enforceable.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal style='text-autospace:none'>For TerraExplorer products that
+contain the C2MP Extension, US ITAR regulations require the following
+disclosure: &quot;</p>
+
+<p class=MsoNormal style='text-autospace:none'>These commodities are authorized
+by the U.S. Government for export only to [country of ultimate destination] for
+use by [end-user]. They may not be transferred, transshipped on a
+non-continuous voyage, or otherwise be disposed of in any other country, either
+in their original form or after being incorporated into other end-items,
+without the prior written approval of the U.S. Department of State.”</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal style='page-break-after:avoid'><b><u>Miscellaneous</u>.  </b>You
+may not assign or transfer in any way this License, any rights or obligations
+thereto, the Software or any modifications thereto without the prior written
+consent of Skyline.  If any provision of this License is held to be excessively
+broad as to scope, activity, subject or otherwise so as to be unenforceable at
+law, such provision shall be constructed by limiting or reducing it so as to be
+enforceable to the maximum extent compatible with the applicable law as it
+shall then appear.  This License represents the entire understanding between
+the parties with respect to its subject matter and merges all prior written and
+oral communications.  This License may not be modified except by a written
+agreement signed by authorized representatives of both parties.  A waiver by
+either party of its rights hereunder shall not be binding unless contained in a
+written agreement signed by an authorized representative of the party waiving
+its rights.  The non-enforcement or waiver of any provision on one occasion
+shall not constitute a waiver of such provision on any other occasions unless
+expressly so agreed in writing.</p>
+
+
+</div>
+
+
+
+</tr>
+
+<tr style="background-image:url(img/BottomBackground.jpg); "  height="254px">
+    <td colspan="2" align="right" valign="bottom"  >
+    <img src="img/sky_sky-dig-earth.gif" style="margin-bottom:10px;" alt="" />
+    </td>
+</tr>
+</table>
+
+</body>
+
+</html>

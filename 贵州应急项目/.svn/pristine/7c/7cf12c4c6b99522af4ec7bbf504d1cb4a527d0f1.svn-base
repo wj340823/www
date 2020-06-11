@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-laber="Close" ng-click="cancel()">
+        <span class="fa fa-times-circle" aria-hidden="true"></span>
+    </button>
+    <h4 class="modal-title">{{op}}</h4>
+</div>
+<div class="modal-body" style="padding: 5px 10px 20px 10px;">
+    <div class="modal_role_text">添加角色后，该群组即具有该角色的权限，同一角色不能被重复添加。</div>
+   	<div isteven-multi-select input-model="multiSel" 
+       output-model="select.checkUsers" button-label="name" search-property="['role','name']" out-index-property="role" 
+       item-label="name" tick-property="ticked" no-multi="true" left-bana="可选角色" right-bana="已选角色" template-url="dir/checkMultiList.html"
+        style="width:180px;height:335px;margin-top:10px">
+         <div class="multiSelect-index">{{$parent.item.role}}({{$parent.item.name}})</div>
+         <div class="multiSelect-des">{{$parent.item.des||'备注'}}</div>
+   	</div>
+   	<div style="clear:both;"></div>
+<!--     <div class="form-group" >
+        <div class="col-md-2 col-md-offset-8">
+            <button class="btn btn-primary" ng-click="commit()" ><span class="fa fa-check">&nbsp确定</span></button>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default" ng-click="cancel()"><span class="fa fa-close">&nbsp取消</span></button>
+        </div>
+    </div>
+    <div style="clear:both;"></div> -->
+</div>
+<div class="modal-footer">
+    <div class="form-group" style="margin-bottom: 2px;">
+        <button class="btn btn-primary" ng-click="commit()" ><span class="fa fa-check">&nbsp确定</span></button>
+        <button class="btn btn-default" ng-click="cancel()"><span class="fa fa-close">&nbsp取消</span></button>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+import java.util.Date;
+
+public class AttachmentOperationRecord {
+
+    private Date operationDate;
+    private String companyId;
+    private String id;
+    private String operation;
+    private String oprerationAccount;
+
+    public void setOperationDate(Date operationDate) {
+        this.operationDate = operationDate;
+    }
+
+    public Date getOperationDate() {
+        return operationDate;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOprerationAccount(String oprerationAccount) {
+        this.oprerationAccount = oprerationAccount;
+    }
+
+    public String getOprerationAccount() {
+        return oprerationAccount;
+    }
+
+}

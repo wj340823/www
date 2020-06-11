@@ -1,0 +1,728 @@
+<HTML>
+<HEAD>
+<TITLE class="i18n">ToolTitle</TITLE>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</HEAD>
+<style>
+    body {padding: 0px 0px 0px 0px; margin:0px 0px 0px 0px;}
+</style>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border:0;overflow:auto;" id="Body" OnLoad="Init()" onkeypress = "enterpressalert(event, this)"><!-- onunload="Exit()" onclick="bHide=true;HideOptionsNow()">-->
+
+<table border=0 cellPadding=0 CELLSPACING=0 class="s8" width=100% >
+
+
+    <span id="Urban">
+    
+    <td id = "Td1" height=70px width=100% valign=middle style="background-color:#404040"> 
+    <a style="cursor:hand" onclick="ContentCreator(20)"><img src="images/drawingRoad.png" border=10 align="absmiddle" alt="Text9" class="i18n" style="border-color:#404040"> </a><img src="images/empty.gif" width=10 height=1>
+    <a style="cursor:hand" onclick="ContentCreator(21)"><img src="images/drawingJunction.png" border=0 align="absmiddle" alt="Text10" class="i18n"> </a><img src="images/empty.gif" width=10 height=1>
+    <a style="cursor:hand" onclick="ContentCreator(22)"><img src="images/drawingTrafficlight.png" border=0 align="absmiddle" alt="Text11" class="i18n"> </a><img src="images/empty.gif" width=10 height=1>
+    <img src="images/drawingSeparator.png" border=0 align="absmiddle"><img src="images/empty.gif" width=10 height=1>
+    <a style="cursor:hand" onclick="ContentCreator(5)"><img src="images/drawingDelete.png" border=0 align="absmiddle" id="Img1" alt="Text13" class="i18n"> </a><img src="images/empty.gif" width=10 height=1> 
+    <a style="cursor:hand" onclick="ContentCreator(5)">
+    <a style="cursor:hand" onclick="startEdit();"><img src="images/edit.png" border=10 align="absmiddle" id="Img2" alt="Text165" class="i18n"  style="border-color:#404040"> </a>
+	<!-- <img src="images/empty.gif" width=0 height=1>  -->
+    </td> 
+    </span>
+</td></tr>
+</table>
+ 
+<object ID ="SGWorld65" classid="CLSID:3a4f9197-65a8-11d5-85c1-0001023952c1" style="display:none;visibility:hidden;height:0"></object>
+<OBJECT ID="TE" CLASSID="CLSID:3a4f9191-65a8-11d5-85c1-0001023952c1" onerror="TEError" style="display:none;visibility:hidden;height:0"></OBJECT>
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+<SCRIPT Language="JavaScript">
+
+//--------------
+// startEdit
+//--------------
+function startEdit() {
+    searchEditObj = true;
+    SGWorld.Window.SetInputMode(1, abspath()+"/images/cursor_v.cur", true); //abspath()+"images//cursor_v.cur", true);
+    
+}
+function InitHead()
+{        
+    if (GetParamValue ("inSG","") == "1")
+    {
+        document.all["TopAreaTD"].style.height = "57";
+        document.all["TitleTD"].align= "left";		
+        document.all["CloseHelpTd"].style.display = "none";
+    }
+
+}
+
+function GetParamValue(findParam, defaultValue)
+{
+    var arr = document.location.href.split("?");
+    if (arr.length <= 1) return defaultValue;
+    arr = arr[1].split("&");    
+    for (var i=0; i < arr.length; i++)
+    {
+        if (arr[i].indexOf(findParam) == 0 && arr[i].indexOf("=") == findParam.length)
+        {
+            arr = arr[i].split("=");
+            return arr[1];
+        }
+    }
+    return defaultValue;
+}  
+</SCRIPT>
+<SCRIPT Language="JavaScript">
+var ITerraExplorer = null;
+var IPlane = null;
+var IInformationTree = null;
+var IObjectManager = null;
+var IRender = null;
+var ITerrain = null;
+var ICoordSys = null;
+var ISnapShot = null;
+var IContainer = null;
+var IScriptEngine = null;
+
+openPanelImg=new Image()
+openPanelImg.src="images/openPanel.gif"
+closePanelImg=new Image()
+closePanelImg.src="images/closePanel.gif"
+
+
+var LastGroup;
+var	LastLayerNameId;
+var MyLayersGroup;
+var DrawingGroup;
+var DrawMode = 0;
+var IObject;
+var ICursor = null;
+
+var InEdit=0;
+var bImageFiledInFocus=false;
+var PopupName;
+
+
+var SGWorld;
+var searchEditObj;
+
+//-----------------------
+// Init
+//-----------------------
+function Init()
+{
+
+    InitHead();
+   
+    
+    ITerraExplorer = TE.interface("ITerraExplorer5");
+    IPlane = TE.interface("IPlane3");
+    IInformationTree = TE.interface("IInformationTree5");
+    IObjectManager = TE.interface("IObjectManager5");
+    IRender = TE.interface("IRender5");
+    ITerrain = TE.interface("ITerrain3");
+    ICoordSys = TE.interface("ICoordSys3");
+    ISnapShot = TE.interface("ISnapShot2");
+    IContainer = TE.interface("IContainer2");
+    IScriptEngine = TE.interface("IScriptEngine5");
+    SGWorld = SGWorld65;
+    
+    searchEditObj = false;
+    
+    MyLayersGroup = 0;
+    DrawingGroup = 0;
+
+    DrawMode = 0;
+    InEdit=0;
+    LastGroup = 0;
+
+    if (ITerraExplorer.FlyName != "NO_FLY") RebuildMyLayersList (true); 
+    
+    ContentCreator(3);
+}
+function Exit()
+{
+
+document.close();
+	
+}
+//-----------------------
+// Reset
+//-----------------------
+function Reset (FirstTime, FromMouseInputMode)
+{
+    IObject = null;
+    InEdit=0;
+    bImageFiledInFocus=false;
+    
+    CleanCursor(true);
+    if (DrawMode != 0 && FirstTime != 1 && FromMouseInputMode==0)
+    {
+      IRender.SetMouseInputMode (0);
+      a = ITerraExplorer.GetParam (1000);   // Reset the flaps
+      ITerraExplorer.SetParam (1000, a&~0x20);
+    }
+    DrawMode = 0;
+}
+//--------
+//function enterpressalert
+//--------
+function enterpressalert(e, element) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if ((code == 27) && (searchEditObj)) {
+        searchEditObj = false;
+        SGWorld.Window.SetInputMode(0);
+
+    }
+}
+//-----------------------
+// CleanCursor
+//-----------------------
+function CleanCursor(force)
+{
+    if (ICursor != null)
+    {
+        ICursor.Visible = 0;
+		// does not work
+        //IInformationTree.DeleteItem (ICursor.InfoTreeItemID);
+		// does not work in newer IE
+        //ICursor.KeepAliveOnRelease = 0;
+    }
+	if(force && DrawMode == 11)
+		DrawMode = 0;
+    ICursor = null;
+}
+//-----------------------
+// RebuildMyLayersList
+//-----------------------
+function RebuildMyLayersList(firstTime)
+{
+   
+	// bug fix for 15160 . Group can be moved or deleted when the tool is already open
+	if(IInformationTree.IsGroup(MyLayersGroup) == false || IInformationTree.IsGroup(DrawingGroup) == false)
+	{
+        
+		firstTime = true;
+	}
+	
+    if (firstTime)
+    {
+        
+        MyLayersGroup = IInformationTree.FindItem (SGLang.i18n("Text15"));
+        if (MyLayersGroup <= 0)
+            MyLayersGroup = IInformationTree.CreateGroup  (SGLang.i18n("Text15"),0);
+
+        DrawingGroup = IInformationTree.GetNextItem (MyLayersGroup,11);
+        if (DrawingGroup <= 0)
+            DrawingGroup = IInformationTree.CreateLockedGroup (SGLang.i18n("Text16"),MyLayersGroup);
+    }
+    
+    //IInformationTree.EditItem (DrawingGroup);
+    //IInformationTree.EndEdit ();//both caused bug #18578
+    
+// Build Layers List
+
+    // Get the first child item of this group.
+    var SiblingItemID = IInformationTree.GetNextItem(MyLayersGroup, 11);
+    if (SiblingItemID <=0)
+    {
+        DrawingGroup = IInformationTree.CreateLockedGroup (SGLang.i18n("Text16"),MyLayersGroup);
+        SiblingItemID = DrawingGroup;
+    }
+
+    var index = 0;
+    if (SiblingItemID != 0)
+    {
+        //LayersStr = "<table border=0 class=s8 cellPadding=0 CELLSPACING=0>";
+
+        LastLayerNameId = "";
+        while (SiblingItemID != 0)
+        {
+            if (IInformationTree.IsGroup(SiblingItemID) )
+            {
+            
+                layerName = IInformationTree.GetItemName(SiblingItemID);
+                checkedText = "CHECKED";
+                if (IInformationTree.GetGroupVisibility (SiblingItemID) == 0)
+                    checkedText = "";
+                lastValidSibling = SiblingItemID;
+                lastValidLayerName = "DrawLayer-"+index;
+               
+            }
+
+            index = index+1;
+            SiblingItemID  = IInformationTree.GetNextItem(SiblingItemID, 13); 	//Continue to the next sibling tree item.
+        }
+       
+        SelectDrawingLayer(lastValidSibling,lastValidLayerName);
+    }
+
+}
+
+//-----------------------
+// EditObject
+//-----------------------
+function EditObject (ItemID)
+{    
+    ItemID = IObjectManager.GetInfoTreeItemID(ItemID);   
+    checkDrawingGroup();
+    
+    try 
+    {
+        if (IInformationTree.IsGroup (ItemID) == true)
+            ItemID = IInformationTree.GetNextItem (ItemID,11);
+      
+        Obj = IInformationTree.GetObjectEx (ItemID);
+        //CData = Obj.ClientDataEx("ContentCreator");
+
+        CData = Obj.ClientDataEx("RoadBuilder");
+            if (CData != "")
+            {
+                ObjUrl = "file:///"+abspath()+"/RoadBuilder.html?params=2,"+ItemID+","+DrawingGroup+ "&lang="+SGLang.getCode();
+                IContainer.HTMLPopup (1, -10,119,280,350,SGLang.i18n("Text19"),ObjUrl , 2, -1 );
+                //IContainer.HTMLPopup (1, -10,119,280,350,SGLang.i18n("Text19"),ObjUrl , 2, -1 );
+            }
+
+
+    }
+    catch(e) {alert (SGLang.i18n("Text18")); }//ExpandGroup (DrawingGroup,1,true);}
+
+}
+//-----------------------
+// FinishAddObject
+//-----------------------
+function FinishAddObject (ItemID,NewObject)
+{
+    if (NewObject)
+        IInformationTree.SetParent (ItemID, DrawingGroup);
+   
+}
+
+//-----------------------
+// OnObjectAction
+//-----------------------
+function TE::OnObjectAction (ObjectID,Action)
+{
+    if (Action == 16) // Edit finished
+    {
+        try 
+        {
+            Obj = IObjectManager.GetObject (ObjectID);
+            ItemID = Obj.InfoTreeItemID;
+            ParentID = IInformationTree.GetNextItem (ItemID,15);
+            GrandParent = IInformationTree.GetNextItem (ParentID,15)
+        
+           
+        }
+        catch(e) {a=0; }
+    }
+}
+
+function TE::OnInfoTreeAction (ItemID,Action, ActionParam)
+{
+    if(Action == 15) // Delete
+	{
+		ParentID = IInformationTree.GetNextItem (ItemID,15);
+		GrandParent = IInformationTree.GetNextItem (ParentID,15);
+		if (GrandParent == MyLayersGroup || ParentID == MyLayersGroup || ItemID == MyLayersGroup)
+		{
+			// if one of main groups was deleted, rebuild from scratch
+			// call with setTimeout, since teh item is still sort of in the tree and RebuildMyLayersList will ctach it and show it.
+            setTimeout(function() {
+			    RebuildMyLayersList(ParentID == MyLayersGroup || ItemID == MyLayersGroup);			
+                IContainer.RemoveURL (5,SGLang.i18n("Text19"));
+            },100);
+		}
+	}
+}
+//-----------------------
+// ContentCreator
+//-----------------------
+function ContentCreator(operation)
+{
+    
+    checkDrawingGroup();
+ 
+    if (operation > 5) // Draw new object. Show current layer
+    {
+    
+        if (IInformationTree.GetGroupVisibility (DrawingGroup) != 1)
+        {
+            IInformationTree.SetGroupVisibility (DrawingGroup,true);
+            RebuildMyLayersList(false);
+        }
+        IContainer.RemoveURL (5,SGLang.i18n("Text19"));
+    }
+
+
+    if (operation == 5) // delete
+    {
+        StartDrawing(10);	
+    }
+
+
+    if (operation >= 20 && operation < 30) // Draw Object
+    {
+        //window.ToolsParam = "1,"+operation+","+DrawingGroup;
+       
+        ObjUrl = "file:///"+abspath()+"/RoadBuilder.html?params=1,"+operation+","+DrawingGroup + "&lang="+SGLang.getCode();
+        IContainer.HTMLPopup (1, -10,119,280,350,SGLang.i18n("Text19"),ObjUrl , 2, -1 );
+        
+        }
+
+}
+//-----------------------
+// StartDrawing
+//-----------------------
+function StartDrawing(mode)
+{
+    if (DrawMode == mode)
+    {
+        Reset (0,0);
+        return;
+    }
+   
+  
+    IRender.SetMouseInputMode(1);
+    // do SetMouseInputMode twice because of bug in TE
+    // when we come here from draw free hand (mouse mode = 3) and call SetMouseInputMode(1), TE sets mouse mode to 0. Calling SetMouseInputMode agian fixes the problem.
+    // see bug #9039. It won't be fixed in TE old API.
+    IRender.SetMouseInputMode(1);
+    var a = ITerraExplorer.GetParam (1000);  // Display the navigation flaps
+    ITerraExplorer.SetParam (1000,a|0x20);
+	// IRender.SetMouseInputMode will casue OnChangeMouseInputEvent, which in turn will reset DrawMode, so set DrawMode only after calling SetMouseInputMode
+    DrawMode = mode;
+
+    if (mode == 10)
+    {
+        IRender.SetMouseCursor (abspath()+"/images/cursor_d.cur");
+        //document.all["DeleteImg"].src="images/DrawingDeletePressed.gif";
+        DisplayHelpMessage(SGLang.i18n("Text20"));
+           
+    }
+}
+
+//-----------------------
+// checkDrawingGroup
+//-----------------------
+function checkDrawingGroup()
+{
+    try    { a = IInformationTree.GetGroupVisibility (DrawingGroup);  }
+    catch(e)   { LastGroup=0;  AddNewDrawingLayer("defGroup");  }
+}
+//-----------------------
+// SelectDrawingLayer
+//-----------------------
+function SelectDrawingLayer(ItemID, LayerNameId)
+{   
+    DrawingGroup = ItemID;
+    if (LastLayerNameId != "")
+    {
+        document.all[LastLayerNameId].style.backgroundColor  = "#FFFFFF";
+//		document.all["EditLayer-"+LastLayerNameId].checked=false;
+    }
+        
+    LastLayerNameId = LayerNameId;
+    //document.all[LayerNameId].style.backgroundColor  = "#F1F219";
+//	document.all["EditLayer-"+LastLayerNameId].checked=true;
+
+    
+}
+
+
+//-----------------------
+// OnRButtonUp
+//-----------------------
+function TE::OnRButtonUp (Flags, X, Y, bHandled)
+{
+    
+    if (DrawMode != 0 )
+    {
+        Reset (0,0);
+        bHandled = true;
+    }
+}
+
+//-----------------------
+// OnLButtonDown
+//-----------------------
+function TE::OnLButtonDown (Flags, X, Y, bHandled)
+{
+
+    if (DrawMode == 0 || InEdit == 1)
+        return;
+    GetPlaneStatus();
+    GetCenterView();
+    if ( GetCursorLocation (X , Y,true) == 0)
+        return;
+
+    //PenElevation = Math.min(CurrCursorDistance/100,50);
+
+    if (DrawMode == 10 )   // Delete object
+    {
+        
+        if ( GetCursorLocation (X , Y,false) > 0)
+        {
+            if (CursorObjType >0 && CursorObjType <32)
+            {
+                obj = IObjectManager.GetObject (CursorObjectID);
+                treeItemID = obj.InfoTreeItemID;
+                itemGroupID = IInformationTree.GetNextItem(IInformationTree.GetNextItem(treeItemID,15),15);
+                
+                if (itemGroupID==MyLayersGroup ||IInformationTree.GetNextItem(itemGroupID,15)==MyLayersGroup )
+                {  
+                    msg = SGLang.i18n("Text23");   
+                    setTimeout("message("+treeItemID+");",30);   
+                    testBool = true;  
+					Reset(0,0);
+                }
+            }
+        }
+        return true;
+    } 
+
+
+}
+var testBool = false;
+
+//---------------
+// message
+//---------------
+function message(treeItemID){
+msg = SGLang.i18n("Text23");
+    if(confirm(msg))
+    {
+    IInformationTree.DeleteItem (treeItemID);	
+    }
+    
+}
+
+//-----------------------
+// OnLButtonUp
+//-----------------------
+function TE::OnLButtonUp (Flags, X, Y, bHandled)
+{
+
+    if (DrawMode == 11 || ICursor != null)
+            CleanCursor();
+    if(searchEditObj){
+    
+        var PixelToWorld = SGWorld.Window.PixelToWorld(X, Y, -1);
+        
+        if(PixelToWorld.ObjectID == "") return;
+        if(PixelToWorld.ObjectID == "" || SGWorld.ProjectTree.GetItemName(PixelToWorld.ObjectID) != "")
+        {
+            var parentID = SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15);
+            if(parentID != ""){
+                
+                if(SGWorld.ProjectTree.GetItemName(SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15)) == "Road" || (SGWorld.ProjectTree.GetItemName(SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15)) == "Default sheet") || (SGWorld.ProjectTree.GetItemName(SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15)) == "[Urban Design]"))
+                {                
+                    
+                    if((SGWorld.ProjectTree.GetItemName(SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15)) == "Road") && (SGWorld.ProjectTree.GetItemName(PixelToWorld.ObjectID) != "RoadSegment"))
+                    {
+                    parentID = SGWorld.ProjectTree.GetNextItem(PixelToWorld.ObjectID, 15)
+                    EditObject(SGWorld.ProjectTree.GetNextItem(parentID, 11));
+                    searchEditObj = false;
+                    return;
+                    
+                    }
+                
+                    else
+                    {
+                        EditObject(PixelToWorld.ObjectID);
+                        searchEditObj = false;
+                        SGWorld.Window.SetInputMode(0);
+                    }
+                }      
+            }
+        }
+        else
+            { 
+                return;
+            }
+   }
+}
+//-----------------------
+// OnFrame
+//-----------------------
+function TE::OnFrame ()
+{
+    if (DrawMode == 11 && ICursor != null)
+    {
+        ICursor.Visible = false; // Temporary hide the cursor to get the terrain/objects under its position
+        if ( GetCursorLocation (-1 , -1	,false) == 0)
+            return;
+        ICursor.Visible = true;
+
+        CursorCalculatedSize = CurrCursorDistance/10;
+
+        ICursor.SetPosition (0,0,CurrCursorH+CursorCalculatedSize/20,0,0,0,61);
+        ICursor.Height = CursorCalculatedSize/8;
+        ICursor.HeadX = CurrCursorX;
+        ICursor.HeadY = CurrCursorY;
+        GetPlaneStatus();
+        MoveCoord (CurrCursorX,CurrCursorY,CurrPlaneYaw,-CursorCalculatedSize);
+        ICursor.TailX = MoveCoordX;
+        ICursor.TailY = MoveCoordY;
+    }
+}
+//-----------------------
+//  OnInputModeChanged
+//-----------------------
+function TE::OnInputModeChanged(NewMode)
+{
+
+    if ( DrawMode != 0)
+    {
+        Reset (0,1);
+    }
+}
+
+//-----------------------
+// DisplayHelpMessage
+//-----------------------
+function DisplayHelpMessage ( text)
+{
+    
+    
+    htmlText = "<html><body leftmargin='1' topmargin='1' marginwidth='0' marginheight='0' style='overflow-y:auto'><font size='2'>";
+    htmlText = htmlText+text;
+    htmlText = htmlText+"</body></html>";
+
+    width = text.length * 6;
+    height=25;
+
+    GetRenderRect ();
+    if (width > ScreenWidth-10)
+    {
+        width = ScreenWidth-10;
+        height = 40;
+    }
+    
+    IContainer.HTMLPopup (0, 5,5,width,height,SGLang.i18n("Text25"), htmlText, 6, 4000 );
+    window.status = text;
+}
+
+//-----------------------
+// CheckNumber
+//-----------------------
+function CheckNumber (field, def)
+{
+
+    if (field.value == "" || isNaN(field.value) == true)
+        field.value = def;
+}
+
+
+</script>
+
+<SCRIPT LANGUAGE="VBScript">
+
+dim CurrPlaneX, CurrPlaneY,CurrPlaneH, CurrPlaneYaw,CurrPlanePitch, CurrPlaneRoll,CurrCameraDeltaYaw, CurrCameraDeltaPitch, PlaneGroundH
+dim CurrCenterX, CurrCenterY, CurrCenterH, CurrCenterGroundH, CurrCenterDistance
+dim CurrCursorX,CurrCursorH,CurrCursorY,CurrCursorDistance,CursorObjType,CursorObjectID
+dim ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+dim MoveCoordX, MoveCoordY
+
+dim bHide
+dim iOptGroupID
+
+'--------------------------------------
+' GetPlaneStatus
+'--------------------------------------
+Sub GetPlaneStatus ()
+    IPlane.GetPosition CurrPlaneX, CurrPlaneY,CurrPlaneH, CurrPlaneYaw,CurrPlanePitch, CurrPlaneRoll,CurrCameraDeltaYaw, CurrCameraDeltaPitch
+    PlaneGroundH = ITerrain.GetGroundHeight (CurrPlaneX, CurrPlaneY, 0)
+
+End Sub
+'--------------------------------------
+' MoveCoord
+'--------------------------------------
+function MoveCoord (x,y,dir,distance)
+    MoveCoordX = x
+    MoveCoordY = y
+    'ICoordSys.MoveCoord MoveCoordX,MoveCoordY,dir,distance
+    ICoordSys.MoveCoordEx MoveCoordX,MoveCoordY, 0, dir, 0, 0, distance, 0, 0
+End Function
+'--------------------------------------
+' GetRenderRect
+'--------------------------------------
+function GetRenderRect ()
+    IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+End Function
+'--------------------------------------
+' GetCenterView
+'--------------------------------------
+function GetCenterView ()
+    IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+    ObjType = 31
+    ObjectID = 0
+
+    IRender.ScreenToWorld ScreenWidth/2 , ScreenHeight/2 , ObjType , WX,WH,WY, ObjectID
+    If ObjType <> 32 Then	'If we dont hit the sky
+        CurrCenterX = WX
+        CurrCenterY = WY
+        CurrCenterH = WH
+        CurrCenterGroundH = ITerrain.GetGroundHeight (CurrCenterX, CurrCenterY, 0)
+
+        CurrCenterDistance = ICoordSys.GetDistanceEx (CurrCenterX, CurrCenterY,CurrCenterGroundH, CurrPlaneX, CurrPlaneY,CurrPlaneH+PlaneGroundH)
+    
+        GetCenterView =  1
+    else
+        GetCenterView = 0
+    end if
+End Function
+
+'--------------------------------------
+' GetCursorLocation
+'--------------------------------------
+function GetCursorLocation (X,Y,TerrainOnly)
+    
+    CursorObjType = 63
+    CursorObjectID = 0
+    GetCursorLocation = 1
+
+    If X =-1 and y=-1 Then
+        IRender.GetMouseInfo Flags, X, Y
+        IRender.GetRenderRect ScreenLeft, ScreenTop, ScreenWidth, ScreenHeight
+
+        If X < 0 Or X >= ScreenWidth or Y < 0 or Y >= ScreenHeight Then	
+            GetCursorLocation = 0
+            exit function
+        End If
+
+    End If
+
+
+    If TerrainOnly = true then
+        IRender.ScreenToTerrain X,Y, CurrCursorX,CurrCursorY,CurrCursorH
+    Else
+        IRender.ScreenToWorld X , Y , CursorObjType , CurrCursorX,CurrCursorH,CurrCursorY, CursorObjectID
+    End If
+    If CursorObjType = 32 OR (CurrCursorX=0 AND CurrCursorY=0)Then  GetCursorLocation = 0
+
+    CurrCursorDistance = ICoordSys.GetDistanceEx (CurrCursorX, CurrCursorY,CurrCursorH, CurrPlaneX, CurrPlaneY,CurrPlaneH+PlaneGroundH)
+'msgbox CurrCursorX
+
+End function
+
+
+'-------------------------------------------------------------
+' HTMLColor2TeColor
+'-------------------------------------------------------------
+function HTMLColor2TeColor(color)
+  d=0
+  if (mid(color,1,1)="#") then
+    d=1
+  end if
+  red=  CInt("&H"+mid(color,d+1,2))
+  green=CInt("&H"+mid(color,d+3,2))
+  blue= CInt("&H"+mid(color,d+5,2))
+ 
+  HTMLColor2TeColor=blue*65536+green*256+red
+end function
+
+
+
+</script>
+</body></HTML>
+
+
+
+<!--Sig:00000040aK5Cva7TjpWhvMGVGiB6YiOYk7usw1lhU5rfkJSKfKj.ViJwth8bQJNf3C1tWC1mW6wO9aFQmeRuqsUP0PRgMPJJ-->

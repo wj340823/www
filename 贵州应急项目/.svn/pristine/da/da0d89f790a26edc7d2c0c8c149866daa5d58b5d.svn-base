@@ -1,0 +1,135 @@
+<div>
+	<div class="header">
+		<div class="logo">
+			<img src="images/lgfxy.png" alt="">
+		</div>
+		<div class="userInfo" >
+			<span>{{userName}}</span>
+			<i class="iconfont icon-webicon215" style="font-size: 12px;"></i>
+			<div class="logout">
+				<a href="logout">注销登录</a>
+				<a ng-click="showUserInfo()">用户信息</a>
+				<a ng-click="changePwd()">修改密码</a>
+			</div>
+		</div>
+		<ul class="menu" style="margin-right: 15px" ng-show="userList.role=='strole'||userList.role=='admin'">
+			<li ui-sref="index" ui-sref-active="active">
+				<i class="iconfont icon-shouye"></i> <span>首页</span>
+			</li>
+			<li ui-sref="home" ui-sref-active="active">
+				<i class="iconfont icon-shujuzhongxin"></i> <span>数据中心</span>
+			</li>
+			<li>
+				<div>
+					<i class="iconfont icon-wuzi"></i>
+					<span>应急资源</span>
+				</div>
+				<div class="menuSecond">
+					<div ui-sref="emergency.emergencyMaterial" ui-sref-active="active">应急物资</div>
+					<div ui-sref="emergencyPlan" ui-sref-active="active">应急预案</div>
+					<div ui-sref="emergency.emerCase" ui-sref-active="active">应急案例</div>
+					<!--<div ui-sref="emergency.organise" ui-sref-active="active">机构人员</div>-->
+					<div ui-sref="emergency.experts" ui-sref-active="active">专家库</div>
+				</div>
+			</li>
+			<li ui-sref="riskPrevention.riskSource" ui-sref-active="active">
+				<i class="iconfont icon-fengxianyuan"></i> <span>风险源</span>
+			</li>
+			<li ui-sref="province" ui-sref-active="active">
+				<i class="iconfont icon-fengxianpaicha"></i> <span>风险排查</span>
+			</li>
+			<li  class="active">
+				<div>
+					<i class="iconfont icon-kongjianfenxi"></i>
+					<span>风险评估</span>
+				</div>
+				<div class="menuSecond">
+					<div ui-sref="riskPrevention.riskSpatial.resouceRelation" ui-sref-active="active">源关系</div>
+					<div ui-sref="riskPrevention.riskSpatial.emergencyMng" ui-sref-active="active">应急管理</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.air" ui-sref-active="active">气模型工具</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.water" ui-sref-active="active">水模型工具</div>
+				</div>
+			</li>
+			<li ng-show="userList.role=='admin'">
+				<div ui-sref="system.user"  ui-sref-active="active">
+					<i class="iconfont icon-set"></i>
+					<span>系统管理</span>
+				</div>
+			</li>
+		</ul>
+		<ul class="menu" style="margin-right: 15px" ng-show="userList.role=='szrole'">
+		<li>
+			<div  ui-sref="city" ui-sref-active="active">
+				<i class="iconfont icon-fengxianpaicha"></i>
+				<span>风险排查</span>
+			</div>
+		</li>
+		<li>
+			<div ui-sref="cityHead" ui-sref-active="active">
+				<i class="iconfont icon-kongjianfenxi"></i>
+				<span>应急预案</span>
+			</div>
+		</li>
+		<li>
+			<!--<div ui-sref="cityEmerCase" ui-sref-active="active">
+                <i class="iconfont icon-kongjianfenxi"></i>
+                <span>应急资源</span>
+            </div>-->
+			<div ui-sref="cityEmerCase" ui-sref-active="active">
+				<i class="iconfont icon-wuzi"></i>
+				<span>应急资源</span>
+			</div>
+			<div class="menuSecond">
+				<div ui-sref="cityEmerCase.material" ui-sref-active="active">应急物资</div>
+				<div ui-sref="cityEmerCase.emerCase" ui-sref-active="active">应急案例</div>
+				<div ui-sref="cityEmerCase.experts" ui-sref-active="active">专家库</div>
+			</div>
+		</li>
+			<li>
+				<div ui-sref="riskPrevention.riskSpatial" ui-sref-active="active">
+					<i class="iconfont icon-kongjianfenxi"></i>
+					<span>风险评估</span>
+				</div>
+				<div class="menuSecond">
+					<div ui-sref="riskPrevention.riskSpatial.resouceRelation" ui-sref-active="active">源关系</div>
+					<div ui-sref="riskPrevention.riskSpatial.emergencyMng" ui-sref-active="active">应急管理</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.air" ui-sref-active="active">气模型工具</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.water" ui-sref-active="active">水模型工具</div>
+				</div>
+			</li>
+	</ul>
+		<ul class="menu" style="margin-right: 15px" ng-show="userList.role=='qxrole'">
+			<li>
+				<div  ui-sref="approval" ui-sref-active="active">
+					<i class="iconfont icon-fengxianpaicha"></i>
+					<span>风险排查</span>
+				</div>
+			</li>
+			<li>
+				<div ui-sref="countiesHead" ui-sref-active="active">
+					<i class="iconfont icon-yuanguanli"></i>
+					<span>应急预案</span>
+				</div>
+			</li>
+			<li style="width:104px">
+				<div ui-sref="usermanage" ui-sref-active="active">
+					<i class="iconfont icon-fengxianyuan"></i>
+					<span>企业用户管理</span>
+				</div>
+			</li>
+			<li>
+				<div ui-sref="riskPrevention.riskSpatial" ui-sref-active="active">
+					<i class="iconfont icon-kongjianfenxi"></i>
+					<span>风险评估</span>
+				</div>
+				<div class="menuSecond">
+					<div ui-sref="riskPrevention.riskSpatial.resouceRelation" ui-sref-active="active">源关系</div>
+					<div ui-sref="riskPrevention.riskSpatial.emergencyMng" ui-sref-active="active">应急管理</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.air" ui-sref-active="active">气模型工具</div>
+					<div ng-if="userList.role!='qyrole'" ui-sref="riskPrevention.riskSpatial.water" ui-sref-active="active">水模型工具</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div ui-view></div>
+</div>

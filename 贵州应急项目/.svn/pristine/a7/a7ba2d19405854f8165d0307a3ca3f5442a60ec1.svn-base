@@ -1,0 +1,117 @@
+
+package com.sucsoft.gzhbyjwz.bean.dc12;
+
+
+public class RiskInventoryLog {
+
+    /**
+     * 排查负责人
+     * 
+     */
+    private String responsiblePerson;
+    /**
+     * 表名称
+     * 
+     */
+    private String name;
+    private Integer id;
+    /**
+     * 企业id
+     * 
+     */
+    private String enterpriseId;
+    /**
+     * 排查时间
+     * 
+     */
+    private java.util.Date time;
+    private java.util.Date updatetime;
+    /**
+     *  1-| 应急管理隐患排查表。2-| 风险防控措施隐患排查表
+     * 
+     */
+    private Integer type;
+    /**
+     * 企业名称(冗余字段)
+     * 
+     */
+    private String enterpriseName;
+    /**
+     * 属于哪个任务
+     * 
+     */
+    private Integer taskId;
+
+    public void setResponsiblePerson(String responsiblePerson) {
+        this.responsiblePerson = responsiblePerson;
+    }
+
+    public String getResponsiblePerson() {
+        return responsiblePerson;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setTime(java.util.Date time) {
+        this.time = time;
+    }
+
+    public java.util.Date getTime() {
+        return time;
+    }
+
+    public void setUpdatetime(java.util.Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public java.util.Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+}

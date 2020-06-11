@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Create Polyline</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        function Init()
+        {
+            // geometry creator can work on WKT, WKB or array of x,z,y coordinates
+            var geometry = SGWorld.Creator.GeometryCreator.CreateLineStringGeometry([-114.73656, 36.01659,0, -115.14515, 36.15498,0, -118.24834, 34.05090,0]);
+            var color = SGWorld.Creator.CreateColor(255, 0, 0, 0.7);
+            // 2 in AltitudeTypeCode means on terrain, 0 means add to root 
+            var line = SGWorld.Creator.CreatePolyline(geometry, color, 2, 0, "my poly on terrain");
+            line.LineStyle.Width = 15000; // 15000m (15km)
+            line.Position.Distance = 600000.0; // set max viewing distance in meters
+            SGWorld.Navigate.FlyTo(line);			
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040zZaq06VCQEPNly6VcSa8v0oKaT7ZZNvUr8yUvUumksYyMyoNe8KO5442lvIB#Zj1ODcTDiFGHzu5eJ9nUWTJGuJJ-->

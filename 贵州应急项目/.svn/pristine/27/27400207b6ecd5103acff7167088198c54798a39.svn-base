@@ -1,0 +1,68 @@
+<div  ng-controller="emerExpertCtrl">
+    <div class="table-content">
+        <div class="search-nav">
+            <input type="text" placeholder="单位/姓名" class="search-input" ng-model="items.keywords">
+            <button class="searchBtn" style="margin-left: 20px" ng-click="searchMsg()"><i class="iconfont icon-sousuo"></i>搜索</button>
+        </div>
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>工作单位</th>
+                <th>出生年月</th>
+                <th>职称</th>
+                <th>职务</th>
+                <th>手机</th>
+                <th>专业领域</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in obj">
+                <td>{{items.pageSize*(items.pageNo-1)+$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.gender}}</td>
+                <td>{{item.unit}}</td>
+                <td>{{item.birthday| date:'yyyy-MM'}}</td>
+                <td>{{item.jobTitle}}</td>
+                <td>{{item.post }}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.profession }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="noData==true">无数据</p>
+        <uib-pagination
+                ng-change="searchMsg()"
+                total-items="items.totalCount"
+                ng-model="items.pageNo"
+                items-per-page="items.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="loader">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		    <rect x="0" y="10" width="4" height="10" fill="#fc0" opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="8" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+		    <rect x="16" y="10" width="4" height="10" fill="#fc0"  opacity="0.2">
+		      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		    </rect>
+	  	</svg>
+</div>

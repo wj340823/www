@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<header>
+    <title>ToolTitle</title>
+    <script src="../../SGAPI/sgapi.js"></script>
+    <link REL=StyleSheet HREF="../Style.css" TYPE="text/css">
+</header>
+
+<script language="javascript" src="../ToolsCommon.js"></script>
+
+<script language="javascript">
+
+
+//-------
+// Init
+//-------
+function Init() {
+    globe = new SGWorld();
+    Root = globe.root.parentNode();
+    Root.removeChild(globe.root);
+
+}
+ 
+// Search
+function Search() 
+{
+    var srcURL = "https://3dwarehouse.sketchup.com/search.html?backendClass=entity&q=" + $('#search').attr('value') + "&styp=m";
+    var popup = new SGPopup("Sketchup 3D Warehouse", srcURL);
+    popup.width = "1050";
+    popup.height = "600";
+
+    globe.showPopup(popup);
+    //title:car is:model filetype:kmz
+    
+}
+
+</script>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="border: 0px" id="Body"  class="hideUntillTranslated" onload="Init()" style = "overflow:hidden">
+    <!--oncontextmenu="return false;">  onclick="bHide=true;HideOptionsNow()" > -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr>
+            <td class="ToolTopArea" id="TopAreaTD" width="100%" valign="middle" >
+                <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="55px"><img style="margin-left:5px;" src="sketchup.png" alt="" /></td>
+                        <td id="TitleTD" align="center" class="s12w i18n">ToolNameWarehouse</td>
+                        <td align="right" id="CloseHelpTd"><img style="margin-right:5px;" alt="" src="../CommonImg/help.png" border="0" class="i18n" alt="help" title="help" onclick="SGAPIDisplayHelpPopup(SGLang.i18nFile('help.html'),SGLang.i18n('help'))" style="cursor: pointer;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td  class="ToolTopSeperator"></td>
+        </tr>        <tr class="s8">
+            <td >
+                <table   class="PropertiesSheet" cellspacing="0" cellpadding="2" >
+                <tr>
+                <td class="s8" >
+                    <input type="text" class= "i18n" value="Text37" id="search" size="100" style="width:200px; color:gray; vertical-align:middle;" onclick="if ($('#search').attr('value') == SGLang.i18n('Text37')) $('#search').attr('value','');" onKeyDown="if (window.event.keyCode==13) Search();" />
+                    <button style="vertical-align:middle;" class="MenuButtonSmall" onclick="Search();"><span class="i18n">Text36</span></button>
+                </td>
+                </tr>
+                <tr>
+                <td>
+				    <span class="i18n">Text38</span><img src="google.gif" border="0px" alt="Sketchup" align="absmiddle"/><span class="i18n">Text39</span>
+                    <br /><br />
+                    <ul >
+                    <li class="i18n">Text40</li>
+                    <li class="i18n">Text41</li>
+                    <li class="i18n">Text42</li>
+                    <li class="i18n">Text43</li>
+                    <li class="i18n">Text44</li>
+				    </ul>
+                </td>
+                </tr>
+            </table>
+            </td>
+            </tr>
+            </table>
+</body>
+</html>
+
+
+
+<!--Sig:00000040#7OfT4otban8P1VEAxVkA2h4GyuuFAbN2plRajA.45mGGlBFa356LdaL#kxSW6GE9YCD#mYEUG5VRz5tPTIWX0JJ-->
+
+
+<!--Sig:00000040eeSYj#BLjm2Cn8ptof4KqH5#NLrziQHxQ1ysb1CinKZ9GGYeNIh7nUpOhSGBx38EebyWG8z75z9evPW0dnhxGcJJ-->

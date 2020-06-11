@@ -1,0 +1,109 @@
+<div  ng-controller="tbTodoCtrl">
+    <div class="tab-task">
+        <div class="tab-nav">
+            <button class="tab-button" ui-sref="approval.waiter" ui-sref-active="active">
+                待审核
+            </button>
+            <button class="tab-button" ui-sref="approval.drawing" ui-sref-active="active">
+                已审核
+            </button>
+            <button class="tab-button" ui-sref="approval.taskManage" ui-sref-active="active">
+                任务管理
+            </button>
+            <button class="tab-button" ui-sref="approval.checkRecord" ui-sref-active="active" >
+                排查记录
+            </button>
+            <button class="tab-button" ui-sref="approval.majorDanger" ui-sref-active="active">
+                重大隐患
+            </button>
+            <button class="tab-button" ui-sref="approval.manageDanger" ui-sref-active="active">
+                应急管理隐患
+            </button>
+            <button class="tab-button" ui-sref="approval.manageDanger" ui-sref-active="active">
+                生态环境部门环境隐患台账
+            </button>
+            <button class="tab-button" ui-sref="approval.checkAccount" ui-sref-active="active">
+                企业自查环境隐患台账
+            </button>
+        </div>
+    </div>
+    <div class="table-content">
+        <table style="margin-top: 16px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>单位/风险源名称</th>
+                <th>管理类型</th>
+                <th>排查时间</th>
+                <th>主要隐患内容</th>
+                <th>主要整改措施</th>
+                <th>整改完成时限</th>
+                <th>整改负责人</th>
+                <th>整改负责人联系电话</th>
+                <th>是否完成整改</th>
+                <th>整改进展</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in obj.items">
+                <td>{{obj.pageSize*(obj.currentPage-1)+$index+1}}</td>
+                <td >
+                    {{item.DEADLINE|date:'yyyy-MM-dd'}}
+                </td>
+                <td >
+                    {{item.DEADLINE|date:'yyyy-MM-dd'}}
+                </td>
+                <td >
+                    {{item.DEADLINE|date:'yyyy-MM-dd'}}
+                </td>
+                <td>{{item.NAME}}</td>
+                <td  ui-sref="riskInvest.tbRiskCheck({itemNum:item.ID,
+                type:1,name:item.NAME,company:item.ENTERPRISENAME,id:item.EMERGENCYMANAGEMENTID,operate:'yes'})"
+                     class="hander">
+                    <span  ng-class="item.status1==1?'pointGreen status':'pointOrange status'"></span>
+                    {{item.status1!=1?'未完成':'已完成'}}
+                </td>
+                <td ui-sref="riskInvest.tbRiskPrevent({itemNum:item.ID,
+                type:2,name:item.NAME,company:item.ENTERPRISENAME,id:item.RISKMANAGEMENTID,operate:'yes'})"
+                    class="hander">
+                    <span  ng-class="item.status2==1?'pointGreen status':'pointOrange status'"></span>
+                    {{item.status2!=1?'未完成':'已完成'}}
+                </td>
+                <td ng-class="item.STATUS=='10'?'finishColor':item.STATUS=='1'?'warning':item.STATUS=='2'?'dangerColor':''">
+                    {{item.STATUS=='10'?'已完成':item.STATUS=='1'?'预警':item.STATUS=='2'?'超时':'执行中'}}
+                </td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>
+                    <span class="oper hander "
+                          ui-sref="riskInvest.taskInfo({itemNum:item.ID,name:item.NAME,company:
+                          item.ENTERPRISENAME,id:item.RISKMANAGEMENTID,operate:'yes',hasDone:1})">详情</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="dangerColor noDate"  ng-if="noData==true">无数据</p>
+        <uib-pagination
+                ng-change="getCurrentPage()"
+                total-items="obj.total"
+                ng-model="obj.currentPage"
+                items-per-page="obj.pageSize"
+                first-text="first"
+                class="pagination"
+                boundary-link-numbers="true"
+                direction-links="false"
+                rotate="false">
+        </uib-pagination>
+        <div class="clearfix"></div>
+    </div>
+    <div class="task-alert">
+        <div class="alert-title">操作提示</div>
+        <div class="alert-content">{{textContent}}</div>
+        <ul class="alert-button">
+            <li ng-click="sureAlert()" ng-if="textContent=='确定提交吗?'">确定</li>
+            <li ng-click="resetAlert(textContent)">{{textContent=='确定提交吗?'?'取消':'关闭'}}</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+package com.sucsoft.gzhbyjwz.util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cgs.dc.PojoDataset;
+import com.cgs.dc.client.utils.BeanAssign;
+import com.cgs.dc.starter.model.CountObject;
+import com.cgs.dc.starter.services.UnsafeQueryService;
+@Service
+public class PageNew {
+	@Autowired
+	 UnsafeQueryService queryService;
+	@Autowired
+    PojoDataset dataset;
+	/**
+	 * 带fetches的分页，返回map
+	 * @param queryName 方法名
+	 * @param params 参数
+	 * @param resultType 返回类型（调用方法后 的返回类型，最终返回的是map）
+	 * @param pageNo 第几页
+	 * @param pageSize 每页数量
+	 * @param fetches 关联表
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional
+	public <R> Page<Map<String,Object>> queryForPageAsMap
+		(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize,
+		String... fetches) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		Integer first = PageUtils.getFirst(pageNo, pageSize);
+		List<R> list = queryService.query(queryName, params,resultType, first, pageSize);
+		CountObject totalCount = queryService.restQueryCount(queryName, params);
+		List<Map<String,Object>> result = new ArrayList<>();
+		for(R r:list){
+			result.add(BeanAssign.beanToMap(r, resultType.getName(), dataset, "", Arrays.asList(fetches)));
+		}
+		Page<Map<String,Object>> page = new Page<Map<String,Object>>(totalCount.getCount(),pageNo,pageSize,result);
+		return page;
+	}
+	@SuppressWarnings("rawtypes")
+	@Transactional
+	public <R> Page queryForPage(String queryName, Map<String, Object> params,Class<R> resultType, Integer pageNo, Integer pageSize) throws Exception{
+		pageNo = PageUtils.getPageNo(pageNo);
+		pageSize = PageUtils.getPageSize(pageSize);
+		Integer first = PageUtils.getFirst(pageNo, pageSize);
+		List<R> list = queryService.query(queryName, params,resultType, first, pageSize);
+		if(pageNo!=0&&pageSize!=0){
+			CountObject totalCount = queryService.restQueryCount(queryName, params);
+			Page<R> page = new Page<>(totalCount.getCount(), pageNo, pageSize, list);
+			return page;
+		}else{//pageNo=0, pageSize=0是导出查询所有
+			Page<R> page = new Page<>(0, 1, 1, list);
+			return page;
+		}
+	}
+}

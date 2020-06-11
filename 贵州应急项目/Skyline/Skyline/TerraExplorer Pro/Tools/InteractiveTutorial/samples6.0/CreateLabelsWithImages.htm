@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Create Image Labels</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script src="abspath.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+                
+        function Init()
+        {
+
+            var labelPos = SGWorld.Creator.CreatePosition(-122.46875, 37.72467, 10, 2);
+
+            var label1 = SGWorld.Creator.CreateLabel(labelPos, "", toAbspath("data/Roundabout-large.gif"),SGWorld.Creator.CreateLabelStyle());
+
+            SGWorld.Navigate.FlyTo(label1);
+
+            labelPos.X += 0.001;
+            labelPos.Altitude += 60;
+            var label2 = SGWorld.Creator.CreateLabel(labelPos, 
+                                                   "Under Constructions.\r\nThis label will not be visible\r\nabove ~800000 meters",
+                                                   toAbspath("data/Underconstruction-2.gif"),SGWorld.Creator.CreateLabelStyle()
+                                                   );
+            label2.Style.TextOnImage = false;
+            label2.Style.Bold = true;
+            label2.Style.LineToGround = true;
+            label2.Style.MultilineJustification = "left";
+            label2.Style.TextAlignment = "right";
+            label2.Visibility.MaxVisibilityDistance = 800000;
+
+        }
+        </script>
+    </head>
+    <body onload="Init();">
+    </body>
+</html>
+
+
+<!--Sig:00000040ca35JK.lyev5Ns5rwhvTfWgeO#ojRzu4.RrHyEkHMBJR5z4RYTg.iim49it2R60kTV9dDk8dgkqLnxd7PWPHXqJJ-->

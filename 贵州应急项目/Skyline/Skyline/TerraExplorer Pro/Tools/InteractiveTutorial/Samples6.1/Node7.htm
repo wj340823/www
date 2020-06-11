@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>Node 7</title>
+        <object id="SGWorld" classid="CLSID:3a4f91b1-65a8-11d5-85c1-0001023952c1" style="visibility:hidden;height:0 "></object>
+        <script type="text/javascript">
+
+        var popup = null;
+        
+        function Init()
+        {
+
+            // Create the "New England" group node and its  children
+            var NewEngland = createNewEnglandNode();
+
+
+            popup = SGWorld.Creator.CreatePopupMessage("Nodes hierarchy sample", "", 0, 0, 350, 150);
+            popup.InnerText = "This sample shows how to remove (delete) nodes.";            
+            popup.Align = "TopLeft";
+            SGWorld.Window.ShowPopup(popup);
+            setTimeout(DeleteObjects, 100);
+
+        }
+
+        function DeleteObjects()
+        {
+            alert("Click OK to remove Maine and Vermont from the New England group");
+
+            var nodeToDelete = SGWorld.ProjectTree.FindItem("\\New England\\Maine");
+            SGWorld.ProjectTree.DeleteItem(nodeToDelete);
+            nodeToDelete = SGWorld.ProjectTree.FindItem("\\New England\\Vermont");
+            SGWorld.ProjectTree.DeleteItem(nodeToDelete);                                
+        }
+
+        function createNewEnglandNode()
+        {
+            var NewEngland = SGWorld.ProjectTree.CreateGroup("New England");
+            var Vermont = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-72.75206, 43.91127, 0, 0, 0.0, 0, -85, 800000.0), "Vermont", SGWorld.Creator.CreateLabelStyle(), NewEngland, "Vermont");
+            var Maine = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-69.40414, 45.12594, 0, 0, 0.0, 0, -85, 800000.0), "Maine", SGWorld.Creator.CreateLabelStyle(), NewEngland, "Maine");
+            var Massachusetts = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-71.88455, 42.34216, 0, 0, 0.0, 0, -85, 800000.0), "Massachusetts", SGWorld.Creator.CreateLabelStyle(), NewEngland, "Massachusetts");
+            var RhodeIsland = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-71.57073, 41.62953, 0, 0, 0.0, 0, -85, 800000.0), "Rhode Island", SGWorld.Creator.CreateLabelStyle(), NewEngland, "Rhode Island");
+            var Connecticut = SGWorld.Creator.CreateTextLabel(SGWorld.Creator.CreatePosition(-72.64295, 41.57912, 0, 0, 0.0, 0, -85, 800000.0), "Connecticut", SGWorld.Creator.CreateLabelStyle(), NewEngland, "Connecticut");
+
+            SGWorld.Navigate.FlyTo(Vermont);
+
+            // setting attributes to the nodes
+
+            Vermont.ClientData("population") = 562758;
+            Maine.ClientData("population") = 1227928;
+            Massachusetts.ClientData("population") = 6016425;
+            RhodeIsland.ClientData("population") = 1003464;
+            Connecticut.ClientData("population") = 3287116;
+
+            return NewEngland;
+        }
+
+
+        function Uninit()
+        {
+			if(SGWorld.Project.Name == "")
+				return;
+            SGWorld.ProjectTree.DeleteItem(SGWorld.ProjectTree.FindItem("New England"));
+			if(popup)
+				SGWorld.Window.RemovePopup(popup);
+
+        }
+        
+        </script>
+    </head>
+    <body onload="Init();" onunload="Uninit()">
+    </body>
+</html>
+
+
+<!--Sig:0000004032wmFUSxdv8g2ZwmNoKfkyzEZ668YozPuRLkKZnoxyvTjJb75g2CMA2R.TEJ#kmDZvC1T#IYs42.D9tCBYIDJoJJ-->
